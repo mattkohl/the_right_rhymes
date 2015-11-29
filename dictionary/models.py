@@ -5,6 +5,9 @@ class Editor(models.Model):
     name = models.CharField('Editor Name', max_length=1000)
     slug = models.SlugField('Editor Slug')
 
+    def __str__(self):
+        return self.name
+
 
 class Image(models.Model):
     title = models.CharField('Image Title', max_length=1000)
@@ -18,6 +21,9 @@ class Artist(models.Model):
     origin = models.CharField('Origin', max_length=1000)
     image = models.ForeignKey(Image)
 
+    def __str__(self):
+        return self.name
+
 
 class Entry(models.Model):
     headword = models.CharField('Headword', max_length=1000)
@@ -26,3 +32,6 @@ class Entry(models.Model):
     pub_date = models.DateTimeField('Date Published')
     pub_by = models.ForeignKey(Editor)
     image = models.ForeignKey(Image)
+
+    def __str__(self):
+        return self.headword
