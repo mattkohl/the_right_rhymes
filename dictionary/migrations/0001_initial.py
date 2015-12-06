@@ -13,25 +13,25 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Artist',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('name', models.CharField(verbose_name='Artist Name', max_length=1000)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('name', models.CharField(max_length=1000, verbose_name='Artist Name')),
                 ('slug', models.SlugField(verbose_name='Artist Slug')),
-                ('origin', models.CharField(verbose_name='Origin', max_length=1000)),
+                ('origin', models.CharField(max_length=1000, verbose_name='Origin')),
             ],
         ),
         migrations.CreateModel(
             name='Editor',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('name', models.CharField(verbose_name='Editor Name', max_length=1000)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('name', models.CharField(max_length=1000, verbose_name='Editor Name')),
                 ('slug', models.SlugField(verbose_name='Editor Slug')),
             ],
         ),
         migrations.CreateModel(
             name='Entry',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('headword', models.CharField(verbose_name='Headword', max_length=1000)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('headword', models.CharField(max_length=1000, verbose_name='Headword')),
                 ('text', models.TextField(verbose_name='Entry Text')),
                 ('slug', models.SlugField(verbose_name='Entry Slug')),
                 ('pub_date', models.DateTimeField(verbose_name='Date Published')),
