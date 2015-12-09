@@ -1,0 +1,7 @@
+# https://travis-ci.org/mattkohl/the_right_rhymes
+language: python
+
+python:
+    - 3.4
+
+script: nosetests
