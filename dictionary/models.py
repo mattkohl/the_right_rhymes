@@ -37,11 +37,12 @@ class Artist(models.Model):
 class Word(models.Model):
     form = models.CharField('form', max_length=1000)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="image_for_entries", null=True, blank=True)
-    senses = models.ManyToManyField('Sense', blank=True)
+    senses = models.ManyToManyField('Sense', blank=True, related_name="has_form")
     rhymes_with = models.ManyToManyField('self', blank=True)
+    slug = models.SlugField(null=True, blank=True)
 
     def __str__(self):
-        return self.headword
+        return self.form
 
 
 class Sense(models.Model):
