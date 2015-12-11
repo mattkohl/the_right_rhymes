@@ -60,7 +60,7 @@ class Sense(models.Model):
     collocates = models.ManyToManyField('self', blank=True)
     synonyms = models.ManyToManyField('self', blank=True)
     antonyms = models.ManyToManyField('self', blank=True)
-    note = models.CharField('Usage Note', max_length="1000", null=True, blank=True)
+    note = models.CharField('Usage Note', max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return self.definition

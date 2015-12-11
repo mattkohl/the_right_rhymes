@@ -1,0 +1,1756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+  <entry sk="ice" eid="e6590" publish="yes">
+      <head>
+         <headword>ice</headword>
+      </head>
+      <senses id="e6590_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="15">ice</form>
+            <form freq="2">Ice</form>
+         </forms>
+         <sense id="e6590_n_1">
+            <collocates>
+               <collocate freq="2" target="e9060_trV_1">rock</collocate>
+               <collocate freq="2" target="e9060_trV_2">rock</collocate>
+               <collocate freq="2" target="e9840_trV_1">snatch</collocate>
+               <collocate freq="1" target="e3900_n_1">chain</collocate>
+               <collocate freq="1" target="e4980_n_1">drop</collocate>
+               <collocate freq="1" target="e5375_adj_1">flooded</collocate>
+               <collocate freq="1" target="e5390_n_1">flow</collocate>
+               <collocate freq="1" target="e7610_n_1">MC</collocate>
+            </collocates>
+            <domain type="fashion"/>
+            <semanticClass type="possessions"/>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>diamonds</text>
+            </definition>
+            <etym>
+               <text>pre hip-hop, from the late 1800s</text>
+               <note type="dateOfOrigin" position="16">pre hip-hop, from the late 1800s</note>
+            </etym>
+            <xref type="hasSynonym" target="e5520_n_1">frost</xref>
+            <xref type="hasSynonym" target="e9067_n_1">rocks</xref>
+            <xref type="instanceOf" target="e3100_n_1">bling</xref>
+            <xref type="conceptRelatesTo" target="e8420_n_2">piece</xref>
+            <xref type="conceptRelatesTo" target="e5530_adj_1">frosty</xref>
+            <xref type="conceptRelatesTo" target="e6600_adj_1">icy</xref>
+            <xref type="conceptRelatesTo" target="e9065_adj_1">rocked up</xref>
+            <xref type="hasDerivative" target="e6595_adj_1">iced-out</xref>
+            <xref type="hasDerivative" target="e6596_adj_1">iced-up</xref>
+            <examples>
+               <example id="33748">
+                  <date>1994-09-13</date>
+                  <artist origin="Clinton Hill, Brooklyn, New York City, New York, USA">Notorious B.I.G., The</artist>
+                  <songTitle>Unbelievable</songTitle>
+                  <album>Ready To Die</album>
+                  <lyric>
+                     <text>Throw down some ice for the nicest MC</text>
+                     <rf target="e6590_n_1" position="16" lemma="ice">ice</rf>
+                     <xref target="e7610_n_1" position="35" lemma="MC">MC</xref>
+                  </lyric>
+               </example>
+               <example id="37233">
+                  <date>1995-08-01</date>
+                  <artist origin="New York City, New York, USA">Raekwon</artist>
+                  <songTitle>Wu-Gambinos</songTitle>
+                  <album>Only Built 4 Cuban Linx...</album>
+                  <lyric>
+                     <text>Bad days, watch me snatch ice right outta Tiffany's</text>
+                     <xref target="e9840_trV_1" position="19" lemma="snatch">snatch</xref>
+                     <rf target="e6590_n_1" position="48" lemma="ice">ice</rf>
+                     <entity type="place" position="64" prefLabel="Tiffany's">Tiffany's</entity>
+                  </lyric>
+               </example>
+               <example id="37244">
+                  <date>1995-08-01</date>
+                  <artist origin="New York City, New York, USA">Raekwon</artist>
+                  <songTitle>Rainy Dayz</songTitle>
+                  <feat origin="Staten Island, New York City, New York, USA">Ghostface Killah</feat>
+                  <feat>Blue Raspberry</feat>
+                  <album>Only Built 4 Cuban Linx...</album>
+                  <lyric>
+                     <text>We can pull a heist, snatch ice, or rock mics</text>
+                     <xref target="e9840_trV_1" position="21" lemma="snatch">snatch</xref>
+                     <rf target="e6590_n_1" position="50" lemma="ice">ice</rf>
+                     <xref target="e9060_trV_1" position="58" lemma="rock">rock</xref>
+                  </lyric>
+               </example>
+               <example id="22528">
+                  <date>1995-08-09</date>
+                  <artist origin="Bedford-Stuyvesant, Brooklyn, New York City, New York, USA">Junior M.A.F.I.A.</artist>
+                  <songTitle>Realms of Junior M.A.F.I.A. Part II</songTitle>
+                  <album>I Need You Tonight</album>
+                  <lyric>
+                     <text>Ice just be freezing while I'm breezing, it's the season</text>
+                     <rf target="e6590_n_1" position="22" lemma="ice">Ice</rf>
+                  </lyric>
+               </example>
+               <example id="22531">
+                  <date>1995-08-29</date>
+                  <artist origin="Bedford-Stuyvesant, Brooklyn, New York City, New York, USA">Junior M.A.F.I.A.</artist>
+                  <songTitle>I Need You Tonight</songTitle>
+                  <feat origin="Detroit, Michigan, USA">Aaliyah</feat>
+                  <album>Conspiracy</album>
+                  <lyric>
+                     <text>Nigga, you ain't ever seen no ice like this</text>
+                     <rf target="e6590_n_1" position="30" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="30670">
+                  <date>1995-10-24</date>
+                  <artist origin="Staten Island, New York City, New York, USA">Method Man</artist>
+                  <songTitle>The Riddler</songTitle>
+                  <album>The Riddler</album>
+                  <lyric>
+                     <text>A heist to get the ice, not a problem</text>
+                     <rf target="e6590_n_1" position="19" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="28855">
+                  <date>1996-02-13</date>
+                  <artist origin="Richmond, Virginia, USA">Mad Skillz</artist>
+                  <songTitle>Unseen World</songTitle>
+                  <feat origin="Chicago, Illinois, USA">Supafriendz, The</feat>
+                  <album>From Where???</album>
+                  <lyric>
+                     <text>Preposterous ice in my drop</text>
+                     <rf target="e6590_n_1" position="13" lemma="ice">ice</rf>
+                     <xref target="e4980_n_1" position="23" lemma="drop">drop</xref>
+                  </lyric>
+               </example>
+               <example id="21449">
+                  <date>1996-02-20</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Jay-Z</artist>
+                  <songTitle>Can't Knock The Hustle</songTitle>
+                  <feat origin="Yonkers, New York, USA">Mary J. Blige</feat>
+                  <album>Dead Presidents</album>
+                  <lyric>
+                     <text>Just put away the leathers and put ice on the gold</text>
+                     <rf target="e6590_n_1" position="35" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="40425">
+                  <date>1996-05-28</date>
+                  <artist origin="Staten Island, New York City, New York, USA">Shyheim</artist>
+                  <songTitle>What Makes The World Go Round</songTitle>
+                  <feat>D.V.</feat>
+                  <feat origin="Staten Island, New York City, New York, USA">Rubbabandz</feat>
+                  <feat>Smoothe</feat>
+                  <feat>Trigger</feat>
+                  <album>The Lost Generation</album>
+                  <lyric>
+                     <text>A hot Rolex with ice fit around my wrist</text>
+                     <entity type="product" position="6" prefLabel="Rolex">Rolex</entity>
+                     <rf target="e6590_n_1" position="17" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="21310">
+                  <date>1996-06-25</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Jay-Z</artist>
+                  <songTitle>Dead Presidents II</songTitle>
+                  <album>Reasonable Doubt</album>
+                  <lyric>
+                     <text>With the sprinkles and the presidental, ice that'll offend you</text>
+                     <rf target="e6590_n_1" position="40" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="32891">
+                  <date>1996-07-01</date>
+                  <artist origin="Queensbridge, Long Island City, Queens, New York City, New York, USA">Nas</artist>
+                  <songTitle>Affirmative Action</songTitle>
+                  <feat origin="Brooklyn, New York City, New York, USA">AZ</feat>
+                  <feat origin="Brooklyn, New York City, New York, USA">Foxy Brown</feat>
+                  <feat>Cormega</feat>
+                  <album>It Was Written</album>
+                  <lyric>
+                     <text>I'll be flooded with ice, so hellfire can't scorch me</text>
+                     <xref target="e5375_adj_1" position="8" lemma="flooded">flooded</xref>
+                     <rf target="e6590_n_1" position="21" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="37809">
+                  <date>1996-10-01</date>
+                  <artist origin="New Jersey, USA">Real Live</artist>
+                  <songTitle>Crime Is Money</songTitle>
+                  <album>The Turnaround: A Long Awaited Drama</album>
+                  <lyric>
+                     <text>So much ice, them niggaz cold</text>
+                     <rf target="e6590_n_1" position="8" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="24993">
+                  <date>2002-01-22</date>
+                  <artist origin="South Bronx, The Bronx, New York City, New York, USA">KRS-One</artist>
+                  <songTitle>The Conscious Rapper</songTitle>
+                  <album>Spiritual Minded</album>
+                  <lyric>
+                     <text>Uphold life, while others flash cars and ice</text>
+                     <rf target="e6590_n_1" position="41" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="20276">
+                  <date>2002-03-26</date>
+                  <artist origin="Queensbridge, Long Island City, Queens, New York City, New York, USA">Infamous Mobb</artist>
+                  <songTitle>Special Edition</songTitle>
+                  <album>Special Edition</album>
+                  <lyric>
+                     <text>Rock long chains and ice rings</text>
+                     <xref target="e9060_trV_2" position="22" lemma="rock">Rock</xref>
+                     <xref target="e3900_n_1" position="32" lemma="chain">chains</xref>
+                     <rf target="e6590_n_1" position="43" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="26069">
+                  <date>2002-04-02</date>
+                  <artist origin="Long Beach, California, USA">Lil' J</artist>
+                  <songTitle>Raise Yo' Hands Up</songTitle>
+                  <feat>Lil' Platinum</feat>
+                  <album>All About J</album>
+                  <lyric>
+                     <text>I'ma rock the ice, and rock the mic</text>
+                     <xref target="e9060_trV_2" position="5" lemma="rock">rock</xref>
+                     <rf target="e6590_n_1" position="14" lemma="ice">ice</rf>
+                     <xref target="e9060_trV_1" position="23" lemma="rock">rock</xref>
+                  </lyric>
+               </example>
+               <example id="709">
+                  <date>2003-02-06</date>
+                  <artist origin="South Jamaica, Queens, New York City, New York, USA">50 Cent</artist>
+                  <songTitle>What Up Gangsta?</songTitle>
+                  <album>Get Rich Or Die Tryin</album>
+                  <lyric>
+                     <text>This flow's been mastered, the ice I flash it</text>
+                     <xref target="e5390_n_1" position="5" lemma="flow">flow</xref>
+                     <rf target="e6590_n_1" position="31" lemma="ice">ice</rf>
+                  </lyric>
+               </example>
+               <example id="50540">
+                  <date>2013-06-14</date>
+                  <artist origin="Fayetteville, North Carolina, USA">J. Cole</artist>
+                  <songTitle>Chaining Day</songTitle>
+                  <album>Born Sinner</album>
+                  <lyric>
+                     <text>Ice on this white Jesus seem a little unholy</text>
+                     <rf target="e6590_n_1" position="22" lemma="ice">Ice</rf>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+   <entry sk="ice_cream" eid="e6593" publish="yes">
+      <head>
+         <headword>ice cream</headword>
+      </head>
+      <senses id="e6593_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="24">ice cream</form>
+         </forms>
+         <sense id="e6593_n_1">
+            <collocates>
+               <collocate freq="4" target="e9700_trV_1">slang</collocate>
+               <collocate freq="3" target="e5290_n_1">fiend</collocate>
+               <collocate freq="2" target="e9980_adj_1">sprung</collocate>
+               <collocate freq="1" target="e3110_n_1">block</collocate>
+               <collocate freq="1" target="e3860_n_1">candy</collocate>
+               <collocate freq="1" target="e4303_trV_1">cook</collocate>
+               <collocate freq="1" target="e4335_n_1">corner</collocate>
+               <collocate freq="1" target="e6750_infix_1">-iz-</collocate>
+               <collocate freq="1" target="e4905_n_1">dope-fiend</collocate>
+               <collocate freq="1" target="e5640_adj_1">gangsta</collocate>
+               <collocate freq="1" target="e9060_n_1">rock</collocate>
+               <collocate freq="1" target="e9360_trV_2">serve</collocate>
+               <collocate freq="1" target="e11375_n_1">white</collocate>
+               <collocate freq="1" target="e11670_int_1">yo</collocate>
+            </collocates>
+            <domain type="drugs"/>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>illegal drugs, especially cocaine</text>
+            </definition>
+            <synSetRef target="cocaine"/>
+            <xref type="lemmaRelatesTo" target="e6594_n_1">ice cream man</xref>
+            <xref type="hasSynonym" target="e2375_n_1">A1</xref>
+            <xref type="hasSynonym" target="e2800_trV_1">base</xref>
+            <xref type="hasSynonym" target="e2815_n_1">basehead</xref>
+            <xref type="hasSynonym" target="e3140_n_1">blow</xref>
+            <xref type="hasSynonym" target="e3800_n_1">cane</xref>
+            <xref type="hasSynonym" target="e4220_n_1">coke</xref>
+            <xref type="hasSynonym" target="e4385_n_1">crackhead</xref>
+            <xref type="hasSynonym" target="e6520_n_1">hundred-pack</xref>
+            <xref type="hasSynonym" target="e6530_intrV_1">hustle</xref>
+            <xref type="hasSynonym" target="e7940_n_1">nose candy</xref>
+            <xref type="hasSynonym" target="e8370_n_1">perico</xref>
+            <xref type="hasSynonym" target="e8610_n_1">powder</xref>
+            <xref type="hasSynonym" target="e9700_trV_1">slang</xref>
+            <xref type="hasSynonym" target="e9760_trV_1">sling</xref>
+            <xref type="hasSynonym" target="e9880_n_1">soap</xref>
+            <xref type="hasSynonym" target="e9865_n_1">snow</xref>
+            <xref type="hasSynonym" target="e9885_n_1">soda</xref>
+            <xref type="hasSynonym" target="e9890_n_1">soft</xref>
+            <xref type="hasSynonym" target="e10890_intrV_1">trap</xref>
+            <xref type="hasSynonym" target="e11175_n_1">V-12</xref>
+            <xref type="hasSynonym" target="e11375_n_1">white</xref>
+            <xref type="hasSynonym" target="e11380_n_1">white-horse</xref>
+            <xref type="hasSynonym" target="e11650_n_1">yayo</xref>
+            <xref type="hasSynonym" target="e11690_n_1">yola</xref>
+            <xref type="conceptRelatesTo" target="e3878_n_1">cavi</xref>
+            <xref type="conceptRelatesTo" target="e4370_n_1">crack</xref>
+            <xref type="conceptRelatesTo" target="e4390_n_1">crack rock</xref>
+            <xref type="conceptRelatesTo" target="e6040_n_1">hard</xref>
+            <xref type="conceptRelatesTo" target="e6050_n_1">hard-white</xref>
+            <xref type="conceptRelatesTo" target="e7090_n_1">krill</xref>
+            <xref type="conceptRelatesTo" target="e9060_n_1">rock</xref>
+            <xref type="conceptRelatesTo" target="e9680_n_2">slab</xref>
+            <examples>
+               <example id="29517">
+                  <date>1994-08-09</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Tryin' To Make A Dollar Out of 15 Cents</songTitle>
+                  <feat>RBL Posse</feat>
+                  <album>West Coast Bad Boyz I: Anotha Level of The Game</album>
+                  <lyric>
+                     <text>This ice cream don't go for free; it's a ten, twenty, fifty, hundred dollar sack, or cone</text>
+                     <rf target="e6593_n_1" position="5" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="28161">
+                  <date>1995-07-03</date>
+                  <artist origin="Oakland, California, USA">Luniz</artist>
+                  <songTitle>So Much Drama</songTitle>
+                  <feat>Nik Nack</feat>
+                  <album>Operation Stackola</album>
+                  <lyric>
+                     <text>Your boyfriend is a dope fiend, an he smoked up all my ice cream</text>
+                     <xref target="e4905_n_1" position="20" lemma="dope-fiend">dope fiend</xref>
+                     <rf target="e6593_n_1" position="55" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="47030">
+                  <date>1995-07-05</date>
+                  <artist origin="New Orleans, Louisiana, USA">TRU</artist>
+                  <songTitle>Anything Goes</songTitle>
+                  <feat origin="Richmond, California, USA">Big Ed</feat>
+                  <album>True</album>
+                  <lyric>
+                     <text>Servin' the fiends the ice cream</text>
+                     <xref target="e9360_trV_2" position="22" lemma="serve">Servin'</xref>
+                     <xref target="e5290_n_1" position="34" lemma="fiend">fiends</xref>
+                     <rf target="e6593_n_1" position="45" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="37252">
+                  <date>1995-08-01</date>
+                  <artist origin="New York City, New York, USA">Raekwon</artist>
+                  <songTitle>Ice Cream</songTitle>
+                  <feat origin="Staten Island, New York City, New York, USA">Ghostface Killah</feat>
+                  <feat>Cappachino</feat>
+                  <feat origin="Staten Island, New York City, New York, USA">Method Man</feat>
+                  <album>Only Built 4 Cuban Linx...</album>
+                  <lyric>
+                     <text>Double dime some time, ice cream you got me fallin out</text>
+                     <rf target="e6593_n_1" position="23" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="37784">
+                  <date>1995-08-01</date>
+                  <artist origin="Santa Rosa, California, USA">Ray Luv</artist>
+                  <songTitle>Tha Factor</songTitle>
+                  <album>Forever Hustlin</album>
+                  <lyric>
+                     <text>Sprung off that ice cream</text>
+                     <xref target="e9980_adj_1" position="22" lemma="sprung">Sprung</xref>
+                     <rf target="e6593_n_1" position="38" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="29556">
+                  <date>1996-04-16</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Mr. Ice Cream Man</songTitle>
+                  <album>Ice Cream Man</album>
+                  <lyric>
+                     <text>You scream, I scream, but the fiends screaming for ice cream</text>
+                     <xref target="e5290_n_1" position="30" lemma="fiend">fiends</xref>
+                     <rf target="e6593_n_1" position="51" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="29584">
+                  <date>1996-04-16</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Time For A 187</songTitle>
+                  <album>Ice Cream Man</album>
+                  <lyric>
+                     <text>Some nigga got some bad ice cream, came short on the dizzough</text>
+                     <rf target="e6593_n_1" position="24" lemma="ice cream">ice cream</rf>
+                     <xref target="e6750_infix_1" position="53" lemma="-iz-">dizzough</xref>
+                  </lyric>
+               </example>
+               <example id="28628">
+                  <date>1996-04-23</date>
+                  <artist origin="Vallejo, California, USA">Mac Mall</artist>
+                  <songTitle>Playa Tip</songTitle>
+                  <album>Untouchable</album>
+                  <lyric>
+                     <text>Did your your lungs get sprung on the ice cream?</text>
+                     <xref target="e9980_adj_1" position="24" lemma="sprung">sprung</xref>
+                     <rf target="e6593_n_1" position="38" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="40492">
+                  <date>1996-08-20</date>
+                  <artist origin="New Orleans, Louisiana, USA">Silkk The Shocker</artist>
+                  <songTitle>Murder</songTitle>
+                  <feat origin="Richmond, California, USA">Big Ed</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Master P</feat>
+                  <album>The Shocker</album>
+                  <lyric>
+                     <text>They ban my videos from TV, they say they drug dealin, ice cream slangin</text>
+                     <rf target="e6593_n_1" position="55" lemma="ice cream">ice cream</rf>
+                     <xref target="e9700_trV_1" position="87" lemma="slang">slangin</xref>
+                  </lyric>
+               </example>
+               <example id="23025">
+                  <date>1996-10-08</date>
+                  <artist origin="New Orleans, Louisiana, USA">Kane &amp; Abel</artist>
+                  <songTitle>Gangstafied</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Master P</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Mo B. Dick</feat>
+                  <album>The 7 Sins</album>
+                  <lyric>
+                     <text>I done got the world hooked on ice cream, I mean these gangsta rocks</text>
+                     <rf target="e6593_n_1" position="31" lemma="ice cream">ice cream</rf>
+                     <xref target="e5640_adj_1" position="55" lemma="gangsta">gangsta</xref>
+                     <xref target="e9060_n_1" position="85" lemma="rock">rocks</xref>
+                  </lyric>
+               </example>
+               <example id="47005">
+                  <date>1997-01-10</date>
+                  <artist origin="New Orleans, Louisiana, USA">TRU</artist>
+                  <songTitle>Bad Boyz On A Mission</songTitle>
+                  <album>West Coast Bad Boyz II</album>
+                  <lyric>
+                     <text>Made this shit slangin' ice cream</text>
+                     <xref target="e9700_trV_1" position="15" lemma="slang">slangin'</xref>
+                     <rf target="e6593_n_1" position="46" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="47049">
+                  <date>1997-02-18</date>
+                  <artist origin="New Orleans, Louisiana, USA">TRU</artist>
+                  <songTitle>Tru 2 Da Game</songTitle>
+                  <album>Tru 2 Da Game</album>
+                  <lyric>
+                     <text>If you tryin' to get some ice cream, won't you call me or won't you beep me</text>
+                     <rf target="e6593_n_1" position="26" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="47082">
+                  <date>1997-02-18</date>
+                  <artist origin="New Orleans, Louisiana, USA">TRU</artist>
+                  <songTitle>Ghetto Thang</songTitle>
+                  <feat origin="Richmond, California, USA">Big Ed</feat>
+                  <album>Tru 2 Da Game</album>
+                  <lyric>
+                     <text>Hit the block Lexus truck slangin' ice cream</text>
+                     <xref target="e3110_n_1" position="8" lemma="block">block</xref>
+                     <entity type="product" position="36" prefLabel="Lexus">Lexus</entity>
+                     <xref target="e9700_trV_1" position="48" lemma="slang">slangin'</xref>
+                     <rf target="e6593_n_1" position="79" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="29625">
+                  <date>1997-09-02</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Gangstas Need Love</songTitle>
+                  <feat>Silkk the Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Mercedes</feat>
+                  <album>Ghetto D</album>
+                  <lyric>
+                     <text>Sellin' ice cream on the corner</text>
+                     <rf target="e6593_n_1" position="8" lemma="ice cream">ice cream</rf>
+                     <xref target="e4335_n_1" position="25" lemma="corner">corner</xref>
+                  </lyric>
+               </example>
+               <example id="14195">
+                  <date>1998-08-11</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>Doin' Dirt Bad</songTitle>
+                  <feat origin="Vallejo, California, USA">B-Legit</feat>
+                  <album>The Element of Surprise</album>
+                  <lyric>
+                     <text>I took a whole thang of ice cream</text>
+                     <rf target="e6593_n_1" position="24" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="49965">
+                  <date>1998-11-03</date>
+                  <artist origin="East Oakland, Oakland, California, USA">Yukmouth</artist>
+                  <songTitle>My Buddy (Remix)</songTitle>
+                  <feat origin="Long Beach, California, USA">Tha Dogg Pound</feat>
+                  <feat>Numskull</feat>
+                  <album>Thugged Out: The Albulation</album>
+                  <lyric>
+                     <text>Slang ice cream, fools</text>
+                     <xref target="e9700_trV_1" position="22" lemma="slang">Slang</xref>
+                     <rf target="e6593_n_1" position="50" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="14212">
+                  <date>1999-11-09</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>Ghetto Celebrity</songTitle>
+                  <feat>Suga T</feat>
+                  <album>Charlie Hustle: Blueprint of A Self-Made Millionaire</album>
+                  <lyric>
+                     <text>40 in the kitchen cookin ice cream</text>
+                     <entity type="artist" prefLabel="E-40" position="22">40</entity>
+                     <xref target="e4303_trV_1" position="40" lemma="cook">cookin</xref>
+                     <rf target="e6593_n_1" position="69" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="27080">
+                  <date>2003-02-25</date>
+                  <artist origin="Durham, North Carolina, USA">Little Brother</artist>
+                  <songTitle>Nighttime Manuvers</songTitle>
+                  <album>The Listening</album>
+                  <lyric>
+                     <text>Yo, I need some ice cream</text>
+                     <xref target="e11670_int_1" position="22" lemma="yo">Yo</xref>
+                     <rf target="e6593_n_1" position="38" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="4193">
+                  <date>2005-02-08</date>
+                  <artist origin="Durham, North Carolina, USA">Rapper Big Pooh</artist>
+                  <songTitle>Heart of The City</songTitle>
+                  <album>Sleepers</album>
+                  <lyric>
+                     <text>Servin' up fiends summertime ice cream</text>
+                     <xref target="e5290_n_1" position="11" lemma="fiend">fiends</xref>
+                     <rf target="e6593_n_1" position="29" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="7767">
+                  <date>2005-06-28</date>
+                  <artist origin="Philadelphia, Pennsylvania, USA">Cassidy</artist>
+                  <songTitle>6 Minutes</songTitle>
+                  <feat origin="Brooklyn, New York City, New York, USA">Fabolous</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Lil Wayne</feat>
+                  <album>I'm A Hustla</album>
+                  <lyric>
+                     <text>We take your ice cream and turn you into sherbert</text>
+                     <rf target="e6593_n_1" position="13" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="14270">
+                  <date>2006-03-14</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>White Gurl</songTitle>
+                  <feat origin="Port Arthur, Texas, USA">Bun B</feat>
+                  <feat origin="Harlem, Manhattan, New York City, New York, USA">Juelz Santana</feat>
+                  <feat origin="Houston, Texas, USA">Pimp C</feat>
+                  <album>My Ghetto Report Card</album>
+                  <lyric>
+                     <text>I got that ice cream, that candy, that girl, that white</text>
+                     <rf target="e6593_n_1" position="11" lemma="ice cream">ice cream</rf>
+                     <xref target="e3860_n_1" position="27" lemma="candy">candy</xref>
+                     <xref target="e11375_n_1" position="50" lemma="white">white</xref>
+                  </lyric>
+               </example>
+               <example id="47637">
+                  <date>2009-06-23</date>
+                  <artist origin="Staten Island, New York City, New York, USA">U-God</artist>
+                  <songTitle>Magnum Force</songTitle>
+                  <feat origin="Harlem, Manhattan, New York City, New York, USA">Jim Jones</feat>
+                  <feat origin="Brooklyn, New York City, New York, USA">Sheek Louch</feat>
+                  <album>Dopium</album>
+                  <lyric>
+                     <text>Looking for some ice cream, hooked on the night scene</text>
+                     <rf target="e6593_n_1" position="17" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="15882">
+                  <date>2009-10-06</date>
+                  <artist origin="The Bronx, New York City, New York, USA">Fat Joe</artist>
+                  <songTitle>Ice Cream</songTitle>
+                  <feat origin="New York City, New York, USA">Raekwon</feat>
+                  <feat>T.A.</feat>
+                  <album>Jealous Ones Still Envy 2 (J.O.S.E. 2)</album>
+                  <lyric>
+                     <text>Come and get your ice cream, lil' mama, lay back</text>
+                     <rf target="e6593_n_1" position="18" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+               <example id="49803">
+                  <date>2011-12-20</date>
+                  <artist origin="Atlanta, Georgia, USA">Young Jeezy</artist>
+                  <songTitle>Nothing</songTitle>
+                  <album>TM:103 Hustlerz Ambition</album>
+                  <lyric>
+                     <text>Fuck the sellin words, bitch, I sold ice cream</text>
+                     <rf target="e6593_n_1" position="37" lemma="ice cream">ice cream</rf>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+   <entry sk="ice_cream_man" eid="e6594" publish="yes">
+      <head>
+         <headword>ice cream man</headword>
+      </head>
+      <senses id="e6594_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="15">ice cream man</form>
+            <form freq="1">Ice cream man</form>
+         </forms>
+         <sense id="e6594_n_1">
+            <collocates>
+               <collocate freq="1" target="e3040_n_3">bitch</collocate>
+               <collocate freq="1" target="e3810_n_2">cake</collocate>
+               <collocate freq="1" target="e5500_trV_1">front</collocate>
+               <collocate freq="1" target="e5600_n_3">game</collocate>
+               <collocate freq="1" target="e6140_adj_1">hella</collocate>
+               <collocate freq="1" target="e8470_intrV_1">play</collocate>
+               <collocate freq="1" target="e8883_intrV_1">recognize</collocate>
+               <collocate freq="1" target="e11650_n_1">yayo</collocate>
+            </collocates>
+            <domain type="drugs"/>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>a drug dealer</text>
+            </definition>
+            <note type="usage">some examples refer to Master P or Yukmouth, both of whom self-described as "ice cream man"
+            </note>
+            <xref type="lemmaRelatesTo" target="e6593_n_1">ice cream</xref>
+            <xref type="hasSynonym" target="e4575_n_1">d-boy</xref>
+            <xref type="hasSynonym" target="e4900_n_1">dope-boy</xref>
+            <xref type="hasSynonym" target="e5880_n_1">grinder</xref>
+            <xref type="hasSynonym" target="e6550_n_1">hustler</xref>
+            <xref type="hasSynonym" target="e8785_n_1">pusher</xref>
+            <xref type="hasSynonym" target="e10895_n_1">trap star</xref>
+            <xref type="conceptRelatesTo" target="e2375_n_1">A1</xref>
+            <xref type="conceptRelatesTo" target="e2800_trV_1">base</xref>
+            <xref type="conceptRelatesTo" target="e2815_n_1">basehead</xref>
+            <xref type="conceptRelatesTo" target="e3140_n_1">blow</xref>
+            <xref type="conceptRelatesTo" target="e3800_n_1">cane</xref>
+            <xref type="conceptRelatesTo" target="e4220_n_1">coke</xref>
+            <xref type="conceptRelatesTo" target="e4385_n_1">crackhead</xref>
+            <xref type="conceptRelatesTo" target="e5870_intrV_1">grind</xref>
+            <xref type="conceptRelatesTo" target="e6520_n_1">hundred-pack</xref>
+            <xref type="conceptRelatesTo" target="e6530_intrV_1">hustle</xref>
+            <xref type="conceptRelatesTo" target="e7758_trV_1">move</xref>
+            <xref type="conceptRelatesTo" target="e7940_n_1">nose candy</xref>
+            <xref type="conceptRelatesTo" target="e8370_n_1">perico</xref>
+            <xref type="conceptRelatesTo" target="e8610_n_1">powder</xref>
+            <xref type="conceptRelatesTo" target="e8780_trV_1">push</xref>
+            <xref type="conceptRelatesTo" target="e9700_trV_1">slang</xref>
+            <xref type="conceptRelatesTo" target="e9760_trV_1">sling</xref>
+            <xref type="conceptRelatesTo" target="e9880_n_1">soap</xref>
+            <xref type="conceptRelatesTo" target="e9865_n_1">snow</xref>
+            <xref type="conceptRelatesTo" target="e10890_intrV_1">trap</xref>
+            <xref type="conceptRelatesTo" target="e11175_n_1">V-12</xref>
+            <xref type="conceptRelatesTo" target="e11375_n_1">white</xref>
+            <xref type="conceptRelatesTo" target="e11380_n_1">white-horse</xref>
+            <xref type="conceptRelatesTo" target="e11650_n_1">yayo</xref>
+            <xref type="conceptRelatesTo" target="e11690_n_1">yola</xref>
+            <examples>
+               <example id="29517">
+                  <date>1994-08-09</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Tryin' To Make A Dollar Out of 15 Cents</songTitle>
+                  <feat>RBL Posse</feat>
+                  <album>West Coast Bad Boyz I: Anotha Level of The Game</album>
+                  <lyric>
+                     <text>I'm the ice cream man droppin' off hella loads</text>
+                     <rf target="e6594_n_1" position="8" lemma="ice cream man">ice cream man</rf>
+                     <xref target="e6140_adj_1" position="35" lemma="hella">hella</xref>
+                  </lyric>
+               </example>
+               <example id="13948">
+                  <date>1994-09-06</date>
+                  <artist origin="Oakland, California, USA">Dru Down</artist>
+                  <songTitle>Ice Cream Man</songTitle>
+                  <album>Explicit Game</album>
+                  <lyric>
+                     <text>It's so hard to say good-bye to the ice cream man</text>
+                     <rf target="e6594_n_1" position="36" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="28147">
+                  <date>1995-07-03</date>
+                  <artist origin="Oakland, California, USA">Luniz</artist>
+                  <songTitle>Yellow Brick Road</songTitle>
+                  <album>Operation Stackola</album>
+                  <lyric>
+                     <text>The ice cream man, man, that nigga ain't no mutha fuckin joke</text>
+                     <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="37252">
+                  <date>1995-08-01</date>
+                  <artist origin="New York City, New York, USA">Raekwon</artist>
+                  <songTitle>Ice Cream</songTitle>
+                  <feat origin="Staten Island, New York City, New York, USA">Ghostface Killah</feat>
+                  <feat>Cappachino</feat>
+                  <feat origin="Staten Island, New York City, New York, USA">Method Man</feat>
+                  <album>Only Built 4 Cuban Linx...</album>
+                  <lyric>
+                     <text>The ice cream man is coming!</text>
+                     <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="29556">
+                  <date>1996-04-16</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Mr. Ice Cream Man</songTitle>
+                  <album>Ice Cream Man</album>
+                  <lyric>
+                     <text>Y'all fools betta recognize, I'm the real ice cream man</text>
+                     <xref target="e8883_intrV_1" position="18" lemma="recognize">recognize</xref>
+                     <rf target="e6594_n_1" position="42" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="29680">
+                  <date>1996-04-16</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Playa From Around The Way</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Mo B. Dick</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <album>Ice Cream Man</album>
+                  <lyric>
+                     <text>The ice cream man, you know that he don't play</text>
+                     <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf>
+                     <xref target="e8470_intrV_1" position="42" lemma="play">play</xref>
+                  </lyric>
+               </example>
+               <example id="23012">
+                  <date>1996-10-08</date>
+                  <artist origin="New Orleans, Louisiana, USA">Kane &amp; Abel</artist>
+                  <songTitle>Jealous Again</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Master P</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Mia X</feat>
+                  <album>The 7 Sins</album>
+                  <lyric>
+                     <text>The mothafucking ice cream man in this bitch</text>
+                     <rf target="e6594_n_1" position="17" lemma="ice cream man">ice cream man</rf>
+                     <xref target="e3040_n_3" position="39" lemma="bitch">bitch</xref>
+                  </lyric>
+               </example>
+               <example id="45648">
+                  <date>1996-12-03</date>
+                  <artist origin="Memphis, Tennessee, USA">Three 6 Mafia</artist>
+                  <songTitle>Good Stuff</songTitle>
+                  <album>The End</album>
+                  <lyric>
+                     <text>Package deals from state to state, the ice cream man, who deliver that cake</text>
+                     <rf target="e6594_n_1" position="39" lemma="ice cream man">ice cream man</rf>
+                     <xref target="e3810_n_2" position="71" lemma="cake">cake</xref>
+                  </lyric>
+               </example>
+               <example id="47079">
+                  <date>1997-02-18</date>
+                  <artist origin="New Orleans, Louisiana, USA">TRU</artist>
+                  <songTitle>Swamp Nigga</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Master P</feat>
+                  <album>Tru 2 Da Game</album>
+                  <lyric>
+                     <text>Mr. ice cream man, yo neighborhood drug deala</text>
+                     <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="32005">
+                  <date>1997-08-05</date>
+                  <artist origin="New Orleans, Louisiana, USA">Mr. Serv-On</artist>
+                  <songTitle>It's Real</songTitle>
+                  <feat origin="Sacramento, California, USA">Brotha Lynch Hung</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Master P</feat>
+                  <album>Life Insurance</album>
+                  <lyric>
+                     <text>I know you got it from the ice cream man</text>
+                     <rf target="e6594_n_1" position="27" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="23028">
+                  <date>1998-07-07</date>
+                  <artist origin="New Orleans, Louisiana, USA">Kane &amp; Abel</artist>
+                  <songTitle>Betta Kill Me</songTitle>
+                  <album>Am I My Brothers Keeper</album>
+                  <lyric>
+                     <text>Ice cream man fronted me some yayo</text>
+                     <rf target="e6594_n_1" position="22" lemma="ice cream man">Ice cream man</rf>
+                     <xref target="e5500_trV_1" position="58" lemma="front">fronted</xref>
+                     <xref target="e11650_n_1" position="74" lemma="yayo">yayo</xref>
+                  </lyric>
+               </example>
+               <example id="49960">
+                  <date>1998-11-03</date>
+                  <artist origin="East Oakland, Oakland, California, USA">Yukmouth</artist>
+                  <songTitle>Ice Cream Man</songTitle>
+                  <feat origin="Houston, Texas, USA">5th Ward Boyz</feat>
+                  <feat>Fa Sho</feat>
+                  <album>Thugged Out: The Albulation</album>
+                  <lyric>
+                     <text>I need my drugs, I bought 'em from the ice cream man</text>
+                     <rf target="e6594_n_1" position="39" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="29537">
+                  <date>2005-06-21</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Dope Man</songTitle>
+                  <album>Ghetto Bill</album>
+                  <lyric>
+                     <text>The ice cream man back, you lil' boys been fuckin the game up</text>
+                     <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf>
+                     <xref target="e5600_n_3" position="54" lemma="game">game</xref>
+                  </lyric>
+               </example>
+               <example id="983">
+                  <date>2007-11-09</date>
+                  <artist origin="Memphis, Tennessee, USA">8Ball &amp; Devius</artist>
+                  <songTitle>Ice Cream</songTitle>
+                  <album>The Vet &amp; The Rookie</album>
+                  <lyric>
+                     <text>The ice cream man is coming!</text>
+                     <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="26634">
+                  <date>2008-10-21</date>
+                  <artist origin="San Diego, California, USA">Lil Rob</artist>
+                  <songTitle>Just One of Those Days</songTitle>
+                  <album>Twelve Eighteen Pt. II</album>
+                  <lyric>
+                     <text>From the ice cream man, the summertime connecta</text>
+                     <rf target="e6594_n_1" position="9" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+               <example id="15882">
+                  <date>2009-10-06</date>
+                  <artist origin="The Bronx, New York City, New York, USA">Fat Joe</artist>
+                  <songTitle>Ice Cream</songTitle>
+                  <feat origin="New York City, New York, USA">Raekwon</feat>
+                  <feat>T.A.</feat>
+                  <album>Jealous Ones Still Envy 2 (J.O.S.E. 2)</album>
+                  <lyric>
+                     <text>Ice cream, I'm the ice cream man</text>
+                     <rf target="e6594_n_1" position="19" lemma="ice cream man">ice cream man</rf>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+   <entry sk="iced-out" eid="e6595" publish="yes">
+      <head>
+         <headword>iced-out</headword>
+      </head>
+      <senses id="e6595_adj">
+         <pos>adjective</pos>
+         <forms>
+            <form freq="28">iced out</form>
+            <form freq="27">iced-out</form>
+            <form freq="9">Iced-out</form>
+            <form freq="5">Iced out</form>
+         </forms>
+         <sense id="e6595_adj_1">
+            <rhymes>
+               <rhyme freq="1">nice house</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="8" target="e3900_n_1">chain</collocate>
+               <collocate freq="5" target="e9080_n_1">rolly</collocate>
+               <collocate freq="4" target="e8420_n_2">piece</collocate>
+               <collocate freq="3" target="e3040_n_2">bitch</collocate>
+               <collocate freq="3" target="e5850_n_2">grill</collocate>
+               <collocate freq="2" target="e8825_n_1">rapper</collocate>
+               <collocate freq="1" target="e2130_adv_1">24-7</collocate>
+               <collocate freq="1" target="e2685_n_1">baguette</collocate>
+               <collocate freq="1" target="e2700_n_1">baller</collocate>
+               <collocate freq="1" target="e2690_intrV_1">ball</collocate>
+               <collocate freq="1" target="e3100_intrV_1">bling</collocate>
+               <collocate freq="1" target="e3940_n_1">cheese</collocate>
+               <collocate freq="1" target="e4000_intrV_1">chill</collocate>
+               <collocate freq="1" target="e4012_n_1">chinchilla</collocate>
+               <collocate freq="1" target="e4065_adj_1">chromed-out</collocate>
+               <collocate freq="1" target="e4460_n_1">crew</collocate>
+               <collocate freq="1" target="e4470_n_1">crib</collocate>
+               <collocate freq="1" target="e4860_n_1">dog</collocate>
+               <collocate freq="1" target="e5375_adj_1">flooded</collocate>
+               <collocate freq="1" target="e5600_n_2">game</collocate>
+               <collocate freq="1" target="e6110_n_2">head</collocate>
+               <collocate freq="1" target="e6140_adj_1">hella</collocate>
+               <collocate freq="1" target="e6460_adj_1">hot</collocate>
+               <collocate freq="1" target="e6830_n_1">Jesus piece</collocate>
+               <collocate freq="1" target="e7600_n_1">mayne</collocate>
+               <collocate freq="1" target="e8040_n_2">old school</collocate>
+               <collocate freq="1" target="e8340_trV_1">peep</collocate>
+               <collocate freq="1" target="e9065_adj_1">rocked up</collocate>
+               <collocate freq="1" target="e9060_trV_2">rock</collocate>
+               <collocate freq="1" target="e9865_n_1">snow</collocate>
+               <collocate freq="1" target="e10115_adv_1">steady</collocate>
+               <collocate freq="1" target="e10730_n_1">thug</collocate>
+               <collocate freq="1" target="e11525_n_1">wood-grain</collocate>
+               <collocate freq="1" target="e11670_int_1">yo</collocate>
+            </collocates>
+            <domain type="fashion"/>
+            <sentiment type="positive"/>
+            <definition>
+               <text>of a person, wearing (lots of) diamonds</text>
+            </definition>
+            <definition>
+               <text>of a thing, diamond-studded</text>
+            </definition>
+            <xref type="derivesFrom" target="e6590_n_1">ice</xref>
+            <xref type="hasSynonym" target="e5525_adj_1">frostbit</xref>
+            <xref type="hasSynonym" target="e5530_adj_1">frosty</xref>
+            <xref type="hasSynonym" target="e6596_adj_1">iced-up</xref>
+            <xref type="hasSynonym" target="e6600_adj_1">icy</xref>
+            <xref type="hasSynonym" target="e9065_adj_1">rocked up</xref>
+            <xref type="conceptRelatesTo" target="e3100_n_1">bling</xref>
+            <xref type="conceptRelatesTo" target="e5520_n_1">frost</xref>
+            <xref type="conceptRelatesTo" target="e8420_n_2">piece</xref>
+            <xref type="conceptRelatesTo" target="e9067_n_1">rocks</xref>
+            <xref type="conceptRelatesTo" target="e10400_intrV_1">swag</xref>
+            <xref type="lemmaRelatesTo" target="e2505_adjPhr_1">assed-out</xref>
+            <xref type="lemmaRelatesTo" target="e3630_adj_1">bugged-out</xref>
+            <xref type="lemmaRelatesTo" target="e4065_adj_1">chromed-out</xref>
+            <xref type="lemmaRelatesTo" target="e7330_adj_1">loc'd out</xref>
+            <xref type="lemmaRelatesTo" target="e8480_adj_1">played-out</xref>
+            <xref type="lemmaRelatesTo" target="e9813_adj_1">smoked-out</xref>
+            <xref type="lemmaRelatesTo" target="e10401_adj_1">swagged-out</xref>
+            <xref type="lemmaRelatesTo" target="e10760_adj_1">thugged-out</xref>
+            <examples>
+               <example id="37816">
+                  <date>1996-10-01</date>
+                  <artist origin="New Jersey, USA">Real Live</artist>
+                  <songTitle>The Turnaround</songTitle>
+                  <album>The Turnaround: A Long Awaited Drama</album>
+                  <lyric>
+                     <text>Gots to be top-notch, iced-out Movado</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">iced-out</rf>
+                     <entity type="product" position="53" prefLabel="Movado">Movado</entity>
+                  </lyric>
+               </example>
+               <example id="33734">
+                  <date>1997-03-25</date>
+                  <artist origin="Clinton Hill, Brooklyn, New York City, New York, USA">Notorious B.I.G., The</artist>
+                  <songTitle>Going Back To Cali</songTitle>
+                  <album>Life After Death</album>
+                  <lyric>
+                     <text>Iced out, lights out, me and Cease-a-leo gettin head from some chick he know</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced out</rf>
+                     <entity type="artist" prefLabel="Lil Cease" position="51">Cease-a-leo</entity>
+                     <xref target="e6110_n_2" position="70" lemma="head">head</xref>
+                  </lyric>
+               </example>
+               <example id="44920">
+                  <date>1998-01-13</date>
+                  <artist origin="Yonkers, New York, USA">LOX, The</artist>
+                  <songTitle>If You Want It You Can Get It</songTitle>
+                  <feat origin="Harlem, Manhattan, New York City, New York, USA">Ma$e</feat>
+                  <album>Money, Power &amp; Respect</album>
+                  <lyric>
+                     <text>Iced-out wrists</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="2956">
+                  <date>1998-02-24</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">AZ</artist>
+                  <songTitle>Rock Me</songTitle>
+                  <feat origin="Atlanta, Georgia, USA">Jermaine Dupri</feat>
+                  <album>Caught Up Soundtrack</album>
+                  <lyric>
+                     <text>Iced out, platinum Rolly with the rubies</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced out</rf>
+                     <xref target="e9080_n_1" position="41" lemma="rolly">Rolly</xref>
+                  </lyric>
+               </example>
+               <example id="9088">
+                  <date>1998-03-31</date>
+                  <artist origin="Brownsville, Brooklyn, New York City, New York, USA">Cocoa Brovaz</artist>
+                  <songTitle>The Cash</songTitle>
+                  <album>The Rude Awakening</album>
+                  <lyric>
+                     <text>Broad like iced out, Cartier chain danglin</text>
+                     <rf target="e6595_adj_1" position="11" lemma="iced-out">iced out</rf>
+                     <entity type="product" position="21" prefLabel="Cartier">Cartier</entity>
+                     <xref target="e3900_n_1" position="51" lemma="chain">chain</xref>
+                  </lyric>
+               </example>
+               <example id="15808">
+                  <date>1998-07-14</date>
+                  <artist origin="The Bronx, New York City, New York, USA">Fat Joe</artist>
+                  <songTitle>Dat Gangsta Shit</songTitle>
+                  <album>Don Cartagena</album>
+                  <lyric>
+                     <text>The iced out piece on my chest from the east to the west</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                     <xref target="e8420_n_2" position="35" lemma="piece">piece</xref>
+                  </lyric>
+               </example>
+               <example id="7498">
+                  <date>1998-09-08</date>
+                  <artist origin="New York City, New York, USA">Canibus</artist>
+                  <songTitle>Nigganometry</songTitle>
+                  <album>Can-I-Bus</album>
+                  <lyric>
+                     <text>If you a nigga with a watch that's iced-out</text>
+                     <rf target="e6595_adj_1" position="35" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="35327">
+                  <date>1998-11-10</date>
+                  <artist origin="Mount Vernon, New York, USA">Pete Rock</artist>
+                  <songTitle>Just Do It</songTitle>
+                  <feat origin="South Jamaica, Queens, New York City, New York, USA">Pharoahe Monch</feat>
+                  <album>Soul Survivor</album>
+                  <lyric>
+                     <text>You want that iced out watch, don't ya</text>
+                     <rf target="e6595_adj_1" position="14" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="28760">
+                  <date>1998</date>
+                  <artist origin="Inglewood, California, USA">Mack 10</artist>
+                  <songTitle>The Recipe</songTitle>
+                  <feat>Binky</feat>
+                  <feat>Boo Kapone</feat>
+                  <feat origin="Los Angeles, California, USA">CJ Mac</feat>
+                  <feat>Techniec</feat>
+                  <album>The Recipe</album>
+                  <lyric>
+                     <text>I'm blindin niggas slowly with the iced-out Rolly</text>
+                     <rhyme rhymeTarget="e9080_n_1" position="19">slowly</rhyme>
+                     <rf target="e6595_adj_1" position="35" lemma="iced-out">iced-out</rf>
+                     <xref target="e9080_n_1" position="66" lemma="rolly">Rolly</xref>
+                  </lyric>
+               </example>
+               <example id="4187">
+                  <date>1999-05-18</date>
+                  <artist origin="Houston, Texas, USA">Big Pokey</artist>
+                  <songTitle>Ball N-Parlay</songTitle>
+                  <album>Hardest Pit In The Litter</album>
+                  <lyric>
+                     <text>My piece is iced out, diamonds hit you in the face</text>
+                     <xref target="e8420_n_2" position="3" lemma="piece">piece</xref>
+                     <rf target="e6595_adj_1" position="12" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="29341">
+                  <date>1999-06-15</date>
+                  <artist origin="Harlem, Manhattan, New York City, New York, USA">Ma$e</artist>
+                  <songTitle>Stay Out of My Way</songTitle>
+                  <feat origin="Plainfield, New Jersey, USA">Total</feat>
+                  <album>Double Up</album>
+                  <lyric>
+                     <text>All I see is more f-in' iced-out Jesus pieces</text>
+                     <rf target="e6595_adj_1" position="24" lemma="iced-out">iced-out</rf>
+                     <xref target="e6830_n_1" position="55" lemma="Jesus piece">Jesus pieces</xref>
+                  </lyric>
+               </example>
+               <example id="681">
+                  <date>1999-08-24</date>
+                  <artist origin="South Jamaica, Queens, New York City, New York, USA">50 Cent</artist>
+                  <songTitle>Rowdy Rowdy</songTitle>
+                  <album>In Too Deep Soundtrack</album>
+                  <lyric>
+                     <text>I'm that nigga that call the shots, with the iced-out watch</text>
+                     <rf target="e6595_adj_1" position="45" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="15403">
+                  <date>1999-09-14</date>
+                  <artist origin="Philadelphia, Pennsylvania, USA">Eve</artist>
+                  <songTitle>Stuck Up</songTitle>
+                  <feat>CJ</feat>
+                  <album>Ruff Ryders' First Lady</album>
+                  <lyric>
+                     <text>Now I'm searching for the platinum iced-out Cartier</text>
+                     <rf target="e6595_adj_1" position="35" lemma="iced-out">iced-out</rf>
+                     <entity type="product" position="66" prefLabel="Cartier">Cartier</entity>
+                  </lyric>
+               </example>
+               <example id="22640">
+                  <date>1999-12-07</date>
+                  <artist origin="New Orleans, Louisiana, USA">Juvenile</artist>
+                  <songTitle>March Nigga Step</songTitle>
+                  <album>Tha G-Code</album>
+                  <lyric>
+                     <text>You got your Rolly iced out</text>
+                     <xref target="e9080_n_1" position="13" lemma="rolly">Rolly</xref>
+                     <rf target="e6595_adj_1" position="41" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="10283">
+                  <date>2000-02-22</date>
+                  <artist origin="New York City, New York, USA">D.I.T.C.</artist>
+                  <songTitle>Foundation</songTitle>
+                  <album>D.I.T.C.</album>
+                  <lyric>
+                     <text>Iced out nigga, shining like flood-lights</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced out</rf>
+                  </lyric>
+               </example>
+               <example id="19803">
+                  <date>2000-03-21</date>
+                  <artist origin="Crenshaw, Los Angeles, California, USA">Ice-T</artist>
+                  <songTitle>Pimpin' Ain't Easy (Godfather Theme)</songTitle>
+                  <album>WWF Aggression</album>
+                  <lyric>
+                     <text>Take a look at me, everything I own's iced out</text>
+                     <rf target="e6595_adj_1" position="38" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="33371">
+                  <date>2000-06-06</date>
+                  <artist origin="St. Louis, Missouri, USA">Nelly</artist>
+                  <songTitle>Steal Da Show</songTitle>
+                  <feat origin="St. Louis, Missouri, USA">St. Lunatics</feat>
+                  <album>Country Grammar</album>
+                  <lyric>
+                     <text>An iced out ring just to score on your eye</text>
+                     <rf target="e6595_adj_1" position="3" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="6917">
+                  <date>2000-07-11</date>
+                  <artist origin="Sacramento, California, USA">C-BO</artist>
+                  <songTitle>Get The Money</songTitle>
+                  <album>Enemy of The State</album>
+                  <lyric>
+                     <text>Ear and neck, wrist iced out</text>
+                     <rf target="e6595_adj_1" position="20" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="27391">
+                  <date>2000-09-05</date>
+                  <artist origin="Hollis, Queens, New York City, New York, USA">LL Cool J</artist>
+                  <songTitle>LL Cool J</songTitle>
+                  <feat>Kandice Love</feat>
+                  <album>G.O.A.T.</album>
+                  <lyric>
+                     <text>Peep my profile and my iced-out dial</text>
+                     <xref target="e8340_trV_1" position="22" lemma="peep">Peep</xref>
+                     <rf target="e6595_adj_1" position="45" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="9317">
+                  <date>2000-10-24</date>
+                  <artist origin="Compton, California, USA">Compton's Most Wanted</artist>
+                  <songTitle>Some May Know</songTitle>
+                  <album>Represent</album>
+                  <lyric>
+                     <text>The iced-out Rolex means I got money to spend</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced-out</rf>
+                     <entity type="product" position="35" prefLabel="Rolex">Rolex</entity>
+                  </lyric>
+               </example>
+               <example id="3010">
+                  <date>2000-11-21</date>
+                  <artist origin="New Orleans, Louisiana, USA">B.G.</artist>
+                  <songTitle>Ah Ha</songTitle>
+                  <album>Checkmate</album>
+                  <lyric>
+                     <text>I'm shinin', I'm blingin', I'm iced out</text>
+                     <xref target="e3100_intrV_1" position="17" lemma="bling">blingin'</xref>
+                     <rf target="e6595_adj_1" position="31" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="34772">
+                  <date>2001-07-10</date>
+                  <artist origin="New York City, New York, USA">P. Diddy</artist>
+                  <songTitle>Bad Boy For Life</songTitle>
+                  <feat origin="Harlem, Manhattan, New York City, New York, USA">Black Rob</feat>
+                  <feat>Mark Curry</feat>
+                  <album>The Saga Continues...</album>
+                  <lyric>
+                     <text>Don't think cause I'm iced-out, I'mma cool off</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="14333">
+                  <date>2001-11-06</date>
+                  <artist origin="Houston, Texas, USA">E.S.G. &amp; Slim Thug</artist>
+                  <songTitle>Dirty South</songTitle>
+                  <feat>Carmen San Diego</feat>
+                  <album>Boss Hogg Outlaws</album>
+                  <lyric>
+                     <text>24-7 them boys, they iced out</text>
+                     <xref target="e2130_adv_1" position="22" lemma="24-7">24-7</xref>
+                     <rf target="e6595_adj_1" position="43" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="29677">
+                  <date>2001-12-21</date>
+                  <artist origin="New Orleans, Louisiana, USA">Master P</artist>
+                  <songTitle>Ooohhhwee</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Weebie</feat>
+                  <album>Game Face</album>
+                  <lyric>
+                     <text>She knew I was a baller by my iced-out wrists</text>
+                     <xref target="e2700_n_1" position="17" lemma="baller">baller</xref>
+                     <rf target="e6595_adj_1" position="30" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="24944">
+                  <date>2002-01-22</date>
+                  <artist origin="South Bronx, The Bronx, New York City, New York, USA">KRS-One</artist>
+                  <songTitle>Know Thy Self</songTitle>
+                  <album>Spiritual Minded</album>
+                  <lyric>
+                     <text>Yo, it's one thing to be iced out and rocked up</text>
+                     <xref target="e11670_int_1" position="22" lemma="yo">Yo</xref>
+                     <rf target="e6595_adj_1" position="47" lemma="iced-out">iced out</rf>
+                     <xref target="e9065_adj_1" position="60" lemma="rocked up">rocked up</xref>
+                  </lyric>
+               </example>
+               <example id="3575">
+                  <date>2002-04-30</date>
+                  <artist origin="Kingston, Jamaica">Beenie Man</artist>
+                  <songTitle>Fresh From Yard</songTitle>
+                  <feat origin="Brooklyn, New York City, New York, USA">Lil' Kim</feat>
+                  <album>Fresh From Yard</album>
+                  <lyric>
+                     <text>Niggas watch me shake my fanny in my iced-out panties</text>
+                     <rf target="e6595_adj_1" position="37" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="34353">
+                  <date>2002-07-09</date>
+                  <artist origin="South Jamaica, Queens, New York City, New York, USA">Onyx</artist>
+                  <songTitle>Bring 'Em Out Dead</songTitle>
+                  <album>Bacdafucup Part II</album>
+                  <lyric>
+                     <text>That's a iced-out cross, boy, take that off</text>
+                     <rf target="e6595_adj_1" position="9" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="25996">
+                  <date>2002-08-27</date>
+                  <artist origin="Houston, Texas, USA">Lil' Flip</artist>
+                  <songTitle>Haters Still Mad</songTitle>
+                  <album>Undaground Legend</album>
+                  <lyric>
+                     <text>Iced-out grill'll make you chill</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                     <xref target="e5850_n_2"
+                           rhymeTarget="e4000_intrV_1"
+                           position="53"
+                           lemma="grill">grill</xref>
+                     <xref target="e4000_intrV_1"
+                           rhymeTarget="e5850_n_2"
+                           position="71"
+                           lemma="chill">chill</xref>
+                  </lyric>
+               </example>
+               <example id="17281">
+                  <date>2002-10-29</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Gang Starr</artist>
+                  <songTitle>Battle</songTitle>
+                  <album>8 Mile Soundtrack</album>
+                  <lyric>
+                     <text>You buy a iced-out watch because it cost a lot</text>
+                     <rf target="e6595_adj_1" position="10" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="18834">
+                  <date>2003-02-25</date>
+                  <artist origin="Queens, New York City, New York, USA">Havoc</artist>
+                  <songTitle>Bump That</songTitle>
+                  <feat origin="South Jamaica, Queens, New York City, New York, USA">50 Cent</feat>
+                  <feat origin="Queensbridge, Long Island City, Queens, New York City, New York, USA">Noyd</feat>
+                  <album>Free Agents - The Murda Mixtape</album>
+                  <lyric>
+                     <text>Iced out diamond rings, fuck linen</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced out</rf>
+                  </lyric>
+               </example>
+               <example id="13124">
+                  <date>2003-08-19</date>
+                  <artist origin="Chicago, Illinois, USA">Do Or Die</artist>
+                  <songTitle>Do U?</songTitle>
+                  <feat origin="Chicago, Illinois, USA">Twista</feat>
+                  <album>Pimpin' Ain't Dead</album>
+                  <lyric>
+                     <text>Iced-out charm, chromed-out truck</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                     <xref target="e4065_adj_1" position="38" lemma="chromed-out">chromed-out</xref>
+                  </lyric>
+               </example>
+               <example id="21715">
+                  <date>2003-08-23</date>
+                  <artist origin="Philadelphia, Pennsylvania, USA">Jedi Mind Tricks</artist>
+                  <songTitle>Tibetan Black Magicians</songTitle>
+                  <feat origin="New York City, New York, USA">Canibus</feat>
+                  <album>Visions of Gandhi</album>
+                  <lyric>
+                     <text>You end up in an iced-out sarcophagus</text>
+                     <rf target="e6595_adj_1" position="17" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="38082">
+                  <date>2003-11</date>
+                  <artist origin="Staten Island, New York City, New York, USA">Remedy</artist>
+                  <songTitle>R.E.M.E.D.Y.</songTitle>
+                  <album>Code:Red</album>
+                  <lyric>
+                     <text>Iced out chains and platinum frames</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced out</rf>
+                     <xref target="e3900_n_1" position="53" lemma="chain">chains</xref>
+                     <rhyme rhymeTarget="e3900_n_1" position="73">frames</rhyme>
+                  </lyric>
+               </example>
+               <example id="26010">
+                  <date>2004-02-10</date>
+                  <artist origin="Houston, Texas, USA">Lil' Flip</artist>
+                  <songTitle>Like A Pimp (G Mix)</songTitle>
+                  <feat>Will Lean</feat>
+                  <album>Lil' Flip Presents Clover G's</album>
+                  <lyric>
+                     <text>Fore I slap yo ass, bitch, wid my iced-out pinky ring</text>
+                     <xref target="e3040_n_2" position="20" lemma="bitch">bitch</xref>
+                     <rf target="e6595_adj_1" position="34" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="35175">
+                  <date>2004-02-24</date>
+                  <artist origin="Houston, Texas, USA">Paul Wall</artist>
+                  <songTitle>They Don't Know</songTitle>
+                  <feat origin="Houston, Texas, USA">Mike Jones</feat>
+                  <album>Chick Magnet</album>
+                  <lyric>
+                     <text>Platinum and gold on top our teeth, big ol' chains with a iced-out piece</text>
+                     <rhyme rhymeTarget="e8420_n_2" position="29">teeth</rhyme>
+                     <xref target="e3900_n_1" position="44" lemma="chain">chains</xref>
+                     <rf target="e6595_adj_1" position="58" lemma="iced-out">iced-out</rf>
+                     <xref target="e8420_n_2" position="89" lemma="piece">piece</xref>
+                  </lyric>
+               </example>
+               <example id="8875">
+                  <date>2004-05-18</date>
+                  <artist origin="Houston, Texas, USA">Cl'Che</artist>
+                  <songTitle>U Don't Hear Me Doe</songTitle>
+                  <feat>Top Dollar</feat>
+                  <album>Off Da Chain</album>
+                  <lyric>
+                     <text>My hand's iced-out, neck priced out</text>
+                     <rf target="e6595_adj_1" position="10" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="13259">
+                  <date>2004</date>
+                  <artist origin="New York City, New York, USA">Dom Pachino</artist>
+                  <songTitle>1000 Dollar Watches</songTitle>
+                  <feat>Tommy Whispers</feat>
+                  <album>Dom Pachino: Unreleased</album>
+                  <lyric>
+                     <text>1000 dollar watches, chains, and iced-out rings</text>
+                     <xref target="e3900_n_1" position="21" lemma="chain">chains</xref>
+                     <rf target="e6595_adj_1" position="33" lemma="iced-out">iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="14313">
+                  <date>2005-02-15</date>
+                  <artist origin="Houston, Texas, USA">E.S.G.</artist>
+                  <songTitle>Get Cha Shine On</songTitle>
+                  <album>Family Business</album>
+                  <lyric>
+                     <text>Iced-out chain, pinky ring, chinchilla, minks, steady doing it, mayn</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                     <xref target="e3900_n_1"
+                           rhymeTarget="e7600_n_1"
+                           position="53"
+                           lemma="chain">chain</xref>
+                     <xref target="e4012_n_1" position="72" lemma="chinchilla">chinchilla</xref>
+                     <xref target="e10115_adv_1" position="91" lemma="steady">steady</xref>
+                     <xref target="e7600_n_1"
+                           rhymeTarget="e3900_n_1"
+                           position="108"
+                           lemma="mayne">mayn</xref>
+                  </lyric>
+               </example>
+               <example id="31113">
+                  <date>2005-04-19</date>
+                  <artist origin="Houston, Texas, USA">Mike Jones</artist>
+                  <songTitle>What Ya Know About</songTitle>
+                  <feat origin="Houston, Texas, USA">Killa Kyleon</feat>
+                  <feat origin="Houston, Texas, USA">Paul Wall</feat>
+                  <album>Who Is Mike Jones?</album>
+                  <lyric>
+                     <text>I'm from the place where our smiles stay iced out</text>
+                     <rf target="e6595_adj_1" position="41" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="28286">
+                  <date>2005-04-26</date>
+                  <artist origin="Berkeley, California, USA">Lyrics Born</artist>
+                  <songTitle>Pack Up (Remix)</songTitle>
+                  <feat origin="Los Angeles, California, USA">Evidence</feat>
+                  <feat origin="South Bronx, The Bronx, New York City, New York, USA">KRS-One</feat>
+                  <album>Same !@#$ Different Day</album>
+                  <lyric>
+                     <text>All you iced-out rappers, y'all just ain't hot to me</text>
+                     <rf target="e6595_adj_1" position="8" lemma="iced-out">iced-out</rf>
+                     <xref target="e8825_n_1" position="39" lemma="rapper">rappers</xref>
+                     <xref target="e6460_adj_1" position="65" lemma="hot">hot</xref>
+                  </lyric>
+               </example>
+               <example id="18294">
+                  <date>2005-05-24</date>
+                  <artist origin="Birmingham, Alabama, USA">Gucci Mane</artist>
+                  <songTitle>Lawnmower Man</songTitle>
+                  <album>Trap House</album>
+                  <lyric>
+                     <text>I took your jewelry, now I'm iced out</text>
+                     <rf target="e6595_adj_1" position="29" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="4468">
+                  <date>2005-06-21</date>
+                  <artist origin="New Orleans, Louisiana, USA">Birdman</artist>
+                  <songTitle>Get It All Together</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Lil Wayne</feat>
+                  <album>Fast Money</album>
+                  <lyric>
+                     <text>Canary yellow Ca$h Money iced-out piece</text>
+                     <entity type="recordLabel" position="14" prefLabel="Ca$h Money">Ca$h Money</entity>
+                     <rf target="e6595_adj_1" position="47" lemma="iced-out">iced-out</rf>
+                     <xref target="e8420_n_2" position="78" lemma="piece">piece</xref>
+                  </lyric>
+               </example>
+               <example id="40955">
+                  <date>2005-07-12</date>
+                  <artist origin="Houston, Texas, USA">Slim Thug</artist>
+                  <songTitle>Diamonds (Remix)</songTitle>
+                  <feat>Killa Kyleon</feat>
+                  <feat>Slick Pulla</feat>
+                  <feat origin="Atlanta, Georgia, USA">Young Jeezy</feat>
+                  <album>Already Platinum</album>
+                  <lyric>
+                     <text>Iced-out belt buckle, they never had a chance</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="44638">
+                  <date>2005-07-26</date>
+                  <artist origin="Los Angeles, California, USA">Game, The</artist>
+                  <songTitle>Eat Ya Beats Alive</songTitle>
+                  <feat origin="Fillmore, San Francisco, California, USA">JT The Bigga Figga</feat>
+                  <album>Untold Story: Volume II</album>
+                  <lyric>
+                     <text>Diamond-bezelled, iced-out with hella cheese</text>
+                     <rf target="e6595_adj_1" position="18" lemma="iced-out">iced-out</rf>
+                     <xref target="e6140_adj_1" position="32" lemma="hella">hella</xref>
+                     <xref target="e3940_n_1" position="60" lemma="cheese">cheese</xref>
+                  </lyric>
+               </example>
+               <example id="9849">
+                  <date>2005-08-16</date>
+                  <artist origin="The Bronx, New York City, New York, USA">Cuban Link</artist>
+                  <songTitle>Letter To Pun</songTitle>
+                  <album>Chain Reaction</album>
+                  <lyric>
+                     <text>You in iced-out chains, your wife was rockin' the pearls</text>
+                     <rf target="e6595_adj_1" position="7" lemma="iced-out">iced-out</rf>
+                     <xref target="e3900_n_1" position="38" lemma="chain">chains</xref>
+                     <xref target="e9060_trV_2" position="60" lemma="rock">rockin'</xref>
+                  </lyric>
+               </example>
+               <example id="6646">
+                  <date>2005-10-18</date>
+                  <artist origin="Port Arthur, Texas, USA">Bun B</artist>
+                  <songTitle>Draped Up</songTitle>
+                  <feat origin="Houston, Texas, USA">Lil' Keke</feat>
+                  <album>Trill</album>
+                  <lyric>
+                     <text>With iced-out watches, bracelets, chains</text>
+                     <rf target="e6595_adj_1" position="5" lemma="iced-out">iced-out</rf>
+                     <xref target="e3900_n_1" position="34" lemma="chain">chains</xref>
+                  </lyric>
+               </example>
+               <example id="27504">
+                  <date>2005-11-08</date>
+                  <artist origin="South Jamaica, Queens, New York City, New York, USA">Lloyd Banks</artist>
+                  <songTitle>You Already Know</songTitle>
+                  <feat origin="South Jamaica, Queens, New York City, New York, USA">50 Cent</feat>
+                  <feat origin="Nashville, Tennessee, USA">Young Buck</feat>
+                  <album>Get Rich Or Die Tryin' Soundtrack</album>
+                  <lyric>
+                     <text>Got a couple old schools and some iced-out jewels</text>
+                     <xref target="e8040_n_2" position="13" lemma="old school">old schools</xref>
+                     <rf target="e6595_adj_1" position="34" lemma="iced-out">iced-out</rf>
+                     <rhyme rhymeTarget="e8040_n_2" position="65">jewels</rhyme>
+                  </lyric>
+               </example>
+               <example id="11751">
+                  <date>2006-02-07</date>
+                  <artist origin="Atlanta, Georgia, USA">Dem Franchize Boyz</artist>
+                  <songTitle>Bricks 4 The High</songTitle>
+                  <feat>Dame Dash</feat>
+                  <feat origin="Harlem, Manhattan, New York City, New York, USA">Jim Jones</feat>
+                  <album>On Top of Our Game</album>
+                  <lyric>
+                     <text>I'm iced out, and keep snow like an eskimo</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                     <xref target="e9865_n_1" position="23" lemma="snow">snow</xref>
+                     <rhyme rhymeTarget="e9865_n_1" position="36">eskimo</rhyme>
+                  </lyric>
+               </example>
+               <example id="6630">
+                  <date>2006-04-27</date>
+                  <artist origin="Crown Heights, Brooklyn, New York City, New York, USA">Buddha Monk</artist>
+                  <songTitle>Who's There?</songTitle>
+                  <feat>Fung See U</feat>
+                  <album>Prophecy Reloaded</album>
+                  <lyric>
+                     <text>Fuck bein' iced out, I'd rather live in a nice house</text>
+                     <rf target="e6595_adj_1" position="11" lemma="iced-out">iced out</rf>
+                     <rhyme rhymeTarget="e6595_adj_1" position="42">nice house</rhyme>
+                  </lyric>
+               </example>
+               <example id="14376">
+                  <date>2006-05-16</date>
+                  <artist origin="Houston, Texas, USA">E.S.G.</artist>
+                  <songTitle>Ride Wit Us</songTitle>
+                  <feat origin="Port Arthur, Texas, USA">Bun B</feat>
+                  <feat origin="Houston, Texas, USA">Chamillionaire</feat>
+                  <album>Screwed Up Movement</album>
+                  <lyric>
+                     <text>Stay iced out like a new refrigerator</text>
+                     <rf target="e6595_adj_1" position="5" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="46579">
+                  <date>2006-06-27</date>
+                  <artist origin="Houston, Texas, USA">Trae</artist>
+                  <songTitle>Cadillac</songTitle>
+                  <feat origin="Memphis, Tennessee, USA">Three 6 Mafia</feat>
+                  <feat>Jay'Ton</feat>
+                  <feat origin="Detroit, Michigan, USA">Boss</feat>
+                  <feat origin="Houston, Texas, USA">Paul Wall</feat>
+                  <album>Restless</album>
+                  <lyric>
+                     <text>Iced-out grills, and the wood-grain grippers</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                     <xref target="e5850_n_2" position="53" lemma="grill">grills</xref>
+                     <xref target="e11525_n_1" position="69" lemma="wood-grain">wood-grain</xref>
+                  </lyric>
+               </example>
+               <example id="23671">
+                  <date>2006-06-28</date>
+                  <artist origin="Houston, Texas, USA">Killa Kyleon</artist>
+                  <songTitle>Hood Hop</songTitle>
+                  <feat origin="Port Arthur, Texas, USA">Bun B</feat>
+                  <album>Welcome To Tha Hood</album>
+                  <lyric>
+                     <text>The game's hottest thang since a iced-out Rolly</text>
+                     <xref target="e5600_n_2" position="4" lemma="game">game</xref>
+                     <rf target="e6595_adj_1" position="33" lemma="iced-out">iced-out</rf>
+                     <xref target="e9080_n_1" position="64" lemma="rolly">Rolly</xref>
+                  </lyric>
+               </example>
+               <example id="49696">
+                  <date>2006-08-29</date>
+                  <artist origin="Bankhead, Atlanta, Georgia, USA">Young Dro</artist>
+                  <songTitle>Man In The Trunk</songTitle>
+                  <album>Best Thang Smokin</album>
+                  <lyric>
+                     <text>I'm iced out, baby, how can I be warm?</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="18275">
+                  <date>2006-10-24</date>
+                  <artist origin="Birmingham, Alabama, USA">Gucci Mane</artist>
+                  <songTitle>Big Cat (Laflare)</songTitle>
+                  <album>Hard To Kill</album>
+                  <lyric>
+                     <text>So iced out, man, I think I need my coat on</text>
+                     <rf target="e6595_adj_1" position="3" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="23875">
+                  <date>2007-08-21</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Killah Priest</artist>
+                  <songTitle>Inner G</songTitle>
+                  <feat origin="New York City, New York, USA">Canibus</feat>
+                  <feat origin="Philadelphia, Pennsylvania, USA">Kurupt</feat>
+                  <feat>Ras Kass</feat>
+                  <album>The Offering</album>
+                  <lyric>
+                     <text>Like Obi-Wan Kenobi with an iced-out Rolly</text>
+                     <entity type="character"
+                             rhymeTarget="e9080_n_1"
+                             position="5"
+                             prefLabel="Obi-Wan Kenobi">Obi-Wan Kenobi</entity>
+                     <rf target="e6595_adj_1" position="28" lemma="iced-out">iced-out</rf>
+                     <xref target="e9080_n_1" position="59" lemma="rolly">Rolly</xref>
+                  </lyric>
+               </example>
+               <example id="18279">
+                  <date>2007-12-11</date>
+                  <artist origin="Birmingham, Alabama, USA">Gucci Mane</artist>
+                  <songTitle>Booty Shorts</songTitle>
+                  <album>Traphouse</album>
+                  <lyric>
+                     <text>Iced-out chain, got a iced-out grill</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                     <xref target="e3900_n_1" position="53" lemma="chain">chain</xref>
+                     <rf target="e6595_adj_1" position="66" lemma="iced-out">iced-out</rf>
+                     <xref target="e5850_n_2" position="97" lemma="grill">grill</xref>
+                  </lyric>
+               </example>
+               <example id="19118">
+                  <date>2008</date>
+                  <artist origin="Red Hook, Brooklyn, New York City, New York, USA">Hell Razah</artist>
+                  <songTitle>B.K. To Moscow</songTitle>
+                  <feat>Mezza Morta</feat>
+                  <album>Hell Hop: Volume One</album>
+                  <lyric>
+                     <text>You iced out, I'm a deep freezer</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="37526">
+                  <date>2008</date>
+                  <artist origin="Durham, North Carolina, USA">Rapper Big Pooh</artist>
+                  <songTitle>Geez Like Deez</songTitle>
+                  <feat>Quan</feat>
+                  <album>Rapper's Delight</album>
+                  <lyric>
+                     <text>All my dogs iced out, shining bright as the sun</text>
+                     <xref target="e4860_n_1" position="7" lemma="dog">dogs</xref>
+                     <rf target="e6595_adj_1" position="34" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="18301">
+                  <date>2009-05-12</date>
+                  <artist origin="Birmingham, Alabama, USA">Gucci Mane</artist>
+                  <songTitle>Say Damn</songTitle>
+                  <album>Murder Was The Case</album>
+                  <lyric>
+                     <text>Your girl say she love to see a thug iced out</text>
+                     <xref target="e10730_n_1" position="32" lemma="thug">thug</xref>
+                     <rf target="e6595_adj_1" position="59" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="15720">
+                  <date>2009-07-28</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Fabolous</artist>
+                  <songTitle>Make Me Better (Remix)</songTitle>
+                  <feat origin="Las Vegas, Nevada, USA">Ne-Yo</feat>
+                  <feat origin="New York City, New York, USA">Raekwon</feat>
+                  <album>Make Me Better</album>
+                  <lyric>
+                     <text>I keep her iced out, she flooded with baguettes</text>
+                     <rf target="e6595_adj_1" position="11" lemma="iced-out">iced out</rf>
+                     <xref target="e5375_adj_1" position="25" lemma="flooded">flooded</xref>
+                     <xref target="e2685_n_1" position="38" lemma="baguette">baguettes</xref>
+                  </lyric>
+               </example>
+               <example id="18376">
+                  <date>2009-12-08</date>
+                  <artist origin="Birmingham, Alabama, USA">Gucci Mane</artist>
+                  <songTitle>Volume</songTitle>
+                  <feat>Wooh Da Kid</feat>
+                  <album>The State Vs. Radric Davis</album>
+                  <lyric>
+                     <text>Iced-out crib got me ballin' like the Lakers</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                     <xref target="e4470_n_1" position="53" lemma="crib">crib</xref>
+                     <xref target="e2690_intrV_1" position="65" lemma="ball">ballin'</xref>
+                     <entity type="sportsTeam" prefLabel="Los Angeles Lakers" position="82">Lakers</entity>
+                  </lyric>
+               </example>
+               <example id="1039">
+                  <date>2010-04-20</date>
+                  <artist origin="Staten Island, New York City, New York, USA">9th Prince</artist>
+                  <songTitle>Lyrical Disaster</songTitle>
+                  <feat origin="Staten Island, New York City, New York, USA">Islord</feat>
+                  <album>Revenge of The 9th Prince</album>
+                  <lyric>
+                     <text>Iced-out stopwatch, I'm bringing 'em back</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">Iced-out</rf>
+                  </lyric>
+               </example>
+               <example id="41774">
+                  <date>2010-06-08</date>
+                  <artist origin="Batesville, Mississippi, USA">Soulja Boy</artist>
+                  <songTitle>Mean Mug</songTitle>
+                  <feat origin="South Jamaica, Queens, New York City, New York, USA">50 Cent</feat>
+                  <album>The Deandre Way</album>
+                  <lyric>
+                     <text>I'm iced out, bitch, my neck and my ears drippin</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                     <xref target="e3040_n_2" position="14" lemma="bitch">bitch</xref>
+                  </lyric>
+               </example>
+               <example id="27481">
+                  <date>2010-11-22</date>
+                  <artist origin="South Jamaica, Queens, New York City, New York, USA">Lloyd Banks</artist>
+                  <songTitle>Home Sweet Home</songTitle>
+                  <feat>Pusha T</feat>
+                  <album>H.F.M. 2 (The Hunger For More 2)</album>
+                  <lyric>
+                     <text>Come on, these rappers ain't iced out, they just foolin, niggas</text>
+                     <xref target="e8825_n_1" position="15" lemma="rapper">rappers</xref>
+                     <rf target="e6595_adj_1" position="29" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="26871">
+                  <date>2011-07-13</date>
+                  <artist origin="New Orleans, Louisiana, USA">Lil Wayne</artist>
+                  <songTitle>Gangsta Party</songTitle>
+                  <feat origin="Berkeley, California, USA">Lil B</feat>
+                  <album>Sorry 4 The Wait</album>
+                  <lyric>
+                     <text>I'm iced out, bitch, I'm rich off that same shit</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                     <xref target="e3040_n_2" position="14" lemma="bitch">bitch</xref>
+                  </lyric>
+               </example>
+               <example id="49780">
+                  <date>2011-12-20</date>
+                  <artist origin="Atlanta, Georgia, USA">Young Jeezy</artist>
+                  <songTitle>Ballin</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Lil Wayne</feat>
+                  <album>TM:103 Hustlerz Ambition</album>
+                  <lyric>
+                     <text>I'm iced out, I'm standin tall like an athlete</text>
+                     <rf target="e6595_adj_1" position="4" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="24864">
+                  <date>2012-09-18</date>
+                  <artist origin="Oakland, California, USA">Kreayshawn</artist>
+                  <songTitle>Blasé Blasé</songTitle>
+                  <album>Somethin' Bout Kreay</album>
+                  <lyric>
+                     <text>Glorious, my whole crew iced out</text>
+                     <xref target="e4460_n_1" position="19" lemma="crew">crew</xref>
+                     <rf target="e6595_adj_1" position="46" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+               <example id="28168">
+                  <date>2012-09-25</date>
+                  <artist origin="Chicago, Illinois, USA">Lupe Fiasco</artist>
+                  <songTitle>Audubon Ballroom</songTitle>
+                  <album>Food &amp; Liquor II: The Great American Rap Album Pt. 1</album>
+                  <lyric>
+                     <text>It's so titanic to be iced out</text>
+                     <rf target="e6595_adj_1" position="22" lemma="iced-out">iced out</rf>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+</dictionary>
