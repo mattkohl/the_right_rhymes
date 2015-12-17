@@ -1,5 +1,316 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dictionary>
+   <entry sk="babysit" eid="e2623" publish="yes">
+      <head>
+         <headword>babysit</headword>
+      </head>
+      <senses id="e2623_trV">
+         <pos>transitive verb</pos>
+         <forms>
+            <form freq="5">babysit</form>
+            <form freq="2">babysittin</form>
+            <form freq="2">Babysittin'</form>
+            <form freq="1">baby-sit</form>
+         </forms>
+         <sense id="e2623_trV_1">
+            <rhymes>
+               <rhyme freq="2">get</rhyme>
+               <rhyme freq="2">hittin'</rhyme>
+               <rhyme freq="1">Hit</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="3" target="e6220_trV_1">hit</collocate>
+               <collocate freq="1" target="e3160_n_1">blunt</collocate>
+               <collocate freq="1" target="e6880_n_2">joint</collocate>
+            </collocates>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>to keep (something or someone) for oneself</text>
+            </definition>
+            <note type="usage">typically with drugs or a woman as an object</note>
+            <xref type="hasSynonym" target="e45391_trV_2">cuff</xref>
+            <examples>
+               <example id="28143">
+                  <date>1995-07-03</date>
+                  <artist origin="Oakland, California, USA">Luniz</artist>
+                  <songTitle>I Got Five On It</songTitle>
+                  <album>Operation Stackola</album>
+                  <lyric>
+                     <text>Don't babysit that, better pass the joint</text>
+                     <rf target="e2623_trV_1" position="6" lemma="babysit">babysit</rf>
+                     <xref target="e6880_n_2" position="36" lemma="joint">joint</xref>
+                  </lyric>
+               </example>
+               <example id="495">
+                  <date>1997</date>
+                  <artist>40 Thevz</artist>
+                  <songTitle>One For The Money</songTitle>
+                  <feat origin="Compton, California, USA">Coolio</feat>
+                  <album>Honor Amongst Thevz</album>
+                  <lyric>
+                     <text>Instead of hittin' it, then forgettin it, he started babysittin it</text>
+                     <xref rhymeTarget="e2623_trV_1"
+                           target="e6220_trV_1"
+                           position="11"
+                           lemma="hit">hittin'</xref>
+                     <rhyme rhymeTarget="e6220_trV_1" position="28">forgettin</rhyme>
+                     <rf target="e2623_trV_1" position="53" lemma="babysit">babysittin</rf>
+                  </lyric>
+               </example>
+               <example id="35825">
+                  <date>1999-11-16</date>
+                  <artist origin="South Memphis, Memphis, Tennessee, USA">Playa Fly</artist>
+                  <songTitle>Get 'Em</songTitle>
+                  <feat>Blackout</feat>
+                  <feat>Lil Terror</feat>
+                  <album>Da Game Owe Me</album>
+                  <lyric>
+                     <text>Flizy givin' no time for playin' wit 'em, Fly can't baby-sit 'em</text>
+                     <entity type="artist" prefLabel="Playa Fly" position="22">Flizy</entity>
+                     <entity type="artist" prefLabel="Playa Fly" position="64">Fly</entity>
+                     <rf target="e2623_trV_1" position="74" lemma="babysit">baby-sit</rf>
+                  </lyric>
+               </example>
+               <example id="39492">
+                  <date>2000-11-28</date>
+                  <artist origin="Toronto, Ontario, Canada">Saukrates</artist>
+                  <songTitle>W.K.Y.A.</songTitle>
+                  <feat origin="Newark, New Jersey, USA">Redman</feat>
+                  <album>Lyricist Lounge 2</album>
+                  <lyric>
+                     <text>I'm hittin' the pussy, y'all babysittin them</text>
+                     <xref rhymeTarget="e2623_trV_1"
+                           target="e6220_trV_1"
+                           position="4"
+                           lemma="hit">hittin'</xref>
+                     <rf target="e2623_trV_1" position="29" lemma="babysit">babysittin</rf>
+                  </lyric>
+               </example>
+               <example id="12681">
+                  <date>2002</date>
+                  <artist>DJ Paul</artist>
+                  <songTitle>Flaugin Ass Niggas/Bitches</songTitle>
+                  <album>Underground Vol. 16: For Da Summa</album>
+                  <lyric>
+                     <text>Quit babysitting that doe, that doe</text>
+                  </lyric>
+               </example>
+               <example id="10578">
+                  <date>2002</date>
+                  <artist>Daddy Rose</artist>
+                  <songTitle>Welcome To Brooklyn</songTitle>
+                  <feat>20 Grand Pikasoe</feat>
+                  <feat origin="Brooklyn, New York City, New York, USA">AZ</feat>
+                  <feat origin="New York City, New York, USA">Amil</feat>
+                  <feat>Saulhaudin</feat>
+                  <album>The God</album>
+                  <lyric>
+                     <text>Amilion never babysit the mic</text>
+                     <entity type="artist" prefLabel="Amik" position="22">Amilion</entity>
+                     <rf target="e2623_trV_1" position="36" lemma="babysit">babysit</rf>
+                  </lyric>
+               </example>
+               <example id="49366">
+                  <date>2002-10-01</date>
+                  <artist origin="Los Angeles, California, USA">Xzibit</artist>
+                  <songTitle>Right On</songTitle>
+                  <album>Man Vs Machine</album>
+                  <lyric>
+                     <text>Hit it and quit it, my nigga, you shouldn't babysit it</text>
+                     <xref rhymeTarget="e2623_trV_1"
+                           target="e6220_trV_1"
+                           position="22"
+                           lemma="hit">Hit</xref>
+                     <rhyme rhymeTarget="e6220_trV_1" position="33">quit</rhyme>
+                     <rf target="e2623_trV_1" position="66" lemma="babysit">babysit</rf>
+                  </lyric>
+               </example>
+               <example id="45774">
+                  <date>2005-03-29</date>
+                  <artist origin="Memphis, Tennessee, USA">Three 6 Mafia</artist>
+                  <songTitle>Pass Dat Shit</songTitle>
+                  <feat origin="Memphis, Tennessee, USA">Frayser Boy</feat>
+                  <feat origin="Memphis, Tennessee, USA">Lil Wyte</feat>
+                  <album>Choices II: The Setup</album>
+                  <lyric>
+                     <text>Babysittin' that dope</text>
+                     <rf target="e2623_trV_1" position="22" lemma="babysit">Babysittin'</rf>
+                  </lyric>
+               </example>
+               <example id="25580">
+                  <date>2005-05-31</date>
+                  <artist origin="Cleveland, Ohio, USA">Layzie Bone</artist>
+                  <songTitle>2 Step</songTitle>
+                  <feat>DJ Dre Ghost</feat>
+                  <feat>Thin C.</feat>
+                  <album>It's Not A Game</album>
+                  <lyric>
+                     <text>Get it, man, don't babysit it, especially if you wanna get it</text>
+                     <rf target="e2623_trV_1" position="19" lemma="babysit">babysit</rf>
+                     <rhyme rhymeTarget="e2623_trV_1" position="55">get</rhyme>
+                  </lyric>
+               </example>
+               <example id="20059">
+                  <date>2010-10-04</date>
+                  <artist origin="South Central, Los Angeles, California, USA">Ice Cube</artist>
+                  <songTitle>I Rep That West</songTitle>
+                  <feat>Jigg</feat>
+                  <album>I Am The West</album>
+                  <lyric>
+                     <text>I'ma get 'em. Why? Cause I cain't babysit 'em</text>
+                     <rhyme rhymeTarget="e2623_trV_1" position="5">get</rhyme>
+                     <rf target="e2623_trV_1" position="34" lemma="babysit">babysit</rf>
+                  </lyric>
+               </example>
+               <example id="59721">
+                  <date>2015-02-03</date>
+                  <artist origin="Los Angeles, California, USA">Kid Ink</artist>
+                  <songTitle>Blunted</songTitle>
+                  <album>Full Speed</album>
+                  <lyric>
+                     <text>Babysittin' the blunt, I'll get you a car seat</text>
+                     <rf target="e2623_trV_1" position="22" lemma="babysit">Babysittin'</rf>
+                     <xref target="e3160_n_1" position="38" lemma="blunt">blunt</xref>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+      <senses id="e2623_intrV">
+         <pos>intransitive verb</pos>
+         <forms>
+            <form freq="2">babysittin'</form>
+            <form freq="1">babysittin</form>
+            <form freq="1">baby-sit</form>
+         </forms>
+         <sense id="e2623_intrV_1">
+            <collocates>
+               <collocate freq="1" target="e3160_n_1">blunt</collocate>
+               <collocate freq="1" target="e4890_n_1">dope</collocate>
+            </collocates>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>to bogart a joint or blunt</text>
+            </definition>
+            <xref type="hasSynonym" target="e45391_intrV_1">cuff</xref>
+            <examples>
+               <example id="12199">
+                  <date>2001-02-27</date>
+                  <artist origin="Montgomery, Alabama, USA">Dirty</artist>
+                  <songTitle>Yeanheard</songTitle>
+                  <album>The Pimp &amp; Da Gangsta</album>
+                  <lyric>
+                     <text>You babysittin', shit, you tryin' to hog all the dope</text>
+                     <rf target="e2623_intrV_1" position="4" lemma="babysit">babysittin'</rf>
+                     <xref target="e4890_n_1" position="49" lemma="dope">dope</xref>
+                  </lyric>
+               </example>
+               <example id="16642">
+                  <date>2003-08-26</date>
+                  <artist origin="Memphis, Tennessee, USA">Frayser Boy</artist>
+                  <songTitle>Hydro Weed</songTitle>
+                  <album>Gone On That Bay</album>
+                  <lyric>
+                     <text>Got a blunt? Fire it up. What'chu babysittin for?</text>
+                     <xref target="e3160_n_1" position="6" lemma="blunt">blunt</xref>
+                     <rf target="e2623_intrV_1" position="34" lemma="babysit">babysittin</rf>
+                  </lyric>
+               </example>
+               <example id="45774">
+                  <date>2005-03-29</date>
+                  <artist origin="Memphis, Tennessee, USA">Three 6 Mafia</artist>
+                  <songTitle>Pass Dat Shit</songTitle>
+                  <feat origin="Memphis, Tennessee, USA">Frayser Boy</feat>
+                  <feat origin="Memphis, Tennessee, USA">Lil Wyte</feat>
+                  <album>Choices II: The Setup</album>
+                  <lyric>
+                     <text>Why you sittin' there babysittin'</text>
+                     <rf target="e2623_intrV_1" position="22" lemma="babysit">babysittin'</rf>
+                  </lyric>
+               </example>
+               <example id="1086">
+                  <date>2013-01-15</date>
+                  <artist origin="Harlem, Manhattan, New York City, New York, USA">A$AP Rocky</artist>
+                  <songTitle>Wild For The Night</songTitle>
+                  <album>Long. Live. A$AP</album>
+                  <lyric>
+                     <text>Won't you blow it up and stop the babysitting?</text>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+         <sense id="e2623_intrV_2">
+            <sentiment type="neutral"/>
+            <definition>
+               <text>to sip one's drink slowly, typically to avoid getting drunk</text>
+            </definition>
+            <examples>
+               <example id="21503">
+                  <date>2009-09-08</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Jay-Z</artist>
+                  <songTitle>On To The Next One</songTitle>
+                  <feat origin="The Bronx, New York City, New York, USA">Swizz Beatz</feat>
+                  <album>The Blueprint 3</album>
+                  <lyric>
+                     <text>You gon' have another drink, or you just gon' baby-sit</text>
+                     <rf target="e2623_intrV_2" position="46" lemma="babysit">baby-sit</rf>
+                  </lyric>
+               </example>
+               <example id="55488">
+                  <date>2012-10-22</date>
+                  <artist origin="Compton, California, USA">Kendrick Lamar</artist>
+                  <songTitle>Swimming Pool (Drank) (Extended)</songTitle>
+                  <album>good kid, m.A.A.d city</album>
+                  <lyric>
+                     <text>Nigga, why you babysitting, only two or three shots?</text>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+   <entry sk="back" eid="e2625" publish="no">
+      <head>
+         <headword>back</headword>
+      </head>
+      <senses id="e2625_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="1">back</form>
+         </forms>
+         <sense id="e2625_n_1">
+            <rhymes>
+               <rhyme freq="1">snack pack</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="1" target="e10645_adj_1">thickness</collocate>
+            </collocates>
+            <domain type="women"/>
+            <semanticClass type="bodyParts"/>
+            <sentiment type="positive"/>
+            <definition>
+               <text>a curvaceous ass</text>
+            </definition>
+            <synSetRef target="ass"/>
+            <xref type="conceptRelatesTo" target="e2460_n_1">Apple Bottom</xref>
+            <xref type="conceptRelatesTo" target="e5010_phr_1">drop it like it's hot</xref>
+            <examples>
+               <example id="40630">
+                  <date>1989-10-17</date>
+                  <artist origin="Seattle, Washington, USA">Sir Mix-A-Lot</artist>
+                  <songTitle>Seminar</songTitle>
+                  <album>Seminar</album>
+                  <lyric>
+                     <text>A snack pack is a girl with the thickness, little in the middle, but she got much back</text>
+                     <rhyme rhymeTarget="e2625_n_1" position="2">snack pack</rhyme>
+                     <xref target="e10645_adj_1" position="32" lemma="thickness">thickness</xref>
+                     <rf target="e2625_n_1" position="82" lemma="back">back</rf>
+                  </lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
   <entry sk="ice" eid="e6590" publish="yes">
       <head>
          <headword>ice</headword>
