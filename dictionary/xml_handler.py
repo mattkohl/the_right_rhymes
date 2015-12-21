@@ -3,7 +3,7 @@ __author__ = 'MBK'
 import re
 from collections import OrderedDict
 import xmltodict
-from .models import Entry, Sense, Example
+from .models import Entry, Sense, Example, Artist, Domain, SynSet, Entity
 
 
 class XMLDict:
@@ -73,6 +73,7 @@ class TRREntry:
         return self.headword
 
     def add_to_db(self):
+        print('Adding Entry:', self.headword)
         entry, created = Entry.objects.get_or_create(headword=self.headword,
                                                      slug=self.slug,
                                                      publish=self.publish,
@@ -110,21 +111,128 @@ class TRRSense:
         self.xml_id = self.sense_dict['@id']
         self.sense_object = self.add_to_db()
         self.add_entry_relations()
+        self.examples = [e for e in self.extract_examples()]
 
     def __str__(self):
         return self.headword + ', ' + self.pos
 
     def add_to_db(self):
-        sense, created = Sense.objects.get_or_create(headword=self.headword,
-                                                     xml_id=self.xml_id,
-                                                     part_of_speech=self.pos,
-                                                     json=self.sense_dict)
-        return sense
+        print('Adding Sense:', self.headword, '-', self.pos, '(' + self.xml_id + ')')
+        sense_object, created = Sense.objects.get_or_create(headword=self.headword,
+                                                            xml_id=self.xml_id,
+                                                            part_of_speech=self.pos,
+                                                            json=self.sense_dict)
+        return sense_object
 
     def add_entry_relations(self):
         self.sense_object.parent_entry.add(self.parent_entry)
         self.parent_entry.senses.add(self.sense_object)
 
+    def extract_examples(self):
+        example_list = self.sense_dict['examples']['example']
+        if type(example_list) is list:
+            for example in example_list:
+                yield(TRRExample(self.sense_object, example))
+        if type(example_list) is OrderedDict:
+            yield(TRRExample(self.sense_object, example_list))
+
+
+class TRRExample:
+
+    def __init__(self, sense_object, example_dict):
+        self.sense_object = sense_object
+        self.example_dict = example_dict
+        self.song_title = self.example_dict['songTitle']
+        self.release_date_string = self.example_dict['date']
+        self.release_date = self.clean_up_date()
+        self.album = self.example_dict['album']
+        self.artist_name = self.get_artist_name()
+        self.lyric_text = self.example_dict['lyric']['text']
+        self.example_object = self.add_to_db()
+        self.primary_artists = self.get_primary_artists()
+        self.featured_artists = self.get_featured_artists()
+        self.add_relations()
+
+    def get_artist_name(self):
+        val = self.example_dict['artist']
+        if type(val) is OrderedDict:
+            return val['#text']
+        elif type(val) is str:
+            return val
+        else:
+            return '__none__'
+
+    def extract_artists(self, artist_type):
+        if artist_type in self.example_dict:
+            artist = self.example_dict[artist_type]
+            if type(artist) is OrderedDict or type(artist) is str:
+                yield self.process_artist(artist)
+            if type(artist) is list:
+                for a in artist:
+                    yield self.process_artist(a)
+        else:
+            yield None
+
+    @staticmethod
+    def process_artist(artist):
+        if type(artist) is str:
+            name = artist
+            origin = None
+        else:
+            name = artist['#text']
+            if '@origin' in artist:
+                origin = artist['@origin']
+            else:
+                origin = None
+
+        a = TRRArtist(name)
+        if origin:
+            a.artist_object.origin = origin
+            a.artist_object.save()
+
+        return a
+
+    def get_primary_artists(self):
+        return [a for a in self.extract_artists('artist')]
+
+    def get_featured_artists(self):
+        if 'feat' in self.example_dict:
+            return [a for a in self.extract_artists('feat')]
+        else:
+            return []
+
+    def add_to_db(self):
+        print('Adding Example:', self.lyric_text)
+        example, created = Example.objects.get_or_create(song_title=self.song_title,
+                                                         artist_name=self.artist_name,
+                                                         release_date=self.release_date,
+                                                         release_date_string=self.release_date_string,
+                                                         album=self.album,
+                                                         lyric_text=self.lyric_text,
+                                                         json=self.example_dict)
+        return example
+
+    def add_relations(self):
+        self.example_object.illustrates_senses.add(self.sense_object)
+        if not self.example_object.artist.exists():
+            for artist in self.primary_artists:
+                self.example_object.artist.add(artist)
+        if not self.example_object.feat_artist.exists():
+            for artist in self.featured_artists:
+                self.example_object.feat_artist.add(artist)
+
+    def clean_up_date(self):
+        new_date = self.release_date_string
+        month = new_date[-2:]
+        if len(new_date) == 7 and month == '02':
+            return new_date + '-29'
+        if len(new_date) == 7 and month in ['04', '06', '11', '09']:
+            return new_date + '-30'
+        if len(new_date) == 7:
+            return new_date + '-31'
+        if len(new_date) == 4:
+            return new_date + '-12-31'
+        return new_date
 
 
 class TRRArtist:
@@ -133,9 +241,68 @@ class TRRArtist:
         self.name = name
         self.origin = origin
         self.slug = slugify(self.name)
+        self.artist_object = self.add_to_db()
+        self.update_origin()
 
     def __str__(self):
         return self.name
+
+    def add_to_db(self):
+        print('Adding Artist:', self.name)
+        artist_object, created = Artist.objects.get_or_create(name=self.name,
+                                                              slug=slugify(self.name))
+        return artist_object
+
+    def update_origin(self):
+        if self.origin:
+            self.artist_object.origin = self.origin
+            self.artist_object.save()
+
+
+class TRRDomain:
+
+    def __init__(self, name):
+        self.name = name
+        self.domain_object = self.add_to_db()
+
+    def __str__(self):
+        return self.name
+
+    def add_to_db(self):
+        print('Adding Domain:', self.name)
+        domain_object, created = Domain.objects.get_or_create(name=self.name)
+        return domain_object
+
+
+class TRRSynSet:
+
+    def __init__(self, name):
+        self.name = name
+        self.synset_object = self.add_to_db()
+
+    def __str__(self):
+        return self.name
+
+    def add_to_db(self):
+        print('Adding SynSet:', self.name)
+        synset_object, created = SynSet.objects.get_or_create(name=self.name)
+        return synset_object
+
+
+class TRREntity:
+
+    def __init__(self, name):
+        self.name = name
+        self.entity_object = self.add_to_db()
+
+    def __str__(self):
+        return self.name
+
+    def add_to_db(self):
+        print('Adding Entity:', self.name)
+        entity_object, created = Entity.objects.get_or_create(name=self.name)
+        return entity_object
+
 
 def slugify(text):
     slug = text.strip().lower()
