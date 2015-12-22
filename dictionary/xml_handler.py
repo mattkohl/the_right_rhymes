@@ -110,6 +110,8 @@ class TRRSense:
         self.sense_dict = sense_dict
         self.xml_id = self.sense_dict['@id']
         self.sense_object = self.add_to_db()
+        self.domains = []
+        self.extract_domains()
         self.add_entry_relations()
         self.examples = [e for e in self.extract_examples()]
 
@@ -127,6 +129,17 @@ class TRRSense:
     def add_entry_relations(self):
         self.sense_object.parent_entry.add(self.parent_entry)
         self.parent_entry.senses.add(self.sense_object)
+        for d in self.domains:
+            d.domain_object.senses.add(self.sense_object)
+
+    def extract_domains(self):
+        if 'domain' in self.sense_dict:
+            domain_list = self.sense_dict['domain']
+            if type(domain_list) is list:
+                for domain_name in domain_list:
+                    self.domains.append(TRRDomain(domain_name['@type']))
+            if type(domain_list) is OrderedDict:
+                self.domains.append(TRRDomain(domain_list['@type']))
 
     def extract_examples(self):
         example_list = self.sense_dict['examples']['example']
