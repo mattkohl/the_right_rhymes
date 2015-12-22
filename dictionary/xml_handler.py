@@ -112,7 +112,9 @@ class TRRSense:
         self.sense_object = self.add_to_db()
         self.domains = []
         self.extract_domains()
-        self.add_entry_relations()
+        self.synset = []
+        self.extract_synset()
+        self.add_relations()
         self.examples = [e for e in self.extract_examples()]
 
     def __str__(self):
@@ -126,11 +128,13 @@ class TRRSense:
                                                             json=self.sense_dict)
         return sense_object
 
-    def add_entry_relations(self):
+    def add_relations(self):
         self.sense_object.parent_entry.add(self.parent_entry)
         self.parent_entry.senses.add(self.sense_object)
         for d in self.domains:
             d.domain_object.senses.add(self.sense_object)
+        for s in self.synset:
+            s.synset_object.senses.add(self.sense_object)
 
     def extract_domains(self):
         if 'domain' in self.sense_dict:
@@ -140,6 +144,12 @@ class TRRSense:
                     self.domains.append(TRRDomain(domain_name['@type']))
             if type(domain_list) is OrderedDict:
                 self.domains.append(TRRDomain(domain_list['@type']))
+
+    def extract_synset(self):
+        if 'synSetRef' in self.sense_dict:
+            synset = self.sense_dict['synSetRef']
+            if type(synset) is OrderedDict:
+                self.synset.append(TRRSynSet(synset['@target']))
 
     def extract_examples(self):
         example_list = self.sense_dict['examples']['example']
@@ -289,16 +299,16 @@ class TRRDomain:
 
 class TRRSynSet:
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, synset_id):
+        self.synset_id = synset_id
         self.synset_object = self.add_to_db()
 
     def __str__(self):
-        return self.name
+        return self.synset_id
 
     def add_to_db(self):
-        print('Adding SynSet:', self.name)
-        synset_object, created = SynSet.objects.get_or_create(name=self.name)
+        print('Adding SynSet:', self.synset_id)
+        synset_object, created = SynSet.objects.get_or_create(name=self.synset_id)
         return synset_object
 
 
