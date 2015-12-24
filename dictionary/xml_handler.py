@@ -67,6 +67,7 @@ class TRREntry:
         self.xml_id = self.entry_dict['@eid']
         self.publish = self.entry_dict['@publish']
         self.entry_object = self.add_to_db()
+        self.update_entry()
         self.extract_lexemes()
 
     def __str__(self):
@@ -75,10 +76,13 @@ class TRREntry:
     def add_to_db(self):
         print('Adding Entry:', self.headword)
         entry, created = Entry.objects.get_or_create(headword=self.headword,
-                                                     slug=self.slug,
-                                                     publish=self.publish,
-                                                     json=self.entry_dict)
+                                                     slug=self.slug)
         return entry
+
+    def update_entry(self):
+        self.entry_object.publish = self.publish
+        self.entry_object.json = self.entry_dict
+        self.entry_object.save()
 
     def extract_lexemes(self):
         lexemes = self.entry_dict['senses']
@@ -110,6 +114,7 @@ class TRRSense:
         self.sense_dict = sense_dict
         self.xml_id = self.sense_dict['@id']
         self.sense_object = self.add_to_db()
+        self.update_sense()
         self.domains = []
         self.extract_domains()
         self.synset = []
@@ -124,9 +129,12 @@ class TRRSense:
         print('Adding Sense:', self.headword, '-', self.pos, '(' + self.xml_id + ')')
         sense_object, created = Sense.objects.get_or_create(headword=self.headword,
                                                             xml_id=self.xml_id,
-                                                            part_of_speech=self.pos,
-                                                            json=self.sense_dict)
+                                                            part_of_speech=self.pos)
         return sense_object
+
+    def update_sense(self):
+        self.sense_object.json = self.sense_dict
+        self.sense_object.save()
 
     def add_relations(self):
         self.sense_object.parent_entry.add(self.parent_entry)
@@ -172,6 +180,9 @@ class TRRExample:
         self.artist_name = self.get_artist_name()
         self.lyric_text = self.example_dict['lyric']['text']
         self.example_object = self.add_to_db()
+        self.entities = []
+        self.extract_entities()
+        self.update_example()
         self.primary_artists = self.get_primary_artists()
         self.featured_artists = self.get_featured_artists()
         self.add_relations()
@@ -231,9 +242,21 @@ class TRRExample:
                                                          release_date=self.release_date,
                                                          release_date_string=self.release_date_string,
                                                          album=self.album,
-                                                         lyric_text=self.lyric_text,
-                                                         json=self.example_dict)
+                                                         lyric_text=self.lyric_text)
         return example
+
+    def extract_entities(self):
+        if 'entity' in self.example_dict['lyric']:
+            entities = self.example_dict['lyric']['entity']
+            if type(entities) is list:
+                for entity in entities:
+                    self.entities.append(TRREntity(entity))
+            if type(entities) is OrderedDict:
+                self.entities.append(TRREntity(entity))
+
+    def update_example(self):
+        self.example_object.json = self.example_dict
+        self.example_object.save()
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
@@ -243,6 +266,8 @@ class TRRExample:
         if not self.example_object.feat_artist.exists():
             for artist in self.featured_artists:
                 self.example_object.feat_artist.add(artist)
+        for e in self.entities:
+            e.entity_object.examples.add(self.example_object)
 
     def clean_up_date(self):
         new_date = self.release_date_string
@@ -314,16 +339,27 @@ class TRRSynSet:
 
 class TRREntity:
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, entity):
+        self.entity = entity
+        self.name = self.entity['#text']
+        self.entity_type = self.entity['@type']
+        self.pref_label = self.extract_pref_label()
         self.entity_object = self.add_to_db()
 
     def __str__(self):
         return self.name
 
+    def extract_pref_label(self):
+        if '@prefLabel' in self.entity:
+            return self.entity['@prefLabel']
+        else:
+            return self.name
+
     def add_to_db(self):
         print('Adding Entity:', self.name)
-        entity_object, created = Entity.objects.get_or_create(name=self.name)
+        entity_object, created = Entity.objects.get_or_create(name=self.name,
+                                                              entity_type=self.entity_type,
+                                                              pref_label=self.pref_label)
         return entity_object
 
 

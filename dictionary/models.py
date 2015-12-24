@@ -14,6 +14,10 @@ class Entry(models.Model):
     image = models.ForeignKey('Image', on_delete=models.CASCADE, related_name="entry_image", null=True, blank=True)
     senses = models.ManyToManyField('Sense', related_name='+', blank=True)
 
+    class Meta:
+        ordering = ["headword"]
+        verbose_name_plural = "Entries"
+
     def __str__(self):
         return self.headword
 
@@ -26,6 +30,9 @@ class Editor(models.Model):
     name = models.CharField('Editor Name', max_length=1000)
     slug = models.SlugField('Slug')
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -35,6 +42,9 @@ class Image(models.Model):
     title = models.CharField('Image Title', max_length=1000)
     slug = models.SlugField('Slug')
     image = models.ImageField()
+
+    class Meta:
+        ordering = ["title"]
 
     def __str__(self):
         return self.title
@@ -47,6 +57,9 @@ class Artist(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="depicts", null=True, blank=True)
     primary_examples = models.ManyToManyField('Example', related_name="+")
     featured_examples = models.ManyToManyField('Example', related_name="+")
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         if self.origin:
@@ -66,6 +79,9 @@ class Sense(models.Model):
     domains = models.ManyToManyField('Domain', related_name="+")
     synset = models.ManyToManyField('SynSet', related_name="+")
 
+    class Meta:
+        ordering = ["xml_id"]
+
     def __str__(self):
         return self.headword + ', ' + self.part_of_speech + ' (' + self.xml_id + ')'
 
@@ -84,6 +100,9 @@ class Example(models.Model):
     illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
     features_entities = models.ManyToManyField('Entity', related_name="+")
 
+    class Meta:
+        ordering = ["release_date", "artist_name"]
+
     def __str__(self):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
 
@@ -91,6 +110,10 @@ class Example(models.Model):
 class SynSet(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
     senses = models.ManyToManyField('Sense', through=Sense.synset.through, related_name='+', blank=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "SynSets"
 
     def __str__(self):
         return self.name
@@ -100,14 +123,23 @@ class Domain(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
     senses = models.ManyToManyField('Sense', through=Sense.domains.through, related_name='+', blank=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
 
 class Entity(models.Model):
-    id = models.CharField(max_length=20, primary_key=True)
-    name = models.CharField(max_length=1000)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=1000, blank=True, null=True)
+    pref_label = models.CharField(max_length=1000, blank=True, null=True)
+    entity_type = models.CharField(max_length=1000, blank=True, null=True)
     examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Entities"
 
     def __str__(self):
         return self.name
