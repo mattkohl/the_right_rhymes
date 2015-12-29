@@ -98,7 +98,7 @@ class Example(models.Model):
     lyric_text = models.CharField('Lyric Text', max_length=1000)
     json = JSONField(null=True, blank=True)
     illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
-    features_entities = models.ManyToManyField('Entity', related_name="+")
+    features_entities = models.ManyToManyField('NamedEntity', related_name="+")
 
     class Meta:
         ordering = ["release_date", "artist_name"]
@@ -130,7 +130,7 @@ class Domain(models.Model):
         return self.name
 
 
-class Entity(models.Model):
+class NamedEntity(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, blank=True, null=True)
     pref_label = models.CharField(max_length=1000, blank=True, null=True)
@@ -139,7 +139,7 @@ class Entity(models.Model):
 
     class Meta:
         ordering = ["name"]
-        verbose_name_plural = "Entities"
+        verbose_name_plural = "Named Entities"
 
     def __str__(self):
         return self.name

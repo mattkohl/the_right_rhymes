@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Entry, Editor, Artist, Image, Sense, Example, Domain, SynSet
+from .models import Entry, Editor, Artist, Image, Sense, Example, Domain, SynSet, NamedEntity
 
 admin.site.register(Entry)
 admin.site.register(Editor)
@@ -10,5 +10,5 @@ admin.site.register(Sense)
 admin.site.register(Example)
 admin.site.register(Domain)
 admin.site.register(SynSet)
-# admin.site.register(Entity)
+admin.site.register(NamedEntity)
 
