@@ -358,8 +358,8 @@ class TRREntity:
     def add_to_db(self):
         print('Adding Entity:', self.name)
         entity_object, created = NamedEntity.objects.get_or_create(name=self.name,
-                                                              entity_type=self.entity_type,
-                                                              pref_label=self.pref_label)
+                                                                   entity_type=self.entity_type,
+                                                                   pref_label=self.pref_label)
         return entity_object
 
 
