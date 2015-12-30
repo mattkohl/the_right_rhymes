@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import JSONField
 
 class Entry(models.Model):
     headword = models.CharField(primary_key=True, max_length=200)
-    slug = models.SlugField(max_length=200)
+    slug = models.SlugField('Headword Slug')
     publish = models.BooleanField(default=False)
     pub_date = models.DateTimeField('Date Published', auto_now_add=True, blank=True)
     json = JSONField(null=True, blank=True)
@@ -109,6 +109,7 @@ class Example(models.Model):
 
 class SynSet(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
+    slug = models.SlugField('SynSet Slug', blank=True, null=True)
     senses = models.ManyToManyField('Sense', through=Sense.synset.through, related_name='+', blank=True)
 
     class Meta:
@@ -121,6 +122,7 @@ class SynSet(models.Model):
 
 class Domain(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
+    slug = models.SlugField('Domain Slug', blank=True, null=True)
     senses = models.ManyToManyField('Sense', through=Sense.domains.through, related_name='+', blank=True)
 
     class Meta:
@@ -133,6 +135,7 @@ class Domain(models.Model):
 class NamedEntity(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, blank=True, null=True)
+    slug = models.SlugField('Entity Slug', blank=True, null=True)
     pref_label = models.CharField(max_length=1000, blank=True, null=True)
     entity_type = models.CharField(max_length=1000, blank=True, null=True)
     examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)

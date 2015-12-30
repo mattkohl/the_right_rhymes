@@ -298,7 +298,7 @@ class TRRArtist:
     def add_to_db(self):
         print('Adding Artist:', self.name)
         artist_object, created = Artist.objects.get_or_create(name=self.name,
-                                                              slug=slugify(self.name))
+                                                              slug=self.slug)
         return artist_object
 
     def update_origin(self):
@@ -311,7 +311,9 @@ class TRRDomain:
 
     def __init__(self, name):
         self.name = name
+        self.slug = slugify(self.name)
         self.domain_object = self.add_to_db()
+        self.update_domain_object()
 
     def __str__(self):
         return self.name
@@ -321,12 +323,18 @@ class TRRDomain:
         domain_object, created = Domain.objects.get_or_create(name=self.name)
         return domain_object
 
+    def update_domain_object(self):
+        self.domain_object.slug = self.slug
+        self.domain_object.save()
+
 
 class TRRSynSet:
 
     def __init__(self, synset_id):
         self.synset_id = synset_id
+        self.slug = slugify(self.synset_id)
         self.synset_object = self.add_to_db()
+        self.update_synset_object()
 
     def __str__(self):
         return self.synset_id
@@ -336,15 +344,21 @@ class TRRSynSet:
         synset_object, created = SynSet.objects.get_or_create(name=self.synset_id)
         return synset_object
 
+    def update_synset_object(self):
+        self.synset_object.slug = self.slug
+        self.synset_object.save()
+
 
 class TRREntity:
 
     def __init__(self, entity):
         self.entity = entity
         self.name = self.entity['#text']
+        self.slug = slugify(self.name)
         self.entity_type = self.entity['@type']
         self.pref_label = self.extract_pref_label()
         self.entity_object = self.add_to_db()
+        self.update_entity_object()
 
     def __str__(self):
         return self.name
@@ -358,9 +372,13 @@ class TRREntity:
     def add_to_db(self):
         print('Adding Entity:', self.name)
         entity_object, created = NamedEntity.objects.get_or_create(name=self.name,
-                                                                   entity_type=self.entity_type,
-                                                                   pref_label=self.pref_label)
+                                                                   entity_type=self.entity_type)
         return entity_object
+
+    def update_entity_object(self):
+        self.entity_object.pref_label = self.pref_label
+        self.entity_object.slug = self.slug
+        self.entity_object.save()
 
 
 def slugify(text):
