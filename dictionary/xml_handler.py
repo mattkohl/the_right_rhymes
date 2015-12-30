@@ -252,7 +252,7 @@ class TRRExample:
                 for entity in entities:
                     self.entities.append(TRREntity(entity))
             if type(entities) is OrderedDict:
-                self.entities.append(TRREntity(entity))
+                self.entities.append(TRREntity(entities))
 
     def update_example(self):
         self.example_object.json = self.example_dict
