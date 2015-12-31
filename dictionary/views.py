@@ -1,19 +1,33 @@
 from django.shortcuts import render
+from django.template import loader
 from django.http import HttpResponse
 from .models import Entry, Artist, NamedEntity, Domain
 
 
 def index(request):
-    return HttpResponse("What up, G. You're at the dictionary index.")
+    headword_list = Entry.objects.order_by('headword')
+    template = loader.get_template('dictionary/index.html')
+    context = {
+        'headword_list': headword_list,
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def entry(request, headword_slug):
     results = Entry.objects.filter(slug=headword_slug)
+    template = loader.get_template('dictionary/entry.html')
     if len(results) == 1:
-        result = results[0]
-        return HttpResponse("You found the Entry: {}!".format(result.headword))
+        entry = results[0]
+        sense_objects = entry.senses.all()
+        senses = [{'sense': sense, 'examples': sense.examples.order_by('release_date')} for sense in sense_objects]
+        context = {
+            'entry': entry,
+            'senses': senses
+        }
+        return HttpResponse(template.render(context, request))
     else:
-        return HttpResponse("Whoa, what is {}?".format(headword_slug))
+        print('Found {} results for the slug: {}'.format(len(results), headword_slug))
+
 
 def artist(request, artist_slug):
     results = Artist.objects.filter(slug=artist_slug)
@@ -43,4 +57,3 @@ def domain(request, domain_slug):
         return HttpResponse("You found the Domain: {}".format(result.name))
     else:
         return HttpResponse("Whoa, what is {}?".format(domain_slug))
-

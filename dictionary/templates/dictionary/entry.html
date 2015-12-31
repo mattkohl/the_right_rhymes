@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ entry.headword }}</title>
+</head>
+<body>
+<a href="/">home</a>
+
+{% if entry %}
+    {% for sense in senses %}
+        <div>{{ sense.sense.xml_id }}</div>
+        <div>{{ sense.sense.part_of_speech }}</div>
+        {% for example in sense.examples %}
+            <div>{{ example.release_date_string }} {{example.artist_name}} [{{example.album}}] - {{example.lyric_text}}</div>
+        {% endfor %}
+    {% endfor %}
+{% else %}
+    <p>This is not the entry you're looking for.</p>
+{% endif %}
+</body>
+</html>

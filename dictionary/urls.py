@@ -7,6 +7,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
+
     # /admin/
     url(r'^admin/', admin.site.urls),
 
@@ -24,7 +25,5 @@ urlpatterns = [
 
     # /named-entity-as-a-slug/
     url(r'^entities/(?P<entity_slug>[a-zA-Z0-9\-_]+)/$', views.entity, name='entity'),
-
-
 
 ]

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+{% if headword_list %}
+    <ul>
+    {% for entry in headword_list %}
+        <li><a href="/{{ entry.slug }}/">{{ entry.headword }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Welcome. No entries are available.</p>
+{% endif %}
+</body>
+</html>
