@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ artist.name }}</title>
+</head>
+<body>
+<a href="/">home</a>
+
+{% if artist %}
+        <div>Name: {{ artist.name }}</div>
+    {% if artist.origin %}
+        <div>Origin: {{ artist.origin }}</div>
+    {% else %}
+        <div>[Currently no origin]</div>
+    {% endif %}
+{% else %}
+    <p>No artists here, yo.</p>
+{% endif %}
+</body>
+</html>

@@ -12,7 +12,7 @@
         <div>{{ sense.sense.xml_id }}</div>
         <div>{{ sense.sense.part_of_speech }}</div>
         {% for example in sense.examples %}
-            <div>{{ example.release_date_string }} {{example.artist_name}} [{{example.album}}] - {{example.lyric_text}}</div>
+            <div>{{ example.release_date_string }} <a href="/artists/{{example.artist_slug}}">{{example.artist_name}}</a> [{{example.album}}] - {{example.lyric_text}}</div>
         {% endfor %}
     {% endfor %}
 {% else %}

@@ -90,6 +90,7 @@ class Example(models.Model):
     id = models.AutoField(primary_key=True)
     artist = models.ManyToManyField(Artist, through=Artist.primary_examples.through, related_name="+")
     artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
+    artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
     feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
     release_date = models.DateField('Release Date', blank=True, null=True)

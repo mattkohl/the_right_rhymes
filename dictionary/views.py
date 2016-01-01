@@ -31,9 +31,13 @@ def entry(request, headword_slug):
 
 def artist(request, artist_slug):
     results = Artist.objects.filter(slug=artist_slug)
+    template = loader.get_template('dictionary/artist.html')
     if len(results) == 1:
-        result = results[0]
-        return HttpResponse("You found the Artist: {}!".format(result.name))
+        artist = results[0]
+        context = {
+            'artist': artist
+        }
+        return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("Whoa, what is {}?".format(artist_slug))
 

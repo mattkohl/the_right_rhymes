@@ -256,6 +256,7 @@ class TRRExample:
 
     def update_example(self):
         self.example_object.json = self.example_dict
+        self.example_object.artist_slug = slugify(self.artist_name)
         self.example_object.save()
 
     def add_relations(self):
