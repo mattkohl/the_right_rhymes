@@ -34,8 +34,12 @@ def artist(request, artist_slug):
     template = loader.get_template('dictionary/artist.html')
     if len(results) == 1:
         artist = results[0]
+        primary_examples = [example for example in artist.primary_examples.order_by('release_date')]
+        featured_examples = [example for example in artist.featured_examples.order_by('release_date')]
         context = {
-            'artist': artist
+            'artist': artist,
+            'primary_examples': primary_examples,
+            'featured_examples': featured_examples
         }
         return HttpResponse(template.render(context, request))
     else:

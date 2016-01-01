@@ -14,6 +14,19 @@
     {% else %}
         <div>[Currently no origin]</div>
     {% endif %}
+
+    {% if primary_examples %}
+        <div>Primary examples:</div>
+        {% for example in primary_examples %}
+            <div>{{ example.release_date_string }} <a href="/artists/{{example.artist_slug}}">{{example.artist_name}}</a> [{{example.album}}] - {{example.lyric_text}}</div>
+        {% endfor %}
+    {% endif %}
+    {% if featured_examples %}
+        <div>Featured examples:</div>
+        {% for example in featured_examples %}
+            <div>{{ example.release_date_string }} <a href="/artists/{{example.artist_slug}}">{{example.artist_name}}</a> [{{example.album}}] - {{example.lyric_text}}</div>
+        {% endfor %}
+    {% endif %}
 {% else %}
     <p>No artists here, yo.</p>
 {% endif %}
