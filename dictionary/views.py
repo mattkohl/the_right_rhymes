@@ -34,12 +34,12 @@ def artist(request, artist_slug):
     template = loader.get_template('dictionary/artist.html')
     if len(results) == 1:
         artist = results[0]
-        primary_examples = [example for example in artist.primary_examples.order_by('release_date')]
-        featured_examples = [example for example in artist.featured_examples.order_by('release_date')]
+        primary_senses = [{'sense': sense, 'examples': sense.examples.filter(artist=artist).order_by('release_date')} for sense in artist.primary_senses.all()]
+        featured_senses = [{'sense': sense, 'examples': sense.examples.filter(feat_artist=artist).order_by('release_date')} for sense in artist.featured_senses.all()]
         context = {
             'artist': artist,
-            'primary_examples': primary_examples,
-            'featured_examples': featured_examples
+            'primary_senses': primary_senses,
+            'featured_senses': featured_senses,
         }
         return HttpResponse(template.render(context, request))
     else:

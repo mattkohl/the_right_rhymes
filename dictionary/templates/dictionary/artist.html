@@ -8,25 +8,51 @@
 <a href="/">home</a>
 
 {% if artist %}
-        <div>Name: {{ artist.name }}</div>
+        <h1>Name: {{ artist.name }}</h1>
     {% if artist.origin %}
-        <div>Origin: {{ artist.origin }}</div>
+        <h3>Origin: {{ artist.origin }}</h3>
     {% else %}
         <div>[Currently no origin]</div>
     {% endif %}
 
-    {% if primary_examples %}
-        <div>Primary examples:</div>
-        {% for example in primary_examples %}
-            <div>{{ example.release_date_string }} <a href="/artists/{{example.artist_slug}}">{{example.artist_name}}</a> [{{example.album}}] - {{example.lyric_text}}</div>
+    {% if primary_senses %}
+        <h3>Cited as a primary artist:</h3>
+        {% for sense in primary_senses %}
+            <h4>{{ sense.sense }}</h4>
+            {% for example in sense.examples %}
+                <div>
+                    <span>{{ example.release_date_string }}</span>
+                    <span><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
+                    <span>"{{example.song_title}}"</span>
+                    {% if example.feat_artist_name %}
+                        <span>"{{example.feat_artist_name}}"</span>
+                    {% endif %}
+                    <span>[{{example.album }}]</span>
+                </div>
+                <div>{{ example.lyric_text }}</div>
+            {% endfor %}
         {% endfor %}
     {% endif %}
-    {% if featured_examples %}
-        <div>Featured examples:</div>
-        {% for example in featured_examples %}
-            <div>{{ example.release_date_string }} <a href="/artists/{{example.artist_slug}}">{{example.artist_name}}</a> [{{example.album}}] - {{example.lyric_text}}</div>
+
+    {% if featured_senses %}
+        <h3>Cited as a featured artist:</h3>
+        {% for sense in featured_senses %}
+            <h4>{{ sense.sense }}</h4>
+            {% for example in sense.examples %}
+                <div>
+                    <span>{{ example.release_date_string }}</span>
+                    <span><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
+                    <span>"{{example.song_title}}"</span>
+                    {% if example.feat_artist_name %}
+                        <span>"{{example.feat_artist_name}}"</span>
+                    {% endif %}
+                    <span>[{{example.album }}]</span>
+                </div>
+                <div>{{ example.lyric_text }}</div>
+            {% endfor %}
         {% endfor %}
     {% endif %}
+
 {% else %}
     <p>No artists here, yo.</p>
 {% endif %}

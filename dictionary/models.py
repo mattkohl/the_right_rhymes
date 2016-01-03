@@ -56,7 +56,9 @@ class Artist(models.Model):
     origin = models.CharField('Origin', max_length=1000, null=True, blank=True)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="depicts", null=True, blank=True)
     primary_examples = models.ManyToManyField('Example', related_name="+")
+    primary_senses = models.ManyToManyField('Sense', related_name="+")
     featured_examples = models.ManyToManyField('Example', related_name="+")
+    featured_senses = models.ManyToManyField('Sense', related_name="+")
 
     class Meta:
         ordering = ["name"]
@@ -93,6 +95,7 @@ class Example(models.Model):
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
     feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
+    # feat_artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
     release_date = models.DateField('Release Date', blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)

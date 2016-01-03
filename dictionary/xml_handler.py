@@ -223,7 +223,6 @@ class TRRExample:
         if origin:
             a.artist_object.origin = origin
             a.artist_object.save()
-
         return a
 
     def get_primary_artists(self):
@@ -261,12 +260,16 @@ class TRRExample:
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
-        if not self.example_object.artist.exists():
-            for artist in self.primary_artists:
+        for artist in self.primary_artists:
+            if not self.example_object.artist.exists():
                 self.example_object.artist.add(artist)
-        if not self.example_object.feat_artist.exists():
-            for artist in self.featured_artists:
+            artist.artist_object.primary_senses.add(self.sense_object)
+            artist.artist_object.save()
+        for artist in self.featured_artists:
+            if not self.example_object.feat_artist.exists():
                 self.example_object.feat_artist.add(artist)
+            artist.artist_object.featured_senses.add(self.sense_object)
+            artist.artist_object.save()
         for e in self.entities:
             e.entity_object.examples.add(self.example_object)
 
