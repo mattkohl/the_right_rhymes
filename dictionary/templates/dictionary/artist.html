@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>{{ artist.name }}</title>
-</head>
-<body>
-<a href="/">home</a>
+{% extends "dictionary/base.html" %}
+{% block content %}
 
 {% if artist %}
         <h1>Name: {{ artist.name }}</h1>
@@ -21,15 +15,15 @@
             <h4>{{ sense.sense }}</h4>
             {% for example in sense.examples %}
                 <div>
-                    <span>{{ example.release_date_string }}</span>
-                    <span><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
-                    <span>"{{example.song_title}}"</span>
+                    <span class="date">{{ example.release_date_string }}</span>
+                    <span class="artist"><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
+                    <span class="songTitle">"{{example.song_title}}"</span>
                     {% if example.feat_artist_name %}
-                        <span>"{{example.feat_artist_name}}"</span>
+                        <span class="feat">"{{example.feat_artist_name}}"</span>
                     {% endif %}
-                    <span>[{{example.album }}]</span>
+                    <span class="album">[{{example.album }}]</span>
                 </div>
-                <div>{{ example.lyric_text }}</div>
+                <div class="lyric">{{ example.lyric_text }}</div>
             {% endfor %}
         {% endfor %}
     {% endif %}
@@ -56,5 +50,5 @@
 {% else %}
     <p>No artists here, yo.</p>
 {% endif %}
-</body>
-</html>
+
+{% endblock %}

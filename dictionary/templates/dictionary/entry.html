@@ -1,22 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>{{ entry.headword }}</title>
-</head>
-<body>
-<a href="/">home</a>
-
-{% if entry %}
-    {% for sense in senses %}
-        <div>{{ sense.sense.xml_id }}</div>
-        <div>{{ sense.sense.part_of_speech }}</div>
-        {% for example in sense.examples %}
-            <div>{{ example.release_date_string }} <a href="/artists/{{example.artist_slug}}">{{example.artist_name}}</a> [{{example.album}}] - {{example.lyric_text}}</div>
+{% extends "dictionary/base.html" %}
+{% block content %}
+    {% if entry %}
+        {% for sense in senses %}
+            <div>{{ sense.sense.xml_id }}</div>
+            <div>{{ sense.sense.part_of_speech }}</div>
+            {% for example in sense.examples %}
+                <div>
+                    <span class="date">{{ example.release_date_string }}</span>
+                    <span class="artist"><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
+                    <span class="songTitle">"{{example.song_title}}"</span>
+                    {% if example.feat_artist_name %}
+                        <span class="feat">"{{example.feat_artist_name}}"</span>
+                    {% endif %}
+                    <span class="album">[{{example.album }}]</span>
+                </div>
+                <div class="lyric">{{ example.lyric_text }}</div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-{% else %}
-    <p>This is not the entry you're looking for.</p>
-{% endif %}
-</body>
-</html>
+    {% else %}
+        <p>This is not the entry you're looking for.</p>
+    {% endif %}
+{% endblock %}
