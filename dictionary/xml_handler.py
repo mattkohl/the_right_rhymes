@@ -25,7 +25,7 @@ class XMLDict:
 
     def get_json(self):
         try:
-            j = xmltodict.parse(self.xml_string)
+            j = xmltodict.parse(self.xml_string, force_list=('senses', 'forms', 'sense', 'definition', 'collocate', 'xref'))
         except:
             raise Exception("xmltodict can't parse that xml string")
         else:
