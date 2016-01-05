@@ -1,5 +1,5 @@
 {% extends "dictionary/base.html" %}
-{% block title %}{{ entry.headword }} - {% endblock %}
+{% block title %}{{ entry.headword }} ⋅ {% endblock %}
 {% block content %}
 
 <article id="{{ entry.headword }}" class="group post-container">
@@ -21,7 +21,31 @@
             {% endif %}
             <div class="headword">{{ entry.headword }}</div>
             {% for sense in senses %}
-                <div id="{{ sense.xml_id }}" class="pos">{{ sense.sense.part_of_speech }}</div>
+                <div id="{{ sense.xml_id }}" class="pos">{{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
+                <div class="definition">{{ sense.sense.definition }}</div>
+                {% if sense.sense.notes %}
+                    <div class="note">({{ sense.sense.notes }})</div>
+                {% endif %}
+                {% if sense.sense.etymology %}
+                    <div class="etym">
+                        <span class="xrlabel">Etymology:</span>
+                        {{ sense.sense.etymology }}
+                    </div>
+                {% endif %}
+                {% if sense.domains %}
+                    <div class="domain">
+                        <span class="xrlabel">Domains:</span>
+                        {% for domain in sense.domains %}
+                            {{ domain.name }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if sense.synset %}
+                    <span class="xrlabel">Synset:</span>
+                    {% for synset in sense.synset %}
+                        <div class="synset">{{ synset.name }}</div>
+                    {% endfor %}
+                {% endif %}
                 {% if sense.examples %}
                     <ul class="examplesHead">
                     {% for example in sense.examples %}

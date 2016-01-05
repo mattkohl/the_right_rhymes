@@ -36,7 +36,7 @@ def entry(request, headword_slug):
     if len(results) == 1:
         entry = results[0]
         sense_objects = entry.senses.all()
-        senses = [{'sense': sense, 'examples': sense.examples.order_by('release_date')} for sense in sense_objects]
+        senses = [build_sense(sense) for sense in sense_objects]
         context = {
             'index': index,
             'entry': entry,
@@ -45,6 +45,16 @@ def entry(request, headword_slug):
         return HttpResponse(template.render(context, request))
     else:
         print('Found {} results for the slug: {}'.format(len(results), headword_slug))
+
+
+def build_sense(sense_object):
+    result = {
+        "sense": sense_object,
+        "domains": sense_object.domains.order_by('name'),
+        "synset": sense_object.synset.order_by('name'),
+        "examples": sense_object.examples.order_by('release_date')
+    }
+    return result
 
 
 def artist(request, artist_slug):

@@ -25,7 +25,7 @@ class XMLDict:
 
     def get_json(self):
         try:
-            j = xmltodict.parse(self.xml_string, force_list=('senses', 'forms', 'sense', 'definition', 'collocate', 'xref'))
+            j = xmltodict.parse(self.xml_string, force_list=('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'note', 'etym'))
         except:
             raise Exception("xmltodict can't parse that xml string")
         else:
@@ -128,6 +128,9 @@ class TRRSense:
         self.sense_dict = sense_dict
         self.xml_id = self.sense_dict['@id']
         self.slug = slugify(self.headword) + '#' + self.xml_id
+        self.definition = self.extract_definition()
+        self.etymology = self.extract_etymology()
+        self.notes = self.extract_notes()
         self.sense_object = self.add_to_db()
         self.update_sense()
         self.domains = []
@@ -149,6 +152,9 @@ class TRRSense:
 
     def update_sense(self):
         self.sense_object.json = self.sense_dict
+        self.sense_object.definition = self.definition
+        self.sense_object.etymology = self.etymology
+        self.sense_object.notes = self.notes
         self.sense_object.slug = self.slug
         self.sense_object.save()
 
@@ -159,6 +165,21 @@ class TRRSense:
             d.domain_object.senses.add(self.sense_object)
         for s in self.synset:
             s.synset_object.senses.add(self.sense_object)
+
+    def extract_definition(self):
+        return '; '.join([definition['text'] for definition in self.sense_dict['definition']])
+
+    def extract_etymology(self):
+        if 'etym' in self.sense_dict:
+            return '; '.join([etymology['text'] for etymology in self.sense_dict['etym']])
+        else:
+            return ''
+
+    def extract_notes(self):
+        if 'note' in self.sense_dict:
+            return '; '.join([note['#text'].strip() for note in self.sense_dict['note']])
+        else:
+            return ''
 
     def extract_domains(self):
         if 'domain' in self.sense_dict:

@@ -255,7 +255,7 @@ div.entry-header p {
 	font-weight: bold;
 }
 
-.note {
+.note, .domain {
 	font-size: .75em;
 	margin-bottom: 1em;
 	margin-left: 1em;

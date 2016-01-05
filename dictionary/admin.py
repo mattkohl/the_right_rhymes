@@ -12,7 +12,7 @@ class ArtistAdmin(admin.ModelAdmin):
 
 
 class SenseAdmin(admin.ModelAdmin):
-    list_display = ['headword', 'part_of_speech', 'xml_id']
+    list_display = ['headword', 'part_of_speech', 'xml_id', 'definition']
 
 
 class ExampleAdmin(admin.ModelAdmin):
