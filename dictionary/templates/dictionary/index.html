@@ -1,13 +1,5 @@
 {% extends "dictionary/base.html" %}
 
 {% block page_content %}
-{% if headword_list %}
-    <ul>
-    {% for entry in headword_list %}
-        <li><a href="/{{ entry.slug }}/">{{ entry.headword }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Welcome. No entries are available.</p>
-{% endif %}
+    <div>Shadrach, Meshach, Abednego</div>
 {% endblock %}

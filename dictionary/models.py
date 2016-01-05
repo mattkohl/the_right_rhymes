@@ -7,6 +7,7 @@ from django.contrib.postgres.fields import JSONField
 
 class Entry(models.Model):
     headword = models.CharField(primary_key=True, max_length=200)
+    letter = models.CharField(max_length=1, null=True, blank=True)
     slug = models.SlugField('Headword Slug')
     publish = models.BooleanField(default=False)
     pub_date = models.DateTimeField('Date Published', auto_now_add=True, blank=True)
@@ -73,6 +74,7 @@ class Artist(models.Model):
 class Sense(models.Model):
     id = models.AutoField(primary_key=True)
     headword = models.CharField('Headword', max_length=200, null=True, blank=True)
+    slug = models.SlugField('Sense Slug', null=True, blank=True)
     xml_id = models.CharField('Legacy XML id', max_length=20, null=True, blank=True)
     part_of_speech = models.CharField('Part of Speech', max_length=20)
     json = JSONField(null=True, blank=True)

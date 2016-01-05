@@ -1,54 +1,81 @@
 {% extends "dictionary/base.html" %}
 {% block content %}
-
+<div class="container">
 {% if artist %}
-        <h1>Name: {{ artist.name }}</h1>
-    {% if artist.origin %}
-        <h3>Origin: {{ artist.origin }}</h3>
-    {% else %}
-        <div>[Currently no origin]</div>
-    {% endif %}
 
     {% if primary_senses %}
-        <h3>Cited as a primary artist:</h3>
+
+    {% if primary_senses|length > 1 %}
+    <h3 class="artist-list-header">{{ primary_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a primary artist</h3>
+    {% elif primary_senses|length == 1 %}
+    <h3 class="artist-list-header">{{ primary_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a primary artist</h3>
+    {% endif %}
+
+    <div class="artist-list">
         {% for sense in primary_senses %}
-            <h4>{{ sense.sense }}</h4>
+            {% if sense.examples %}
+            <div class="artist-list-group-item">
+               <div>
+                  <strong>
+                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                  </strong>
+               </div>
+
             {% for example in sense.examples %}
                 <div>
                     <span class="date">{{ example.release_date_string }}</span>
-                    <span class="artist"><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
+                    <span class="artist">{{ example.artist_name }}</span>
                     <span class="songTitle">"{{example.song_title}}"</span>
                     {% if example.feat_artist_name %}
                         <span class="feat">"{{example.feat_artist_name}}"</span>
                     {% endif %}
                     <span class="album">[{{example.album }}]</span>
+                    <div class="lyric">{{ example.lyric_text }}</div>
                 </div>
-                <div class="lyric">{{ example.lyric_text }}</div>
             {% endfor %}
+
+            </div>
+            {% endif %}
         {% endfor %}
+    </div>
     {% endif %}
 
     {% if featured_senses %}
-        <h3>Cited as a featured artist:</h3>
+
+    {% if featured_senses|length > 1 %}
+    <h3 class="artist-list-header">{{ featured_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a featured artist</h3>
+    {% elif featured_senses|length == 1 %}
+    <h3 class="artist-list-header">{{ featured_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a featured artist</h3>
+    {% endif %}
+
+    <div class="artist-list">
         {% for sense in featured_senses %}
-            <h4>{{ sense.sense }}</h4>
-            {% for example in sense.examples %}
+            {% if sense.examples %}
+            <div class="artist-list-group-item">
+               <div>
+                  <strong>
+                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                  </strong>
+               </div>
+                {% for example in sense.examples %}
                 <div>
-                    <span>{{ example.release_date_string }}</span>
-                    <span><strong><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></strong></span>
-                    <span>"{{example.song_title}}"</span>
+                    <span class="date">{{ example.release_date_string }}</span>
+                    <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                    <span class="songTitle">"{{example.song_title}}"</span>
                     {% if example.feat_artist_name %}
-                        <span>"{{example.feat_artist_name}}"</span>
+                        <span class="feat">"{{example.feat_artist_name}}"</span>
                     {% endif %}
-                    <span>[{{example.album }}]</span>
+                    <span class="album">[{{example.album }}]</span>
+                    <div class="lyric">{{ example.lyric_text }}</div>
                 </div>
-                <div>{{ example.lyric_text }}</div>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
         {% endfor %}
     {% endif %}
 
 {% else %}
     <p>No artists here, yo.</p>
 {% endif %}
-
+</div>
 {% endblock %}

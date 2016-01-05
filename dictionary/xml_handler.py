@@ -64,6 +64,7 @@ class TRREntry:
         self.entry_dict = entry_dict
         self.headword = self.entry_dict['head']['headword']
         self.slug = slugify(self.headword)
+        self.letter = self.get_letter()
         self.xml_id = self.entry_dict['@eid']
         self.publish = self.entry_dict['@publish']
         self.entry_object = self.add_to_db()
@@ -72,6 +73,18 @@ class TRREntry:
 
     def __str__(self):
         return self.headword
+
+    def get_letter(self):
+        ABC = 'abcdefghijklmnopqrstuvwxyz'
+        if self.slug.startswith('the-'):
+            key = self.slug[4]
+        else:
+            key = self.slug[0]
+
+        if key in ABC:
+            return key
+        else:
+            return '#'
 
     def add_to_db(self):
         print('Adding Entry:', self.headword)
@@ -82,6 +95,7 @@ class TRREntry:
     def update_entry(self):
         self.entry_object.publish = self.publish
         self.entry_object.json = self.entry_dict
+        self.entry_object.letter = self.letter
         self.entry_object.save()
 
     def extract_lexemes(self):
@@ -113,6 +127,7 @@ class TRRSense:
         self.pos = pos
         self.sense_dict = sense_dict
         self.xml_id = self.sense_dict['@id']
+        self.slug = slugify(self.headword) + '#' + self.xml_id
         self.sense_object = self.add_to_db()
         self.update_sense()
         self.domains = []
@@ -134,6 +149,7 @@ class TRRSense:
 
     def update_sense(self):
         self.sense_object.json = self.sense_dict
+        self.sense_object.slug = self.slug
         self.sense_object.save()
 
     def add_relations(self):

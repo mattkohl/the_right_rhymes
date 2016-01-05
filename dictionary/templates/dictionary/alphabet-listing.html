@@ -1,0 +1,22 @@
+{% block alphabet_listing %}
+<div id="alphabet-listing">
+    <section>
+        <ol>
+        {% for letter in index %}
+            <li>
+                <a style="color:#cccccc;background-color:#000000;" href="#">{{ letter.letter }}</a>
+                {% if letter.entries %}
+                <div>
+                    <ul>
+                        {% for entry in letter.entries %}
+                            <li><a href="/{{ entry.slug }}">{{ entry.headword }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ol>
+    </section>
+</div>
+{% endblock %}
