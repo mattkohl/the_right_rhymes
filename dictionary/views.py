@@ -37,10 +37,12 @@ def entry(request, headword_slug):
         entry = results[0]
         sense_objects = entry.senses.all()
         senses = [build_sense(sense) for sense in sense_objects]
+        published = [entry.headword for entry in Entry.objects.filter(publish=True)]
         context = {
             'index': index,
             'entry': entry,
-            'senses': senses
+            'senses': senses,
+            'published_entries': published
         }
         return HttpResponse(template.render(context, request))
     else:
@@ -51,8 +53,13 @@ def build_sense(sense_object):
     result = {
         "sense": sense_object,
         "domains": sense_object.domains.order_by('name'),
-        "synset": sense_object.synset.order_by('name'),
-        "examples": sense_object.examples.order_by('release_date')
+        "examples": sense_object.examples.order_by('release_date'),
+        "synonyms": sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word'),
+        "derivatives": sense_object.xrefs.filter(xref_type="Derivative").order_by('xref_word'),
+        "derives_from": sense_object.xrefs.filter(xref_type="Derives From").order_by('xref_word'),
+        "instance_of": sense_object.xrefs.filter(xref_type="Instance Of").order_by('xref_word'),
+        "instances": sense_object.xrefs.filter(xref_type="Instance").order_by('xref_word'),
+        "related_concepts": sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word'),
     }
     return result
 
@@ -95,3 +102,5 @@ def domain(request, domain_slug):
         return HttpResponse("You found the Domain: {}".format(result.name))
     else:
         return HttpResponse("Whoa, what is {}?".format(domain_slug))
+
+

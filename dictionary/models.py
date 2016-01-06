@@ -85,6 +85,7 @@ class Sense(models.Model):
     examples = models.ManyToManyField('Example', related_name="+")
     domains = models.ManyToManyField('Domain', related_name="+")
     synset = models.ManyToManyField('SynSet', related_name="+")
+    xrefs = models.ManyToManyField('Xref', related_name="+")
 
     class Meta:
         ordering = ["xml_id"]
@@ -155,3 +156,21 @@ class NamedEntity(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Xref(models.Model):
+    id = models.AutoField(primary_key=True)
+    xref_word = models.CharField(max_length=1000, blank=True, null=True)
+    xref_type = models.CharField(max_length=1000, blank=True, null=True)
+    target_lemma = models.CharField(max_length=1000, blank=True, null=True)
+    target_slug = models.SlugField(blank=True, null=True)
+    target_id = models.CharField(max_length=1000, blank=True, null=True)
+    position = models.CharField(max_length=1000, blank=True, null=True)
+    frequency = models.IntegerField(blank=True, null=True)
+    parent_sense = models.ManyToManyField(Sense, through=Sense.xrefs.through, related_name="+")
+
+    class Meta:
+        ordering = ["xref_word"]
+
+    def __str__(self):
+        return self.xref_word

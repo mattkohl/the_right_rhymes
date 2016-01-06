@@ -40,11 +40,35 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-                {% if sense.synset %}
-                    <span class="xrlabel">Synset:</span>
-                    {% for synset in sense.synset %}
-                        <div class="synset">{{ synset.name }}</div>
-                    {% endfor %}
+                {% if sense.derivatives %}
+                    <div class="xref">
+                        <span class="xrlabel">Derivatives:</span>
+                        {% for derivative in sense.derivatives %}
+                            <span class="synonym">
+                                {% if derivative.target_lemma in published_entries %}
+                                    <a href="/{{ derivative.target_slug }}#{{derivative.target_id}}">{{ derivative.xref_word }}</a>
+                                {% else %}
+                                    {{ derivative.xref_word }}
+                                {% endif %}
+                                {% if not forloop.last %}, {% endif %}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if sense.synonyms %}
+                    <div class="xref">
+                        <span class="xrlabel">Synonyms:</span>
+                        {% for synonym in sense.synonyms %}
+                            <span class="synonym">
+                                {% if synonym.target_lemma in published_entries %}
+                                    <a href="/{{ synonym.target_slug }}#{{synonym.target_id}}">{{ synonym.xref_word }}</a>
+                                {% else %}
+                                    {{ synonym.xref_word }}
+                                {% endif %}
+                                {% if not forloop.last %}, {% endif %}
+                            </span>
+                        {% endfor %}
+                    </div>
                 {% endif %}
                 {% if sense.examples %}
                     <ul class="examplesHead">

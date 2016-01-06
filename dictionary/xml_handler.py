@@ -3,7 +3,7 @@ __author__ = 'MBK'
 import re
 from collections import OrderedDict
 import xmltodict
-from .models import Entry, Sense, Example, Artist, Domain, SynSet, NamedEntity
+from .models import Entry, Sense, Example, Artist, Domain, SynSet, NamedEntity, Xref
 
 
 class XMLDict:
@@ -137,8 +137,10 @@ class TRRSense:
         self.extract_domains()
         self.synset = []
         self.extract_synset()
-        self.add_relations()
+        self.xrefs = []
+        self.extract_xrefs()
         self.examples = [e for e in self.extract_examples()]
+        self.add_relations()
 
     def __str__(self):
         return self.headword + ', ' + self.pos
@@ -157,14 +159,6 @@ class TRRSense:
         self.sense_object.notes = self.notes
         self.sense_object.slug = self.slug
         self.sense_object.save()
-
-    def add_relations(self):
-        self.sense_object.parent_entry.add(self.parent_entry)
-        self.parent_entry.senses.add(self.sense_object)
-        for d in self.domains:
-            d.domain_object.senses.add(self.sense_object)
-        for s in self.synset:
-            s.synset_object.senses.add(self.sense_object)
 
     def extract_definition(self):
         return '; '.join([definition['text'] for definition in self.sense_dict['definition']])
@@ -196,6 +190,12 @@ class TRRSense:
             if type(synset) is OrderedDict:
                 self.synset.append(TRRSynSet(synset['@target']))
 
+    def extract_xrefs(self):
+        if 'xref' in self.sense_dict:
+            xrefs = self.sense_dict['xref']
+            for xref in xrefs:
+                self.xrefs.append(TRRXref(xref))
+
     def extract_examples(self):
         example_list = self.sense_dict['examples']['example']
         if type(example_list) is list:
@@ -204,6 +204,15 @@ class TRRSense:
         if type(example_list) is OrderedDict:
             yield(TRRExample(self.sense_object, example_list))
 
+    def add_relations(self):
+        self.sense_object.parent_entry.add(self.parent_entry)
+        self.parent_entry.senses.add(self.sense_object)
+        for d in self.domains:
+            d.domain_object.senses.add(self.sense_object)
+        for s in self.synset:
+            s.synset_object.senses.add(self.sense_object)
+        for x in self.xrefs:
+            self.sense_object.xrefs.add(x.xref_object)
 
 class TRRExample:
 
@@ -420,6 +429,78 @@ class TRREntity:
         self.entity_object.pref_label = self.pref_label
         self.entity_object.slug = self.slug
         self.entity_object.save()
+
+
+class TRRXref:
+
+    def __init__(self, xref_dict):
+        self.xref_dict = xref_dict
+        self.xref_word = self.xref_dict['#text']
+        self.xref_type = self.extract_xref_type()
+        self.target_id = self.xref_dict['@target']
+        self.target_lemma = self.extract_target_lemma()
+        self.target_slug = slugify(self.target_lemma)
+        self.xref_object = self.add_to_db()
+        self.position = self.extract_position()
+        self.frequency = self.extract_frequency()
+        self.update_xref_object()
+
+    def __str__(self):
+        return self.xref_word
+
+    def extract_xref_type(self):
+        type_map = {
+            'conceptRelatesTo': 'Related Concept',
+            'derivesFrom': 'Derives From',
+            'hasAntonym': 'Antonym',
+            'hasInstance': 'Instance',
+            'hasPart': 'Meronym',
+            'hasSynonym': 'Synonym',
+            'hasDerivative': 'Derivative',
+            'instanceOf': 'Instance Of',
+            'lemmaRelatesTo': 'Related Word',
+            'partOf': 'Holonym',
+        }
+
+        if '@type' in self.xref_dict:
+            key = self.xref_dict['@type']
+            return type_map[key]
+        else:
+            return 'Related Concept'
+
+    def extract_target_lemma(self):
+        if '@lemma' in self.xref_dict:
+            return self.xref_dict['@lemma']
+        else:
+            return self.xref_dict['#text']
+
+    def extract_position(self):
+        if '@position' in self.xref_dict:
+            return self.xref_dict['@position']
+        else:
+            return None
+
+    def extract_frequency(self):
+        if '@freq' in self.xref_dict:
+            return self.xref_dict['@freq']
+        else:
+            return None
+
+    def add_to_db(self):
+        print('Adding Xref:', self.xref_word)
+        xref_object, created = Xref.objects.get_or_create(xref_word=self.xref_word,
+                                                          xref_type=self.xref_type,
+                                                          target_id=self.target_id,
+                                                          target_lemma=self.target_lemma,
+                                                          target_slug=self.target_slug)
+        return xref_object
+
+    def update_xref_object(self):
+        self.xref_object.position = self.position
+        self.xref_object.frequency = self.frequency
+        self.xref_object.save()
+
+
 
 
 def slugify(text):
