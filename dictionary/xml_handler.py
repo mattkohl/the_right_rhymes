@@ -474,7 +474,7 @@ class TRRCollocate:
             return None
 
     def add_to_db(self):
-        print('Adding Collocate:', self.collocate_dict)
+        print('Adding Collocate:', self.collocate_lemma)
         collocate_object, created = Collocate.objects.get_or_create(collocate_lemma=self.collocate_lemma,
                                                                     source_sense_xml_id=self.source_sense_xml_id,
                                                                     target_id=self.target_id)
@@ -482,7 +482,7 @@ class TRRCollocate:
 
     def update_collocate_object(self):
         self.collocate_object.frequency = self.frequency
-        self.collocate_object.slug = self.target_slug
+        self.collocate_object.target_slug = self.target_slug
         self.collocate_object.save()
 
 
@@ -514,7 +514,7 @@ class TRRRhyme:
 
     def update_rhyme_object(self):
         self.rhyme_object.frequency = self.frequency
-        self.rhyme_object.slug = self.target_slug
+        self.rhyme_object.target_slug = self.target_slug
         self.rhyme_object.save()
 
 
