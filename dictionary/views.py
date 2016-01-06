@@ -55,11 +55,17 @@ def build_sense(sense_object):
         "domains": sense_object.domains.order_by('name'),
         "examples": sense_object.examples.order_by('release_date'),
         "synonyms": sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word'),
+        "antonyms": sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word'),
+        "meronyms": sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word'),
+        "holonyms": sense_object.xrefs.filter(xref_type="Holonym").order_by('xref_word'),
         "derivatives": sense_object.xrefs.filter(xref_type="Derivative").order_by('xref_word'),
-        "derives_from": sense_object.xrefs.filter(xref_type="Derives From").order_by('xref_word'),
+        "ancestors": sense_object.xrefs.filter(xref_type="Derives From").order_by('xref_word'),
         "instance_of": sense_object.xrefs.filter(xref_type="Instance Of").order_by('xref_word'),
         "instances": sense_object.xrefs.filter(xref_type="Instance").order_by('xref_word'),
         "related_concepts": sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word'),
+        "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
+        "rhymes": sense_object.rhymes.order_by('-frequency'),
+        "collocates": sense_object.collocates.order_by('-frequency'),
     }
     return result
 

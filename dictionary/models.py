@@ -75,7 +75,7 @@ class Sense(models.Model):
     id = models.AutoField(primary_key=True)
     headword = models.CharField('Headword', max_length=200, null=True, blank=True)
     slug = models.SlugField('Sense Slug', null=True, blank=True)
-    xml_id = models.CharField('Legacy XML id', max_length=20, null=True, blank=True)
+    xml_id = models.CharField('XML id', max_length=20, null=True, blank=True)
     part_of_speech = models.CharField('Part of Speech', max_length=20)
     json = JSONField(null=True, blank=True)
     parent_entry = models.ManyToManyField(Entry, through=Entry.senses.through, related_name="+")
@@ -86,6 +86,8 @@ class Sense(models.Model):
     domains = models.ManyToManyField('Domain', related_name="+")
     synset = models.ManyToManyField('SynSet', related_name="+")
     xrefs = models.ManyToManyField('Xref', related_name="+")
+    rhymes = models.ManyToManyField('Rhyme', related_name="+")
+    collocates = models.ManyToManyField('Collocate', related_name="+")
 
     class Meta:
         ordering = ["xml_id"]
@@ -165,7 +167,7 @@ class Xref(models.Model):
     target_lemma = models.CharField(max_length=1000, blank=True, null=True)
     target_slug = models.SlugField(blank=True, null=True)
     target_id = models.CharField(max_length=1000, blank=True, null=True)
-    position = models.CharField(max_length=1000, blank=True, null=True)
+    position = models.IntegerField(blank=True, null=True)
     frequency = models.IntegerField(blank=True, null=True)
     parent_sense = models.ManyToManyField(Sense, through=Sense.xrefs.through, related_name="+")
 
@@ -174,3 +176,37 @@ class Xref(models.Model):
 
     def __str__(self):
         return self.xref_word
+
+
+class Collocate(models.Model):
+    id = models.AutoField(primary_key=True)
+    collocate_lemma = models.CharField(max_length=1000, blank=True, null=True)
+    source_sense_xml_id = models.CharField('Source XML ID', max_length=20, null=True, blank=True)
+    target_slug = models.SlugField(blank=True, null=True)
+    target_id = models.CharField(max_length=1000, blank=True, null=True)
+    frequency = models.IntegerField(blank=True, null=True)
+    parent_sense = models.ManyToManyField(Sense, through=Sense.collocates.through, related_name="+")
+
+    class Meta:
+        ordering = ["collocate_lemma"]
+
+    def __str__(self):
+        return self.collocate_lemma
+
+
+class Rhyme(models.Model):
+    id = models.AutoField(primary_key=True)
+    rhyme_word = models.CharField(max_length=1000, blank=True, null=True)
+    source_sense_xml_id = models.CharField('Source XML ID', max_length=20, null=True, blank=True)
+    target_slug = models.SlugField(blank=True, null=True)
+    target_id = models.CharField(max_length=1000, blank=True, null=True)
+    position = models.IntegerField(blank=True, null=True)
+    frequency = models.IntegerField(blank=True, null=True)
+    parent_sense = models.ManyToManyField(Sense, through=Sense.rhymes.through, related_name="+")
+
+    class Meta:
+        ordering = ["rhyme_word"]
+
+    def __str__(self):
+        return self.rhyme_word
+

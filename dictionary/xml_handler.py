@@ -3,7 +3,7 @@ __author__ = 'MBK'
 import re
 from collections import OrderedDict
 import xmltodict
-from .models import Entry, Sense, Example, Artist, Domain, SynSet, NamedEntity, Xref
+from .models import Entry, Sense, Example, Artist, Domain, SynSet, NamedEntity, Xref, Collocate, Rhyme
 
 
 class XMLDict:
@@ -25,7 +25,7 @@ class XMLDict:
 
     def get_json(self):
         try:
-            j = xmltodict.parse(self.xml_string, force_list=('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'note', 'etym'))
+            j = xmltodict.parse(self.xml_string, force_list=('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'note', 'etym', 'rhyme'))
         except:
             raise Exception("xmltodict can't parse that xml string")
         else:
@@ -135,6 +135,10 @@ class TRRSense:
         self.update_sense()
         self.domains = []
         self.extract_domains()
+        self.collocates = []
+        self.extract_collocates()
+        self.rhymes = []
+        self.extract_rhymes()
         self.synset = []
         self.extract_synset()
         self.xrefs = []
@@ -190,6 +194,18 @@ class TRRSense:
             if type(synset) is OrderedDict:
                 self.synset.append(TRRSynSet(synset['@target']))
 
+    def extract_collocates(self):
+        if 'collocates' in self.sense_dict:
+            collocates = self.sense_dict['collocates']['collocate']
+            for collocate in collocates:
+                self.collocates.append(TRRCollocate(collocate, self.xml_id))
+
+    def extract_rhymes(self):
+        if 'rhymes' in self.sense_dict:
+            rhymes = self.sense_dict['rhymes']['rhyme']
+            for rhyme in rhymes:
+                self.rhymes.append(TRRRhyme(rhyme, self.xml_id))
+
     def extract_xrefs(self):
         if 'xref' in self.sense_dict:
             xrefs = self.sense_dict['xref']
@@ -213,6 +229,11 @@ class TRRSense:
             s.synset_object.senses.add(self.sense_object)
         for x in self.xrefs:
             self.sense_object.xrefs.add(x.xref_object)
+        for c in self.collocates:
+            self.sense_object.collocates.add(c.collocate_object)
+        for r in self.rhymes:
+            self.sense_object.rhymes.add(r.rhyme_object)
+
 
 class TRRExample:
 
@@ -429,6 +450,72 @@ class TRREntity:
         self.entity_object.pref_label = self.pref_label
         self.entity_object.slug = self.slug
         self.entity_object.save()
+
+
+class TRRCollocate:
+
+    def __init__(self, collocate_dict, sense_id):
+        self.collocate_dict = collocate_dict
+        self.source_sense_xml_id = sense_id
+        self.collocate_lemma = self.collocate_dict['#text']
+        self.target_id = self.collocate_dict['@target']
+        self.target_slug = slugify(self.collocate_lemma)
+        self.collocate_object = self.add_to_db()
+        self.frequency = self.extract_frequency()
+        self.update_collocate_object()
+
+    def __str__(self):
+        return self.collocate_lemma
+
+    def extract_frequency(self):
+        if '@freq' in self.collocate_dict:
+            return self.collocate_dict['@freq']
+        else:
+            return None
+
+    def add_to_db(self):
+        print('Adding Collocate:', self.collocate_dict)
+        collocate_object, created = Collocate.objects.get_or_create(collocate_lemma=self.collocate_lemma,
+                                                                    source_sense_xml_id=self.source_sense_xml_id,
+                                                                    target_id=self.target_id)
+        return collocate_object
+
+    def update_collocate_object(self):
+        self.collocate_object.frequency = self.frequency
+        self.collocate_object.slug = self.target_slug
+        self.collocate_object.save()
+
+
+class TRRRhyme:
+
+    def __init__(self, rhyme_dict, sense_id):
+        self.rhyme_dict = rhyme_dict
+        self.source_sense_xml_id = sense_id
+        self.rhyme_word = self.rhyme_dict['#text']
+        self.target_slug = slugify(self.rhyme_word)
+        self.rhyme_object = self.add_to_db()
+        self.frequency = self.extract_frequency()
+        self.update_rhyme_object()
+
+    def __str__(self):
+        return self.rhyme_word
+
+    def extract_frequency(self):
+        if '@freq' in self.rhyme_dict:
+            return self.rhyme_dict['@freq']
+        else:
+            return None
+
+    def add_to_db(self):
+        print('Adding Rhyme:', self.rhyme_dict)
+        rhyme_object, created = Rhyme.objects.get_or_create(rhyme_word=self.rhyme_word,
+                                                            source_sense_xml_id=self.source_sense_xml_id)
+        return rhyme_object
+
+    def update_rhyme_object(self):
+        self.rhyme_object.frequency = self.frequency
+        self.rhyme_object.slug = self.target_slug
+        self.rhyme_object.save()
 
 
 class TRRXref:

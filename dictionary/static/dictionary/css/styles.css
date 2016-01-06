@@ -255,7 +255,7 @@ div.entry-header p {
 	font-weight: bold;
 }
 
-.note, .domain {
+.note {
 	font-size: .75em;
 	margin-bottom: 1em;
 	margin-left: 1em;
@@ -310,12 +310,6 @@ p.mapLabel {
 
 .freq {
 	font-weight: bold;
-}
-
-.synonyms {
-	font-weight: bold;
-	margin-bottom: .75em;
-	margin-left: 1em;
 }
 
 .etym {
@@ -731,6 +725,11 @@ Media Queries Aplenty
 --------------------------------------------------------------
 */
 
+@media (min-width: 992px)
+.container {
+    width: 100%; !important;
+}
+
 @media only screen
 and (min-width : 720px) and (max-width : 1039px) {
 
@@ -766,6 +765,10 @@ and (min-width : 720px) and (max-width : 1039px) {
 	figure.ipuc figcaption {
 		margin-top: -4%
 	}
+
+    .container {
+        width: 100%; !important;
+    }
 
 }
 
