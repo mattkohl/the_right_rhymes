@@ -88,6 +88,7 @@ class Sense(models.Model):
     xrefs = models.ManyToManyField('Xref', related_name="+")
     rhymes = models.ManyToManyField('Rhyme', related_name="+")
     collocates = models.ManyToManyField('Collocate', related_name="+")
+    features_entities = models.ManyToManyField('NamedEntity', related_name="+")
 
     class Meta:
         ordering = ["xml_id"]
@@ -149,7 +150,9 @@ class NamedEntity(models.Model):
     name = models.CharField(max_length=1000, blank=True, null=True)
     slug = models.SlugField('Entity Slug', blank=True, null=True)
     pref_label = models.CharField(max_length=1000, blank=True, null=True)
+    pref_label_slug = models.SlugField('Entity PrefLabel Slug', blank=True, null=True)
     entity_type = models.CharField(max_length=1000, blank=True, null=True)
+    mentioned_at_senses = models.ManyToManyField(Sense, through=Sense.features_entities.through, related_name="+", blank=True)
     examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)
 
     class Meta:

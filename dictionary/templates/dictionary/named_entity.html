@@ -1,0 +1,58 @@
+{% extends "dictionary/base.html" %}
+{% block content %}
+<div class="container">
+{% if entity %}
+
+    {% if senses %}
+
+    {% if senses|length > 1 %}
+    <h3 class="artist-list-header">
+        {{ senses|length }} senses cite examples mentioning <strong>{{ entity.name }}</strong>
+        {% if entity.name != entity.pref_label %}
+            <span>(a.k.a. <strong>{{ entity.pref_label }}</strong>)</span>
+        {% endif %}
+    </h3>
+    {% elif senses|length == 1 %}
+    <h3 class="artist-list-header">
+        {{ senses|length }} sense cites an example mentioning <strong>{{ entity.name }}</strong>
+        {% if entity.name != entity.pref_label %}
+            <span>(a.k.a. <strong>{{ entity.pref_label }}</strong>)</span>
+        {% endif %}
+    </h3>
+    {% endif %}
+
+    <div class="artist-list">
+        {% for sense in senses %}
+            {% if sense.examples %}
+            <div class="artist-list-group-item">
+               <div>
+                  <strong>
+                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                  </strong>
+               </div>
+
+            {% for example in sense.examples %}
+                <div>
+                    <span class="date">{{ example.release_date_string }}</span>
+                    <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                    <span class="songTitle">"{{example.song_title}}"</span>
+                    {% if example.feat_artist_name %}
+                        <span class="feat">"{{example.feat_artist_name}}"</span>
+                    {% endif %}
+                    <span class="album">[{{example.album }}]</span>
+                    <div class="lyric">{{ example.lyric_text }}</div>
+                </div>
+            {% endfor %}
+
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+{% else %}
+    <p>No entities here, yo.</p>
+{% endif %}
+</div>
+{% endblock %}

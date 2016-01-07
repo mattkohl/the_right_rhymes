@@ -1,0 +1,19 @@
+{% extends "dictionary/base.html" %}
+{% block content %}
+<div class="container">
+    {% if senses %}
+        {% if senses|length > 1 %}
+        <h3 class="artist-list-header">{{ senses|length }} senses fall within the domain of <strong>{{ domain.name }}</strong></h3>
+        {% elif senses|length == 1 %}
+        <h3 class="artist-list-header">{{ senses|length }} sense falls within the domain of <strong>{{ domain.name }}</strong></h3>
+        {% endif %}
+
+        {% for sense in senses %}
+            <div class="headword">{{ sense.headword }}</div>
+            <div class="definition">{{ sense.definition }}</div>
+        {% endfor %}
+
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -339,6 +339,8 @@ class TRRExample:
             artist.artist_object.save()
         for e in self.entities:
             e.entity_object.examples.add(self.example_object)
+            e.entity_object.mentioned_at_senses.add(self.sense_object)
+            e.entity_object.save()
 
     def clean_up_date(self):
         new_date = self.release_date_string
@@ -428,6 +430,7 @@ class TRREntity:
         self.slug = slugify(self.name)
         self.entity_type = self.entity['@type']
         self.pref_label = self.extract_pref_label()
+        self.pref_label_slug = slugify(self.pref_label)
         self.entity_object = self.add_to_db()
         self.update_entity_object()
 
@@ -449,6 +452,7 @@ class TRREntity:
     def update_entity_object(self):
         self.entity_object.pref_label = self.pref_label
         self.entity_object.slug = self.slug
+        self.entity_object.pref_label_slug = self.pref_label_slug
         self.entity_object.save()
 
 

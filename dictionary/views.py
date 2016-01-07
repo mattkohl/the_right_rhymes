@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.template import loader
 from django.http import HttpResponse
 from .models import Entry, Artist, NamedEntity, Domain
@@ -73,9 +74,15 @@ def build_sense(sense_object):
 def artist(request, artist_slug):
     index = build_index()
     results = Artist.objects.filter(slug=artist_slug)
+    entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
     template = loader.get_template('dictionary/artist.html')
     if len(results) == 1:
         artist = results[0]
+        entity_senses = []
+        if len(entity_results) >= 1:
+            for entity in entity_results:
+                entity_senses += [{'name': entity.name, 'sense': sense, 'examples': sense.examples.filter(features_entities=entity).order_by('release_date')} for sense in entity.mentioned_at_senses.all()]
+
         primary_senses = [{'sense': sense, 'examples': sense.examples.filter(artist=artist).order_by('release_date')} for sense in artist.primary_senses.all()]
         featured_senses = [{'sense': sense, 'examples': sense.examples.filter(feat_artist=artist).order_by('release_date')} for sense in artist.featured_senses.all()]
         context = {
@@ -83,6 +90,7 @@ def artist(request, artist_slug):
             'artist': artist,
             'primary_senses': primary_senses,
             'featured_senses': featured_senses,
+            'entity_senses': entity_senses,
         }
         return HttpResponse(template.render(context, request))
     else:
@@ -90,22 +98,42 @@ def artist(request, artist_slug):
 
 
 def entity(request, entity_slug):
+    index = build_index()
     results = NamedEntity.objects.filter(slug=entity_slug)
+    template = loader.get_template('dictionary/named_entity.html')
+
     if len(results) == 1:
-        result = results[0]
-        if result.name == result.pref_label:
-            return HttpResponse("You found the Named Entity: {}!".format(result.name))
+        entity = results[0]
+        if entity.entity_type == 'artist':
+            return redirect('/artists/' + entity.pref_label_slug)
         else:
-            return HttpResponse("You found the Named Entity: {}, aka {}".format(result.name, result.pref_label))
+            senses = [{'sense': sense, 'examples': sense.examples.filter(features_entities=entity).order_by('release_date')} for sense in entity.mentioned_at_senses.all()]
+
+            context = {
+                'index': index,
+                'entity': entity,
+                'senses': senses,
+            }
+            return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("Whoa, what is {}?".format(entity_slug))
 
 
+
 def domain(request, domain_slug):
+    index = build_index()
     results = Domain.objects.filter(slug=domain_slug)
+    template = loader.get_template('dictionary/domain.html')
     if len(results) == 1:
-        result = results[0]
-        return HttpResponse("You found the Domain: {}".format(result.name))
+        domain = results[0]
+        senses = domain.senses.order_by('headword')
+
+        context = {
+            'index': index,
+            'domain': domain,
+            'senses': senses,
+        }
+        return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("Whoa, what is {}?".format(domain_slug))
 

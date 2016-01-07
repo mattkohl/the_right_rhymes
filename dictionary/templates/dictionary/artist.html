@@ -74,6 +74,44 @@
         {% endfor %}
     {% endif %}
 
+    {% if entity_senses %}
+
+    {% if entity_senses|length > 1 %}
+    <h3 class="artist-list-header">{{ entity_senses|length }} senses cite examples mentioning <strong>{{ artist.name }}</strong></h3>
+    {% elif entity_senses|length == 1 %}
+    <h3 class="artist-list-header">{{ entity_senses|length }} sense cites examples mentioning <strong>{{ artist.name }}</strong></h3>
+    {% endif %}
+
+    <div class="artist-list">
+        {% for sense in entity_senses %}
+            {% if sense.examples %}
+                {% if sense.name != artist.name %}
+                    <span class="altLabel">(as <strong>{{ sense.name }}</strong>)</span>
+                {% endif %}
+                <div class="artist-list-group-item">
+                   <div>
+                      <strong>
+                          <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                      </strong>
+                   </div>
+                    {% for example in sense.examples %}
+                    <div>
+                        <span class="date">{{ example.release_date_string }}</span>
+                        <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                        <span class="songTitle">"{{example.song_title}}"</span>
+                        {% if example.feat_artist_name %}
+                            <span class="feat">"{{example.feat_artist_name}}"</span>
+                        {% endif %}
+                        <span class="album">[{{example.album }}]</span>
+                        <div class="lyric">{{ example.lyric_text }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
 {% else %}
     <p>No artists here, yo.</p>
 {% endif %}

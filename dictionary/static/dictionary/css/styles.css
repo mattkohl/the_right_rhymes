@@ -337,6 +337,11 @@ p.mapLabel {
 
 .relDate {}
 
+.altLabel {
+    font-style: italic;
+    font-size: .85em;
+}
+
 .artist {
 	font-weight: bold;
     color: black;
