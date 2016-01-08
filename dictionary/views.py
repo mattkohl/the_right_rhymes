@@ -54,7 +54,7 @@ def build_sense(sense_object):
     result = {
         "sense": sense_object,
         "domains": sense_object.domains.order_by('name'),
-        "examples": sense_object.examples.order_by('release_date'),
+        "examples": [build_example(example) for example in sense_object.examples.order_by('release_date')],
         "synonyms": sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word'),
         "antonyms": sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word'),
         "meronyms": sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word'),
@@ -69,6 +69,47 @@ def build_sense(sense_object):
         "collocates": sense_object.collocates.order_by('-frequency'),
     }
     return result
+
+def build_example(example_object):
+    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    lyric = example_object.lyric_text
+    lyric_links = example_object.lyric_links.order_by('position')
+    result = {
+        "example": example_object,
+        "featured_artists": example_object.feat_artist.order_by('name'),
+        "linked_lyric": add_links(lyric, lyric_links, published)
+    }
+    return result
+
+def add_links(lyric, links, published):
+    linked_lyric = lyric
+    buffer = 0
+    for link in links:
+        try:
+            lyric.index(link.link_text)
+        except:
+            print("Could not inject link for {}".format(link.link_text))
+            continue
+        else:
+            start = link.position + buffer
+            end = start + len(link.link_text)
+            if link.link_type == 'xref' and link.target_lemma in published:
+                a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
+                linked_lyric = inject_link(linked_lyric, start, end, a)
+                buffer += (len(a) - len(link.link_text))
+            if link.link_type == 'artist':
+                a = '<a href="/artists/{}">{}</a>'.format(link.target_slug, link.link_text)
+                linked_lyric = inject_link(linked_lyric, start, end, a)
+                buffer += (len(a) - len(link.link_text))
+            if link.link_type == 'entity':
+                a = '<a href="/entities/{}">{}</a>'.format(link.target_slug, link.link_text)
+                linked_lyric = inject_link(linked_lyric, start, end, a)
+                buffer += (len(a) - len(link.link_text))
+    return linked_lyric
+
+def inject_link(lyric, start, end, a):
+    return lyric[:start] + a + lyric[end:]
+
 
 
 def artist(request, artist_slug):
@@ -99,22 +140,24 @@ def artist(request, artist_slug):
 
 def entity(request, entity_slug):
     index = build_index()
-    results = NamedEntity.objects.filter(slug=entity_slug)
+    results = NamedEntity.objects.filter(pref_label_slug=entity_slug).order_by('name')
     template = loader.get_template('dictionary/named_entity.html')
 
-    if len(results) == 1:
-        entity = results[0]
-        if entity.entity_type == 'artist':
-            return redirect('/artists/' + entity.pref_label_slug)
-        else:
-            senses = [{'sense': sense, 'examples': sense.examples.filter(features_entities=entity).order_by('release_date')} for sense in entity.mentioned_at_senses.all()]
-
-            context = {
-                'index': index,
+    if len(results) > 0:
+        entities = []
+        for entity in results:
+            if entity.entity_type == 'artist':
+                return redirect('/artists/' + entity.pref_label_slug)
+            entities.append({
                 'entity': entity,
-                'senses': senses,
-            }
-            return HttpResponse(template.render(context, request))
+                'senses': [{'sense': sense, 'examples': sense.examples.filter(features_entities=entity).order_by('release_date')} for sense in entity.mentioned_at_senses.all()]
+            })
+
+        context = {
+            'index': index,
+            'entities': entities
+        }
+        return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("Whoa, what is {}?".format(entity_slug))
 
@@ -126,12 +169,14 @@ def domain(request, domain_slug):
     template = loader.get_template('dictionary/domain.html')
     if len(results) == 1:
         domain = results[0]
-        senses = domain.senses.order_by('headword')
-
+        sense_objects = domain.senses.order_by('headword')
+        senses = [build_sense(sense) for sense in sense_objects]
+        published = [entry.headword for entry in Entry.objects.filter(publish=True)]
         context = {
             'index': index,
             'domain': domain,
             'senses': senses,
+            'published_entries': published
         }
         return HttpResponse(template.render(context, request))
     else:

@@ -3,7 +3,8 @@ __author__ = 'MBK'
 import re
 from collections import OrderedDict
 import xmltodict
-from .models import Entry, Sense, Example, Artist, Domain, SynSet, NamedEntity, Xref, Collocate, Rhyme
+from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
+    NamedEntity, Xref, Collocate, Rhyme, LyricLink
 
 
 class XMLDict:
@@ -24,8 +25,9 @@ class XMLDict:
             return xml_string
 
     def get_json(self):
+        force_list = ('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'note', 'etym', 'rhyme', 'entity', 'rf')
         try:
-            j = xmltodict.parse(self.xml_string, force_list=('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'note', 'etym', 'rhyme'))
+            j = xmltodict.parse(self.xml_string, force_list=force_list)
         except:
             raise Exception("xmltodict can't parse that xml string")
         else:
@@ -247,7 +249,10 @@ class TRRExample:
         self.artist_name = self.get_artist_name()
         self.lyric_text = self.example_dict['lyric']['text']
         self.example_object = self.add_to_db()
+        self.lyric_links = []
+        self.extract_rf()
         self.entities = []
+        self.extract_xrefs()
         self.extract_entities()
         self.update_example()
         self.primary_artists = self.get_primary_artists()
@@ -314,11 +319,29 @@ class TRRExample:
     def extract_entities(self):
         if 'entity' in self.example_dict['lyric']:
             entities = self.example_dict['lyric']['entity']
-            if type(entities) is list:
-                for entity in entities:
-                    self.entities.append(TRREntity(entity))
-            if type(entities) is OrderedDict:
-                self.entities.append(TRREntity(entities))
+
+            for entity in entities:
+                self.entities.append(TRREntity(entity))
+                if '@type' in entity and entity['@type'] == 'artist':
+                    self.lyric_links.append(TRRLyricLink(entity, 'artist'))
+                    if '@prefLabel' in entity:
+                        TRRArtist(entity['@prefLabel'])
+                    else:
+                        TRRArtist(entity['#text'])
+                else:
+                    self.lyric_links.append(TRRLyricLink(entity, 'entity'))
+
+    def extract_rf(self):
+        if 'rf' in self.example_dict['lyric']:
+            rfs = self.example_dict['lyric']['rf']
+            for rf in rfs:
+                self.lyric_links.append(TRRLyricLink(rf, 'rf'))
+
+    def extract_xrefs(self):
+        if 'xref' in self.example_dict['lyric']:
+            xrefs = self.example_dict['lyric']['xref']
+            for xref in xrefs:
+                self.lyric_links.append(TRRLyricLink(xref, 'xref'))
 
     def update_example(self):
         self.example_object.json = self.example_dict
@@ -341,6 +364,9 @@ class TRRExample:
             e.entity_object.examples.add(self.example_object)
             e.entity_object.mentioned_at_senses.add(self.sense_object)
             e.entity_object.save()
+        for l in self.lyric_links:
+            l.link_object.parent_example.add(self.example_object)
+            l.link_object.save()
 
     def clean_up_date(self):
         new_date = self.release_date_string
@@ -592,6 +618,42 @@ class TRRXref:
         self.xref_object.save()
 
 
+class TRRLyricLink:
+
+    def __init__(self, link_dict, link_type):
+        self.link_dict = link_dict
+        self.link_type = link_type
+        self.link_text = self.link_dict['#text']
+        self.target_slug = self.extract_target_slug()
+        self.target_lemma = self.extract_target_lemma()
+        self.position = self.link_dict['@position']
+        self.link_object = self.add_to_db()
+
+    def __str__(self):
+        return self.link_text
+
+    def extract_target_slug(self):
+        if '@target' in self.link_dict and '@lemma' in self.link_dict:
+            return slugify(self.link_dict['@lemma']) + '#' + self.link_dict['@target']
+        elif '@prefLabel' in self.link_dict:
+            return slugify(self.link_dict['@prefLabel'])
+        else:
+            return slugify(self.link_dict['#text'])
+
+    def extract_target_lemma(self):
+        if '@lemma' in self.link_dict:
+            return self.link_dict['@lemma']
+        else:
+            return self.link_text
+
+    def add_to_db(self):
+        print('Adding LyricLink:', self.link_text)
+        link_object, created = LyricLink.objects.get_or_create(link_text=self.link_text,
+                                                               link_type=self.link_type,
+                                                               target_lemma=self.target_lemma,
+                                                               target_slug=self.target_slug,
+                                                               position=self.position)
+        return link_object
 
 
 def slugify(text):

@@ -194,7 +194,7 @@ p {
 
 sup {
   vertical-align: super;
-  font-size: smaller;
+  font-size: .65em;
 }
 
 a:link,
@@ -559,7 +559,7 @@ figcaption a span {
 	width: 48.38709677419355%;
 }
 
-.artist-list-header {
+.trr-list-header {
     background: #EAEAEA;
     display: block;
 	font-size: 1em;
@@ -573,7 +573,7 @@ figcaption a span {
 	margin-bottom: 10px;
 }
 
-.artist-list {
+.trr-list {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
     position: relative;
     height: 330px;
@@ -584,7 +584,7 @@ figcaption a span {
     overflow-y: scroll;
 }
 
-.artist-list-group-item {
+.trr-list-group-item {
     position: relative;
     display: block;
     padding: 10px 15px;
@@ -593,7 +593,7 @@ figcaption a span {
     font-size: .9em;
 }
 
-.artist-list-group-item strong {
+.trr-list-group-item strong {
     color: black;
     font-size: large;
     width:70%;
@@ -604,12 +604,12 @@ figcaption a span {
 }
 
 
-.artist-list-group-item strong a {
+.trr-list-group-item strong a {
     color: black;
 }
 
 
-.artist-list-group-item strong:after {
+.trr-list-group-item strong:after {
     content:"";
     vertical-align:top;
     display:inline-block;
@@ -619,8 +619,34 @@ figcaption a span {
     margin:0 2% 0 -55%;
 }
 
-.artist-list-group-item strong:after {
+.trr-list-group-item strong:after {
     margin:0 -55% 0 2%;
+}
+
+.trr-list-example {
+	display: block;
+	margin-bottom: .5em;
+	margin-top: .5em;
+	margin-left: 1em;
+}
+
+.trr-list-definition {
+	display: block;
+	margin-bottom: .5em;
+	margin-top: .5em;
+	margin-left: 1em;
+    font-weight: bold;
+}
+
+.trr-list-pos {
+	font-size: 0.8em;
+	padding: 2px 10px;
+	text-decoration: none;
+	line-height: 17px;
+	color: #9b9b9b;
+	text-transform: uppercase;
+	margin-bottom: .75em;
+	margin-top: 1em;
 }
 
 /* Hover popups */
@@ -664,7 +690,7 @@ figcaption a span {
 
 .examplesHead {
     position: relative;
-    height: 230px;
+    /*height: 230px;*/
     margin: 50px auto;
     padding: 5;
     list-style: none;
@@ -722,6 +748,24 @@ figcaption a span {
 .indentTag {
 	margin-left: 2em;
 	font-weight: bold;
+}
+
+.more-link {
+	text-align: center;
+}
+.more-link a:link,
+.more-link a:visited {
+	font-size: 0.6em;
+	padding: 2px 20px;
+	text-decoration: none;
+	text-transform: uppercase;
+	line-height: 17px;
+	color: black;
+}
+
+.more-link a:hover,
+.more-link a:focus {
+	color: #9B9B9B;
 }
 
 /*

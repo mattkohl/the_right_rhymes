@@ -1,30 +1,29 @@
 {% extends "dictionary/base.html" %}
 {% block content %}
 <div class="container">
-{% if entity %}
+    {% for entity in entities %}
 
-    {% if senses %}
 
-    {% if senses|length > 1 %}
-    <h3 class="artist-list-header">
-        {{ senses|length }} senses cite examples mentioning <strong>{{ entity.name }}</strong>
+    {% if entity.senses|length > 1 %}
+    <h3 class="trr-list-header">
+        {{ entity.senses|length }} senses cite examples mentioning <strong>{{ entity.entity.name }}</strong>
         {% if entity.name != entity.pref_label %}
             <span>(a.k.a. <strong>{{ entity.pref_label }}</strong>)</span>
         {% endif %}
     </h3>
-    {% elif senses|length == 1 %}
-    <h3 class="artist-list-header">
-        {{ senses|length }} sense cites an example mentioning <strong>{{ entity.name }}</strong>
+    {% elif entity.senses|length == 1 %}
+    <h3 class="trr-list-header">
+        {{ entity.senses|length }} sense cites an example mentioning <strong>{{ entity.entity.name }}</strong>
         {% if entity.name != entity.pref_label %}
             <span>(a.k.a. <strong>{{ entity.pref_label }}</strong>)</span>
         {% endif %}
     </h3>
     {% endif %}
 
-    <div class="artist-list">
-        {% for sense in senses %}
+    <div class="trr-list">
+        {% for sense in entity.senses %}
             {% if sense.examples %}
-            <div class="artist-list-group-item">
+            <div class="trr-list-group-item">
                <div>
                   <strong>
                      <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
@@ -48,11 +47,6 @@
             {% endif %}
         {% endfor %}
     </div>
-    {% endif %}
-
-
-{% else %}
-    <p>No entities here, yo.</p>
-{% endif %}
+    {% endfor %}
 </div>
 {% endblock %}

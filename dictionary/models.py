@@ -112,6 +112,7 @@ class Example(models.Model):
     json = JSONField(null=True, blank=True)
     illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
     features_entities = models.ManyToManyField('NamedEntity', related_name="+")
+    lyric_links = models.ManyToManyField('LyricLink', related_name="+")
 
     class Meta:
         ordering = ["release_date", "artist_name"]
@@ -212,4 +213,20 @@ class Rhyme(models.Model):
 
     def __str__(self):
         return self.rhyme_word
+
+
+class LyricLink(models.Model):
+    id = models.AutoField(primary_key=True)
+    link_type = models.CharField(max_length=1000, blank=True, null=True)
+    link_text = models.CharField(max_length=1000, blank=True, null=True)
+    target_lemma = models.CharField(max_length=1000, blank=True, null=True)
+    target_slug = models.SlugField(blank=True, null=True)
+    position = models.IntegerField(blank=True, null=True)
+    parent_example = models.ManyToManyField(Example, through=Example.lyric_links.through, related_name="+")
+
+    class Meta:
+        ordering = ["link_text"]
+
+    def __str__(self):
+        return self.link_text
 

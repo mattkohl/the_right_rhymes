@@ -3,17 +3,39 @@
 <div class="container">
     {% if senses %}
         {% if senses|length > 1 %}
-        <h3 class="artist-list-header">{{ senses|length }} senses fall within the domain of <strong>{{ domain.name }}</strong></h3>
+        <h3 class="trr-list-header">{{ senses|length }} senses in the domain of <strong>{{ domain.name }}</strong></h3>
         {% elif senses|length == 1 %}
-        <h3 class="artist-list-header">{{ senses|length }} sense falls within the domain of <strong>{{ domain.name }}</strong></h3>
+        <h3 class="trr-list-header">{{ senses|length }} sense in the domain of <strong>{{ domain.name }}</strong></h3>
         {% endif %}
-
+        <div class="trr-list">
         {% for sense in senses %}
-            <div class="headword">{{ sense.headword }}</div>
-            <div class="definition">{{ sense.definition }}</div>
+            <div class="trr-list-group-item">
+               <div>
+                  <strong>
+                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                  </strong>
+               </div>
+                <div class="trr-list-pos">{{ sense.sense.part_of_speech}} ⋅ {{ sense.sense.definition }}</div>
+                <div class="trr-list-example">
+                {% with example=sense.examples.0 %}
+                    <div>
+                        <span class="date">{{ example.release_date_string }}</span>
+                        <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                        <span class="songTitle">"{{example.song_title}}"</span>
+                        {% if example.feat_artist_name %}
+                            <span class="feat">"{{example.feat_artist_name}}"</span>
+                        {% endif %}
+                        <span class="album">[{{example.album }}]</span>
+                        <div class="lyric">{{ example.lyric_text }}</div>
+                        <div class="more-link">
+		                    <a href="/{{ sense.sense.slug }}">See Full Entry...</a>
+                        </div>
+                    </div>
+                {% endwith %}
+                </div>
+            </div>
         {% endfor %}
-
+        </div>
     {% endif %}
-
 </div>
 {% endblock %}

@@ -59,7 +59,7 @@
                     <div class="xref">
                         <span class="xrlabel">Domains:</span>
                         {% for domain in sense.domains %}
-                            <span class="domain">{{ domain.name }}{% if not forloop.last %}, {% endif %}</span>
+                            <span class="domain"><a href="/domains/{{ domain.slug }}">{{ domain.name }}</a>{% if not forloop.last %}, {% endif %}</span>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -159,14 +159,17 @@
                     <ul class="examplesHead">
                     {% for example in sense.examples %}
                         <li>
-                            <span class="date">{{ example.release_date_string }}</span>
-                            <span class="artist"><a href="/artists/{{ example.artist_slug }}">{{example.artist_name}}</a></span>
-                            <span class="songTitle">"{{example.song_title}}"</span>
-                            {% if example.feat_artist_name %}
-                                <span class="feat">"{{example.feat_artist_name}}"</span>
+                            <span class="date">{{ example.example.release_date_string }}</span>
+                            <span class="artist"><a href="/artists/{{ example.example.artist_slug }}">{{example.example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            {% if example.featured_artists %}
+                                <span> feat. </span>
+                                {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="/artists/{{ feat.slug }}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                {% endfor %}
                             {% endif %}
-                            <span class="album">[{{example.album }}]</span>
-                            <div class="lyric">{{ example.lyric_text }}</div>
+                            <span class="album">[{{example.example.album }}]</span>
+                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
                         </li>
                     {% endfor %}
                     </ul>

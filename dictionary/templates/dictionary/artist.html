@@ -6,15 +6,15 @@
     {% if primary_senses %}
 
     {% if primary_senses|length > 1 %}
-    <h3 class="artist-list-header">{{ primary_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a primary artist</h3>
+    <h3 class="trr-list-header">{{ primary_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a primary artist</h3>
     {% elif primary_senses|length == 1 %}
-    <h3 class="artist-list-header">{{ primary_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a primary artist</h3>
+    <h3 class="trr-list-header">{{ primary_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a primary artist</h3>
     {% endif %}
 
-    <div class="artist-list">
+    <div class="trr-list">
         {% for sense in primary_senses %}
             {% if sense.examples %}
-            <div class="artist-list-group-item">
+            <div class="trr-list-group-item">
                <div>
                   <strong>
                      <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
@@ -43,15 +43,15 @@
     {% if featured_senses %}
 
     {% if featured_senses|length > 1 %}
-    <h3 class="artist-list-header">{{ featured_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a featured artist</h3>
+    <h3 class="trr-list-header">{{ featured_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a featured artist</h3>
     {% elif featured_senses|length == 1 %}
-    <h3 class="artist-list-header">{{ featured_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a featured artist</h3>
+    <h3 class="trr-list-header">{{ featured_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a featured artist</h3>
     {% endif %}
 
-    <div class="artist-list">
+    <div class="trr-list">
         {% for sense in featured_senses %}
             {% if sense.examples %}
-            <div class="artist-list-group-item">
+            <div class="trr-list-group-item">
                <div>
                   <strong>
                      <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
@@ -77,18 +77,18 @@
     {% if entity_senses %}
 
     {% if entity_senses|length > 1 %}
-    <h3 class="artist-list-header">{{ entity_senses|length }} senses cite examples mentioning <strong>{{ artist.name }}</strong></h3>
+    <h3 class="trr-list-header">{{ entity_senses|length }} senses cite examples mentioning <strong>{{ artist.name }}</strong></h3>
     {% elif entity_senses|length == 1 %}
-    <h3 class="artist-list-header">{{ entity_senses|length }} sense cites examples mentioning <strong>{{ artist.name }}</strong></h3>
+    <h3 class="trr-list-header">{{ entity_senses|length }} sense cites examples mentioning <strong>{{ artist.name }}</strong></h3>
     {% endif %}
 
-    <div class="artist-list">
+    <div class="trr-list">
         {% for sense in entity_senses %}
             {% if sense.examples %}
                 {% if sense.name != artist.name %}
                     <span class="altLabel">(as <strong>{{ sense.name }}</strong>)</span>
                 {% endif %}
-                <div class="artist-list-group-item">
+                <div class="trr-list-group-item">
                    <div>
                       <strong>
                           <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
@@ -109,6 +109,8 @@
                 </div>
             {% endif %}
         {% endfor %}
+    </div>
+
     {% endif %}
 
 
