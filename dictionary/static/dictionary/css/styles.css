@@ -576,7 +576,7 @@ figcaption a span {
 .trr-list {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
     position: relative;
-    height: 330px;
+    /*height: 330px;*/
     margin-bottom: 50px;
     padding: 5;
     list-style: none;
