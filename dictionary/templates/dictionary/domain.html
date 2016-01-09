@@ -12,7 +12,7 @@
             <div class="trr-list-group-item">
                <div>
                   <strong>
-                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                     <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
                   </strong>
                </div>
                 <div class="trr-list-pos">{{ sense.sense.part_of_speech}} ⋅ {{ sense.sense.definition }}</div>
@@ -20,7 +20,7 @@
                 {% with example=sense.examples.0 %}
                     <div>
                         <span class="date">{{ example.release_date_string }}</span>
-                        <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                        <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
                         <span class="songTitle">"{{example.song_title}}"</span>
                         {% if example.feat_artist_name %}
                             <span class="feat">"{{example.feat_artist_name}}"</span>
@@ -28,7 +28,7 @@
                         <span class="album">[{{example.album }}]</span>
                         <div class="lyric">{{ example.lyric_text }}</div>
                         <div class="more-link">
-		                    <a href="/{{ sense.sense.slug }}">See Full Entry...</a>
+		                    <a href="{% url 'entry' sense.sense.slug %}">See Full Entry...</a>
                         </div>
                     </div>
                 {% endwith %}

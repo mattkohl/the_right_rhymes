@@ -17,7 +17,7 @@
             <div class="trr-list-group-item">
                <div>
                   <strong>
-                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                     <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
                   </strong>
                </div>
 
@@ -54,13 +54,13 @@
             <div class="trr-list-group-item">
                <div>
                   <strong>
-                     <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                     <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
                   </strong>
                </div>
                 {% for example in sense.examples %}
                 <div>
                     <span class="date">{{ example.release_date_string }}</span>
-                    <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                    <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
                     <span class="songTitle">"{{example.song_title}}"</span>
                     {% if example.feat_artist_name %}
                         <span class="feat">"{{example.feat_artist_name}}"</span>
@@ -91,13 +91,13 @@
                 <div class="trr-list-group-item">
                    <div>
                       <strong>
-                          <a href="/{{ sense.sense.slug }}">{{ sense.sense.headword }}</a>
+                          <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
                       </strong>
                    </div>
                     {% for example in sense.examples %}
                     <div>
                         <span class="date">{{ example.release_date_string }}</span>
-                        <span class="artist"><a href="/artists/{{example.artist_slug}}">{{ example.artist_name }}</a></span>
+                        <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
                         <span class="songTitle">"{{example.song_title}}"</span>
                         {% if example.feat_artist_name %}
                             <span class="feat">"{{example.feat_artist_name}}"</span>
