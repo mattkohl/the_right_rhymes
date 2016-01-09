@@ -5,111 +5,125 @@
 
     {% if primary_senses %}
 
-    {% if primary_senses|length > 1 %}
-    <h3 class="trr-list-header">{{ primary_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a primary artist</h3>
-    {% elif primary_senses|length == 1 %}
-    <h3 class="trr-list-header">{{ primary_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a primary artist</h3>
-    {% endif %}
+        {% if primary_senses|length > 1 %}
+        <h3 class="trr-list-header">{{ primary_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a primary artist</h3>
+        {% elif primary_senses|length == 1 %}
+        <h3 class="trr-list-header">{{ primary_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a primary artist</h3>
+        {% endif %}
 
-    <div class="trr-list">
-        {% for sense in primary_senses %}
-            {% if sense.examples %}
-            <div class="trr-list-group-item">
-               <div>
-                  <strong>
-                     <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
-                  </strong>
-               </div>
+        <div class="trr-list">
+            {% for sense in primary_senses %}
+                {% if sense.examples %}
+                <div class="trr-list-group-item">
+                   <div>
+                      <strong>
+                         <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
+                      </strong>
+                   </div>
 
-            {% for example in sense.examples %}
-                <div>
-                    <span class="date">{{ example.release_date_string }}</span>
-                    <span class="artist">{{ example.artist_name }}</span>
-                    <span class="songTitle">"{{example.song_title}}"</span>
-                    {% if example.feat_artist_name %}
-                        <span class="feat">"{{example.feat_artist_name}}"</span>
-                    {% endif %}
-                    <span class="album">[{{example.album }}]</span>
-                    <div class="lyric">{{ example.lyric_text }}</div>
+                    {% for example in sense.examples %}
+                        <li>
+                            <span class="date">{{ example.example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            {% if example.featured_artists %}
+                                <span> feat. </span>
+                                {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                {% endfor %}
+                            {% endif %}
+                            <span class="album">[{{example.example.album }}]</span>
+                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                        </li>
+                    {% endfor %}
+
                 </div>
+                {% endif %}
             {% endfor %}
+        </div>
 
-            </div>
-            {% endif %}
-        {% endfor %}
-    </div>
     {% endif %}
 
     {% if featured_senses %}
 
-    {% if featured_senses|length > 1 %}
-    <h3 class="trr-list-header">{{ featured_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a featured artist</h3>
-    {% elif featured_senses|length == 1 %}
-    <h3 class="trr-list-header">{{ featured_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a featured artist</h3>
-    {% endif %}
+        {% if featured_senses|length > 1 %}
+        <h3 class="trr-list-header">{{ featured_senses|length }} senses cite <strong>{{ artist.name }}</strong> as a featured artist</h3>
+        {% elif featured_senses|length == 1 %}
+        <h3 class="trr-list-header">{{ featured_senses|length }} sense cites <strong>{{ artist.name }}</strong> as a featured artist</h3>
+        {% endif %}
 
-    <div class="trr-list">
-        {% for sense in featured_senses %}
-            {% if sense.examples %}
-            <div class="trr-list-group-item">
-               <div>
-                  <strong>
-                     <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
-                  </strong>
-               </div>
-                {% for example in sense.examples %}
-                <div>
-                    <span class="date">{{ example.release_date_string }}</span>
-                    <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
-                    <span class="songTitle">"{{example.song_title}}"</span>
-                    {% if example.feat_artist_name %}
-                        <span class="feat">"{{example.feat_artist_name}}"</span>
-                    {% endif %}
-                    <span class="album">[{{example.album }}]</span>
-                    <div class="lyric">{{ example.lyric_text }}</div>
+        <div class="trr-list">
+            {% for sense in featured_senses %}
+                {% if sense.examples %}
+                <div class="trr-list-group-item">
+                   <div>
+                      <strong>
+                         <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
+                      </strong>
+                   </div>
+
+                    {% for example in sense.examples %}
+                        <li>
+                            <span class="date">{{ example.example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            {% if example.featured_artists %}
+                                <span> feat. </span>
+                                {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                {% endfor %}
+                            {% endif %}
+                            <span class="album">[{{example.example.album }}]</span>
+                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                        </li>
+                    {% endfor %}
+
                 </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
     {% endif %}
 
     {% if entity_senses %}
 
-    {% if entity_senses|length > 1 %}
-    <h3 class="trr-list-header">{{ entity_senses|length }} senses cite examples mentioning <strong>{{ artist.name }}</strong></h3>
-    {% elif entity_senses|length == 1 %}
-    <h3 class="trr-list-header">{{ entity_senses|length }} sense cites examples mentioning <strong>{{ artist.name }}</strong></h3>
-    {% endif %}
+        {% if entity_senses|length > 1 %}
+        <h3 class="trr-list-header">{{ entity_senses|length }} senses cite examples mentioning <strong>{{ artist.name }}</strong></h3>
+        {% elif entity_senses|length == 1 %}
+        <h3 class="trr-list-header">{{ entity_senses|length }} sense cites examples mentioning <strong>{{ artist.name }}</strong></h3>
+        {% endif %}
 
-    <div class="trr-list">
-        {% for sense in entity_senses %}
-            {% if sense.examples %}
-                {% if sense.name != artist.name %}
-                    <span class="altLabel">(as <strong>{{ sense.name }}</strong>)</span>
-                {% endif %}
-                <div class="trr-list-group-item">
-                   <div>
-                      <strong>
-                          <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
-                      </strong>
-                   </div>
+        <div class="trr-list">
+            {% for sense in entity_senses %}
+                {% if sense.examples %}
+                    {% if sense.name != artist.name %}
+                        <span class="altLabel">(as <strong>{{ sense.name }}</strong>)</span>
+                    {% endif %}
+                    <div class="trr-list-group-item">
+                       <div>
+                          <strong>
+                              <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
+                          </strong>
+                       </div>
+
                     {% for example in sense.examples %}
-                    <div>
-                        <span class="date">{{ example.release_date_string }}</span>
-                        <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
-                        <span class="songTitle">"{{example.song_title}}"</span>
-                        {% if example.feat_artist_name %}
-                            <span class="feat">"{{example.feat_artist_name}}"</span>
-                        {% endif %}
-                        <span class="album">[{{example.album }}]</span>
-                        <div class="lyric">{{ example.lyric_text }}</div>
-                    </div>
+                        <li>
+                            <span class="date">{{ example.example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            {% if example.featured_artists %}
+                                <span> feat. </span>
+                                {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                {% endfor %}
+                            {% endif %}
+                            <span class="album">[{{example.example.album }}]</span>
+                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                        </li>
                     {% endfor %}
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
 
     {% endif %}
 

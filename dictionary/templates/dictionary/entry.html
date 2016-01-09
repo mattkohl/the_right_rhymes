@@ -20,7 +20,7 @@
             {% endif %}
             <div class="headword">{{ entry.headword }}</div>
             {% for sense in senses %}
-                <div id="{{ sense.xml_id }}" class="pos">{{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
+                <div id="{{ sense.sense.xml_id }}" class="pos">{{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
                 <div class="definition">{{ sense.sense.definition }}</div>
                 {% if sense.sense.notes %}
                     <div class="note">({{ sense.sense.notes }})</div>

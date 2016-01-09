@@ -122,10 +122,10 @@ def artist(request, artist_slug):
         entity_senses = []
         if len(entity_results) >= 1:
             for entity in entity_results:
-                entity_senses += [{'name': entity.name, 'sense': sense, 'examples': sense.examples.filter(features_entities=entity).order_by('release_date')} for sense in entity.mentioned_at_senses.all()]
+                entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.all()]
 
-        primary_senses = [{'sense': sense, 'examples': sense.examples.filter(artist=artist).order_by('release_date')} for sense in artist.primary_senses.all()]
-        featured_senses = [{'sense': sense, 'examples': sense.examples.filter(feat_artist=artist).order_by('release_date')} for sense in artist.featured_senses.all()]
+        primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.all()]
+        featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.all()]
         context = {
             'index': index,
             'artist': artist,
@@ -150,7 +150,7 @@ def entity(request, entity_slug):
                 return redirect('/artists/' + entity.pref_label_slug)
             entities.append({
                 'entity': entity,
-                'senses': [{'sense': sense, 'examples': sense.examples.filter(features_entities=entity).order_by('release_date')} for sense in entity.mentioned_at_senses.all()]
+                'senses': [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.all()]
             })
 
         context = {

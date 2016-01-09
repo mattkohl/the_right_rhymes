@@ -29,18 +29,21 @@
                   </strong>
                </div>
 
-            {% for example in sense.examples %}
-                <div>
-                    <span class="date">{{ example.release_date_string }}</span>
-                    <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
-                    <span class="songTitle">"{{example.song_title}}"</span>
-                    {% if example.feat_artist_name %}
-                        <span class="feat">"{{example.feat_artist_name}}"</span>
-                    {% endif %}
-                    <span class="album">[{{example.album }}]</span>
-                    <div class="lyric">{{ example.lyric_text }}</div>
-                </div>
-            {% endfor %}
+                {% for example in sense.examples %}
+                    <li>
+                        <span class="date">{{ example.example.release_date_string }}</span>
+                        <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
+                        <span class="songTitle">"{{example.example.song_title}}"</span>
+                        {% if example.featured_artists %}
+                            <span> feat. </span>
+                            {% for feat in example.featured_artists %}
+                                <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                            {% endfor %}
+                        {% endif %}
+                        <span class="album">[{{example.example.album }}]</span>
+                        <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                    </li>
+                {% endfor %}
 
             </div>
             {% endif %}
