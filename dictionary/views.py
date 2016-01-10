@@ -1,4 +1,4 @@
-from django.shortcuts import render
+import os
 from django.shortcuts import redirect
 from django.template import loader
 from django.http import HttpResponse
@@ -39,11 +39,25 @@ def entry(request, headword_slug):
         sense_objects = entry.senses.all()
         senses = [build_sense(sense) for sense in sense_objects]
         published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+        image = ''
+        artist_name = ''
+        artist_slug = ''
+        try:
+            artist_slug = senses[0]['examples'][0]['example'].artist_slug
+            artist_name = senses[0]['examples'][0]['example'].artist_name
+        except:
+            print('Could not locate artist of first quotation')
+        else:
+            image = check_for_artist_image(artist_slug)
+
         context = {
             'index': index,
             'entry': entry,
             'senses': senses,
-            'published_entries': published
+            'published_entries': published,
+            'image': image,
+            'artist_slug': artist_slug,
+            'artist_name': artist_name
         }
         return HttpResponse(template.render(context, request))
     else:
@@ -126,12 +140,16 @@ def artist(request, artist_slug):
 
         primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.order_by('headword')]
         featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.order_by('headword')]
+
+        image = check_for_artist_image(artist.slug)
+
         context = {
             'index': index,
             'artist': artist,
             'primary_senses': primary_senses,
             'featured_senses': featured_senses,
             'entity_senses': entity_senses,
+            'image': image
         }
         return HttpResponse(template.render(context, request))
     else:
@@ -186,3 +204,16 @@ def domain(request, domain_slug):
         return HttpResponse("Whoa, what is {}?".format(domain_slug))
 
 
+def check_for_artist_image(slug):
+    jpg = 'dictionary/static/dictionary/img/artists/{}.jpg'.format(slug)
+    png = 'dictionary/static/dictionary/img/artists/{}.png'.format(slug)
+    if os.path.isfile(jpg):
+        print('Found:', jpg)
+        image = jpg.replace('dictionary/static/dictionary/', '/static/dictionary/')
+    elif os.path.isfile(png):
+        print('Found:', png)
+        image = png.replace('dictionary/static/dictionary/', '/static/dictionary/')
+    else:
+        print('No image found for {}.'.format(slug))
+        image = None
+    return image

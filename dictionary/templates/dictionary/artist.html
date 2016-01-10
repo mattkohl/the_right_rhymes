@@ -2,6 +2,14 @@
 {% block title %}{{ artist.name }} ⋅ {% endblock %}
 {% block content %}
 <div class="container">
+    {% if image %}
+      <figure class="single-thumb">
+         <img src="{{ image }}"
+              alt="{{ artist.name }}"
+              property="image"
+              scale="0"/>
+      </figure>
+    {% endif %}
 {% if artist %}
 
     {% if primary_senses %}

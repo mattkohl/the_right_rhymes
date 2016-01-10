@@ -12,10 +12,16 @@
         <div class="entry-content">
             {% if image %}
                 <figure class="single-thumb">
-                    <img src="/"
-                      alt="{{ entry.headword }}"
+                    <img src="{{ image }}"
+                      alt="{{ artist_name }}"
                       property="image"
                       scale="0"/>
+                  <figcaption>
+                      <a class="artist"
+                         href="{% url 'artist' artist_slug %}">
+                          <span>{{ artist_name }}</span>
+                      </a>
+                  </figcaption>
                 </figure>
             {% endif %}
             <div class="headword">{{ entry.headword }}</div>
