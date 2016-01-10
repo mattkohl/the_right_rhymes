@@ -1,6 +1,7 @@
 __author__ = 'MBK'
 
 import re
+import time
 from collections import OrderedDict
 import xmltodict
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
@@ -37,10 +38,15 @@ class XMLDict:
 class TRRDict:
 
     def __init__(self, xml_dict):
+        self.start = time.time()
         self.xml_dict = xml_dict
         self.dictionary = self.get_dictionary()
         self.entries = self.get_entries()
         self.entry_count = len(self.entries)
+        self.end = time.time()
+        self.total_time = self.end = self.start
+        self.average_entry_load = self.total_time / self.entry_count
+        self.print_stats()
 
     def __str__(self):
         return "Python dict representation of The Right Rhymes. Entry count: " + self.entry_count
@@ -59,6 +65,10 @@ class TRRDict:
         else:
             return[TRREntry(entry_dict) for entry_dict in entry_list]
 
+    def print_stats(self):
+        print('Entries processed:', self.entry_count)
+        print('Total time: ', self.total_time % 60, 'minutes', self.total_time / 60, 'seconds')
+        print('Average entry load:', self.average_entry_load)
 
 class TRREntry:
 

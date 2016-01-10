@@ -1980,4 +1980,1036 @@
          </sense>
       </senses>
    </entry>
+   <entry sk="zip" eid="e11715" publish="yes">
+      <head>
+         <headword>zip</headword>
+      </head>
+      <senses id="e11715_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="46">zip</form>
+            <form freq="30">zips</form>
+            <form freq="1">Zip</form>
+         </forms>
+         <sense id="e11715_n_1">
+            <rhymes>
+               <rhyme freq="2">chips</rhyme>
+               <rhyme freq="2">shit</rhyme>
+               <rhyme freq="1">Bitch</rhyme>
+               <rhyme freq="1">bricks</rhyme>
+               <rhyme freq="1">clip</rhyme>
+               <rhyme freq="1">crip</rhyme>
+               <rhyme freq="1">dick</rhyme>
+               <rhyme freq="1">flip</rhyme>
+               <rhyme freq="1">grip</rhyme>
+               <rhyme freq="1">hits</rhyme>
+               <rhyme freq="1">it</rhyme>
+               <rhyme freq="1">lips</rhyme>
+               <rhyme freq="1">lit</rhyme>
+               <rhyme freq="1">quick</rhyme>
+               <rhyme freq="1">sip</rhyme>
+               <rhyme freq="1">sips</rhyme>
+               <rhyme freq="1">split</rhyme>
+               <rhyme freq="1">this</rhyme>
+               <rhyme freq="1">trip</rhyme>
+               <rhyme freq="1">trips</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="6" target="e3140_trV_1">blow</collocate>
+               <collocate freq="4" target="e4320_trV_1">cop</collocate>
+               <collocate freq="4" target="e5820_n_1">gram</collocate>
+               <collocate freq="3" target="e11290_n_1">weed</collocate>
+               <collocate freq="2" target="e4015_n_1">chips</collocate>
+               <collocate freq="2" target="e4970_n_1">dro</collocate>
+               <collocate freq="2" target="e7100_n_1">kush</collocate>
+               <collocate freq="2" target="e7758_trV_1">move</collocate>
+               <collocate freq="2" target="e8755_n_1">purp</collocate>
+               <collocate freq="1" target="e7890_n_1">9</collocate>
+               <collocate freq="1" target="e2670_trV_1">bag</collocate>
+               <collocate freq="1" target="e2680_trPhrV_2">bag up</collocate>
+               <collocate freq="1" target="e3040_n_2">bitch</collocate>
+               <collocate freq="1" target="e3096_trPhrV_1">blaze up</collocate>
+               <collocate freq="1" target="e3450_n_1">brick</collocate>
+               <collocate freq="1" target="e4037_trPhrV_1">chop up</collocate>
+               <collocate freq="1" target="e4120_n_1">clip</collocate>
+               <collocate freq="1" target="e4220_n_1">coke</collocate>
+               <collocate freq="1" target="e4303_trV_1">cook</collocate>
+               <collocate freq="1" target="e4320_intrV_1">cop</collocate>
+               <collocate freq="1" target="e4370_n_1">crack</collocate>
+               <collocate freq="1" target="e4863_n_1">doja</collocate>
+               <collocate freq="1" target="e4907_n_1">double cup</collocate>
+               <collocate freq="1" target="e4950_n_1">drank</collocate>
+               <collocate freq="1" target="e5155_n_1">eighth</collocate>
+               <collocate freq="1" target="e5890_n_2">grip</collocate>
+               <collocate freq="1" target="e6107_n_1">haze</collocate>
+               <collocate freq="1" target="e6360_n_1">homie</collocate>
+               <collocate freq="1" target="e6530_intrV_1">hustle</collocate>
+               <collocate freq="1" target="e6560_n_1">hydro</collocate>
+               <collocate freq="1" target="e6960_n_1">ki</collocate>
+               <collocate freq="1" target="e6990_n_1">kilo</collocate>
+               <collocate freq="1" target="e7285_adj_1">lit</collocate>
+               <collocate freq="1" target="e7565_n_1">mark</collocate>
+               <collocate freq="1" target="e7600_n_1">mayne</collocate>
+               <collocate freq="1" target="e7975_n_1">O</collocate>
+               <collocate freq="1" target="e8600_n_3">pound</collocate>
+               <collocate freq="1" target="e8610_n_1">powder</collocate>
+               <collocate freq="1" target="e8805_n_1">quarter</collocate>
+               <collocate freq="1" target="e9060_n_1">rock</collocate>
+               <collocate freq="1" target="e9360_trV_2">serve</collocate>
+               <collocate freq="1" target="e9370_n_1">sess</collocate>
+               <collocate freq="1" target="e9700_trV_1">slang</collocate>
+               <collocate freq="1" target="e10180_n_1">sticky</collocate>
+               <collocate freq="1" target="e11020_n_1">triple beam</collocate>
+               <collocate freq="1" target="e11580_n_2">work</collocate>
+            </collocates>
+            <domain type="drugSales"/>
+            <semanticClass type="quantities"/>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>an ounce of marijuana, cocaine, or some other drug</text>
+            </definition>
+            <xref type="hasSynonym" target="e8130_n_2">onion</xref>
+            <xref type="hasSynonym" target="e8170_n_1">ounce</xref>
+            <xref type="hasSynonym" target="e7975_n_1">O</xref>
+            <xref type="conceptRelatesTo" target="e5150_n_1">eightball</xref>
+            <xref type="conceptRelatesTo" target="e5155_n_1">eighth</xref>
+            <xref type="conceptRelatesTo" target="e7220_n_2">lid</xref>
+            <xref type="conceptRelatesTo" target="e8805_n_1">quarter</xref>
+            <examples>
+               <example id="14145">
+                  <date>1993-11-10</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>Rat Heads</songTitle>
+                  <album>Federal</album>
+                  <lyric><text>Wanna hang hisself like a dick, just because he got popped with a half a zip</text> <rhyme rhymeTarget="e11715_n_1" position="26">dick</rhyme> <rf target="e11715_n_1" position="73" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="39126">
+                  <date>1994-05-10</date>
+                  <artist origin="Oakland, California, USA">Saafir</artist>
+                  <songTitle>Hype Shit</songTitle>
+                  <album>Boxcar Sessions</album>
+                  <lyric><text>The mark was on my bumper, plus, I had a zip</text> <xref target="e7565_n_1" position="4" lemma="mark">mark</xref> <rf target="e11715_n_1" position="41" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="17873">
+                  <date>1994-11-08</date>
+                  <artist origin="East Bay, California, USA">Goldy</artist>
+                  <songTitle>Don't Trust Anybody</songTitle>
+                  <album>In The Land of Funk</album>
+                  <lyric><text>They put two zips of coke in his pockets, then they put him in handcuffs</text> <rf target="e11715_n_1" position="13" lemma="zip">zips</rf> <xref target="e4220_n_1" position="21" lemma="coke">coke</xref></lyric>
+               </example>
+               <example id="35986">
+                  <date>1994</date>
+                  <artist origin="Oakland, California, USA">Pooh-Man</artist>
+                  <songTitle>In The Gutter</songTitle>
+                  <album>Ain't No Love</album>
+                  <lyric><text>20 zips gone in a matter of an hour, man</text> <rf target="e11715_n_1" position="3" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="28140">
+                  <date>1995-07-03</date>
+                  <artist origin="Oakland, California, USA">Luniz</artist>
+                  <songTitle>900 Blame A Nigga</songTitle>
+                  <album>Operation Stackola</album>
+                  <lyric><text>Chopped rocks in a nigga possesion, a whole zip</text> <xref target="e9060_n_1" position="8" lemma="rock">rocks</xref> <rf target="e11715_n_1" position="44" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="28147">
+                  <date>1995-07-03</date>
+                  <artist origin="Oakland, California, USA">Luniz</artist>
+                  <songTitle>Yellow Brick Road</songTitle>
+                  <album>Operation Stackola</album>
+                  <lyric><text>To get enough to cop a zip</text> <xref target="e4320_trV_1" position="17" lemma="cop">cop</xref> <rf target="e11715_n_1" position="23" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="42263">
+                  <date>1995-12-05</date>
+                  <artist origin="Hayward, California, USA">Spice 1</artist>
+                  <songTitle>Sucka Ass Niggas</songTitle>
+                  <feat>G-Nut</feat>
+                  <album>1990-Sick</album>
+                  <lyric><text>Every time I sell out, I buy a brand-new zip</text> <rf target="e11715_n_1" position="41" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="37564">
+                  <date>1995</date>
+                  <artist origin="Oakland, California, USA">Rappin' Ron &amp; Ant Diddley Dog</artist>
+                  <songTitle>The Bomb</songTitle>
+                  <feat origin="Oakland, California, USA">Ant Banks</feat>
+                  <album>Bad N-Fluenz</album>
+                  <lyric><text>I stay lit every day, smoking zips of bomb</text> <xref rhymeTarget="e11715_n_1" target="e7285_adj_1" position="7" lemma="lit">lit</xref> <rf target="e11715_n_1" position="30" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="4304">
+                  <date>1996-10-15</date>
+                  <artist origin="Inglewood, California, USA">Big Syke</artist>
+                  <songTitle>Wasted Talent</songTitle>
+                  <feat origin="Vallejo, California, USA">Mac Mall</feat>
+                  <album>Be Yo Self</album>
+                  <lyric><text>No tapes and CDs, just zips and O's</text> <rf target="e11715_n_1" position="23" lemma="zip">zips</rf> <xref target="e7975_n_1" position="32" lemma="O">O's</xref></lyric>
+               </example>
+               <example id="2987">
+                  <date>1996</date>
+                  <artist origin="Vallejo, California, USA">B-Legit</artist>
+                  <songTitle>Check It Out</songTitle>
+                  <feat origin="Vallejo, California, USA">E-40</feat>
+                  <feat origin="Philadelphia, Pennsylvania, USA">Kurupt</feat>
+                  <album>The Hemp Museum</album>
+                  <lyric><text>Open shop with a sixteenth of powder to a whole zip</text> <xref target="e8610_n_1" position="30" lemma="powder">powder</xref> <rf target="e11715_n_1" position="48" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="14621">
+                  <date>1997-08-05</date>
+                  <artist origin="Memphis, Tennessee, USA">8Ball &amp; MJG</artist>
+                  <songTitle>In The Wind</songTitle>
+                  <album>How To Be A Player Soundtrack</album>
+                  <lyric><text>Smoke up your whole zip, sess, hydro, or crip</text> <rf target="e11715_n_1" position="20" lemma="zip">zip</rf> <xref target="e9370_n_1" position="25" lemma="sess">sess</xref> <xref target="e6560_n_1" position="31" lemma="hydro">hydro</xref> <rhyme rhymeTarget="e11715_n_1" position="41">crip</rhyme></lyric>
+               </example>
+               <example id="39838">
+                  <date>1997-08-12</date>
+                  <artist origin="Oakland, California, USA">Seagram</artist>
+                  <songTitle>S.E.A.G. &amp; Yuk Is Ridin'</songTitle>
+                  <feat origin="East Oakland, Oakland, California, USA">Yukmouth</feat>
+                  <album>Souls On Ice</album>
+                  <lyric><text>We gettin off zips for 6</text> <rf target="e11715_n_1" position="14" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="6232">
+                  <date>1997-09-16</date>
+                  <artist origin="Sacramento, California, USA">Brotha Lynch Hung</artist>
+                  <songTitle>On My Briefcase</songTitle>
+                  <feat>Phonk Beta</feat>
+                  <feat>Zagg</feat>
+                  <album>Loaded</album>
+                  <lyric><text>The whole zip possessed one seed</text> <rf target="e11715_n_1" position="10" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="42272">
+                  <date>1997-10-28</date>
+                  <artist origin="Hayward, California, USA">Spice 1</artist>
+                  <songTitle>Ballin'</songTitle>
+                  <feat origin="East Oakland, Oakland, California, USA">Yukmouth</feat>
+                  <feat origin="Flint, Michigan, USA">MC Breed</feat>
+                  <album>Tha Black Bossalini</album>
+                  <lyric><text>Hustling, busting down zips, making chips</text> <xref target="e6530_intrV_1" position="0" lemma="hustle">Hustling</xref> <rf target="e11715_n_1" position="23" lemma="zip">zips</rf> <xref rhymeTarget="e11715_n_1" target="e4015_n_1" position="36" lemma="chips">chips</xref></lyric>
+               </example>
+               <example id="39647">
+                  <date>1998-03-03</date>
+                  <artist origin="South Park, Houston, Texas, USA">Scarface</artist>
+                  <songTitle>In My Blood</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Big Mike</feat>
+                  <feat origin="St. Paul, Minnesota, USA">DMG</feat>
+                  <feat origin="East Oakland, Oakland, California, USA">Yukmouth</feat>
+                  <album>My Homies</album>
+                  <lyric><text>It takes 28 grams, multiplied by 36 zips, to make a triple beam break</text> <xref target="e5820_n_1" position="12" lemma="gram">grams</xref> <rf target="e11715_n_1" position="36" lemma="zip">zips</rf> <xref target="e11020_n_1" position="52" lemma="triple beam">triple beam</xref></lyric>
+               </example>
+               <example id="42382">
+                  <date>1998-04-07</date>
+                  <artist origin="Oakland, California, USA">Steady Mobb'n</artist>
+                  <songTitle>Call It What You Want</songTitle>
+                  <album>I Got the Hook-Up Soundtrack</album>
+                  <lyric><text>Keep it by the zip, to the pound, to the ki</text> <rf target="e11715_n_1" position="15" lemma="zip">zip</rf> <xref target="e6960_n_1" position="41" lemma="ki">ki</xref></lyric>
+               </example>
+               <example id="48583">
+                  <date>1998-04-28</date>
+                  <artist origin="Los Angeles, California, USA">WC</artist>
+                  <songTitle>Rich Rolling</songTitle>
+                  <feat>DJ Crazy Toones</feat>
+                  <feat origin="Los Angeles, California, USA">CJ Mac</feat>
+                  <album>The Shadiest One</album>
+                  <lyric><text>Ziplock zips, the Pyrex-packing shippers</text> <rf target="e11715_n_1" position="8" lemma="zip">zips</rf> <entity type="product" position="18" prefLabel="Pyrex">Pyrex</entity></lyric>
+               </example>
+               <example id="7895">
+                  <date>1998-07-28</date>
+                  <artist origin="Vallejo, California, USA">Celly Cel</artist>
+                  <songTitle>Every Day Is Tha Weekend</songTitle>
+                  <feat>Otis</feat>
+                  <feat origin="None">Shug</feat>
+                  <album>The G Filez</album>
+                  <lyric><text>Blowin' zips, chasin' chips, watchin' money flip</text> <xref target="e3140_trV_1" position="0" lemma="blow">Blowin'</xref> <rf target="e11715_n_1" position="8" lemma="zip">zips</rf> <xref rhymeTarget="e11715_n_1" target="e4015_n_1" position="22" lemma="chips">chips</xref> <rhyme rhymeTarget="e11715_n_1" position="44">flip</rhyme></lyric>
+               </example>
+               <example id="49960">
+                  <date>1998-11-03</date>
+                  <artist origin="East Oakland, Oakland, California, USA">Yukmouth</artist>
+                  <songTitle>Ice Cream Man</songTitle>
+                  <feat origin="Houston, Texas, USA">5th Ward Boyz</feat>
+                  <feat>Fa Sho</feat>
+                  <album>Thugged Out: The Albulation</album>
+                  <lyric><text>I slang double-ups, half-thangs, an' zips</text> <xref target="e9700_trV_1" position="2" lemma="slang">slang</xref> <rf target="e11715_n_1" position="37" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="9737">
+                  <date>1999-03-23</date>
+                  <artist origin="Los Angeles, California, USA">Crooked I</artist>
+                  <songTitle>Get Yo Mob On</songTitle>
+                  <album>Foolish Soundtrack</album>
+                  <lyric><text>Now, unwrap the bricks and chop the zips up</text> <xref rhymeTarget="e11715_n_1" target="e3450_n_1" position="16" lemma="brick">bricks</xref> <xref target="e4037_trPhrV_1" position="27" lemma="chop up">chop</xref> <rf target="e11715_n_1" position="36" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="16858">
+                  <date>1999-08-31</date>
+                  <artist origin="Los Angeles, California, USA">Frost</artist>
+                  <songTitle>Milk &amp; Honey</songTitle>
+                  <feat>Baby Beesh</feat>
+                  <feat origin="Vallejo, California, USA">Jay Tee</feat>
+                  <feat>Philly Blunt</feat>
+                  <album>That Was Then, This Is Now, Vol. 1</album>
+                  <lyric><text>Well, now, there's 28 grams in a zip of cocaine</text> <xref target="e5820_n_1" position="22" lemma="gram">grams</xref> <rf target="e11715_n_1" position="33" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="14171">
+                  <date>1999-11-09</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>'Cause I Can</songTitle>
+                  <feat origin="Sacramento, California, USA">C-BO</feat>
+                  <feat origin="San Diego, California, USA">Jayo Felony</feat>
+                  <album>Charlie Hustle: Blueprint of A Self-Made Millionaire</album>
+                  <lyric><text>Can't leave the house with less than a zip an' a extra clip</text> <rf target="e11715_n_1" position="39" lemma="zip">zip</rf> <xref rhymeTarget="e11715_n_1" target="e4120_n_1" position="55" lemma="clip">clip</xref></lyric>
+               </example>
+               <example id="23677">
+                  <date>2000-08-15</date>
+                  <artist origin="Fresno, California, USA">Killa Tay</artist>
+                  <songTitle>Big Scrilla</songTitle>
+                  <album>Snake Eyes</album>
+                  <lyric><text>Blazin' up doja zips</text> <xref target="e3096_trPhrV_1" position="0" lemma="blaze up">Blazin' up</xref> <xref target="e4863_n_1" position="11" lemma="doja">doja</xref> <rf target="e11715_n_1" position="16" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="38204">
+                  <date>2000-09-12</date>
+                  <artist origin="Oakland, California, USA">Richie Rich</artist>
+                  <songTitle>Birds</songTitle>
+                  <album>The Game</album>
+                  <lyric><text>Cook 10 zips, bring back 14</text> <xref target="e4303_trV_1" position="0" lemma="cook">Cook</xref> <rf target="e11715_n_1" position="8" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="49304">
+                  <date>2000</date>
+                  <artist origin="Sacramento, California, USA">Nefarious</artist>
+                  <songTitle>Hellraizer</songTitle>
+                  <album>Speak of Da Devil</album>
+                  <lyric><text>My stock's up a grip, 600 bucks a zip</text> <xref rhymeTarget="e11715_n_1" target="e5890_n_2" position="16" lemma="grip">grip</xref> <rf target="e11715_n_1" position="34" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="28767">
+                  <date>2001-03-20</date>
+                  <artist origin="Inglewood, California, USA">Mack 10</artist>
+                  <songTitle>Steady Griding</songTitle>
+                  <feat origin="New Orleans, Louisiana, USA">Cash Money Millionaires</feat>
+                  <album>Exit Wounds Soundtrack</album>
+                  <lyric><text>Hit the streets with that work, 400 a zip</text> <xref target="e11580_n_2" position="26" lemma="work">work</xref> <rf target="e11715_n_1" position="38" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="28591">
+                  <date>2001-11-20</date>
+                  <artist origin="Oakland, California, USA">Mac Dre</artist>
+                  <songTitle>Mac Dammit &amp; Friends</songTitle>
+                  <feat>B.A.</feat>
+                  <feat origin="Vallejo, California, USA">PSD</feat>
+                  <feat origin="Oakland, California, USA">Keak Da Sneak</feat>
+                  <album>It's Not What You Say... It's How You Say It</album>
+                  <lyric><text>Possessions are under a zip of weed, no sales</text> <rf target="e11715_n_1" position="24" lemma="zip">zip</rf> <xref target="e11290_n_1" position="31" lemma="weed">weed</xref></lyric>
+               </example>
+               <example id="44861">
+                  <date>2001-11-20</date>
+                  <artist origin="Oakland, California, USA">Jacka, The</artist>
+                  <songTitle>Hey Girl</songTitle>
+                  <feat>Kazi</feat>
+                  <feat>Uzi</feat>
+                  <album>The Jacka</album>
+                  <lyric><text>I got a flight to the next state, cop me a zip</text> <xref target="e4320_trV_1" position="34" lemma="cop">cop</xref> <rf target="e11715_n_1" position="43" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="13841">
+                  <date>2002-01-15</date>
+                  <artist origin="San Francisco, California, USA">Andre Nickatina</artist>
+                  <songTitle>Ayo</songTitle>
+                  <album>Hell's Kitchen</album>
+                  <lyric><text>Don't go in the house till you move a zip</text> <xref target="e7758_trV_1" position="31" lemma="move">move</xref> <rf target="e11715_n_1" position="38" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="46435">
+                  <date>2002-09-10</date>
+                  <artist origin="Oakland, California, USA">Too $hort</artist>
+                  <songTitle>Cali-O</songTitle>
+                  <feat origin="Oakland, California, USA">Ant Banks</feat>
+                  <feat origin="Vallejo, California, USA">B-Legit</feat>
+                  <feat origin="Vallejo, California, USA">E-40</feat>
+                  <album>What's My Favorite Word?</album>
+                  <lyric><text>Got zips from Cali-O, niggas call it the dro</text> <rf target="e11715_n_1" position="4" lemma="zip">zips</rf> <rhyme rhymeTarget="e4970_n_1" position="14">Cali</rhyme> <xref target="e4970_n_1" position="41" lemma="dro">dro</xref></lyric>
+               </example>
+               <example id="13861">
+                  <date>2003-04-22</date>
+                  <artist origin="San Francisco, California, USA">Andre Nickatina</artist>
+                  <songTitle>Soul of A Coke Dealer</songTitle>
+                  <album>Conversation with a Devil: Cocaine Raps, Vol. 3</album>
+                  <lyric><text>Man, I wish I had never learned to bag a zip</text> <xref target="e2670_trV_1" position="35" lemma="bag">bag</xref> <rf target="e11715_n_1" position="41" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="25846">
+                  <date>2003-07-22</date>
+                  <artist origin="Baton Rouge, Louisiana, USA">Lil Boosie</artist>
+                  <songTitle>Do It Big</songTitle>
+                  <album>Ghetto Stories</album>
+                  <lyric><text>Get a half a zip, don't short stop</text> <rf target="e11715_n_1" position="13" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="26130">
+                  <date>2003-07-22</date>
+                  <artist origin="Houston, Texas, USA">Lil' Keke</artist>
+                  <songTitle>Shed Tears</songTitle>
+                  <album>Street Stories Vol. 1</album>
+                  <lyric><text>Fifty-packs and quarters, halves and zips</text> <xref target="e8805_n_1" position="16" lemma="quarter">quarters</xref> <rf target="e11715_n_1" position="37" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="28592">
+                  <date>2003-11-04</date>
+                  <artist origin="Oakland, California, USA">Mac Dre</artist>
+                  <songTitle>Mafioso</songTitle>
+                  <feat>Young Dru</feat>
+                  <album>Al Boo Boo</album>
+                  <lyric><text>Weighin' zips, boy</text> <rf target="e11715_n_1" position="9" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="14187">
+                  <date>2004-08-24</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>Bust Yo Shit</songTitle>
+                  <feat origin="Vallejo, California, USA">B-Legit</feat>
+                  <feat>Rankin Scroo</feat>
+                  <album>The Best of E-40</album>
+                  <lyric><text>We stay high, and we move zips</text> <xref target="e7758_trV_1" position="21" lemma="move">move</xref> <rf target="e11715_n_1" position="26" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="18866">
+                  <date>2004-10-19</date>
+                  <artist origin="Lebanon, Tennessee, USA">Haystak</artist>
+                  <songTitle>Hustle &amp; Flow</songTitle>
+                  <album>Portrait of A White Boy</album>
+                  <lyric><text>I took sixteen zips of that Mexican red</text> <rf target="e11715_n_1" position="15" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="26097">
+                  <date>2004-10-26</date>
+                  <artist origin="Houston, Texas, USA">Lil' Keke</artist>
+                  <songTitle>A Mic &amp; Hook</songTitle>
+                  <album>Currency</album>
+                  <lyric><text>My nigga P hit the do', with a zip of the shit</text> <rf target="e11715_n_1" position="31" lemma="zip">zip</rf> <rhyme rhymeTarget="e11715_n_1" position="42">shit</rhyme></lyric>
+               </example>
+               <example id="15703">
+                  <date>2004-11-09</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Fabolous</artist>
+                  <songTitle>Ghetto</songTitle>
+                  <feat>Thara</feat>
+                  <album>Real Talk</album>
+                  <lyric><text>Heading overseas wit a zip of New York City's haze</text> <rf target="e11715_n_1" position="23" lemma="zip">zip</rf> <entity type="place" position="30" prefLabel="New York City">New York City</entity> <xref target="e6107_n_1" position="46" lemma="haze">haze</xref></lyric>
+               </example>
+               <example id="3174">
+                  <date>2005-03-15</date>
+                  <artist origin="Vallejo, California, USA">Baby Bash</artist>
+                  <songTitle>Better Than I Can Tell Ya</songTitle>
+                  <feat origin="Oakland, California, USA">Richie Rich</feat>
+                  <feat>Russell Lee</feat>
+                  <feat>A-Wax</feat>
+                  <album>Super Saucy</album>
+                  <lyric><text>Cop, then blow a zip with Bash</text> <xref target="e4320_intrV_1" position="0" lemma="cop">Cop</xref> <xref target="e3140_trV_1" position="10" lemma="blow">blow</xref> <rf target="e11715_n_1" position="17" lemma="zip">zip</rf> <entity type="artist" prefLabel="Baby Bash" position="26">Bash</entity></lyric>
+               </example>
+               <example id="15296">
+                  <date>2005-04-19</date>
+                  <artist origin="Detroit, Michigan, USA">Esham</artist>
+                  <songTitle>Since Day One</songTitle>
+                  <album>A-1 Yola</album>
+                  <lyric><text>Servin' zips in zones, that's what we on</text> <xref target="e9360_trV_2" position="0" lemma="serve">Servin'</xref> <rf target="e11715_n_1" position="8" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="3104">
+                  <date>2005-05-24</date>
+                  <artist origin="New Orleans, Louisiana, USA">B.G.</artist>
+                  <songTitle>Same Ol' Shit</songTitle>
+                  <feat>Gar</feat>
+                  <feat>Hakizzle</feat>
+                  <feat>Sniper</feat>
+                  <feat origin="New Orleans, Louisiana, USA">VL Mike</feat>
+                  <album>The Heart of Tha Streetz, Vol. 1</album>
+                  <lyric><text>Make her stack up a zip quick</text> <rf target="e11715_n_1" position="20" lemma="zip">zip</rf> <rhyme rhymeTarget="e11715_n_1" position="24">quick</rhyme></lyric>
+               </example>
+               <example id="49730">
+                  <date>2005-07-26</date>
+                  <artist origin="Atlanta, Georgia, USA">Young Jeezy</artist>
+                  <songTitle>Bottom of The Map</songTitle>
+                  <album>Let's Get It: Thug Motivation 101</album>
+                  <lyric><text>Whole zip of kush, just to get my mind right</text> <rf target="e11715_n_1" position="6" lemma="zip">zip</rf> <xref target="e7100_n_1" position="13" lemma="kush">kush</xref></lyric>
+               </example>
+               <example id="49618">
+                  <date>2005-11-08</date>
+                  <artist origin="Nashville, Tennessee, USA">Young Buck</artist>
+                  <songTitle>Can't Keep Livin</songTitle>
+                  <album>T.I.P.</album>
+                  <lyric><text>You niggaz still runnin yo' lips, I be runnin them zips</text> <rhyme rhymeTarget="e11715_n_1" position="28">lips</rhyme> <rf target="e11715_n_1" position="51" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="13875">
+                  <date>2005-11-15</date>
+                  <artist origin="San Francisco, California, USA">Andre Nickatina &amp; Equipto</artist>
+                  <songTitle>Da Spitz</songTitle>
+                  <album>Gun-Mouth 4 Hire: Horns &amp; Halos 2</album>
+                  <lyric><text>Blow zips, split that, then swallow this</text> <xref target="e3140_trV_1" position="0" lemma="blow">Blow</xref> <rf target="e11715_n_1" position="5" lemma="zip">zips</rf> <rhyme rhymeTarget="e11715_n_1" position="36">this</rhyme></lyric>
+               </example>
+               <example id="39796">
+                  <date>2005</date>
+                  <artist origin="Houston, Texas, USA">Screwed Up Click</artist>
+                  <songTitle>Play 2 Win</songTitle>
+                  <feat>Mike D</feat>
+                  <feat origin="Houston, Texas, USA">Lil' O</feat>
+                  <album>Straight Wreckin: The S.U.C. Mixtape Vol. 2</album>
+                  <lyric><text>Copping half a zips out there, trying to bubble, mayn</text> <xref target="e4320_trV_1" position="0" lemma="cop">Copping</xref> <rf target="e11715_n_1" position="15" lemma="zip">zips</rf> <xref target="e7600_n_1" position="49" lemma="mayne">mayn</xref></lyric>
+               </example>
+               <example id="14229">
+                  <date>2006-03-14</date>
+                  <artist origin="Vallejo, California, USA">E-40</artist>
+                  <songTitle>Just Fuckin</songTitle>
+                  <feat>Bosko</feat>
+                  <album>My Ghetto Report Card</album>
+                  <lyric><text>I go pick up a zip, stop by the liquor sto'</text> <rf target="e11715_n_1" position="15" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="9954">
+                  <date>2006-04-25</date>
+                  <artist origin="Houston, Texas, USA">Custom Made Gangstas</artist>
+                  <songTitle>Hydro</songTitle>
+                  <album>If You Ain't Hungry, Don't Come To The Table</album>
+                  <lyric><text>I'm the first with a zip of that fluffy shit</text> <rf target="e11715_n_1" position="21" lemma="zip">zip</rf> <rhyme rhymeTarget="e11715_n_1" position="40">shit</rhyme></lyric>
+               </example>
+               <example id="19705">
+                  <date>2006-04-28</date>
+                  <artist origin="Bay Point, California, USA">Husalah</artist>
+                  <songTitle>Bonus Track #1</songTitle>
+                  <album>Dope, Guns &amp; Religion</album>
+                  <lyric><text>He went down, got back like nine zips of cooked crack</text> <rhyme rhymeTarget="e4370_n_1" position="18">back</rhyme> <rf target="e11715_n_1" position="33" lemma="zip">zips</rf> <xref target="e4370_n_1" position="48" lemma="crack">crack</xref></lyric>
+               </example>
+               <example id="19711">
+                  <date>2006-04-28</date>
+                  <artist origin="Bay Point, California, USA">Husalah</artist>
+                  <songTitle>Through The Night</songTitle>
+                  <album>Dope, Guns &amp; Religion</album>
+                  <lyric><text>Residue on my palms, I'm bustin' down a whole zip</text> <rf target="e11715_n_1" position="46" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="14372">
+                  <date>2006-05-16</date>
+                  <artist origin="Houston, Texas, USA">E.S.G.</artist>
+                  <songTitle>Purped Out</songTitle>
+                  <feat>Dujan</feat>
+                  <album>Screwed Up Movement</album>
+                  <lyric><text>Ain't talking bout half a zip, cause we known for copping pounds</text> <rf target="e11715_n_1" position="26" lemma="zip">zip</rf> <xref target="e4320_trV_1" position="50" lemma="cop">copping</xref> <xref target="e8600_n_3" position="58" lemma="pound">pounds</xref></lyric>
+               </example>
+               <example id="35503">
+                  <date>2006-07-25</date>
+                  <artist origin="Virginia Beach, Virginia, USA">Pharrell Williams</artist>
+                  <songTitle>How Does It Feel?</songTitle>
+                  <album>In My Mind</album>
+                  <lyric><text>Got more hits than a zip, who want it, nuh?</text> <rhyme rhymeTarget="e11715_n_1" position="9">hits</rhyme> <rf target="e11715_n_1" position="21" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="13890">
+                  <date>2006-12-12</date>
+                  <artist origin="San Francisco, California, USA">Andre Nickatina &amp; Equipto</artist>
+                  <songTitle>Monday Like A Friday</songTitle>
+                  <feat origin="Oakland, California, USA">Jacka, The</feat>
+                  <album>Bullet Symphony: Horns &amp; Halos 3</album>
+                  <lyric><text>I just know the do's livin, I could smoke a whole zip in</text> <rf target="e11715_n_1" position="50" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="13691">
+                  <date>2007-01-01</date>
+                  <artist origin="Toronto, Ontario, Canada">Drake</artist>
+                  <songTitle>Barry Bonds</songTitle>
+                  <album>Comeback Season</album>
+                  <lyric><text>I try'd to sell weed, give me cash for this zip</text> <xref target="e11290_n_1" position="16" lemma="weed">weed</xref> <rf target="e11715_n_1" position="44" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="14593">
+                  <date>2007-03-13</date>
+                  <artist origin="Memphis, Tennessee, USA">8Ball &amp; MJG</artist>
+                  <songTitle>Runnin Out of Bud</songTitle>
+                  <feat origin="Atlanta, Georgia, USA">Killer Mike</feat>
+                  <album>Ridin High</album>
+                  <lyric><text>At least 400 for a zip, if I'mma touch it</text> <rf target="e11715_n_1" position="19" lemma="zip">zip</rf> <rhyme rhymeTarget="e11715_n_1" position="39">it</rhyme></lyric>
+               </example>
+               <example id="49623">
+                  <date>2007-03-27</date>
+                  <artist origin="Nashville, Tennessee, USA">Young Buck</artist>
+                  <songTitle>Get Buck</songTitle>
+                  <album>Buck The World</album>
+                  <lyric><text>A zip ain't shit, I need a quarter-P of purp</text> <rf target="e11715_n_1" position="2" lemma="zip">zip</rf> <xref target="e8755_n_1" position="40" lemma="purp">purp</xref></lyric>
+               </example>
+               <example id="49807">
+                  <date>2007-05-22</date>
+                  <artist origin="Atlanta, Georgia, USA">U.S.D.A.</artist>
+                  <songTitle>Quickie</songTitle>
+                  <album>Cold Summer</album>
+                  <lyric><text>Got the cigarillos, half a zip, ready fo' me</text> <rf target="e11715_n_1" position="27" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="43371">
+                  <date>2007-08-21</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Talib Kweli</artist>
+                  <songTitle>Go With Us</songTitle>
+                  <feat>Strong Arm Steady</feat>
+                  <album>Eardrum</album>
+                  <lyric><text>How you think the little homie got kush zips for four hun'?</text> <xref target="e6360_n_1" position="25" lemma="homie">homie</xref> <xref target="e7100_n_1" position="35" lemma="kush">kush</xref> <rf target="e11715_n_1" position="40" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="11154">
+                  <date>2007-10-09</date>
+                  <artist origin="Long Beach, California, USA">Daz Dillinger</artist>
+                  <songTitle>Gettin' Money</songTitle>
+                  <feat origin="Vallejo, California, USA">E-40</feat>
+                  <feat origin="Philadelphia, Pennsylvania, USA">Kurupt</feat>
+                  <album>Gangsta Party</album>
+                  <lyric><text>With a cool half a zip, we on a stackin trip</text> <rf target="e11715_n_1" position="19" lemma="zip">zip</rf> <rhyme rhymeTarget="e11715_n_1" position="40">trip</rhyme></lyric>
+               </example>
+               <example id="41300">
+                  <date>2008-03-07</date>
+                  <artist origin="Long Beach, California, USA">Snoop Dogg</artist>
+                  <songTitle>Been Around Tha World</songTitle>
+                  <feat>Latonya Givens</feat>
+                  <album>Ego Trippin</album>
+                  <lyric><text>Blowin' sticky by the zips</text> <xref target="e3140_trV_1" position="0" lemma="blow">Blowin'</xref> <xref target="e10180_n_1" position="8" lemma="sticky">sticky</xref> <rf target="e11715_n_1" position="22" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="33324">
+                  <date>2008-09-16</date>
+                  <artist origin="St. Louis, Missouri, USA">Nelly</artist>
+                  <songTitle>Chill</songTitle>
+                  <feat origin="St. Louis, Missouri, USA">St. Lunatics</feat>
+                  <album>Brass Knuckles</album>
+                  <lyric><text>I smoke zips, you pop eighths, damn, what a waste</text> <rf target="e11715_n_1" position="8" lemma="zip">zips</rf> <xref target="e5155_n_1" position="22" lemma="eighth">eighths</xref> <rhyme rhymeTarget="e5155_n_1" position="44">waste</rhyme></lyric>
+               </example>
+               <example id="50227">
+                  <date>2009-10-27</date>
+                  <artist origin="Houston, Texas, USA">Z-Ro</artist>
+                  <songTitle>Can't Leave Drank Alone</songTitle>
+                  <feat origin="Houston, Texas, USA">Lil' O</feat>
+                  <album>Cocaine</album>
+                  <lyric><text>On pints of the drank, zips of the dro</text> <xref target="e4950_n_1" position="16" lemma="drank">drank</xref> <rf target="e11715_n_1" position="23" lemma="zip">zips</rf> <xref target="e4970_n_1" position="35" lemma="dro">dro</xref></lyric>
+               </example>
+               <example id="41265">
+                  <date>2009-12-08</date>
+                  <artist origin="Long Beach, California, USA">Snoop Dogg</artist>
+                  <songTitle>That's Tha Homie</songTitle>
+                  <album>Malice N Wonderland</album>
+                  <lyric><text>Give you weed by the zip or by the gram</text> <xref target="e11290_n_1" position="9" lemma="weed">weed</xref> <rf target="e11715_n_1" position="21" lemma="zip">zip</rf> <xref target="e5820_n_1" position="35" lemma="gram">gram</xref></lyric>
+               </example>
+               <example id="41228">
+                  <date>2010-03-23</date>
+                  <artist origin="Long Beach, California, USA">Snoop Dogg</artist>
+                  <songTitle>House Shoes</songTitle>
+                  <album>More Malice</album>
+                  <lyric><text>I wake up every day and blow a zip</text> <xref target="e3140_trV_1" position="24" lemma="blow">blow</xref> <rf target="e11715_n_1" position="31" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="32322">
+                  <date>2010-04-13</date>
+                  <artist origin="Los Angeles, California, USA">Murs &amp; 9th Wonder</artist>
+                  <songTitle>Fornever</songTitle>
+                  <feat origin="Philadelphia, Pennsylvania, USA">Kurupt</feat>
+                  <album>Fornever</album>
+                  <lyric><text>Half a zip a buck fifty</text> <rf target="e11715_n_1" position="7" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="48897">
+                  <date>2010-04-14</date>
+                  <artist origin="Pittsburgh, Pennsylvania, USA">Wiz Khalifa</artist>
+                  <songTitle>Still Blazin</songTitle>
+                  <album>Kush &amp; Orange Juice</album>
+                  <lyric><text>400 a zip, nigga, that's what I'm on</text> <rf target="e11715_n_1" position="6" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="13354">
+                  <date>2010-08-30</date>
+                  <artist origin="Los Angeles, California, USA">Domo Genesis</artist>
+                  <songTitle>Kickin It</songTitle>
+                  <album>Rolling Papers</album>
+                  <lyric><text>I'm tryin to get high, I can bring in like a zip or two</text> <rf target="e11715_n_1" position="45" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="27499">
+                  <date>2010-11-22</date>
+                  <artist origin="South Jamaica, Queens, New York City, New York, USA">Lloyd Banks</artist>
+                  <songTitle>Unexplainable</songTitle>
+                  <feat origin="Yonkers, New York, USA">Styles P</feat>
+                  <album>H.F.M. 2 (The Hunger For More 2)</album>
+                  <lyric><text>Foreign trips, four to five zips, heavy smokin</text> <rhyme rhymeTarget="e11715_n_1" position="8">trips</rhyme> <rf target="e11715_n_1" position="28" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="41399">
+                  <date>2011-03-29</date>
+                  <artist origin="Long Beach, California, USA">Snoop Dogg</artist>
+                  <songTitle>This Weed Iz Mine</songTitle>
+                  <feat>Latoiya Williams</feat>
+                  <feat origin="Pittsburgh, Pennsylvania, USA">Wiz Khalifa</feat>
+                  <album>Doggumentary</album>
+                  <lyric><text>Bitch, we gon' all sip, blow the whole zip</text> <xref rhymeTarget="e11715_n_1" target="e3040_n_2" position="0" lemma="bitch">Bitch</xref> <rhyme rhymeTarget="e11715_n_1" position="19">sip</rhyme> <xref target="e3140_trV_1" position="24" lemma="blow">blow</xref> <rf target="e11715_n_1" position="39" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="18323">
+                  <date>2011-08-09</date>
+                  <artist origin="Atlanta, Georgia, USA">Gucci Mane &amp; Waka Flocka Flame</artist>
+                  <songTitle>Mud Musik</songTitle>
+                  <feat origin="College Park, Georgia, USA">2 Chainz</feat>
+                  <album>Ferrari Boyz</album>
+                  <lyric><text>I got fo' zips</text> <rf target="e11715_n_1" position="10" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="41287">
+                  <date>2011-12-13</date>
+                  <artist origin="Long Beach, California, USA">Snoop Dogg &amp; Wiz Khalifa</artist>
+                  <songTitle>I Get Lifted</songTitle>
+                  <feat>Latoiya Williams</feat>
+                  <feat origin="Long Beach, California, USA">Warren G</feat>
+                  <album>Mac &amp; Devin Go To High School</album>
+                  <lyric><text>Zip's smellin like the whole plant in my coat</text> <rf target="e11715_n_1" position="0" lemma="zip">Zip</rf></lyric>
+               </example>
+               <example id="39700">
+                  <date>2012-01-14</date>
+                  <artist origin="South Figueroa Corridor, South Central, Los Angeles, California, USA">Schoolboy Q</artist>
+                  <songTitle>Raymond 1969</songTitle>
+                  <album>Habits &amp; Contradictions</album>
+                  <lyric><text>36 a kilo, 28 grams a zip</text> <xref target="e6990_n_1" position="5" lemma="kilo">kilo</xref> <xref target="e5820_n_1" position="14" lemma="gram">grams</xref> <rf target="e11715_n_1" position="22" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="17053">
+                  <date>2012-04-17</date>
+                  <artist origin="Atlanta, Georgia, USA">Future</artist>
+                  <songTitle>Fishscale</songTitle>
+                  <album>Pluto</album>
+                  <lyric><text>Water, water, water, bag up them zips</text> <xref target="e2680_trPhrV_2" position="21" lemma="bag up">bag up</xref> <rf target="e11715_n_1" position="33" lemma="zip">zips</rf></lyric>
+               </example>
+               <example id="48402">
+                  <date>2012-06-08</date>
+                  <artist origin="Atlanta, Georgia, USA">Waka Flocka Flame</artist>
+                  <songTitle>Round of Applause</songTitle>
+                  <feat origin="Toronto, Ontario, Canada">Drake</feat>
+                  <album>Triple F Life: Friends, Fans &amp; Family</album>
+                  <lyric><text>Do you smoke, girl? Got a zip?</text> <rf target="e11715_n_1" position="26" lemma="zip">zip</rf></lyric>
+               </example>
+               <example id="17196">
+                  <date>2012</date>
+                  <artist origin="Los Angeles, California, USA">Game, The</artist>
+                  <songTitle>Celebration</songTitle>
+                  <feat origin="Tappahannock, Virginia, USA">Chris Brown</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Lil Wayne</feat>
+                  <feat origin="Compton, California, USA">Tyga</feat>
+                  <feat origin="Pittsburgh, Pennsylvania, USA">Wiz Khalifa</feat>
+                  <album>Jesus Piece</album>
+                  <lyric><text>Yeah, got a whole zip of that purp</text> <rf target="e11715_n_1" position="18" lemma="zip">zip</rf> <xref target="e8755_n_1" position="30" lemma="purp">purp</xref></lyric>
+               </example>
+               <example id="22475">
+                  <date>2013-08-27</date>
+                  <artist origin="North Memphis, Tennessee, USA">Juicy J</artist>
+                  <songTitle>Show Out</songTitle>
+                  <feat origin="Detroit, Michigan, USA">Big Sean</feat>
+                  <feat origin="Atlanta, Georgia, USA">Young Jeezy</feat>
+                  <album>Stay Trippy</album>
+                  <lyric><text>I start my morning off, a zip and a double cup</text> <rf target="e11715_n_1" position="26" lemma="zip">zip</rf> <xref target="e4907_n_1" position="36" lemma="double cup">double cup</xref></lyric>
+               </example>
+               <example id="50508">
+                  <date>2013-08-27</date>
+                  <artist origin="Detroit, Michigan, USA">Big Sean</artist>
+                  <songTitle>You Don't Know</songTitle>
+                  <album>Hall of Fame</album>
+                  <lyric><text>A pound? A zip? A thousand sips</text> <rf target="e11715_n_1" position="11" lemma="zip">zip</rf> <rhyme rhymeTarget="e11715_n_1" position="27">sips</rhyme></lyric>
+               </example>
+               <example id="50465">
+                  <date>2013-09-24</date>
+                  <artist origin="Toronto, Ontario, Canada">Drake</artist>
+                  <songTitle>All Me</songTitle>
+                  <feat origin="College Park, Georgia, USA">2 Chainz</feat>
+                  <feat origin="Detroit, Michigan, USA">Big Sean</feat>
+                  <album>Nothing Was The Same</album>
+                  <lyric><text>Load the 9, leave you split in the half, smoke a half, need a zip</text> <xref target="e7890_n_1" position="9" lemma="9">9</xref> <rhyme rhymeTarget="e11715_n_1" position="22">split</rhyme> <rf target="e11715_n_1" position="62" lemma="zip">zip</rf></lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+   <entry sk="zooted" eid="e11720" publish="yes">
+      <head>
+         <headword>zooted</headword>
+      </head>
+      <senses id="e11720_adj">
+         <pos>adjective</pos>
+         <forms>
+            <form freq="24">zooted</form>
+         </forms>
+         <sense id="e11720_adj_1">
+            <rhymes>
+               <rhyme freq="2">buddha</rhyme>
+               <rhyme freq="2">polluted</rhyme>
+               <rhyme freq="1">booted</rhyme>
+               <rhyme freq="1">deep-rooted</rhyme>
+               <rhyme freq="1">included</rhyme>
+               <rhyme freq="1">reputed</rhyme>
+               <rhyme freq="1">uprooted</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="2" target="e3590_n_1">buddha</collocate>
+               <collocate freq="1" target="e2500_comb_1">-ass</collocate>
+               <collocate freq="1" target="e2750_trV_3">bang</collocate>
+               <collocate freq="1" target="e3170_adj_1">blunted</collocate>
+               <collocate freq="1" target="e3280_adj_1">booted</collocate>
+               <collocate freq="1" target="e4130_n_1">clique</collocate>
+               <collocate freq="1" target="e4335_n_1">corner</collocate>
+               <collocate freq="1" target="e4890_adj_1">dope</collocate>
+               <collocate freq="1" target="e4970_n_1">dro</collocate>
+               <collocate freq="1" target="e5430_prepPhr_1">for sure</collocate>
+               <collocate freq="1" target="e6250_n_1">hoe</collocate>
+               <collocate freq="1" target="e7490_adv_1">mad</collocate>
+               <collocate freq="1" target="e9070_trV_1">roll</collocate>
+               <collocate freq="1" target="e9370_n_1">sess</collocate>
+               <collocate freq="1" target="e9940_n_1">spliff</collocate>
+               <collocate freq="1" target="e11670_int_1">yo</collocate>
+            </collocates>
+            <domain type="drugs"/>
+            <domain type="alcohol"/>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>high, intoxicated</text>
+            </definition>
+            <xref type="hasSynonym" target="e2910_adj_1">bent</xref>
+            <xref type="hasSynonym" target="e3280_adj_1">booted</xref>
+            <xref type="hasSynonym" target="e5220_adj_1">faded</xref>
+            <xref type="hasSynonym" target="e5545_adj_1">fucked up</xref>
+            <xref type="hasSynonym" target="e6955_adj_1">keyed</xref>
+            <xref type="hasSynonym" target="e7150_adj_2">laced-up</xref>
+            <xref type="hasSynonym" target="e10720_adj_1">throwed</xref>
+            <xref type="hasSynonym" target="e11100_adj_1">twisted</xref>
+            <xref type="conceptRelatesTo" target="e10450_intrV_1">swerve</xref>
+            <xref type="conceptRelatesTo" target="e2420_phr_1">act a fool</xref>
+            <xref type="conceptRelatesTo" target="e5090_intrPhrV_2">dumb out</xref>
+            <examples>
+               <example id="5649">
+                  <date>1987-03-03</date>
+                  <artist origin="South Bronx, The Bronx, New York City, New York, USA">Boogie Down Productions</artist>
+                  <songTitle>Criminal Minded</songTitle>
+                  <album>Criminal Minded</album>
+                  <lyric><text>Although our lives have been so uprooted, I haven't included, you can all get zooted</text> <rhyme rhymeTarget="e11720_adj_1" position="32">uprooted</rhyme> <rhyme rhymeTarget="e11720_adj_1" position="52">included</rhyme> <rf target="e11720_adj_1" position="78" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="19648">
+                  <date>1992-07-21</date>
+                  <artist origin="New York City, New York, USA">House of Pain</artist>
+                  <songTitle>House of Pain Anthem</songTitle>
+                  <album>House of Pain</album>
+                  <lyric><text>Constantly I'm zooted</text> <rf target="e11720_adj_1" position="15" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="8805">
+                  <date>1992</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Chubb Rock</artist>
+                  <songTitle>3 Men At Chung King</songTitle>
+                  <feat>Red Hot Lover Lover Tone</feat>
+                  <feat origin="New Rochelle, New York, USA">Grand Puba</feat>
+                  <album>I Gotta Get Mine Yo!</album>
+                  <lyric><text>Watchin kids on the corner buyin, gettin zooted, then lyin</text> <xref target="e4335_n_1" position="20" lemma="corner">corner</xref> <rf target="e11720_adj_1" position="41" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="34564">
+                  <date>1994-04-26</date>
+                  <artist origin="East Point, Georgia, USA">OutKast</artist>
+                  <songTitle>D.E.E.P.</songTitle>
+                  <album>Southernplayalisticadillacmuzik</album>
+                  <lyric><text>My head's polluted cause I'm zooted, bobbin' to the bottom</text> <rhyme rhymeTarget="e11720_adj_1" position="10">polluted</rhyme> <rf target="e11720_adj_1" position="29" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="14563">
+                  <date>1994-05-24</date>
+                  <artist origin="Memphis, Tennessee, USA">8Ball &amp; MJG</artist>
+                  <songTitle>Anotha Day In Tha Hood</songTitle>
+                  <album>On The Outside Looking In</album>
+                  <lyric><text>While a nigga's gettin zooted from the potent-ass sess</text> <rf target="e11720_adj_1" position="23" lemma="zooted">zooted</rf><xref target="e2500_comb_1" position="46" lemma="-ass">-ass</xref> <xref target="e9370_n_1" position="50" lemma="sess">sess</xref></lyric>
+               </example>
+               <example id="2490">
+                  <date>1994-10-27</date>
+                  <artist origin="Newark, New Jersey, USA">Artifacts</artist>
+                  <songTitle>Attack of New Jeruzalum</songTitle>
+                  <feat>Jay Burnz</feat>
+                  <album>Between A Rock &amp; A Hard Place</album>
+                  <lyric><text>The trooper's gettin zooted off the funky herbal buddha</text> <rf target="e11720_adj_1" position="21" lemma="zooted">zooted</rf> <xref rhymeTarget="e11720_adj_1" target="e3590_n_1" position="49" lemma="buddha">buddha</xref></lyric>
+               </example>
+               <example id="35437">
+                  <date>1995-11-14</date>
+                  <artist origin="Los Angeles, California, USA">Pharcyde, The</artist>
+                  <songTitle>Groupie Therapy</songTitle>
+                  <album>Labcabincalifornia</album>
+                  <lyric><text>Gettin blunted and zooted with a clique of well-known, reputed groupie hoes</text> <xref target="e3170_adj_1" position="7" lemma="blunted">blunted</xref> <rf target="e11720_adj_1" position="19" lemma="zooted">zooted</rf> <xref target="e4130_n_1" position="33" lemma="clique">clique</xref> <rhyme rhymeTarget="e11720_adj_1" position="55">reputed</rhyme> <xref target="e6250_n_1" position="71" lemma="hoe">hoes</xref></lyric>
+               </example>
+               <example id="47714">
+                  <date>1996-07-11</date>
+                  <artist origin="New Orleans, Louisiana, USA">U.N.L.V.</artist>
+                  <songTitle>Rape U 4 Your Life</songTitle>
+                  <album>Uptown 4 Life</album>
+                  <lyric><text>Now I'm zooted out my mind</text> <rf target="e11720_adj_1" position="8" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="21811">
+                  <date>1996-10-15</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Jeru The Damaja</artist>
+                  <songTitle>Black Cowboys</songTitle>
+                  <album>Wrath of The Math</album>
+                  <lyric><text>For what's about to happen, you might as well get zooted</text> <rf target="e11720_adj_1" position="50" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="8821">
+                  <date>1996-10-22</date>
+                  <artist origin="Queens, New York City, New York, USA">Chuck D</artist>
+                  <songTitle>Niggativity... Do I Dare Disturb The Universe</songTitle>
+                  <album>The Autobiography of Mistachuck</album>
+                  <lyric><text>Getting zooted till your brain's polluted</text> <rf target="e11720_adj_1" position="8" lemma="zooted">zooted</rf> <rhyme rhymeTarget="e11720_adj_1" position="33">polluted</rhyme></lyric>
+               </example>
+               <example id="13481">
+                  <date>1998</date>
+                  <artist origin="Fort Lauderdale, Florida, USA">Down South Players</artist>
+                  <songTitle>Yeah, Yeah, Yeah</songTitle>
+                  <album>Now What?...</album>
+                  <lyric><text>You could pass me the buddha, and I'ma get zooted</text> <xref rhymeTarget="e11720_adj_1" target="e3590_n_1" position="22" lemma="buddha">buddha</xref> <rf target="e11720_adj_1" position="43" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="11893">
+                  <date>1999-04-27</date>
+                  <artist origin="Atlanta, Georgia, USA">Diamond</artist>
+                  <songTitle>When It Pours It Rains</songTitle>
+                  <album>Soundbombing II</album>
+                  <lyric><text>Yo, I'm deep-rooted, for this here, I be zooted</text> <xref target="e11670_int_1" position="0" lemma="yo">Yo</xref> <rhyme rhymeTarget="e11720_adj_1" position="8">deep-rooted</rhyme> <rf target="e11720_adj_1" position="41" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="48337">
+                  <date>1999-05-04</date>
+                  <artist origin="NONE">VK</artist>
+                  <songTitle>Curiosity</songTitle>
+                  <album>Chronic 2000 - Still Smokin' (Suge Knight Represents)</album>
+                  <lyric><text>I remember cause momma used to get mad zooted</text> <xref target="e7490_adv_1" position="35" lemma="mad">mad</xref> <rf target="e11720_adj_1" position="39" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="31509">
+                  <date>2001-04</date>
+                  <artist origin="Vancouver, British Columbia, Canada">Moka Only</artist>
+                  <songTitle>Magnitude</songTitle>
+                  <album>Lime Green</album>
+                  <lyric><text>Fools get zooted too much</text> <rf target="e11720_adj_1" position="10" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="21507">
+                  <date>2002-11-12</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Jay-Z</artist>
+                  <songTitle>Poppin' Tags</songTitle>
+                  <feat origin="Atlanta, Georgia, USA">Big Boi</feat>
+                  <feat origin="Atlanta, Georgia, USA">Killer Mike</feat>
+                  <feat origin="Chicago, Illinois, USA">Twista</feat>
+                  <album>The Blueprint 2: The Gift &amp; The Curse</album>
+                  <lyric><text>Shoppin' while I'm zooted off the dro</text> <rf target="e11720_adj_1" position="19" lemma="zooted">zooted</rf> <xref target="e4970_n_1" position="34" lemma="dro">dro</xref></lyric>
+               </example>
+               <example id="45703">
+                  <date>2003-06-24</date>
+                  <artist origin="Memphis, Tennessee, USA">Three 6 Mafia</artist>
+                  <songTitle>Shake Dat Jelly</songTitle>
+                  <album>Da Unbreakables</album>
+                  <lyric><text>Me and C already zooted when we walked up in the place</text> <entity type="artist" prefLabel="Crunchy Black" position="7">C</entity> <rf target="e11720_adj_1" position="17" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="7278">
+                  <date>2004-12-07</date>
+                  <artist origin="Harlem, Manhattan, New York City, New York, USA">Cam'Ron</artist>
+                  <songTitle>Get Down</songTitle>
+                  <album>Purple Haze</album>
+                  <lyric><text>I get booted, zooted, write down my problems</text> <xref rhymeTarget="e11720_adj_1" target="e3280_adj_1" position="6" lemma="booted">booted</xref> <rf target="e11720_adj_1" position="14" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="22339">
+                  <date>2006-07-11</date>
+                  <artist origin="Harlem, Manhattan, New York City, New York, USA">J.R. Writer</artist>
+                  <songTitle>High Music</songTitle>
+                  <album>History In The Making</album>
+                  <lyric><text>I was zooted fo' sho</text> <rf target="e11720_adj_1" position="6" lemma="zooted">zooted</rf> <xref target="e5430_prepPhr_1" position="13" lemma="for sure">fo' sho</xref></lyric>
+               </example>
+               <example id="20957">
+                  <date>2006-08-22</date>
+                  <artist origin="Detroit, Michigan, USA">J Dilla</artist>
+                  <songTitle>Jungle Love</songTitle>
+                  <album>The Shining</album>
+                  <lyric><text>Get zooted, bangin that dope music</text> <rf target="e11720_adj_1" position="4" lemma="zooted">zooted</rf> <xref target="e2750_trV_3" position="12" lemma="bang">bangin</xref> <xref target="e4890_adj_1" position="24" lemma="dope">dope</xref></lyric>
+               </example>
+               <example id="37954">
+                  <date>2007-03-27</date>
+                  <artist origin="Newark, New Jersey, USA">Redman</artist>
+                  <songTitle>Dis Iz Brick City</songTitle>
+                  <feat>Ready Roc</feat>
+                  <album>Red Gone Wild</album>
+                  <lyric><text>I'ma get zooted, way out there</text> <rf target="e11720_adj_1" position="9" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="43364">
+                  <date>2007-08-21</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Talib Kweli</artist>
+                  <songTitle>Country Cousins</songTitle>
+                  <feat>Raheem Devaughn</feat>
+                  <feat origin="Port Arthur, Texas, USA">UGK</feat>
+                  <album>Eardrum</album>
+                  <lyric><text>Sitting on the back porch, getting zooted, feeling fine, indeed</text> <rf target="e11720_adj_1" position="35" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="37139">
+                  <date>2009-09-08</date>
+                  <artist origin="New York City, New York, USA">Raekwon</artist>
+                  <songTitle>Broken Safety</songTitle>
+                  <feat origin="Yonkers, New York, USA">Jadakiss</feat>
+                  <feat origin="Yonkers, New York, USA">Styles P</feat>
+                  <album>Only Built 4 Cuban Linx... Pt. II</album>
+                  <lyric><text>I'm forever zooted, crushed up glass, I'm just flashing through it</text> <rf target="e11720_adj_1" position="12" lemma="zooted">zooted</rf></lyric>
+               </example>
+               <example id="23134">
+                  <date>2010-09-17</date>
+                  <artist origin="Chicago, Illinois, USA">Kanye West</artist>
+                  <songTitle>Lord Lord Lord</songTitle>
+                  <feat>Charlie Wilson</feat>
+                  <feat origin="Brooklyn, New York City, New York, USA">Mos Def</feat>
+                  <feat origin="New York City, New York, USA">Raekwon</feat>
+                  <feat origin="The Bronx, New York City, New York, USA">Swizz Beatz</feat>
+                  <album>Lord Lord Lord</album>
+                  <lyric><text>I'm zooted down, rollin' a spliff</text> <rf target="e11720_adj_1" position="4" lemma="zooted">zooted</rf> <xref target="e9070_trV_1" position="17" lemma="roll">rollin'</xref> <xref target="e9940_n_1" position="27" lemma="spliff">spliff</xref></lyric>
+               </example>
+               <example id="23498">
+                  <date>2010-11-09</date>
+                  <artist origin="Cleveland, Ohio, USA">Kid Cudi</artist>
+                  <songTitle>Ashin' Kusher</songTitle>
+                  <album>Man On The Moon II: The Legend of Mr. Rager</album>
+                  <lyric><text>I be like, "Fuck it, nigga, I was probably zooted!"</text> <rf target="e11720_adj_1" position="43" lemma="zooted">zooted</rf></lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+   <entry sk="zootie" eid="e11730" publish="yes">
+      <head>
+         <headword>zootie</headword>
+      </head>
+      <senses id="e11730_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="5">zootie</form>
+         </forms>
+         <sense id="e11730_n_1">
+            <rhymes>
+               <rhyme freq="2">cutie</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="1" target="e3170_adj_1">blunted</collocate>
+               <collocate freq="1" target="e9000_intrV_1">ride</collocate>
+            </collocates>
+            <domain type="drugs"/>
+            <domain type="marijuana"/>
+            <sentiment type="neutral"/>
+            <definition>
+               <text>a marijuana cigarette laced with cocaine</text>
+            </definition>
+            <xref type="hasSynonym" target="e8630_n_1">primo</xref>
+            <xref type="hasSynonym" target="e11540_n_1">woolie</xref>
+            <xref type="conceptRelatesTo" target="e6560_n_1">hydro</xref>
+            <xref type="conceptRelatesTo" target="e7100_n_1">kush</xref>
+            <xref type="conceptRelatesTo" target="e7120_n_1">la</xref>
+            <xref type="conceptRelatesTo" target="e7280_n_1">lime</xref>
+            <xref type="conceptRelatesTo" target="e7700_n_1">method</xref>
+            <xref type="conceptRelatesTo" target="e11690_n_1">yola</xref>
+            <xref type="conceptRelatesTo" target="e8610_n_1">powder</xref>
+            <xref type="conceptRelatesTo" target="e7090_n_1">krill</xref>
+            <xref type="conceptRelatesTo" target="e11650_n_1">yayo</xref>
+            <xref type="conceptRelatesTo" target="e8370_n_1">perico</xref>
+            <xref type="conceptRelatesTo" target="e4220_n_1">coke</xref>
+            <xref type="conceptRelatesTo" target="e8900_n_1">reefer</xref>
+            <examples>
+               <example id="3470">
+                  <date>1989-07-25</date>
+                  <artist origin="New York City, New York, USA">Beastie Boys</artist>
+                  <songTitle>Hey Ladies</songTitle>
+                  <album>Paul's Boutique</album>
+                  <lyric><text>I met a little cutie, she was all hopped up on zootie</text> <rhyme rhymeTarget="e11730_n_1" position="15">cutie</rhyme> <rf target="e11730_n_1" position="47" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="5033">
+                  <date>1994-12-06</date>
+                  <artist origin="Queens, New York City, New York, USA">Black Sheep</artist>
+                  <songTitle>We Boys</songTitle>
+                  <feat>Legion, The</feat>
+                  <album>Non-Fiction</album>
+                  <lyric><text>One love with the bang, riding with the zootie</text> <xref target="e9000_intrV_1" position="24" lemma="ride">riding</xref> <rf target="e11730_n_1" position="40" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="11290">
+                  <date>1996-07-07</date>
+                  <artist origin="Long Island, New York, USA">De La Soul</artist>
+                  <songTitle>Intro</songTitle>
+                  <album>Stakes Is High</album>
+                  <lyric><text>Big four gets the zootie for the self</text> <rf target="e11730_n_1" position="18" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="17365">
+                  <date>1999-07-13</date>
+                  <artist origin="Brooklyn, New York City, New York, USA">Gang Starr</artist>
+                  <songTitle>Discipline</songTitle>
+                  <feat origin="Plainfield, New Jersey, USA">Total</feat>
+                  <album>Full Clip</album>
+                  <lyric><text>Used to get blunted down in the hallways, I love the cutie pies, never the zootie pies</text> <xref target="e3170_adj_1" position="12" lemma="blunted">blunted</xref> <rhyme rhymeTarget="e11730_n_1" position="53">cutie</rhyme> <rf target="e11730_n_1" position="75" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="38936">
+                  <date>2003-10-07</date>
+                  <artist origin="Staten Island, New York City, New York, USA">RZA</artist>
+                  <songTitle>A Day To God Is 1,000 Years (Stay With Me)</songTitle>
+                  <album>Birth of A Prince</album>
+                  <lyric><text>Nigga, pass the zootie</text> <rf target="e11730_n_1" position="16" lemma="zootie">zootie</rf></lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
 </dictionary>
