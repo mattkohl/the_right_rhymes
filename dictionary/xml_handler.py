@@ -38,18 +38,18 @@ class XMLDict:
 class TRRDict:
 
     def __init__(self, xml_dict):
-        self.start = time.time()
+        self.start = int(round(time.time()))
         self.xml_dict = xml_dict
         self.dictionary = self.get_dictionary()
         self.entries = self.get_entries()
         self.entry_count = len(self.entries)
-        self.end = time.time()
+        self.end = int(round(time.time()))
         self.total_time = self.end = self.start
         self.average_entry_load = self.total_time / self.entry_count
         self.print_stats()
 
     def __str__(self):
-        return "Python dict representation of The Right Rhymes. Entry count: " + self.entry_count
+        return "Python dict representation of The Right Rhymes. Entry count: " + str(self.entry_count)
 
     def get_dictionary(self):
         try:
@@ -67,7 +67,7 @@ class TRRDict:
 
     def print_stats(self):
         print('Entries processed:', self.entry_count)
-        print('Total time: ', self.total_time % 60, 'minutes', self.total_time / 60, 'seconds')
+        print('Total time: ', self.total_time)
         print('Average entry load:', self.average_entry_load)
 
 class TRREntry:
@@ -547,7 +547,7 @@ class TRRRhyme:
             return None
 
     def add_to_db(self):
-        print('Adding Rhyme:', self.rhyme_dict)
+        print('Adding Rhyme:', self.rhyme_word)
         rhyme_object, created = Rhyme.objects.get_or_create(rhyme_word=self.rhyme_word,
                                                             source_sense_xml_id=self.source_sense_xml_id)
         return rhyme_object
