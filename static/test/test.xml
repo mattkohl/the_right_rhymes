@@ -78,7 +78,7 @@
                   <feat origin="New York City, New York, USA">Amil</feat>
                   <feat>Saulhaudin</feat>
                   <album>The God</album>
-                  <lyric><text>Amilion never babysit the mic</text> <entity type="artist" prefLabel="Amik" position="0">Amilion</entity> <rf target="e2623_trV_1" position="14" lemma="babysit">babysit</rf></lyric>
+                  <lyric><text>Amilion never babysit the mic</text> <entity type="artist" prefLabel="Amil" position="0">Amilion</entity> <rf target="e2623_trV_1" position="14" lemma="babysit">babysit</rf></lyric>
                </example>
                <example id="49366">
                   <date>2002-10-01</date>

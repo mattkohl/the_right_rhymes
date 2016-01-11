@@ -26,7 +26,7 @@ class XMLDict:
             return xml_string
 
     def get_json(self):
-        force_list = ('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'note', 'etym', 'rhyme', 'entity', 'rf')
+        force_list = ('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
         try:
             j = xmltodict.parse(self.xml_string, force_list=force_list)
         except:
@@ -362,13 +362,11 @@ class TRRExample:
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
         for artist in self.primary_artists:
-            if not self.example_object.artist.exists():
-                self.example_object.artist.add(artist)
+            self.example_object.artist.add(artist.artist_object)
             artist.artist_object.primary_senses.add(self.sense_object)
             artist.artist_object.save()
         for artist in self.featured_artists:
-            if not self.example_object.feat_artist.exists():
-                self.example_object.feat_artist.add(artist)
+            self.example_object.feat_artist.add(artist.artist_object)
             artist.artist_object.featured_senses.add(self.sense_object)
             artist.artist_object.save()
         for e in self.entities:
