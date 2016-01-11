@@ -2,7 +2,8 @@ import os
 from django.shortcuts import redirect
 from django.template import loader
 from django.http import HttpResponse
-from .models import Entry, Artist, NamedEntity, Domain
+from .utils import build_query
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Example
 
 
 def index(request):
@@ -83,6 +84,15 @@ def build_sense(sense_object):
         "collocates": sense_object.collocates.order_by('-frequency'),
     }
     return result
+
+
+def build_sense_preview(sense_object):
+    result = {
+        "sense": sense_object,
+        "examples": [build_example(example) for example in sense_object.examples.order_by('release_date')][:1],
+    }
+    return result
+
 
 def build_example(example_object):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
@@ -191,7 +201,7 @@ def domain(request, domain_slug):
     if len(results) == 1:
         domain = results[0]
         sense_objects = domain.senses.order_by('headword')
-        senses = [build_sense(sense) for sense in sense_objects]
+        senses = [build_sense_preview(sense) for sense in sense_objects]
         published = [entry.headword for entry in Entry.objects.filter(publish=True)]
         context = {
             'index': index,
@@ -202,6 +212,18 @@ def domain(request, domain_slug):
         return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("Whoa, what is {}?".format(domain_slug))
+
+
+def stats(request):
+    index = build_index()
+    published_entries = [entry.senses.all() for entry in Entry.objects.filter(publish=True)]
+    template = loader.get_template('dictionary/stats.html')
+    context = {
+            'index': index,
+            'published_entries': published_entries
+        }
+    return HttpResponse(template.render(context, request))
+
 
 
 def check_for_artist_image(slug):
@@ -217,3 +239,24 @@ def check_for_artist_image(slug):
         print('No image found for {}.'.format(slug))
         image = None
     return image
+
+
+def search(request, search_type='example'):
+    index = build_index()
+    published_entries = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    template = loader.get_template('dictionary/search_results.html')
+    context = {
+        'index': index,
+        'published_entries': published_entries,
+        'query': '',
+        'senses': []
+        }
+    if ('q' in request.GET) and request.GET['q'].strip():
+        query_string = request.GET['q']
+        sense_query = build_query(query_string, ['lyric_text'])
+        example_results = [build_example(example) for example in Example.objects.filter(sense_query).order_by('release_date')]
+        context['query'] = query_string
+        context['examples'] = example_results
+
+    return HttpResponse(template.render(context, request))
+

@@ -78,10 +78,12 @@ class TRREntry:
         self.slug = slugify(self.headword)
         self.letter = self.get_letter()
         self.xml_id = self.entry_dict['@eid']
-        self.publish = self.entry_dict['@publish']
+        self.publish = False if self.entry_dict['@publish'] == 'no' else True
         self.entry_object = self.add_to_db()
         self.update_entry()
         self.extract_lexemes()
+        self.sense_count = 0
+        self.example_count = 0
 
     def __str__(self):
         return self.headword
@@ -112,19 +114,13 @@ class TRREntry:
 
     def extract_lexemes(self):
         lexemes = self.entry_dict['senses']
-        if type(lexemes) is OrderedDict:
-            self.process_lexeme(lexemes)
-        if type(lexemes) is list:
-            for l in lexemes:
-                self.process_lexeme(l)
+        for l in lexemes:
+            self.process_lexeme(l)
 
     def process_lexeme(self, lexeme):
         pos = lexeme['pos']
-        if type(lexeme['sense']) is OrderedDict:
-            self.process_sense(pos, lexeme['sense'])
-        elif type(lexeme['sense']) is list:
-            for s in lexeme['sense']:
-                self.process_sense(pos, s)
+        for s in lexeme['sense']:
+            self.process_sense(pos, s)
 
     def process_sense(self, pos, sense):
         TRRSense(self.entry_object, self.headword, pos, sense)
@@ -157,6 +153,7 @@ class TRRSense:
         self.extract_xrefs()
         self.examples = [e for e in self.extract_examples()]
         self.add_relations()
+        self.update_entry()
 
     def __str__(self):
         return self.headword + ', ' + self.pos
@@ -175,6 +172,10 @@ class TRRSense:
         self.sense_object.notes = self.notes
         self.sense_object.slug = self.slug
         self.sense_object.save()
+
+    def update_entry(self):
+        self.parent_entry.example_count = len(self.examples)
+        self.parent_entry.save()
 
     def extract_definition(self):
         return '; '.join([definition['text'] for definition in self.sense_dict['definition']])

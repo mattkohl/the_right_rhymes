@@ -14,6 +14,12 @@ urlpatterns = [
     # /
     url(r'^$', views.index, name="dictionary_index"),
 
+    # /statistics/
+    url(r"^statistics/?$", views.stats, name='stats'),
+
+    # /search-results/
+    url(r'^search/$', views.search, name='search'),
+
     # /headword-as-a-slug/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 

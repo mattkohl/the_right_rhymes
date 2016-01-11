@@ -1,8 +1,8 @@
 {% block search %}
 <div id="header-search-form-wrapper">
-    <form id="header-search-form" class="form" action="#" method="post" name="search">
+    <form id="header-search-form" class="form" action="{% url 'search' %}" method="get" name="search">
         <div class="row input-group input-group-lg" id="header-search">
-            <input id="header-search-box" type="text" placeholder="Search..." class="form-control" name="search">
+            <input id="header-search-box" type="text" placeholder="Search..." class="form-control" name="q">
             <span class="input-group-btn">
                 <button id="header-search-button" class="btn btn-default btn-lg" type="submit">
                     <span class="glyphicon glyphicon-search"></span>
