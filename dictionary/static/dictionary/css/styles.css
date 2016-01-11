@@ -649,6 +649,12 @@ figcaption a span {
 	margin-top: 1em;
 }
 
+.name-date {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    margin-top: 1.5em;
+}
+
 /* Hover popups */
 .previewContent {
   	position: absolute;

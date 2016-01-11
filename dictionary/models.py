@@ -11,6 +11,7 @@ class Entry(models.Model):
     slug = models.SlugField('Headword Slug')
     publish = models.BooleanField(default=False)
     pub_date = models.DateTimeField('Date Published', auto_now_add=True, blank=True)
+    last_updated = models.DateField('Last Updated', auto_now=True, null=True, blank=True)
     json = JSONField(null=True, blank=True)
     image = models.ForeignKey('Image', on_delete=models.CASCADE, related_name="entry_image", null=True, blank=True)
     senses = models.ManyToManyField('Sense', related_name='+', blank=True)

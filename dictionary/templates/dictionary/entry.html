@@ -5,6 +5,14 @@
 <article id="{{ entry.headword }}" class="group post-container">
     <header class="entry-header">
         <h1 class="entry-title" property="name">meaning of <strong>{{ entry.headword }}</strong> in rap lyrics</h1>
+        <div class="name-date">
+            <span>Published on <time>{{ entry.pub_date }}</time></span>
+        </div>
+        {% if entry.last_modified %}
+        <div class="name-date">
+            <span>Last modified <time>{{ entry.pub_date }}</time></span>
+        </div>
+        {% endif %}
     </header>
 
     {% if entry %}
