@@ -1,4 +1,5 @@
 import os
+import random
 from django.shortcuts import redirect
 from django.template import loader
 from django.http import HttpResponse
@@ -229,19 +230,21 @@ def stats(request):
 def check_for_artist_image(slug):
     jpg = 'dictionary/static/dictionary/img/artists/{}.jpg'.format(slug)
     png = 'dictionary/static/dictionary/img/artists/{}.png'.format(slug)
+    images = []
     if os.path.isfile(jpg):
         print('Found:', jpg)
-        image = jpg.replace('dictionary/static/dictionary/', '/static/dictionary/')
-    elif os.path.isfile(png):
+        images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))
+    if os.path.isfile(png):
         print('Found:', png)
-        image = png.replace('dictionary/static/dictionary/', '/static/dictionary/')
-    else:
+        images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
+    if len(images) == 0:
         print('No image found for {}.'.format(slug))
-        image = None
-    return image
+        return ''
+    else:
+        return random.choice(images)
 
 
-def search(request, search_type='example'):
+def search(request):
     index = build_index()
     published_entries = [entry.headword for entry in Entry.objects.filter(publish=True)]
     template = loader.get_template('dictionary/search_results.html')
