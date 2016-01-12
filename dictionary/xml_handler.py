@@ -135,7 +135,7 @@ class TRRSense:
         self.pos = pos
         self.sense_dict = sense_dict
         self.xml_id = self.sense_dict['@id']
-        self.slug = slugify(self.headword) + '#' + self.xml_id
+        self.slug = slugify(self.headword)
         self.definition = self.extract_definition()
         self.etymology = self.extract_etymology()
         self.notes = self.extract_notes()

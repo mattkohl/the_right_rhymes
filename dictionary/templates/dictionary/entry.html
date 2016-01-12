@@ -6,13 +6,11 @@
     <header class="entry-header">
         <h1 class="entry-title" property="name">meaning of <strong>{{ entry.headword }}</strong> in rap lyrics</h1>
         <div class="name-date">
-            <span>Published on <time>{{ entry.pub_date }}</time></span>
+            <div>Published on <time>{{ entry.pub_date }}</time></div>
+            {% if entry.last_updated %}
+                <div>Last updated <time>{{ entry.last_updated }}</time></div>
+            {% endif %}
         </div>
-        {% if entry.last_modified %}
-        <div class="name-date">
-            <span>Last modified <time>{{ entry.pub_date }}</time></span>
-        </div>
-        {% endif %}
     </header>
 
     {% if entry %}
