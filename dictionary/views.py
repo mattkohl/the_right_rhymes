@@ -34,36 +34,33 @@ def entry(request, headword_slug):
         slug = headword_slug.split('#')[0]
     else:
         slug = headword_slug
-    results = Entry.objects.filter(slug=slug)
     template = loader.get_template('dictionary/entry.html')
-    if len(results) == 1:
-        entry = results[0]
-        sense_objects = entry.senses.all()
-        senses = [build_sense(sense) for sense in sense_objects]
-        published = [entry.headword for entry in Entry.objects.filter(publish=True)]
-        image = ''
-        artist_name = ''
-        artist_slug = ''
-        try:
-            artist_slug = senses[0]['examples'][0]['example'].artist_slug
-            artist_name = senses[0]['examples'][0]['example'].artist_name
-        except:
-            print('Could not locate artist of first quotation')
-        else:
-            image = check_for_artist_image(artist_slug)
 
-        context = {
-            'index': index,
-            'entry': entry,
-            'senses': senses,
-            'published_entries': published,
-            'image': image,
-            'artist_slug': artist_slug,
-            'artist_name': artist_name
-        }
-        return HttpResponse(template.render(context, request))
+    entry = get_object_or_404(Entry, slug=slug)
+    sense_objects = entry.senses.all()
+    senses = [build_sense(sense) for sense in sense_objects]
+    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    image = ''
+    artist_name = ''
+    artist_slug = ''
+    try:
+        artist_slug = senses[0]['examples'][0]['example'].artist_slug
+        artist_name = senses[0]['examples'][0]['example'].artist_name
+    except:
+        print('Could not locate artist of first quotation')
     else:
-        print('Found {} results for the slug: {}'.format(len(results), headword_slug))
+        image = check_for_artist_image(artist_slug)
+
+    context = {
+        'index': index,
+        'entry': entry,
+        'senses': senses,
+        'published_entries': published,
+        'image': image,
+        'artist_slug': artist_slug,
+        'artist_name': artist_name
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def build_sense(sense_object):
@@ -165,7 +162,7 @@ def artist(request, artist_slug):
 
 def entity(request, entity_slug):
     index = build_index()
-    results = NamedEntity.objects.filter(pref_label_slug=entity_slug).order_by('name')
+    results = get_list_or_404(NamedEntity, pref_label_slug=entity_slug)
     template = loader.get_template('dictionary/named_entity.html')
 
     if len(results) > 0:
@@ -193,22 +190,19 @@ def entity(request, entity_slug):
 
 def domain(request, domain_slug):
     index = build_index()
-    results = Domain.objects.filter(slug=domain_slug)
     template = loader.get_template('dictionary/domain.html')
-    if len(results) == 1:
-        domain = results[0]
-        sense_objects = domain.senses.order_by('headword')
-        senses = [build_sense_preview(sense) for sense in sense_objects]
-        published = [entry.headword for entry in Entry.objects.filter(publish=True)]
-        context = {
-            'index': index,
-            'domain': domain,
-            'senses': senses,
-            'published_entries': published
-        }
-        return HttpResponse(template.render(context, request))
-    else:
-        return HttpResponse("Whoa, what is {}?".format(domain_slug))
+    domain = get_object_or_404(Domain, slug=domain_slug)
+    sense_objects = domain.senses.order_by('headword')
+    senses = [build_sense_preview(sense) for sense in sense_objects]
+    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    context = {
+        'index': index,
+        'domain': domain,
+        'senses': senses,
+        'published_entries': published
+    }
+    return HttpResponse(template.render(context, request))
+
 
 
 def stats(request):
