@@ -1,5 +1,7 @@
 {% extends "dictionary/base.html" %}
 {% block title %}{{ artist.name }} ⋅ {% endblock %}
 {% block content %}
-    <strong>500</strong>
+    <div class="container" style="text-align:center">
+        <strong>500 - Don't you know I'm <a href="{% url 'entry' 'loco' %}">loco</a>?</strong>
+    </div>
 {% endblock %}
