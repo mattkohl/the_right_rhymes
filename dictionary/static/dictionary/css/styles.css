@@ -581,7 +581,7 @@ figcaption a span {
     padding: 5;
     list-style: none;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .trr-list-group-item {
@@ -701,7 +701,7 @@ figcaption a span {
     padding: 5;
     list-style: none;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .examplesHead li {
