@@ -1,6 +1,6 @@
 import os
 import random
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.http import HttpResponse
 from .utils import build_query
@@ -139,32 +139,28 @@ def inject_link(lyric, start, end, a):
 
 def artist(request, artist_slug):
     index = build_index()
-    results = Artist.objects.filter(slug=artist_slug)
+    artist = get_object_or_404(Artist, slug=artist_slug)
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
     template = loader.get_template('dictionary/artist.html')
-    if len(results) == 1:
-        artist = results[0]
-        entity_senses = []
-        if len(entity_results) >= 1:
-            for entity in entity_results:
-                entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
+    entity_senses = []
+    if len(entity_results) >= 1:
+        for entity in entity_results:
+            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
 
-        primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.order_by('headword')]
-        featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.order_by('headword')]
+    primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.order_by('headword')]
+    featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.order_by('headword')]
 
-        image = check_for_artist_image(artist.slug)
+    image = check_for_artist_image(artist.slug)
 
-        context = {
-            'index': index,
-            'artist': artist,
-            'primary_senses': primary_senses,
-            'featured_senses': featured_senses,
-            'entity_senses': entity_senses,
-            'image': image
-        }
-        return HttpResponse(template.render(context, request))
-    else:
-        return HttpResponse("Whoa, what is {}?".format(artist_slug))
+    context = {
+        'index': index,
+        'artist': artist,
+        'primary_senses': primary_senses,
+        'featured_senses': featured_senses,
+        'entity_senses': entity_senses,
+        'image': image
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def entity(request, entity_slug):
@@ -263,3 +259,20 @@ def search(request):
 
     return HttpResponse(template.render(context, request))
 
+
+def handler404(request):
+    index = build_index()
+    template = loader.get_template('dictionary/404.html')
+    context = {
+        'index': index,
+        }
+    return HttpResponse(template.render(context, request), status=404)
+
+
+def handler500(request):
+    index = build_index()
+    template = loader.get_template('dictionary/500.html')
+    context = {
+        'index': index,
+        }
+    return HttpResponse(template.render(context, request), status=500)

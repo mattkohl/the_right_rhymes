@@ -33,3 +33,4 @@ urlpatterns = [
     url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),
 
 ]
+

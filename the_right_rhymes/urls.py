@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+import dictionary.views as dict_views
 
 urlpatterns = [
     url(r'^', include('dictionary.urls')),
     url(r'^data/', include('api.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
+
+handler404 = dict_views.handler404
+handler500 = dict_views.handler500
+
