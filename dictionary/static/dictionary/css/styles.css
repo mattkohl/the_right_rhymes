@@ -303,6 +303,11 @@ p.mapLabel {
 	margin: 20px -2px 0 0px;
 }
 
+.map {
+    width: 100%;
+    height: 350px;
+}
+
 .form {
 	font-size: .75em;
 	margin-bottom: 1em;
