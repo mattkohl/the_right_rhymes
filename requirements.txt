@@ -1,2 +1,4 @@
 django
 xmltodict
+geopy
+psycopg2

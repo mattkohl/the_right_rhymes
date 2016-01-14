@@ -4,8 +4,12 @@ import re
 import time
 from collections import OrderedDict
 import xmltodict
+from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
-    NamedEntity, Xref, Collocate, Rhyme, LyricLink
+    NamedEntity, Xref, Collocate, Rhyme, LyricLink, Place
+
+
+geolocator = Nominatim()
 
 
 class XMLDict:
@@ -297,15 +301,15 @@ class TRRExample:
             origin = None
         else:
             name = artist['#text']
-            if '@origin' in artist:
+            if '@origin' in artist and artist['@origin'].lower() != 'none':
                 origin = artist['@origin']
             else:
                 origin = None
 
-        a = TRRArtist(name)
         if origin:
-            a.artist_object.origin = origin
-            a.artist_object.save()
+            a = TRRArtist(name, origin)
+        else:
+            a = TRRArtist(name)
         return a
 
     def get_primary_artists(self):
@@ -411,9 +415,40 @@ class TRRArtist:
 
     def update_origin(self):
         if self.origin:
-            self.artist_object.origin = self.origin
+            o = TRRPlace(self.origin)
+            self.artist_object.origin.add(o.place_object)
             self.artist_object.save()
 
+
+class TRRPlace:
+
+    def __init__(self, name):
+        self.name = name
+        self.slug = slugify(self.name)
+        self.place_object = self.add_to_db()
+        self.add_lat_long()
+
+    def add_to_db(self):
+        print('Adding Place:', self.name)
+        place_object, created = Place.objects.get_or_create(name=self.name,
+                                                            slug=self.slug)
+        return place_object
+
+    def add_lat_long(self):
+        if self.place_object and not self.place_object.longitude:
+            print('Geocoding:', self.name)
+            try:
+                coded = geolocator.geocode(self.name)
+                longitude = coded.longitude
+                latitude = coded.latitude
+            except:
+                print('Unable to geolocate', self.name)
+            else:
+                if longitude:
+                    self.place_object.longitude = longitude
+                if latitude:
+                    self.place_object.latitude = latitude
+                self.place_object.save()
 
 class TRRDomain:
 

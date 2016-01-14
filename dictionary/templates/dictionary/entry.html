@@ -169,7 +169,7 @@
                 {% endif %}
                 {% if sense.examples %}
                     <ul class="examplesHead">
-                    {% for example in sense.examples %}
+                    {% for example in sense.examples|slice:":3" %}
                         <li>
                             <span class="date">{{ example.example.release_date_string }}</span>
                             <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
@@ -186,8 +186,31 @@
                     {% endfor %}
                     </ul>
                 {% endif %}
+                {% if sense.examples|length > 3 %}
+                    <div class="toggle"><a href="#" class="toggle">See more examples…</a></div>
+                    <ul class="examples">
+                    {% for example in sense.examples|slice:"4:" %}
+                        <li>
+                            <span class="date">{{ example.example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            {% if example.featured_artists %}
+                                <span> feat. </span>
+                                {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                {% endfor %}
+                            {% endif %}
+                            <span class="album">[{{example.example.album }}]</span>
+                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if sense.artist_origins %}
+                    <span class="addresses hidden">{{ sense.artist_origins }}</span>
+                {% endif %}
                 <div class="map-canvas">
-                    <span class="location">Brooklyn, New York, USA</span>
+                    <span class="location hidden">Williamsburg, Brooklyn, New York, USA</span>
                     <p class="mapLabel">Origins of Cited Artists</p>
                     <div class="map"></div>
                 </div>

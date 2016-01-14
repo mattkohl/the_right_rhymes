@@ -4,7 +4,7 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.http import HttpResponse
 from .utils import build_query
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Example
+from .models import Entry, Artist, NamedEntity, Domain, Example, Place
 
 
 def index(request):
@@ -80,6 +80,7 @@ def build_sense(sense_object):
         "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
         "rhymes": sense_object.rhymes.order_by('-frequency'),
         "collocates": sense_object.collocates.order_by('-frequency'),
+        "artist_origins": [artist.origin for artist in sense_object.cites_artists.exclude(origin__isnull=True)]
     }
     return result
 
@@ -137,6 +138,11 @@ def inject_link(lyric, start, end, a):
 def artist(request, artist_slug):
     index = build_index()
     artist = get_object_or_404(Artist, slug=artist_slug)
+    origin_results = artist.origin.all()
+    if origin_results:
+        origin = origin_results[0]
+    else:
+        origin = ''
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
     template = loader.get_template('dictionary/artist.html')
     entity_senses = []
@@ -152,12 +158,33 @@ def artist(request, artist_slug):
     context = {
         'index': index,
         'artist': artist,
+        'origin': origin,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_senses': entity_senses,
         'image': image
     }
     return HttpResponse(template.render(context, request))
+
+
+def place(request, place_slug):
+    index = build_index()
+    place = get_object_or_404(Place, slug=place_slug)
+    template = loader.get_template('dictionary/place.html')
+    context = {
+        'index': index,
+        'place': place,
+        'artists': [build_artist(artist) for artist in place.artists.order_by('name')]
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def build_artist(artist_object):
+    result = {
+        "artist": artist_object,
+        "image": check_for_artist_image(artist_object.slug)
+    }
+    return result
 
 
 def entity(request, entity_slug):

@@ -9,7 +9,7 @@ from . import views
 urlpatterns = [
 
     # /admin/
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/?', admin.site.urls),
 
     # /
     url(r'^$', views.index, name="dictionary_index"),
@@ -25,6 +25,9 @@ urlpatterns = [
 
     # /artist-name-as-a-slug/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.artist, name='artist'),
+
+    # /place-name-as-a-slug/
+    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),
 
     # /domain-as-a-slug/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),

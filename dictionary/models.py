@@ -55,7 +55,7 @@ class Image(models.Model):
 class Artist(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
     slug = models.SlugField('Artist Slug')
-    origin = models.CharField('Origin', max_length=1000, null=True, blank=True)
+    origin = models.ManyToManyField('Place', related_name="+")
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="depicts", null=True, blank=True)
     primary_examples = models.ManyToManyField('Example', related_name="+")
     primary_senses = models.ManyToManyField('Sense', related_name="+")
@@ -66,10 +66,22 @@ class Artist(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        if self.origin:
-            return self.name + ' (' + self.origin + ')'
-        else:
-            return self.name
+        return self.name
+
+
+class Place(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=1000)
+    slug = models.CharField('Place Slug', max_length=1000, null=True, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    artists = models.ManyToManyField(Artist, through=Artist.origin.through, related_name="+")
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
 
 
 class Sense(models.Model):
@@ -90,6 +102,7 @@ class Sense(models.Model):
     rhymes = models.ManyToManyField('Rhyme', related_name="+")
     collocates = models.ManyToManyField('Collocate', related_name="+")
     features_entities = models.ManyToManyField('NamedEntity', related_name="+")
+    cites_artists = models.ManyToManyField(Artist, through=Artist.featured_senses.through, related_name="+")
 
     class Meta:
         ordering = ["xml_id"]
@@ -105,7 +118,6 @@ class Example(models.Model):
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
     feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
-    # feat_artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
     release_date = models.DateField('Release Date', blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)
