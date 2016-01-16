@@ -102,7 +102,7 @@ class Sense(models.Model):
     rhymes = models.ManyToManyField('Rhyme', related_name="+")
     collocates = models.ManyToManyField('Collocate', related_name="+")
     features_entities = models.ManyToManyField('NamedEntity', related_name="+")
-    cites_artists = models.ManyToManyField(Artist, through=Artist.featured_senses.through, related_name="+")
+    cites_artists = models.ManyToManyField(Artist, through=Artist.primary_senses.through, related_name="+")
 
     class Meta:
         ordering = ["xml_id"]

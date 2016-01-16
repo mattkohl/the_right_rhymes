@@ -288,7 +288,7 @@
                   <artist origin="New York City, New York, USA">Raekwon</artist>
                   <songTitle>Wu-Gambinos</songTitle>
                   <album>Only Built 4 Cuban Linx...</album>
-                  <lyric><text>Bad days, watch me snatch ice right outta Tiffany's</text> <xref target="e9840_trV_1" position="19" lemma="snatch">snatch</xref> <rf target="e6590_n_1" position="26" lemma="ice">ice</rf> <entity type="place" position="42" prefLabel="Tiffany's">Tiffany's</entity></lyric>
+                  <lyric><text>Bad days, watch me snatch ice right outta Tiffany's</text> <xref target="e9840_trV_1" position="19" lemma="snatch">snatch</xref> <rf target="e6590_n_1" position="26" lemma="ice">ice</rf> <entity type="place" position="42" prefLabel="Tiffany &amp; Co.">Tiffany's</entity></lyric>
                </example>
                <example id="37244">
                   <date>1995-08-01</date>
@@ -1804,7 +1804,7 @@
                   <artist origin="The Bronx, New York City, New York, USA">Kool Keith</artist>
                   <songTitle>Same Sound</songTitle>
                   <album>The Lost Masters</album>
-                  <lyric><text>Throwin iced up Rolexes at AJ Lester’s</text> <rf target="e6596_adj_1" position="8" lemma="iced-up">iced up</rf> <entity type="product" prefLabel="Rolex" position="16">Rolexes</entity> <entity type="place" position="27" prefLabel="AJ Lester’s">AJ Lester’s</entity></lyric>
+                  <lyric><text>Throwin iced up Rolexes at AJ Lester’s</text> <rf target="e6596_adj_1" position="8" lemma="iced-up">iced up</rf> <entity type="product" prefLabel="Rolex" position="16">Rolexes</entity> <entity type="place" position="27" prefLabel="AJ Lester">AJ Lester’s</entity></lyric>
                </example>
                <example id="39068">
                   <date>2003</date>
@@ -1948,7 +1948,7 @@
                   <artist origin="Detroit, Michigan, USA">Big Sean</artist>
                   <songTitle>Take Me Away</songTitle>
                   <album>Finally Famous Vol. 2: UKNOWBIGSEAN</album>
-                  <lyric><text>The liquor make me want to go to Pluto to get iced up</text> <entity type="place" position="33" prefLabel="Pluto">Pluto</entity> <rf target="e6596_adj_1" position="46" lemma="iced-up">iced up</rf></lyric>
+                  <lyric><text>The liquor make me want to go to Pluto to get iced up</text> <entity type="place" position="33" prefLabel="Pluto (planet)">Pluto</entity> <rf target="e6596_adj_1" position="46" lemma="iced-up">iced up</rf></lyric>
                </example>
                <example id="4463">
                   <date>2009-11-23</date>
@@ -2377,7 +2377,7 @@
                   <songTitle>Ghetto</songTitle>
                   <feat>Thara</feat>
                   <album>Real Talk</album>
-                  <lyric><text>Heading overseas wit a zip of New York City's haze</text> <rf target="e11715_n_1" position="23" lemma="zip">zip</rf> <entity type="place" position="30" prefLabel="New York City">New York City</entity> <xref target="e6107_n_1" position="46" lemma="haze">haze</xref></lyric>
+                  <lyric><text>Heading overseas wit a zip of New York City's haze</text> <rf target="e11715_n_1" position="23" lemma="zip">zip</rf> <entity type="place" position="30" prefLabel="New York City, New York, USA">New York City</entity> <xref target="e6107_n_1" position="46" lemma="haze">haze</xref></lyric>
                </example>
                <example id="3174">
                   <date>2005-03-15</date>

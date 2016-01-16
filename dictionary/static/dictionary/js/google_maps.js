@@ -4,34 +4,49 @@
 
 function initialize() {
 
-	var geocoder, location;
-	geocoder = new google.maps.Geocoder();
+	var map;
 
 	var latlng = new google.maps.LatLng(40.650002, -73.949997);
 	var options = {
-    zoom: 10,
-    center: latlng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
+        zoom: 10,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
 
 	$.each($('.map-canvas'), function() {
-        var map;
-		location = $(this).find('.location').text();
-		map = new google.maps.Map($(this).find('.map')[0], options);
-
-		geocoder.geocode( { 'address': location }, function(results, status) {
-			if (status === google.maps.GeocoderStatus.OK) {
-				map.setCenter(results[0].geometry.location);
-
-				var marker = new google.maps.Marker({
-					map: map,
-					position: results[0].geometry.location
-				});
-			}
-			else {
-				console.log("We've got an error with our geocode.");
-			}
+        map = new google.maps.Map($(this).find('.map')[0], options);
+        var markers = []
+        var infowindow =  new google.maps.InfoWindow({
+		    content: ''
 		});
-	});
-}
+        var markerBounds = new google.maps.LatLngBounds();
+        sense_id = $(this).find('.sense_id').text();
+        endpoint = '/senses/' + sense_id + '/artist_origins/';
+        $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
+                parsed = $.parseJSON(data);
+                $.each(parsed.places, function(index, p) {
+                    //console.log(p);
+                    if (p != null) {
+                        tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: tmpLatLng,
+                            title: p.artist + "<br>" + p.place_name
+                        });
+                        markerBounds.extend(tmpLatLng);
+                        bindInfoWindow(marker, map, infowindow, p.artist + "<br>" + p.place_name);
+                        markers.push(marker);
+                        map.fitBounds(markerBounds);
+                    }
+                });
+            });
+        	var bindInfoWindow = function(marker, map, infowindow, html) {
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(html);
+                infowindow.open(map, marker);
+	    });
+	}
+        })
+	}
+
 google.maps.event.addDomListener(window, "load", initialize);

@@ -1,7 +1,7 @@
 __author__ = 'MBK'
 
 import re
-
+import decimal
 from django.db.models import Q
 
 
@@ -49,3 +49,9 @@ def generic_search(request, model, fields, query_param="q"):
     found_entries = model.objects.filter(entry_query)
 
     return found_entries
+
+
+def decimal_default(obj):
+    if isinstance(obj, decimal.Decimal):
+        return float(obj)
+    raise TypeError

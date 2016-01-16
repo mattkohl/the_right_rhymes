@@ -264,6 +264,7 @@ class TRRExample:
         self.artist_name = self.get_artist_name()
         self.lyric_text = self.example_dict['lyric']['text']
         self.example_object = self.add_to_db()
+        self.remove_previous_lyric_links()
         self.lyric_links = []
         self.extract_rf()
         self.entities = []
@@ -362,6 +363,10 @@ class TRRExample:
         self.example_object.json = self.example_dict
         self.example_object.artist_slug = slugify(self.artist_name)
         self.example_object.save()
+
+    def remove_previous_lyric_links(self):
+        print('Removing any pre-existing lyric links to "' + self.lyric_text + '"')
+        self.example_object.lyric_links.all().delete()
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
@@ -517,6 +522,8 @@ class TRREntity:
         print('Adding Entity:', self.name)
         entity_object, created = NamedEntity.objects.get_or_create(name=self.name,
                                                                    entity_type=self.entity_type)
+        if self.entity_type == 'place':
+            TRRPlace(self.pref_label)
         return entity_object
 
     def update_entity_object(self):

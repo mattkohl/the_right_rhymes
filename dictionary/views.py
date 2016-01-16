@@ -1,10 +1,11 @@
 import os
 import random
-from django.shortcuts import redirect, get_object_or_404, get_list_or_404
-from django.template import loader
-from django.http import HttpResponse
-from .utils import build_query
-from .models import Entry, Artist, NamedEntity, Domain, Example, Place
+import json
+from django.shortcuts import redirect, get_object_or_404, get_list_or_404, render_to_response
+from django.template import loader, RequestContext
+from django.http import HttpResponse, JsonResponse
+from .utils import build_query, decimal_default
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place
 
 
 def index(request):
@@ -63,6 +64,16 @@ def entry(request, headword_slug):
     return HttpResponse(template.render(context, request))
 
 
+def sense_artist_origins(request, sense_id):
+    results = Sense.objects.filter(xml_id=sense_id)
+    if results:
+        sense_object = results[0]
+        data = {'places': [build_artist_origin(artist) for artist in sense_object.cites_artists.all()]}
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def build_sense(sense_object):
     result = {
         "sense": sense_object,
@@ -80,7 +91,7 @@ def build_sense(sense_object):
         "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
         "rhymes": sense_object.rhymes.order_by('-frequency'),
         "collocates": sense_object.collocates.order_by('-frequency'),
-        "artist_origins": [artist.origin for artist in sense_object.cites_artists.exclude(origin__isnull=True)]
+        "artist_origins": [build_artist_origin(artist) for artist in sense_object.cites_artists.all()]
     }
     return result
 
@@ -91,6 +102,24 @@ def build_sense_preview(sense_object):
         "examples": [build_example(example) for example in sense_object.examples.order_by('release_date')][:1],
     }
     return result
+
+
+def build_artist_origin(artist):
+    origin_results = artist.origin.all()
+    if origin_results:
+        origin_object = origin_results[0]
+        if origin_object.longitude and origin_object.latitude:
+            result = {
+                "artist": artist.name,
+                "place_name": origin_object.name,
+                "longitude": origin_object.longitude,
+                "latitude": origin_object.latitude
+            }
+            return result
+        else:
+            return None
+    else:
+        return None
 
 
 def build_example(example_object):
@@ -171,10 +200,18 @@ def place(request, place_slug):
     index = build_index()
     place = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
+
+    entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
+    entity_senses = []
+    if len(entity_results) >= 1:
+        for entity in entity_results:
+            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
+
     context = {
         'index': index,
         'place': place,
-        'artists': [build_artist(artist) for artist in place.artists.order_by('name')]
+        'artists': [build_artist(artist) for artist in place.artists.order_by('name')],
+        'entity_senses': entity_senses
     }
     return HttpResponse(template.render(context, request))
 
@@ -199,6 +236,8 @@ def entity(request, entity_slug):
             title = entity.pref_label
             if entity.entity_type == 'artist':
                 return redirect('/artists/' + entity.pref_label_slug)
+            if entity.entity_type == 'place':
+                return redirect('/places/' + entity.pref_label_slug)
             entities.append({
                 'entity': entity,
                 'senses': [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
@@ -249,10 +288,8 @@ def check_for_artist_image(slug):
     png = 'dictionary/static/dictionary/img/artists/{}.png'.format(slug)
     images = []
     if os.path.isfile(jpg):
-        print('Found:', jpg)
         images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if os.path.isfile(png):
-        print('Found:', png)
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if len(images) == 0:
         print('No image found for {}.'.format(slug))

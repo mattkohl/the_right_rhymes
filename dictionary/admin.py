@@ -10,7 +10,7 @@ class EntryAdmin(admin.ModelAdmin):
 
 
 class ArtistAdmin(admin.ModelAdmin):
-    list_display = ['name', 'origin']
+    list_display = ['name']
 
 
 class SenseAdmin(admin.ModelAdmin):

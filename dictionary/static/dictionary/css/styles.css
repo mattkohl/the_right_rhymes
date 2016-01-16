@@ -330,7 +330,7 @@ p.mapLabel {
 
 .xref {
 	font-size: .75em;
-	margin-bottom: .75em;
+	margin-bottom: .5em;
 	margin-left: 1em;
 }
 
@@ -708,12 +708,12 @@ h1.trr-list-header {
 	margin-bottom: 1em;
 }
 
-.examplesHead {
+.entry-content .examplesHead {
     position: relative;
     /*height: 230px;*/
-    margin: 50px auto;
     padding: 5;
     list-style: none;
+    margin-bottom: 0;
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -770,7 +770,7 @@ h1.trr-list-header {
 	font-weight: bold;
 }
 
-.more-link {
+.more-link, .toggle_exx {
 	text-align: center;
 }
 .more-link a:link,
@@ -786,6 +786,19 @@ h1.trr-list-header {
 .more-link a:hover,
 .more-link a:focus {
 	color: #9B9B9B;
+}
+
+.toggle_exx a {
+    color:red;
+}
+
+.toggle_exx a:link,
+.toggle_exx a:visited {
+	font-size: 0.6em;
+	padding: 2px 20px;
+	text-decoration: none;
+	text-transform: uppercase;
+	line-height: 17px;
 }
 
 /*

@@ -11,15 +11,58 @@
     <a href="{% url 'artist' artist.artist.slug %}">
         <div class="artist">{{artist.artist.name}}</div>
         {% if artist.image %}
-        <figure class="single-thumb">
-            <img src="{{ artist.image }}"
-                 alt="{{ artist.name }}"
-                 property="image"
-                 scale="0"/>
-        </figure>
-    </a>
-    {% endif %}
-
+            <figure class="single-thumb">
+                <img src="{{ artist.image }}"
+                     alt="{{ artist.name }}"
+                     property="image"
+                     scale="0"/>
+            </figure>
+        </a>
+        {% endif %}
     {% endfor %}
+
+    {% if entity_senses %}
+
+        {% if entity_senses|length > 1 %}
+        <h3 class="trr-list-header">mentioned in {{ entity_senses|length }} examples</h3>
+        {% elif entity_senses|length == 1 %}
+        <h3 class="trr-list-header">mentioned in {{ entity_senses|length }} example</h3>
+        {% endif %}
+
+        <div class="trr-list">
+            {% for sense in entity_senses %}
+            {% if sense.examples %}
+            {% if sense.name != artist.name %}
+            <span class="altLabel">(as <strong>{{ sense.name }}</strong>)</span>
+            {% endif %}
+            <div class="trr-list-group-item">
+                <div>
+                    <strong>
+                        <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
+                    </strong>
+                </div>
+
+                {% for example in sense.examples %}
+                <li>
+                    <span class="date">{{ example.example.release_date_string }}</span>
+                    <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
+                    <span class="songTitle">"{{example.example.song_title}}"</span>
+                    {% if example.featured_artists %}
+                    <span> feat. </span>
+                    {% for feat in example.featured_artists %}
+                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                    {% endfor %}
+                    {% endif %}
+                    <span class="album">[{{example.example.album }}]</span>
+                    <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                </li>
+                {% endfor %}
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        {% endif %}
 </div>
 {% endblock %}

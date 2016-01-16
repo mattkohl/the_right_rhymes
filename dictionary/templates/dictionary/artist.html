@@ -99,9 +99,9 @@
         {% if entity_senses %}
 
         {% if entity_senses|length > 1 %}
-        <h3 class="trr-list-header">mentioned in {{ entity_senses|length }} examples</h3>
+        <h3 class="trr-list-header"><strong>mentioned</strong> in {{ entity_senses|length }} examples</h3>
         {% elif entity_senses|length == 1 %}
-        <h3 class="trr-list-header">mentioned in {{ entity_senses|length }} example</h3>
+        <h3 class="trr-list-header"><strong>mentioned</strong> in {{ entity_senses|length }} example</h3>
         {% endif %}
 
         <div class="trr-list">

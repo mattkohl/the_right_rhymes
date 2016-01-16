@@ -26,6 +26,8 @@ urlpatterns = [
     # /artist-name-as-a-slug/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.artist, name='artist'),
 
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artist_origins/$", views.sense_artist_origins, name="sense_artist_origins"),
+
     # /place-name-as-a-slug/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),
 
