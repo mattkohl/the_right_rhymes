@@ -15,7 +15,7 @@ function initialize() {
 
 	$.each($('.map-canvas'), function() {
         map = new google.maps.Map($(this).find('.map')[0], options);
-        var markers = []
+        var markers = [];
         var infowindow =  new google.maps.InfoWindow({
 		    content: ''
 		});
@@ -28,13 +28,14 @@ function initialize() {
                     //console.log(p);
                     if (p != null) {
                         tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
+                        markerText = p.artist + "<br>" + p.place_name;
                         var marker = new google.maps.Marker({
                             map: map,
                             position: tmpLatLng,
-                            title: p.artist + "<br>" + p.place_name
+                            title: markerText
                         });
                         markerBounds.extend(tmpLatLng);
-                        bindInfoWindow(marker, map, infowindow, p.artist + "<br>" + p.place_name);
+                        bindInfoWindow(marker, map, infowindow, markerText);
                         markers.push(marker);
                         map.fitBounds(markerBounds);
                     }
