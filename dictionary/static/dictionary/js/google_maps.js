@@ -4,8 +4,7 @@
 
 function initialize() {
 
-	var map;
-
+	var markers, infowindow, markerBounds;
 	var latlng = new google.maps.LatLng(40.650002, -73.949997);
 	var options = {
         zoom: 10,
@@ -13,13 +12,14 @@ function initialize() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-	$.each($('.map-canvas'), function() {
-        map = new google.maps.Map($(this).find('.map')[0], options);
-        var markers = [];
-        var infowindow =  new google.maps.InfoWindow({
+	$.each($('.map-canvas'), function(i) {
+        index = i+1;
+        var map = new google.maps.Map(document.getElementById('map' + index), options);
+        markers = [];
+        infowindow =  new google.maps.InfoWindow({
 		    content: ''
 		});
-        var markerBounds = new google.maps.LatLngBounds();
+        markerBounds = new google.maps.LatLngBounds();
         sense_id = $(this).find('.sense_id').text();
         endpoint = '/senses/' + sense_id + '/artist_origins/';
         $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
@@ -45,8 +45,8 @@ function initialize() {
             google.maps.event.addListener(marker, 'click', function() {
                 infowindow.setContent(html);
                 infowindow.open(map, marker);
-	    });
-	}
+                });
+            }
         })
 	}
 
