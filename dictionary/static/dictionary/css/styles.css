@@ -406,7 +406,21 @@ a:focus.feat {
 	margin-left: 1em;
 }
 
-
+.floating-panel {
+    /*position: absolute;*/
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    /*border: 1px solid #999;*/
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    margin-bottom: -3em;
+    /*padding-left: 10px;*/
+    /*margin-left: -52px;*/
+}
 
 .flask-pagedown-preview {
     margin-top: 10px;
