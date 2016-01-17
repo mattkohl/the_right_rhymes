@@ -4,7 +4,7 @@
 
 function initialize() {
 
-	var markers, infowindow, markerBounds;
+	var infowindow, markerBounds;
 	var latlng = new google.maps.LatLng(40.650002, -73.949997);
 	var options = {
         zoom: 10,
@@ -15,7 +15,7 @@ function initialize() {
 	$.each($('.map-canvas'), function(i) {
         index = i+1;
         var map = new google.maps.Map(document.getElementById('map' + index), options);
-        markers = [];
+        var markers = [];
         infowindow =  new google.maps.InfoWindow({
 		    content: ''
 		});
