@@ -784,6 +784,10 @@ h1.trr-list-header {
 	font-weight: bold;
 }
 
+.toggle_exx {
+    margin-top: -1em;
+}
+
 .more-link, .toggle_exx {
 	text-align: center;
 }
