@@ -282,6 +282,7 @@ div.entry-header p {
 	text-transform: uppercase;
 	margin-bottom: 1em;
 	margin-top: 1em;
+    border-radius: 1px;
 }
 
 .pos a {
@@ -303,6 +304,8 @@ p.mapLabel {
 	text-transform: uppercase;
 	margin: 20px -2px 0 0px;
     width: 100%;
+    border-top-right-radius: 1px;
+    border-top-left-radius: 1px;
 }
 
 .map {
@@ -310,6 +313,8 @@ p.mapLabel {
     height: 350px;
     margin-bottom: 40px;
     border: 1px solid #333;
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
 }
 
 .form {
@@ -561,11 +566,6 @@ figcaption a span {
 	line-height: 1.3em;
 }
 
-.entry-content ul {
-	list-style-type: disc;
-	margin: 1em 0;
-}
-
 .entry-content ol {
 	list-style-type: decimal;
 	margin-bottom: 2em;
@@ -735,10 +735,12 @@ h1.trr-list-header {
 .examplesHead li {
     z-index: 2;
     overflow: auto;
+    margin-bottom: 0;
+    margin-top: 1em;
 }
 
 .examples {
-	margin-top: -10px;
+	margin-top: .75em;
 	display: none;
 }
 
@@ -784,10 +786,6 @@ h1.trr-list-header {
 	font-weight: bold;
 }
 
-.toggle_exx {
-    margin-top: -1em;
-}
-
 .more-link, .toggle_exx {
 	text-align: center;
 }
@@ -807,13 +805,15 @@ h1.trr-list-header {
 }
 
 .toggle_exx a {
-    color:red;
+    color: white;
+    background: orange;
+    border-radius: 1px;
 }
 
 .toggle_exx a:link,
 .toggle_exx a:visited {
 	font-size: 0.6em;
-	padding: 2px 20px;
+	padding: 2px 10px;
 	text-decoration: none;
 	text-transform: uppercase;
 	line-height: 17px;
