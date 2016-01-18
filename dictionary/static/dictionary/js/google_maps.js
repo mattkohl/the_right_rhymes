@@ -52,7 +52,7 @@ function initialize() {
                     this.setZoom(10);
                 }
             });
-            setTimeout(function(){google.maps.event.removeListener(zoomChangeBoundsListener)}, 3000);
+            setTimeout(function(){google.maps.event.removeListener(zoomChangeBoundsListener)}, 5000);
         }
         var bindInfoWindow = function(marker, map, infowindow, html) {
         google.maps.event.addListener(marker, 'click', function() {
