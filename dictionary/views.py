@@ -64,6 +64,16 @@ def entry(request, headword_slug):
     return HttpResponse(template.render(context, request))
 
 
+def artist_origins(request, artist_slug):
+    print(artist_slug)
+    results = Artist.objects.filter(slug=artist_slug)
+    if results:
+        data = {'places': [build_artist_origin(artist) for artist in results]}
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def sense_artist_origins(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
