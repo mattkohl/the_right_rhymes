@@ -16,16 +16,14 @@ function initialize() {
         index = i+1;
         var map = new google.maps.Map(document.getElementById('map' + index), options);
         var markers = [];
-        var artist = false;
-        infowindow = new google.maps.InfoWindow({
-		    content: ''
-		});
+        var is_artist = false;
+        infowindow = new google.maps.InfoWindow({ content: '' });
         markerBounds = new google.maps.LatLngBounds();
         sense_id = $(this).find('.sense_id').text();
         artist_slug = $(this).find('.artist-slug').text();
         if (artist_slug) {
             endpoint = '/artist_origins/' + artist_slug + '/';
-            artist = true;
+            is_artist = true;
         } else {
             endpoint = '/senses/' + sense_id + '/artist_origins/';
         }
@@ -48,12 +46,11 @@ function initialize() {
                     }
                 });
             });
-        if (artist == true) {
-            zoomChangeBoundsListener =
-                google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
-                    if (this.getZoom()){
-                        this.setZoom(10);
-                    }
+        if (is_artist) {
+            zoomChangeBoundsListener = google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+                if (this.getZoom()){
+                    this.setZoom(10);
+                }
             });
             setTimeout(function(){google.maps.event.removeListener(zoomChangeBoundsListener)}, 2000);
         }
@@ -64,30 +61,6 @@ function initialize() {
             });
         }
     })
-}
-
-function drop() {
-    clearMarkers();
-    for (var i = 0; i < neighborhoods.length; i++) {
-        addMarkerWithTimeout(neighborhoods[i], i * 200);
-    }
-}
-
-function addMarkerWithTimeout(position, timeout) {
-    window.setTimeout(function() {
-        markers.push(new google.maps.Marker({
-            position: position,
-            map: map,
-            animation: google.maps.Animation.DROP
-        }));
-    }, timeout);
-}
-
-function clearMarkers() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    markers = [];
 }
 
 google.maps.event.addDomListener(window, "load", initialize);
