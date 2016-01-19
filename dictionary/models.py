@@ -88,6 +88,7 @@ class Sense(models.Model):
     id = models.AutoField(primary_key=True)
     headword = models.CharField('Headword', max_length=200, null=True, blank=True)
     slug = models.SlugField('Sense Slug', null=True, blank=True)
+    publish = models.BooleanField(default=False)
     xml_id = models.CharField('XML id', max_length=20, null=True, blank=True)
     part_of_speech = models.CharField('Part of Speech', max_length=20)
     json = JSONField(null=True, blank=True)

@@ -10,6 +10,7 @@ from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
 
 
 geolocator = Nominatim()
+geocache = []
 
 
 class XMLDict:
@@ -127,17 +128,18 @@ class TRREntry:
             self.process_sense(pos, s)
 
     def process_sense(self, pos, sense):
-        TRRSense(self.entry_object, self.headword, pos, sense)
+        TRRSense(self.entry_object, self.headword, pos, sense, self.publish)
 
 
 
 class TRRSense:
 
-    def __init__(self, entry_object, headword, pos, sense_dict):
+    def __init__(self, entry_object, headword, pos, sense_dict, publish):
         self.parent_entry = entry_object
         self.headword = headword
         self.pos = pos
         self.sense_dict = sense_dict
+        self.publish = publish
         self.xml_id = self.sense_dict['@id']
         self.slug = slugify(self.headword)
         self.definition = self.extract_definition()
@@ -175,6 +177,7 @@ class TRRSense:
         self.sense_object.etymology = self.etymology
         self.sense_object.notes = self.notes
         self.sense_object.slug = self.slug
+        self.sense_object.publish = self.publish
         self.sense_object.save()
 
     def update_entry(self):
@@ -230,12 +233,14 @@ class TRRSense:
                 self.xrefs.append(TRRXref(xref))
 
     def extract_examples(self):
-        example_list = self.sense_dict['examples']['example']
-        if type(example_list) is list:
-            for example in example_list:
-                yield(TRRExample(self.sense_object, example))
-        if type(example_list) is OrderedDict:
-            yield(TRRExample(self.sense_object, example_list))
+        examples = self.sense_dict['examples']
+        if examples:
+            example_list = examples['example']
+            if type(example_list) is list:
+                for example in example_list:
+                    yield(TRRExample(self.sense_object, example))
+            if type(example_list) is OrderedDict:
+                yield(TRRExample(self.sense_object, example_list))
 
     def add_relations(self):
         self.sense_object.parent_entry.add(self.parent_entry)
@@ -264,12 +269,14 @@ class TRRExample:
         self.artist_name = self.get_artist_name()
         self.lyric_text = self.example_dict['lyric']['text']
         self.example_object = self.add_to_db()
-        self.remove_previous_lyric_links()
+        self.remove_previous_lyric_links_and_rhymes()
         self.lyric_links = []
+        self.example_rhymes = []
         self.extract_rf()
         self.entities = []
         self.extract_xrefs()
         self.extract_entities()
+        self.extract_rhymes()
         self.update_example()
         self.primary_artists = self.get_primary_artists()
         self.featured_artists = self.get_featured_artists()
@@ -347,6 +354,14 @@ class TRRExample:
                 else:
                     self.lyric_links.append(TRRLyricLink(entity, 'entity'))
 
+    def extract_rhymes(self):
+        if 'rhyme' in self.example_dict['lyric']:
+            rhymes = self.example_dict['lyric']['rhyme']
+
+            for rhyme in rhymes:
+                self.example_rhymes.append(TRRExampleRhyme(rhyme))
+                self.lyric_links.append(TRRLyricLink(rhyme, 'rhyme'))
+
     def extract_rf(self):
         if 'rf' in self.example_dict['lyric']:
             rfs = self.example_dict['lyric']['rf']
@@ -364,9 +379,10 @@ class TRRExample:
         self.example_object.artist_slug = slugify(self.artist_name)
         self.example_object.save()
 
-    def remove_previous_lyric_links(self):
-        print('Removing any pre-existing lyric links to "' + self.lyric_text + '"')
+    def remove_previous_lyric_links_and_rhymes(self):
+        print('Removing any pre-existing lyric links / rhymes to "' + self.lyric_text + '"')
         self.example_object.lyric_links.all().delete()
+        self.example_object.example_rhymes.all().delete()
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
@@ -440,13 +456,14 @@ class TRRPlace:
         return place_object
 
     def add_lat_long(self):
-        if self.place_object and not self.place_object.longitude:
+        if self.place_object and not self.place_object.longitude and self.name not in geocache:
             print('Geocoding:', self.name)
             try:
                 coded = geolocator.geocode(self.name)
                 longitude = coded.longitude
                 latitude = coded.latitude
             except:
+                geocache.append(self.name)
                 print('Unable to geolocate', self.name)
             else:
                 if longitude:
@@ -597,6 +614,49 @@ class TRRSenseRhyme:
         self.rhyme_object.frequency = self.frequency
         self.rhyme_object.slug = self.rhyme_slug
         self.rhyme_object.save()
+
+
+class TRRExampleRhyme:
+
+    def __init__(self, rhyme_dict):
+        self.rhyme_dict = rhyme_dict
+        self.word_one = self.rhyme_dict['#text']
+        self.word_one_slug = slugify(self.word_one)
+        self.word_one_position = self.rhyme_dict['@position']
+        self.word_two = self.rhyme_dict['@rhymeTargetWord']
+        self.word_two_position = self.rhyme_dict['@rhymeTargetPosition']
+        self.word_two_slug = slugify(self.word_two)
+        self.word_two_target_id = self.extract_target_id()
+        self.rhyme_object = self.add_to_db()
+        self.update_rhyme_object()
+
+    def __str__(self):
+        return self.word_one + ' - ' + self.word_two
+
+    def add_to_db(self):
+        if self.word_two_position:
+            print('Adding Example Rhyme:', self.word_one, '-', self.word_two)
+            rhyme_object, created = ExampleRhyme.objects.get_or_create(word_one=self.word_one,
+                                                                       word_two=self.word_two,
+                                                                       word_one_position=self.word_one_position,
+                                                                       word_two_position=self.word_two_position)
+            return rhyme_object
+        else:
+            print('Unable to find word position for', self.word_two, 'in rhyme', self.word_one)
+            return None
+
+    def extract_target_id(self):
+        if '@rhymeTarget' in self.rhyme_dict:
+            return self.rhyme_dict['@rhymeTarget']
+        else:
+            return None
+
+    def update_rhyme_object(self):
+        if self.rhyme_object:
+            self.rhyme_object.word_one_slug = self.word_one_slug
+            self.rhyme_object.word_two_slug = self.word_two_slug
+            self.rhyme_object.word_two_target_id = self.word_two_target_id
+            self.rhyme_object.save()
 
 
 class TRRXref:

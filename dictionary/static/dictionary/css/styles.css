@@ -742,6 +742,7 @@ h1.trr-list-header {
 .examples {
 	margin-top: .75em;
 	display: none;
+    list-style: none;
 }
 
 .form-group #artist,

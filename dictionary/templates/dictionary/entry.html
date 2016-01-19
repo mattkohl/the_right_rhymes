@@ -47,7 +47,7 @@
                     <div class="xref">
                         <span class="xrlabel">Derives from:</span>
                         {% for ancestor in sense.ancestors %}
-                            {% if ancestor.target_lemma in published_entries %}
+                            {% if ancestor.target_slug in published_entries %}
                                 <span class="ancestor"><a href="{% url 'entry' ancestor.target_slug %}#{{ancestor.target_id}}">{{ ancestor.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="ancestor">{{ ancestor.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -59,7 +59,7 @@
                     <div class="xref">
                         <span class="xrlabel">Derivatives:</span>
                         {% for derivative in sense.derivatives %}
-                            {% if derivative.target_lemma in published_entries %}
+                            {% if derivative.target_slug in published_entries %}
                                 <span class="derivative"><a href="{% url 'entry' derivative.target_slug %}#{{derivative.target_id}}">{{ derivative.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="derivative">{{ derivative.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -79,7 +79,7 @@
                     <div class="xref">
                         <span class="xrlabel">Synonyms:</span>
                         {% for synonym in sense.synonyms %}
-                            {% if synonym.target_lemma in published_entries %}
+                            {% if synonym.target_slug in published_entries %}
                                  <span class="synonym"><a href="{% url 'entry' synonym.target_slug %}#{{synonym.target_id}}">{{ synonym.xref_word }}</a>{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
                             {% else %}
                                  <span class="synonym">{{ synonym.xref_word }}{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
@@ -91,7 +91,7 @@
                     <div class="xref">
                         <span class="xrlabel">Antonyms:</span>
                         {% for antonym in sense.antonyms %}
-                            {% if antonym.target_lemma in published_entries %}
+                            {% if antonym.target_slug in published_entries %}
                                 <span class="antonym"><a href="{% url 'entry' antonym.target_slug %}#{{antonym.target_id}}">{{ antonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="antonym">{{ antonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -103,7 +103,7 @@
                     <div class="xref">
                         <span class="xrlabel">Meronyms:</span>
                         {% for meronym in sense.meronyms %}
-                            {% if meronym.target_lemma in published_entries %}
+                            {% if meronym.target_slug in published_entries %}
                                 <span class="meronym"><a href="{% url 'entry' meronym.target_slug %}#{{meronym.target_id}}">{{ meronym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="meronym">{{ meronym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -115,7 +115,7 @@
                     <div class="xref">
                         <span class="xrlabel">Holonyms:</span>
                         {% for holonym in sense.holonyms %}
-                            {% if holonym.target_lemma in published_entries %}
+                            {% if holonym.target_slug in published_entries %}
                                <span class="holonym"> <a href="{% url 'entry' holonym.target_slug %}#{{holonym.target_id}}">{{ holonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="holonym">{{ holonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -127,7 +127,7 @@
                     <div class="xref">
                         <span class="xrlabel">Related concepts:</span>
                         {% for related_concept in sense.related_concepts %}
-                            {% if related_concept.target_lemma in published_entries %}
+                            {% if related_concept.target_slug in published_entries %}
                                 <span class="related_concept"><a href="{% url 'entry' holonym.target_slug %}#{{related_concept.target_id}}">{{ related_concept.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="related_concept">{{ related_concept.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -139,7 +139,7 @@
                     <div class="xref">
                         <span class="xrlabel">Related words:</span>
                         {% for related_word in sense.related_words %}
-                            {% if related_word.target_lemma in published_entries %}
+                            {% if related_word.target_slug in published_entries %}
                                 <span class="related_word"><a href="{% url 'entry' related_word.target_slug %}#{{related_word.target_id}}">{{ related_word.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="related_word">{{ related_word.xref_word }}{% if not forloop.last %}, {% endif %}</span>
@@ -151,7 +151,7 @@
                     <div class="xref">
                         <span class="xrlabel">Rhymes:</span>
                         {% for rhyme in sense.rhymes %}
-                            <span class="rhyme">{{ rhyme.rhyme_word }}{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                            <span class="rhyme">{{ rhyme.rhyme }}{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -159,7 +159,7 @@
                     <div class="xref">
                         <span class="xrlabel">Collocates:</span>
                         {% for collocate in sense.collocates %}
-                            {% if related_word.target_lemma in published_entries %}
+                            {% if related_word.target_slug in published_entries %}
                                 <span class="collocate"><a href="{% url 'entry' collocate.target_slug %}">{{ collocate.collocate_lemma }}</a>{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                             {% else %}
                                 <span class="collocate">{{ collocate.collocate_lemma }}{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>

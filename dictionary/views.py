@@ -23,7 +23,7 @@ def build_index():
     for letter in ABC:
         let = {
             'letter': letter.upper(),
-            'entries': Entry.objects.filter(letter=letter)
+            'entries': Entry.objects.filter(letter=letter).filter(publish=True)
         }
         index.append(let)
     return index
@@ -37,10 +37,10 @@ def entry(request, headword_slug):
         slug = headword_slug
     template = loader.get_template('dictionary/entry.html')
 
-    entry = get_object_or_404(Entry, slug=slug)
+    entry = get_object_or_404(Entry, slug=slug, publish=True)
     sense_objects = entry.senses.all()
     senses = [build_sense(sense) for sense in sense_objects]
-    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    published = [entry.slug for entry in Entry.objects.filter(publish=True)]
     image = ''
     artist_name = ''
     artist_slug = ''
@@ -189,10 +189,10 @@ def artist(request, artist_slug):
     entity_senses = []
     if len(entity_results) >= 1:
         for entity in entity_results:
-            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
+            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
 
-    primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.order_by('headword')]
-    featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.order_by('headword')]
+    primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.filter(publish=True).order_by('headword')]
+    featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
 
     image = check_for_artist_image(artist.slug)
 
@@ -217,7 +217,7 @@ def place(request, place_slug):
     entity_senses = []
     if len(entity_results) >= 1:
         for entity in entity_results:
-            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
+            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
 
     context = {
         'index': index,
@@ -252,7 +252,7 @@ def entity(request, entity_slug):
                 return redirect('/places/' + entity.pref_label_slug)
             entities.append({
                 'entity': entity,
-                'senses': [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.order_by('headword')]
+                'senses': [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
             })
 
         context = {
@@ -270,7 +270,7 @@ def domain(request, domain_slug):
     index = build_index()
     template = loader.get_template('dictionary/domain.html')
     domain = get_object_or_404(Domain, slug=domain_slug)
-    sense_objects = domain.senses.order_by('headword')
+    sense_objects = domain.senses.filter(publish=True).order_by('headword')
     senses = [build_sense_preview(sense) for sense in sense_objects]
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     context = {
