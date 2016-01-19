@@ -6,7 +6,7 @@ from collections import OrderedDict
 import xmltodict
 from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
-    NamedEntity, Xref, Collocate, Rhyme, LyricLink, Place
+    NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, Place
 
 
 geolocator = Nominatim()
@@ -221,7 +221,7 @@ class TRRSense:
         if 'rhymes' in self.sense_dict:
             rhymes = self.sense_dict['rhymes']['rhyme']
             for rhyme in rhymes:
-                self.rhymes.append(TRRRhyme(rhyme, self.xml_id))
+                self.rhymes.append(TRRSenseRhyme(rhyme, self.xml_id))
 
     def extract_xrefs(self):
         if 'xref' in self.sense_dict:
@@ -249,7 +249,7 @@ class TRRSense:
         for c in self.collocates:
             self.sense_object.collocates.add(c.collocate_object)
         for r in self.rhymes:
-            self.sense_object.rhymes.add(r.rhyme_object)
+            self.sense_object.sense_rhymes.add(r.rhyme_object)
 
 
 class TRRExample:
@@ -567,19 +567,19 @@ class TRRCollocate:
         self.collocate_object.save()
 
 
-class TRRRhyme:
+class TRRSenseRhyme:
 
     def __init__(self, rhyme_dict, sense_id):
         self.rhyme_dict = rhyme_dict
         self.source_sense_xml_id = sense_id
-        self.rhyme_word = self.rhyme_dict['#text']
-        self.target_slug = slugify(self.rhyme_word)
+        self.rhyme = self.rhyme_dict['#text']
+        self.rhyme_slug = slugify(self.rhyme)
         self.rhyme_object = self.add_to_db()
         self.frequency = self.extract_frequency()
         self.update_rhyme_object()
 
     def __str__(self):
-        return self.rhyme_word
+        return self.rhyme
 
     def extract_frequency(self):
         if '@freq' in self.rhyme_dict:
@@ -588,14 +588,14 @@ class TRRRhyme:
             return None
 
     def add_to_db(self):
-        print('Adding Rhyme:', self.rhyme_word)
-        rhyme_object, created = Rhyme.objects.get_or_create(rhyme_word=self.rhyme_word,
-                                                            source_sense_xml_id=self.source_sense_xml_id)
+        print('Adding Rhyme:', self.rhyme)
+        rhyme_object, created = SenseRhyme.objects.get_or_create(rhyme=self.rhyme,
+                                                                 parent_sense_xml_id=self.source_sense_xml_id)
         return rhyme_object
 
     def update_rhyme_object(self):
         self.rhyme_object.frequency = self.frequency
-        self.rhyme_object.target_slug = self.target_slug
+        self.rhyme_object.slug = self.rhyme_slug
         self.rhyme_object.save()
 
 

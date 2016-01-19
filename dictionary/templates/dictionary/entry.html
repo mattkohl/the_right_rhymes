@@ -188,7 +188,11 @@
                 {% endif %}
                 {% if sense.examples|length > 3 %}
                     <div class="toggle_exx">
-                        <a href="#" class="toggle"><i class='fa fa-caret-down' style="padding-right:.5em;"></i> Toggle fewer examples <i class='fa fa-caret-down' style="padding-left:.5em;"></i></a>
+                        <a href="#" class="toggle">
+                            <i class='fa fa-caret-down' style="padding-right:.5em;"></i>
+                            Toggle {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
+                            <i class='fa fa-caret-down' style="padding-left:.5em;"></i>
+                        </a>
                     </div>
                     <ul class="examples">
                     {% for example in sense.examples|slice:"3:" %}

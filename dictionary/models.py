@@ -99,8 +99,8 @@ class Sense(models.Model):
     domains = models.ManyToManyField('Domain', related_name="+")
     synset = models.ManyToManyField('SynSet', related_name="+")
     xrefs = models.ManyToManyField('Xref', related_name="+")
-    rhymes = models.ManyToManyField('Rhyme', related_name="+")
-    collocates = models.ManyToManyField('Collocate', related_name="+")
+    sense_rhymes = models.ManyToManyField('SenseRhyme', related_name="+", blank=True)
+    collocates = models.ManyToManyField('Collocate', related_name="+", blank=True)
     features_entities = models.ManyToManyField('NamedEntity', related_name="+")
     cites_artists = models.ManyToManyField(Artist, through=Artist.primary_senses.through, related_name="+")
 
@@ -123,6 +123,7 @@ class Example(models.Model):
     album = models.CharField('Album', max_length=200)
     lyric_text = models.CharField('Lyric Text', max_length=1000)
     json = JSONField(null=True, blank=True)
+    example_rhymes = models.ManyToManyField('ExampleRhyme', related_name="+")
     illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
     features_entities = models.ManyToManyField('NamedEntity', related_name="+")
     lyric_links = models.ManyToManyField('LyricLink', related_name="+")
@@ -211,21 +212,38 @@ class Collocate(models.Model):
         return self.collocate_lemma
 
 
-class Rhyme(models.Model):
+class SenseRhyme(models.Model):
     id = models.AutoField(primary_key=True)
-    rhyme_word = models.CharField(max_length=1000, blank=True, null=True)
-    source_sense_xml_id = models.CharField('Source XML ID', max_length=20, null=True, blank=True)
-    target_slug = models.SlugField(blank=True, null=True)
-    target_id = models.CharField(max_length=1000, blank=True, null=True)
-    position = models.IntegerField(blank=True, null=True)
+    rhyme = models.CharField(max_length=1000, blank=True, null=True)
+    rhyme_slug = models.SlugField(blank=True, null=True)
+    parent_sense_xml_id = models.CharField('Source XML ID', max_length=20, null=True, blank=True)
+    parent_sense = models.ManyToManyField(Sense, through=Sense.sense_rhymes.through, related_name="+")
     frequency = models.IntegerField(blank=True, null=True)
-    parent_sense = models.ManyToManyField(Sense, through=Sense.rhymes.through, related_name="+")
 
     class Meta:
-        ordering = ["rhyme_word"]
+        ordering = ["rhyme"]
 
     def __str__(self):
-        return self.rhyme_word
+        return self.rhyme + ' - ' + self.parent_sense_xml_id
+
+
+class ExampleRhyme(models.Model):
+    id = models.AutoField(primary_key=True)
+    word_one = models.CharField(max_length=1000, blank=True, null=True)
+    word_two = models.CharField(max_length=1000, blank=True, null=True)
+    word_one_slug = models.SlugField(blank=True, null=True)
+    word_two_slug = models.SlugField(blank=True, null=True)
+    word_one_target_id = models.CharField(max_length=1000, blank=True, null=True)
+    word_two_target_id = models.CharField(max_length=1000, blank=True, null=True)
+    word_one_position = models.IntegerField(blank=True, null=True)
+    word_two_position = models.IntegerField(blank=True, null=True)
+    parent_example = models.ManyToManyField(Example, through=Example.example_rhymes.through, related_name="+")
+
+    class Meta:
+        ordering = ["word_one", "word_two"]
+
+    def __str__(self):
+        return self.word_one + ' - ' + self.word_two
 
 
 class LyricLink(models.Model):
@@ -242,4 +260,3 @@ class LyricLink(models.Model):
 
     def __str__(self):
         return self.link_text
-

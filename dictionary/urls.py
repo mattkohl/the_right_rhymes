@@ -41,5 +41,10 @@ urlpatterns = [
     # /entities/<named-entity-slug>/
     url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),
 
+    # /rhymes/<rhyme-slug>/
+    url(r"^rhymes/(?P<rhyme_slug>[a-zA-Z0-9\-_#’']+)/?$", views.rhyme, name='rhyme'),
+
+
+
 ]
 

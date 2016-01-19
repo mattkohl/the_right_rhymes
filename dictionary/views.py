@@ -85,10 +85,12 @@ def sense_artist_origins(request, sense_id):
 
 
 def build_sense(sense_object):
+    examples = [build_example(example) for example in sense_object.examples.order_by('release_date')]
     result = {
         "sense": sense_object,
         "domains": sense_object.domains.order_by('name'),
-        "examples": [build_example(example) for example in sense_object.examples.order_by('release_date')],
+        "examples": examples,
+        "num_examples": len(examples),
         "synonyms": sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word'),
         "antonyms": sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word'),
         "meronyms": sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word'),
@@ -99,7 +101,7 @@ def build_sense(sense_object):
         "instances": sense_object.xrefs.filter(xref_type="Instance").order_by('xref_word'),
         "related_concepts": sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word'),
         "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
-        "rhymes": sense_object.rhymes.order_by('-frequency'),
+        "rhymes": sense_object.sense_rhymes.order_by('-frequency'),
         "collocates": sense_object.collocates.order_by('-frequency'),
         "artist_origins": [build_artist_origin(artist) for artist in sense_object.cites_artists.all()]
     }
@@ -279,6 +281,10 @@ def domain(request, domain_slug):
     }
     return HttpResponse(template.render(context, request))
 
+
+def rhyme(request, rhyme_slug):
+    index = build_index()
+    template = loader.get_template('dictionary/rhyme.html')
 
 
 def stats(request):
