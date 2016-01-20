@@ -8,8 +8,8 @@ from django.contrib.postgres.fields import JSONField
 class Entry(models.Model):
     headword = models.CharField(primary_key=True, max_length=200)
     letter = models.CharField(max_length=1, null=True, blank=True)
-    slug = models.SlugField('Headword Slug')
-    publish = models.BooleanField(default=False)
+    slug = models.SlugField('Headword Slug', db_index=True)
+    publish = models.BooleanField(default=False, db_index=True)
     pub_date = models.DateTimeField('Date Published', auto_now_add=True, blank=True)
     last_updated = models.DateField('Last Updated', auto_now=True, null=True, blank=True)
     json = JSONField(null=True, blank=True)
@@ -54,7 +54,7 @@ class Image(models.Model):
 
 class Artist(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
-    slug = models.SlugField('Artist Slug')
+    slug = models.SlugField('Artist Slug', db_index=True)
     origin = models.ManyToManyField('Place', related_name="+")
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="depicts", null=True, blank=True)
     primary_examples = models.ManyToManyField('Example', related_name="+")
@@ -72,7 +72,7 @@ class Artist(models.Model):
 class Place(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000)
-    slug = models.CharField('Place Slug', max_length=1000, null=True, blank=True)
+    slug = models.CharField('Place Slug', max_length=1000, db_index=True, null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     artists = models.ManyToManyField(Artist, through=Artist.origin.through, related_name="+")
@@ -86,17 +86,17 @@ class Place(models.Model):
 
 class Sense(models.Model):
     id = models.AutoField(primary_key=True)
-    headword = models.CharField('Headword', max_length=200, null=True, blank=True)
+    headword = models.CharField('Headword', db_index=True, max_length=200, null=True, blank=True)
     slug = models.SlugField('Sense Slug', null=True, blank=True)
-    publish = models.BooleanField(default=False)
-    xml_id = models.CharField('XML id', max_length=20, null=True, blank=True)
+    publish = models.BooleanField(default=False, db_index=True)
+    xml_id = models.CharField('XML id', db_index=True, max_length=20, null=True, blank=True)
     part_of_speech = models.CharField('Part of Speech', max_length=20)
     json = JSONField(null=True, blank=True)
     parent_entry = models.ManyToManyField(Entry, through=Entry.senses.through, related_name="+")
     definition = models.CharField(max_length=2000, null=True, blank=True)
     etymology = models.CharField(max_length=2000, null=True, blank=True)
     notes = models.CharField(max_length=2000, null=True, blank=True)
-    examples = models.ManyToManyField('Example', related_name="+")
+    examples = models.ManyToManyField('Example', db_index=True, related_name="+")
     domains = models.ManyToManyField('Domain', related_name="+")
     synset = models.ManyToManyField('SynSet', related_name="+")
     xrefs = models.ManyToManyField('Xref', related_name="+")
@@ -119,14 +119,14 @@ class Example(models.Model):
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
     feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
-    release_date = models.DateField('Release Date', blank=True, null=True)
+    release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)
     lyric_text = models.CharField('Lyric Text', max_length=1000)
     json = JSONField(null=True, blank=True)
     example_rhymes = models.ManyToManyField('ExampleRhyme', related_name="+")
     illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
-    features_entities = models.ManyToManyField('NamedEntity', related_name="+")
+    features_entities = models.ManyToManyField('NamedEntity', db_index=True, related_name="+")
     lyric_links = models.ManyToManyField('LyricLink', related_name="+")
 
     class Meta:
@@ -166,7 +166,7 @@ class NamedEntity(models.Model):
     name = models.CharField(max_length=1000, blank=True, null=True)
     slug = models.SlugField('Entity Slug', blank=True, null=True)
     pref_label = models.CharField(max_length=1000, blank=True, null=True)
-    pref_label_slug = models.SlugField('Entity PrefLabel Slug', blank=True, null=True)
+    pref_label_slug = models.SlugField('Entity PrefLabel Slug', db_index=True, blank=True, null=True)
     entity_type = models.CharField(max_length=1000, blank=True, null=True)
     mentioned_at_senses = models.ManyToManyField(Sense, through=Sense.features_entities.through, related_name="+", blank=True)
     examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)
@@ -181,8 +181,8 @@ class NamedEntity(models.Model):
 
 class Xref(models.Model):
     id = models.AutoField(primary_key=True)
-    xref_word = models.CharField(max_length=1000, blank=True, null=True)
-    xref_type = models.CharField(max_length=1000, blank=True, null=True)
+    xref_word = models.CharField(db_index=True, max_length=1000, blank=True, null=True)
+    xref_type = models.CharField(db_index=True, max_length=1000, blank=True, null=True)
     target_lemma = models.CharField(max_length=1000, blank=True, null=True)
     target_slug = models.SlugField(blank=True, null=True)
     target_id = models.CharField(max_length=1000, blank=True, null=True)
@@ -203,7 +203,7 @@ class Collocate(models.Model):
     source_sense_xml_id = models.CharField('Source XML ID', max_length=20, null=True, blank=True)
     target_slug = models.SlugField(blank=True, null=True)
     target_id = models.CharField(max_length=1000, blank=True, null=True)
-    frequency = models.IntegerField(blank=True, null=True)
+    frequency = models.IntegerField(db_index=True, blank=True, null=True)
     parent_sense = models.ManyToManyField(Sense, through=Sense.collocates.through, related_name="+")
 
     class Meta:
@@ -216,10 +216,10 @@ class Collocate(models.Model):
 class SenseRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     rhyme = models.CharField(max_length=1000, blank=True, null=True)
-    rhyme_slug = models.SlugField(blank=True, null=True)
+    rhyme_slug = models.SlugField(db_index=True, blank=True, null=True)
     parent_sense_xml_id = models.CharField('Source XML ID', max_length=20, null=True, blank=True)
     parent_sense = models.ManyToManyField(Sense, through=Sense.sense_rhymes.through, related_name="+")
-    frequency = models.IntegerField(blank=True, null=True)
+    frequency = models.IntegerField(db_index=True, blank=True, null=True)
 
     class Meta:
         ordering = ["rhyme"]
@@ -232,8 +232,8 @@ class ExampleRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     word_one = models.CharField(max_length=1000, blank=True, null=True)
     word_two = models.CharField(max_length=1000, blank=True, null=True)
-    word_one_slug = models.SlugField(blank=True, null=True)
-    word_two_slug = models.SlugField(blank=True, null=True)
+    word_one_slug = models.SlugField(db_index=True, blank=True, null=True)
+    word_two_slug = models.SlugField(db_index=True, blank=True, null=True)
     word_one_target_id = models.CharField(max_length=1000, blank=True, null=True)
     word_two_target_id = models.CharField(max_length=1000, blank=True, null=True)
     word_one_position = models.IntegerField(blank=True, null=True)
