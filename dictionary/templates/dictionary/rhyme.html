@@ -1,0 +1,36 @@
+{% extends "dictionary/base.html" %}
+{% block title %}{{ rhyme }} ⋅ {% endblock %}
+
+{% block content %}
+
+<div class="container">
+{% if rhymes %}
+    {% for rhyme in rhymes %}
+        {% if rhyme.examples %}
+        <h3 class="trr-list-header">{{ rhyme.examples|length }} example rhyming with <strong>{{ rhyme.rhyme }}</strong></h3>
+        <div class="trr-list">
+            {% for example in rhyme.examples %}
+                <div class="trr-list-group-item">
+                    <div>
+                        <span class="date">{{ example.example.release_date_string }}</span>
+                        <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{ example.example.artist_name }}</a></span>
+                        <span class="songTitle">"{{ example.example.song_title }}"</span>
+                         {% if example.featured_artists %}
+                            <span> feat. </span>
+                            {% for feat in example.featured_artists %}
+                                <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                            {% endfor %}
+                        {% endif %}
+                        <span class="album">[{{ example.example.album }}]</span>
+                        <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <h3 class="trr-list-header">Sorry, couldn't find any rhymes for <strong>{{ rhyme }}</strong></h3>
+{% endif %}
+</div>
+{% endblock %}

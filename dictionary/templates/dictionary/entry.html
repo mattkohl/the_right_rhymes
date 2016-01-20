@@ -151,7 +151,7 @@
                     <div class="xref">
                         <span class="xrlabel">Rhymes:</span>
                         {% for rhyme in sense.rhymes %}
-                            <span class="rhyme">{{ rhyme.rhyme }}{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                            <span class="rhyme"><a href="{% url 'rhyme' rhyme.rhyme_slug %}">{{ rhyme.rhyme }}</a>{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                         {% endfor %}
                     </div>
                 {% endif %}

@@ -353,6 +353,8 @@ class TRRExample:
                         TRRArtist(entity['#text'])
                 else:
                     self.lyric_links.append(TRRLyricLink(entity, 'entity'))
+                if '@rhymeTarget' in entity:
+                    self.example_rhymes.append(TRRExampleRhyme(entity))
 
     def extract_rhymes(self):
         if 'rhyme' in self.example_dict['lyric']:
@@ -373,6 +375,8 @@ class TRRExample:
             xrefs = self.example_dict['lyric']['xref']
             for xref in xrefs:
                 self.lyric_links.append(TRRLyricLink(xref, 'xref'))
+                if '@rhymeTarget' in xref:
+                    self.example_rhymes.append(TRRExampleRhyme(xref))
 
     def update_example(self):
         self.example_object.json = self.example_dict
@@ -401,6 +405,9 @@ class TRRExample:
         for l in self.lyric_links:
             l.link_object.parent_example.add(self.example_object)
             l.link_object.save()
+        for r in self.example_rhymes:
+            r.rhyme_object.parent_example.add(self.example_object)
+            r.rhyme_object.save()
 
     def clean_up_date(self):
         new_date = self.release_date_string
@@ -612,7 +619,7 @@ class TRRSenseRhyme:
 
     def update_rhyme_object(self):
         self.rhyme_object.frequency = self.frequency
-        self.rhyme_object.slug = self.rhyme_slug
+        self.rhyme_object.rhyme_slug = self.rhyme_slug
         self.rhyme_object.save()
 
 

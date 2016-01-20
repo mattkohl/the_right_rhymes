@@ -44,7 +44,5 @@ urlpatterns = [
     # /rhymes/<rhyme-slug>/
     url(r"^rhymes/(?P<rhyme_slug>[a-zA-Z0-9\-_#’']+)/?$", views.rhyme, name='rhyme'),
 
-
-
 ]
 

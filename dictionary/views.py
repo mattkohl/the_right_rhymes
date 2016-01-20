@@ -5,7 +5,7 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404, rende
 from django.template import loader, RequestContext
 from django.http import HttpResponse, JsonResponse
 from .utils import build_query, decimal_default
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
 
 def index(request):
@@ -282,11 +282,6 @@ def domain(request, domain_slug):
     return HttpResponse(template.render(context, request))
 
 
-def rhyme(request, rhyme_slug):
-    index = build_index()
-    template = loader.get_template('dictionary/rhyme.html')
-
-
 def stats(request):
     index = build_index()
     published_entries = [entry.senses.all() for entry in Entry.objects.filter(publish=True)]
@@ -330,6 +325,41 @@ def search(request):
         example_results = [build_example(example) for example in Example.objects.filter(sense_query).order_by('release_date')]
         context['query'] = query_string
         context['examples'] = example_results
+
+    return HttpResponse(template.render(context, request))
+
+
+def rhyme(request, rhyme_slug):
+    index = build_index()
+    template = loader.get_template('dictionary/rhyme.html')
+    published_entries = [entry.headword for entry in Entry.objects.filter(publish=True)]
+
+    rhymes_one = ExampleRhyme.objects.filter(word_one_slug=rhyme_slug)
+    rhymes_two = ExampleRhyme.objects.filter(word_two_slug=rhyme_slug)
+
+    print(len(rhymes_one))
+    print(len(rhymes_two))
+
+    rhymes = []
+
+    for r in rhymes_one:
+        rhymes.append({
+            'rhyme': r.word_two,
+            'examples': [build_example(example) for example in r.parent_example.all()]
+        })
+
+    for r in rhymes_two:
+        rhymes.append({
+            'rhyme': r.word_one,
+            'examples': [build_example(example) for example in r.parent_example.all()]
+        })
+
+    context = {
+        'index': index,
+        'published_entries': published_entries,
+        'rhyme': rhyme_slug,
+        'rhymes': rhymes
+        }
 
     return HttpResponse(template.render(context, request))
 
