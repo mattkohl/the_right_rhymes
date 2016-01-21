@@ -141,7 +141,8 @@ def build_example(example_object):
     result = {
         "example": example_object,
         "featured_artists": example_object.feat_artist.order_by('name'),
-        "linked_lyric": add_links(lyric, lyric_links, published)
+        "linked_lyric": add_links(lyric, lyric_links, published),
+        "cited_at": [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id} for sense in example_object.illustrates_senses.order_by('headword')]
     }
     return result
 
@@ -184,15 +185,15 @@ def artist(request, artist_slug):
         origin = origin_results[0]
     else:
         origin = ''
-    entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
     template = loader.get_template('dictionary/artist.html')
-    entity_senses = []
-    if len(entity_results) >= 1:
-        for entity in entity_results:
-            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
+    entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
 
     primary_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.filter(publish=True).order_by('headword')]
     featured_senses = [{'sense': sense, 'examples': [build_example(example) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
+    entity_examples = []
+    for e in entity_results:
+        for example in e.examples.all():
+            entity_examples.append(build_example(example))
 
     image = check_for_artist_image(artist.slug)
 
@@ -202,7 +203,7 @@ def artist(request, artist_slug):
         'origin': origin,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
-        'entity_senses': entity_senses,
+        'entity_examples': entity_examples,
         'image': image
     }
     return HttpResponse(template.render(context, request))
@@ -273,13 +274,25 @@ def domain(request, domain_slug):
     sense_objects = domain.senses.filter(publish=True).order_by('headword')
     senses = [build_sense_preview(sense) for sense in sense_objects]
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    data = [sense.headword for sense in sense_objects]
     context = {
         'index': index,
         'domain': domain,
         'senses': senses,
-        'published_entries': published
+        'published_entries': published,
+        'data': json.dumps(data)
     }
     return HttpResponse(template.render(context, request))
+
+
+def domain_json(request, domain_slug):
+    results = Domain.objects.filter(slug=domain_slug)
+    if results:
+        domain_object = results[0]
+        data = {'name': domain_object.name, 'children': [ {'name': sense.headword } for sense in domain_object.senses.all()]}
+        return JsonResponse(json.dumps(data), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
 
 
 def stats(request):
@@ -322,6 +335,7 @@ def search(request):
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
         sense_query = build_query(query_string, ['lyric_text'])
+        # print(sense_query)
         example_results = [build_example(example) for example in Example.objects.filter(sense_query).order_by('release_date')]
         context['query'] = query_string
         context['examples'] = example_results
@@ -333,9 +347,10 @@ def rhyme(request, rhyme_slug):
     index = build_index()
     template = loader.get_template('dictionary/rhyme.html')
     published_entries = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    title = rhyme_slug
 
-    rhymes_one = ExampleRhyme.objects.filter(word_one_slug=rhyme_slug)
-    rhymes_two = ExampleRhyme.objects.filter(word_two_slug=rhyme_slug)
+    rhymes_one = ExampleRhyme.objects.filter(word_one_slug=rhyme_slug).order_by('word_one_slug')
+    rhymes_two = ExampleRhyme.objects.filter(word_two_slug=rhyme_slug).order_by('word_two_slug')
 
     print(len(rhymes_one))
     print(len(rhymes_two))
@@ -343,21 +358,25 @@ def rhyme(request, rhyme_slug):
     rhymes = []
 
     for r in rhymes_one:
+        title = r.word_one
         rhymes.append({
             'rhyme': r.word_two,
+            'slug': r.word_two_slug,
             'examples': [build_example(example) for example in r.parent_example.all()]
         })
 
     for r in rhymes_two:
+        title = r.word_two
         rhymes.append({
             'rhyme': r.word_one,
+            'slug': r.word_one_slug,
             'examples': [build_example(example) for example in r.parent_example.all()]
         })
 
     context = {
         'index': index,
         'published_entries': published_entries,
-        'rhyme': rhyme_slug,
+        'rhyme': title,
         'rhymes': rhymes
         }
 

@@ -246,7 +246,7 @@ div.entry-header p {
 
 
 .headword {
-	font-size: 1.5em;
+	font-size: 1.75em;
 	font-weight: bold;
 }
 
@@ -678,9 +678,10 @@ h1.trr-list-header {
 }
 
 .name-date {
-    font-size: 0.8em;
+    font-size: 0.7em;
     text-transform: uppercase;
     margin-top: 1.5em;
+    color: #9B9B9B;
 }
 
 /* Hover popups */
@@ -768,7 +769,6 @@ h1.trr-list-header {
 	margin-tope: 2em;
 }
 
-
 .tag {
 	color: blue;
 	font-weight: bold;
@@ -787,13 +787,33 @@ h1.trr-list-header {
 	font-weight: bold;
 }
 
+.search-more-link {
+    text-align: right;
+	font-size: 0.75em;
+	text-decoration: none;
+	text-transform: uppercase;
+	line-height: 17px;
+	padding: 2px 20px;
+    color: #9B9B9B;
+    font-style: italic;
+}
+.search-more-link a {
+    font-weight: bold;
+}
+
+.search-more-link a:hover,
+.search-more-link a:focus {
+	color: black;
+}
+
 .more-link, .toggle_exx {
 	text-align: center;
+    padding: 2px 20px;
 }
 .more-link a:link,
-.more-link a:visited {
+.more-link a:visited,
+.more-link span {
 	font-size: 0.6em;
-	padding: 2px 20px;
 	text-decoration: none;
 	text-transform: uppercase;
 	line-height: 17px;
@@ -819,6 +839,36 @@ h1.trr-list-header {
 	text-transform: uppercase;
 	line-height: 17px;
 }
+
+
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+}
+circle {
+    fill: #ccc;
+    stroke: #333;
+    stroke-width: 1.5px;
+}
+text {
+    text-baseline:middle;
+    text-anchor:middle;
+    font: 10px sans-serif;
+    /*pointer-events: none;*/
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+text a {
+  fill: navy;
+}
+text a:visited {
+  fill:darkpurple;
+}
+text a:hover, text a:active {
+  text-decoration: underline;
+  fill:darkred;
+}
+
 
 /*
 --------------------------------------------------------------

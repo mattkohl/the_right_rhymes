@@ -38,6 +38,9 @@ urlpatterns = [
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
 
+    # /domain_json/<domain-slug>/
+    url(r"^domain_json/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain_json, name='domain_json'),
+
     # /entities/<named-entity-slug>/
     url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),
 

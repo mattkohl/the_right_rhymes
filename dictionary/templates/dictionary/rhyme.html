@@ -4,11 +4,14 @@
 {% block content %}
 
 <div class="container">
+<h1 class="headword"><strong>{{ rhyme }}</strong></h1>
+    <div class="trr-list">
+
 {% if rhymes %}
     {% for rhyme in rhymes %}
-        {% if rhyme.examples %}
-        <h3 class="trr-list-header">{{ rhyme.examples|length }} example rhyming with <strong>{{ rhyme.rhyme }}</strong></h3>
-        <div class="trr-list">
+        {% ifchanged rhyme.slug %}
+        <h3 class="trr-list-header">Rhyming with <strong><a href="{% url 'rhyme' rhyme.slug %}" style="color:black;">{{ rhyme.rhyme }}</a></strong></h3>
+        {% endifchanged %}
             {% for example in rhyme.examples %}
                 <div class="trr-list-group-item">
                     <div>
@@ -26,9 +29,9 @@
                     </div>
                 </div>
             {% endfor %}
-        </div>
-        {% endif %}
+
     {% endfor %}
+        </div>
 {% else %}
     <h3 class="trr-list-header">Sorry, couldn't find any rhymes for <strong>{{ rhyme }}</strong></h3>
 {% endif %}
