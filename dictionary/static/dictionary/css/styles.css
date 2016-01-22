@@ -235,6 +235,14 @@ div.entry-header p {
     margin: 20px 0px 0px 0px;
 }
 
+.page-header h1 {
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 1em;
+    margin: 0px;
+    padding: 20px 50px;
+}
+
 .single-thumb {
 	margin: 0 0 .5em 0;
 }
@@ -595,6 +603,10 @@ figcaption a span {
 	word-wrap: break-word;
 }
 
+.rhyme-header {
+    padding-top: 1.5em;
+}
+
 h1.trr-list-header {
     font-size: 1.25em;
     margin-top: -1em;
@@ -789,9 +801,8 @@ h1.trr-list-header {
 
 .search-more-link {
     text-align: right;
-	font-size: 0.75em;
+	font-size: 0.65em;
 	text-decoration: none;
-	text-transform: uppercase;
 	line-height: 17px;
 	padding: 2px 20px;
     color: #9B9B9B;

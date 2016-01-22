@@ -2,9 +2,11 @@
 {% block title %}{{ query }} ⋅ Search Results ⋅ {% endblock %}
 
 {% block content %}
+<header class="page-header">
+    <h1 class="page-title">{{ examples|length }} search results for <strong>{{ query }}</strong></h1>
+</header>
 <div class="container">
     {% if examples %}
-    <h3 class="trr-list-header">{{ examples|length }} examples match <strong>{{ query }}</strong></h3>
     <div class="trr-list">
         {% for example in examples %}
             <div class="trr-list-group-item">

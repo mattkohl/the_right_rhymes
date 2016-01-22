@@ -2,38 +2,42 @@
 {% block title %}{{ rhyme }} ⋅ {% endblock %}
 
 {% block content %}
-
+<header class="rhyme-header">
+    <h1 class="trr-list-header"><strong>{{ rhyme }}</strong> rhymes</h1>
+</header>
 <div class="container">
-<h1 class="headword"><strong>{{ rhyme }}</strong></h1>
-    <div class="trr-list">
+<div class="trr-list">
 
 {% if rhymes %}
-    {% for rhyme in rhymes %}
+    {% for rhyme in rhymes|dictsort:"slug" %}
+    <div class="trr-list-group-item">
         {% ifchanged rhyme.slug %}
-        <h3 class="trr-list-header">Rhyming with <strong><a href="{% url 'rhyme' rhyme.slug %}" style="color:black;">{{ rhyme.rhyme }}</a></strong></h3>
+        <div>
+            <strong>
+                <a href="{% url 'rhyme' rhyme.slug %}">{{rhyme.rhyme}}</a>
+            </strong>
+        </div>
         {% endifchanged %}
-            {% for example in rhyme.examples %}
-                <div class="trr-list-group-item">
-                    <div>
-                        <span class="date">{{ example.example.release_date_string }}</span>
-                        <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{ example.example.artist_name }}</a></span>
-                        <span class="songTitle">"{{ example.example.song_title }}"</span>
-                         {% if example.featured_artists %}
-                            <span> feat. </span>
-                            {% for feat in example.featured_artists %}
-                                <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% endfor %}
-                        {% endif %}
-                        <span class="album">[{{ example.example.album }}]</span>
-                        <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                    </div>
+            {% for example in rhyme.examples|dictsort:"release_date" %}
+                <div>
+                    <span class="date">{{ example.example.release_date_string }}</span>
+                    <span class="artist"><a href="">{{ example.example.artist_name }}</a></span>
+                    <span class="songTitle">"{{ example.example.song_title }}"</span>
+                     {% if example.featured_artists %}
+                        <span> feat. </span>
+                        {% for feat in example.featured_artists %}
+                            <span class="artist"><a href="">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <span class="album">[{{ example.example.album }}]</span>
+                    <div class="lyric">{{ example.linked_lyric|safe }}</div>
                 </div>
             {% endfor %}
-
-    {% endfor %}
         </div>
+    {% endfor %}
+</div>
 {% else %}
-    <h3 class="trr-list-header">Sorry, couldn't find any rhymes for <strong>{{ rhyme }}</strong></h3>
+<h3 class="trr-list-header">Sorry, couldn't find any rhymes for <strong>{{ rhyme }}</strong></h3>
 {% endif %}
 </div>
 {% endblock %}
