@@ -67,7 +67,7 @@ body {
     margin: -1em -1em 0 0;
 }
 
-#header-search input{
+#header-search input {
     border: 1px solid #454545;
     border-radius: 2px;
     color: #a2a2a2;
@@ -76,9 +76,25 @@ body {
     text-align: left;
 }
 
-#header-search-button {
-    background: #333;
+#header-search div ul {
     border: 1px solid #454545;
+    background: #333;
+    text-align: left;
+    color: #a2a2a2;
+}
+
+#header-search div ul li a {
+    color: #a2a2a2;
+}
+
+#header-search div ul li.divider {
+    background-color: #a2a2a2;
+}
+
+#header-search-button, #header-search div button {
+    background: #333;
+    border-radius: 0px;
+    border: 0px solid #454545;
     color: #a2a2a2;
     text-shadow: none;
 
@@ -136,6 +152,13 @@ body {
     margin-bottom: 16px;
 }
 
+div.artist-image {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
 
 /*
 --------------------------------------------------------------

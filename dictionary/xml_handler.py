@@ -7,6 +7,7 @@ import xmltodict
 from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, Place
+from .utils import slugify
 
 
 geolocator = Nominatim()
@@ -772,20 +773,4 @@ class TRRLyricLink:
                                                                target_slug=self.target_slug,
                                                                position=self.position)
         return link_object
-
-
-def slugify(text):
-    slug = text.strip().lower()
-    if slug[0] == "'" or slug[0] == "-":
-        slug = slug[1:]
-    slug = re.sub("^[\-']]", "", slug)
-    slug = re.sub("[\s\.]", "-", slug)
-    slug = re.sub("[:/]", "", slug)
-    slug = re.sub("\$", "s", slug)
-    slug = re.sub("&amp;", "and", slug)
-    slug = re.sub("&", "and", slug)
-    slug = re.sub("'", "", slug)
-    slug = re.sub(",", "", slug)
-    slug = re.sub("-$", "", slug)
-    return slug
 

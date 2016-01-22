@@ -2,11 +2,11 @@
 {% block title %}{{ query }} ⋅ Search Results ⋅ {% endblock %}
 
 {% block content %}
-<header class="page-header">
-    <h1 class="page-title">{{ examples|length }} search results for <strong>{{ query }}</strong></h1>
-</header>
 <div class="container">
     {% if examples %}
+    <header class="page-header">
+        <h1 class="page-title">{{ examples|length }} search results for <strong>{{ query }}</strong> in Lyrics</h1>
+    </header>
     <div class="trr-list">
         {% for example in examples %}
             <div class="trr-list-group-item">
@@ -29,6 +29,24 @@
                         <a href="{% url 'entry' sense.slug %}#{{sense.anchor}}">{{sense.headword}}</a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% elif artists %}
+    <header class="page-header">
+        <h1 class="page-title">{{ artists|length }} search results for <strong>{{ query }}</strong> in Artists</h1>
+    </header>
+    <div class="trr-list">
+        {% for artist in artists %}
+            <div class="trr-list-group-item">
+               <div>
+                  <strong>
+                     <a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>
+                  </strong>
+               </div>
+                {% if artist.image %}
+                    <div class="artist-image" style="background-image: url({{ artist.image }})"></div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

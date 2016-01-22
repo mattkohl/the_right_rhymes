@@ -34,3 +34,19 @@ def decimal_default(obj):
     if isinstance(obj, decimal.Decimal):
         return float(obj)
     raise TypeError
+
+
+def slugify(text):
+    slug = text.strip().lower()
+    if slug[0] == "'" or slug[0] == "-":
+        slug = slug[1:]
+    slug = re.sub("^[\-']]", "", slug)
+    slug = re.sub("[\s\.]", "-", slug)
+    slug = re.sub("[:/]", "", slug)
+    slug = re.sub("\$", "s", slug)
+    slug = re.sub("&amp;", "and", slug)
+    slug = re.sub("&", "and", slug)
+    slug = re.sub("'", "", slug)
+    slug = re.sub(",", "", slug)
+    slug = re.sub("-$", "", slug)
+    return slug

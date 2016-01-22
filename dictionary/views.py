@@ -6,7 +6,7 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404, rende
 from django.template import loader, RequestContext
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
-from .utils import build_query, decimal_default
+from .utils import build_query, decimal_default, slugify
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
 
@@ -239,6 +239,8 @@ def place(request, place_slug):
 def build_artist(artist_object):
     result = {
         "artist": artist_object,
+        "name": artist_object.name,
+        "slug": artist_object.slug,
         "image": check_for_artist_image(artist_object.slug)
     }
     return result
@@ -336,16 +338,27 @@ def search(request):
     template = loader.get_template('dictionary/search_results.html')
     context = {
         'index': index,
-        'published_entries': published,
-        'query': '',
-        'senses': []
+        'published_entries': published
         }
     if ('q' in request.GET) and request.GET['q'].strip():
+        search_param = request.GET['search_param']
         query_string = request.GET['q']
-        sense_query = build_query(query_string, ['lyric_text'])
-        example_results = [build_example(example, published) for example in Example.objects.filter(sense_query).order_by('release_date')]
-        context['query'] = query_string
-        context['examples'] = example_results
+        context['search_param'] = search_param
+        if search_param == 'artists':
+            # return redirect('/artists/' + slugify(query_string))
+            artist_query = build_query(query_string, ['name'])
+            artist_results = [build_artist(artist) for artist in Artist.objects.filter(artist_query).order_by('name')]
+            context['query'] = query_string
+            context['artists'] = artist_results
+        # elif search_param == 'rhymes':
+        #     return redirect('/rhymes/' + slugify(query_string))
+        # elif search_param == 'domains':
+        #     return redirect('/domains/' + slugify(query_string))
+        else:
+            sense_query = build_query(query_string, ['lyric_text'])
+            example_results = [build_example(example, published) for example in Example.objects.filter(sense_query).order_by('release_date')]
+            context['query'] = query_string
+            context['examples'] = example_results
 
     return HttpResponse(template.render(context, request))
 
