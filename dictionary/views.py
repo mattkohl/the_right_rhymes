@@ -317,9 +317,9 @@ def stats(request):
 
 
 
-def check_for_artist_image(slug):
-    jpg = 'dictionary/static/dictionary/img/artists/{}.jpg'.format(slug)
-    png = 'dictionary/static/dictionary/img/artists/{}.png'.format(slug)
+def check_for_artist_image(slug, folder='thumb'):
+    jpg = 'dictionary/static/dictionary/img/artists/{}/{}.jpg'.format(folder, slug)
+    png = 'dictionary/static/dictionary/img/artists/{}/{}.png'.format(folder, slug)
     images = []
     if os.path.isfile(jpg):
         images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))
@@ -347,7 +347,7 @@ def search(request):
         if search_param == 'artists':
             # return redirect('/artists/' + slugify(query_string))
             artist_query = build_query(query_string, ['name'])
-            artist_results = [build_artist(artist) for artist in Artist.objects.filter(artist_query).order_by('name')]
+            artist_results = [build_artist(artist) for artist in Artist.objects.filter(artist_query).order_by('slug')]
             context['query'] = query_string
             context['artists'] = artist_results
         # elif search_param == 'rhymes':
