@@ -29,6 +29,9 @@ urlpatterns = [
     # /senses/<sense_id>/artist_origins/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artist_origins/$", views.sense_artist_origins, name="sense_artist_origins"),
 
+    # /senses/<sense_id>/remaining_examples/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_examples, name="remaining_examples"),
+
     # /artist_origins/<artist_slug>/
     url(r"^artist_origins/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.artist_origins, name="artist_origins"),
 

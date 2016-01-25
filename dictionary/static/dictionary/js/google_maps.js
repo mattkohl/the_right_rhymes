@@ -4,7 +4,7 @@
 
 function initialize() {
 
-	var infowindow, markerBounds;
+	var infowindow, markerBounds, endpoint;
 	var latlng = new google.maps.LatLng(40.650002, -73.949997);
 	var options = {
         zoom: 10,
@@ -19,8 +19,8 @@ function initialize() {
         var is_artist = false;
         infowindow = new google.maps.InfoWindow({ content: '' });
         markerBounds = new google.maps.LatLngBounds();
-        sense_id = $(this).find('.sense_id').text();
-        artist_slug = $(this).find('.artist-slug').text();
+        var sense_id = $(this).find('.sense_id').text();
+        var artist_slug = $(this).find('.artist-slug').text();
         if (artist_slug) {
             endpoint = '/artist_origins/' + artist_slug + '/';
             is_artist = true;

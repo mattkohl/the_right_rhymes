@@ -10,6 +10,18 @@ $(document).ready(function(){
         } else {
             $(this).text('Toggle fewer examples');
             $(this).css("background-color","lightgray");
+            var sense_id = $(this).parent().find('.sense_id').text();
+
+            console.log(sense_id);
+            var endpoint = '/senses/' + sense_id + '/remaining_examples/';
+            $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
+                    parsed = $.parseJSON(data);
+                    $.each(parsed.remaining_examples, function(index, example) {
+                        if (example != null) {
+                            console.log(example);
+                        }
+                    });
+                });
         }
 		return false;
 	});

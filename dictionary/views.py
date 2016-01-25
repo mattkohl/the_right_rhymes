@@ -121,9 +121,24 @@ def build_sense_preview(sense_object):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     result = {
         "sense": sense_object,
-        "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1],
+        "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
     }
     return result
+
+
+def remaining_examples(request, sense_id):
+    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    sense_object = Sense.objects.filter(xml_id=sense_id)[0]
+    example_results = sense_object.examples.order_by('release_date')
+    print(len(example_results))
+    if example_results:
+        data = {
+            'sense_id': sense_id,
+            'examples': [build_example(example, published) for example in example_results[NUM_QUOTS_TO_SHOW:]]
+        }
+        return JsonResponse(json.dumps(data), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
 
 
 def build_artist_origin(artist):
@@ -148,9 +163,14 @@ def build_example(example_object, published):
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
     result = {
-        "example": example_object,
-        "release_date": example_object.release_date,
-        "featured_artists": example_object.feat_artist.order_by('name'),
+        # "example": example_object,
+        "artist_name": str(example_object.artist_name),
+        "artist_slug": str(example_object.artist_slug),
+        "song_title": str(example_object.song_title),
+        "album": str(example_object.album),
+        "release_date": str(example_object.release_date),
+        "release_date_string": str(example_object.release_date_string),
+        "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
         "linked_lyric": add_links(lyric, lyric_links, published),
         "cited_at": [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id} for sense in example_object.illustrates_senses.order_by('headword')]
     }
@@ -243,7 +263,7 @@ def place(request, place_slug):
 
 def build_artist(artist_object):
     result = {
-        "artist": artist_object,
+        # "artist": artist_object,
         "name": artist_object.name,
         "slug": artist_object.slug,
         "image": check_for_artist_image(artist_object.slug)

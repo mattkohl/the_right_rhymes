@@ -171,42 +171,43 @@
                     <ul class="examplesHead">
                     {% for example in sense.examples|slice:":3" %}
                         <li>
-                            <span class="date">{{ example.example.release_date_string }}</span>
-                            <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
-                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            <span class="date">{{ example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.song_title}}"</span>
                             {% if example.featured_artists %}
                                 <span> feat. </span>
                                 {% for feat in example.featured_artists %}
                                     <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
                                 {% endfor %}
                             {% endif %}
-                            <span class="album">[{{example.example.album }}]</span>
+                            <span class="album">[{{example.album }}]</span>
                             <div class="lyric">{{ example.linked_lyric|safe }}</div>
                         </li>
                     {% endfor %}
                     </ul>
                 {% endif %}
-                {% if sense.examples|length > 3 %}
+                {% if sense.num_examples > 3 %}
                     <div class="toggle_exx">
                         <a href="#" class="toggle">
                             <i class='fa fa-caret-down' style="padding-right:.5em;"></i>
                             Toggle {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
                             <i class='fa fa-caret-down' style="padding-left:.5em;"></i>
                         </a>
+                        <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
                     </div>
                     <ul class="examples">
                     {% for example in sense.examples|slice:"3:" %}
                         <li>
-                            <span class="date">{{ example.example.release_date_string }}</span>
-                            <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{example.example.artist_name}}</a></span>
-                            <span class="songTitle">"{{example.example.song_title}}"</span>
+                            <span class="date">{{ example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.song_title}}"</span>
                             {% if example.featured_artists %}
                                 <span> feat. </span>
                                 {% for feat in example.featured_artists %}
                                     <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
                                 {% endfor %}
                             {% endif %}
-                            <span class="album">[{{example.example.album }}]</span>
+                            <span class="album">[{{example.album }}]</span>
                             <div class="lyric">{{ example.linked_lyric|safe }}</div>
                         </li>
                     {% endfor %}
