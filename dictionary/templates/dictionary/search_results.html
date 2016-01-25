@@ -41,11 +41,14 @@
             <div class="trr-list-group-item">
                <div>
                   <strong>
-                     <a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a> ({{artist.slug}})
+                     <a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>
                   </strong>
                </div>
+                <div>({{artist.slug}})</div>
                 {% if artist.image %}
-                    <div class="artist-image" style="background-image: url({{ artist.image }})"></div>
+                    <a href="{% url 'artist' artist.slug %}">
+                        <div class="artist-image" style="background-image: url({{ artist.image }})"></div>
+                    </a>
                 {% endif %}
             </div>
         {% endfor %}

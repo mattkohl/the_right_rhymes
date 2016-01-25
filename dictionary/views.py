@@ -9,6 +9,7 @@ from django.db.models import Q
 from .utils import build_query, decimal_default, slugify
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
+NUM_QUOTS_TO_SHOW = 3
 
 def index(request):
     index = build_index()
@@ -53,7 +54,7 @@ def entry(request, headword_slug):
     except:
         print('Could not locate artist of first quotation')
     else:
-        image = check_for_artist_image(artist_slug)
+        image = check_for_artist_image(artist_slug, 'full')
 
     context = {
         'index': index,
@@ -87,14 +88,18 @@ def sense_artist_origins(request, sense_id):
         return JsonResponse(json.dumps({}))
 
 
-def build_sense(sense_object):
+def build_sense(sense_object, full=False):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
-    examples = [build_example(example, published) for example in sense_object.examples.order_by('release_date')]
+    example_results = sense_object.examples.order_by('release_date')
+    if full:
+        examples = [build_example(example, published) for example in example_results]
+    else:
+        examples = [build_example(example, published) for example in example_results[:NUM_QUOTS_TO_SHOW]]
     result = {
         "sense": sense_object,
         "domains": sense_object.domains.order_by('name'),
         "examples": examples,
-        "num_examples": len(examples),
+        "num_examples": len(example_results),
         "synonyms": sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word'),
         "antonyms": sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word'),
         "meronyms": sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word'),
@@ -325,7 +330,10 @@ def check_for_artist_image(slug, folder='thumb'):
         images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if os.path.isfile(png):
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
-    if len(images) == 0:
+    if len(images) == 0 and folder == 'thumb':
+        print('No image found for {}.'.format(slug))
+        return '/static/dictionary/img/artists/thumb/__none.png'
+    elif len(images) == 0:
         print('No image found for {}.'.format(slug))
         return ''
     else:
