@@ -20,16 +20,16 @@
         {% endifchanged %}
             {% for example in rhyme.examples|dictsort:"release_date" %}
                 <div>
-                    <span class="date">{{ example.example.release_date_string }}</span>
-                    <span class="artist"><a href="">{{ example.example.artist_name }}</a></span>
-                    <span class="songTitle">"{{ example.example.song_title }}"</span>
+                    <span class="date">{{ example.release_date_string }}</span>
+                    <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
+                    <span class="songTitle">"{{ example.song_title }}"</span>
                      {% if example.featured_artists %}
                         <span> feat. </span>
                         {% for feat in example.featured_artists %}
                             <span class="artist"><a href="">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
                         {% endfor %}
                     {% endif %}
-                    <span class="album">[{{ example.example.album }}]</span>
+                    <span class="album">[{{ example.album }}]</span>
                     <div class="lyric">{{ example.linked_lyric|safe }}</div>
                 </div>
             {% endfor %}
