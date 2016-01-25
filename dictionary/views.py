@@ -49,12 +49,13 @@ def entry(request, headword_slug):
     artist_name = ''
     artist_slug = ''
     try:
-        artist_slug = senses[0]['examples'][0]['example'].artist_slug
-        artist_name = senses[0]['examples'][0]['example'].artist_name
+        artist_slug = senses[0]['examples'][0]['artist_slug']
+        artist_name = senses[0]['examples'][0]['artist_name']
     except:
         print('Could not locate artist of first quotation')
     else:
         image = check_for_artist_image(artist_slug, 'full')
+        print(image)
 
     context = {
         'index': index,
