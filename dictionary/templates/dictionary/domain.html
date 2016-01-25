@@ -1,12 +1,12 @@
 {% extends "dictionary/base.html" %}
-{% block title %}{{ domain.name }} ⋅ {% endblock %}
+{% block title %}{{ domain }} ⋅ {% endblock %}
 {% block content %}
 <div class="container">
     {% if senses %}
         {% if senses|length > 1 %}
-        <h3 class="trr-list-header">{{ senses|length }} senses in the domain of <strong>{{ domain.name }}</strong></h3>
+        <h3 class="trr-list-header">{{ senses|length }} senses in the domain of <strong>{{ domain }}</strong></h3>
         {% elif senses|length == 1 %}
-        <h3 class="trr-list-header">{{ senses|length }} sense in the domain of <strong>{{ domain.name }}</strong></h3>
+        <h3 class="trr-list-header">{{ senses|length }} sense in the domain of <strong>{{ domain }}</strong></h3>
         {% endif %}
         <div class="trr-list">
         {% for sense in senses %}

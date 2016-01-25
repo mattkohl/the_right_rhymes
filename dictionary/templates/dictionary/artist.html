@@ -1,17 +1,17 @@
 {% extends "dictionary/base.html" %}
-{% block title %}{{ artist.name }} ⋅ {% endblock %}
+{% block title %}{{ artist }} ⋅ {% endblock %}
 {% block content %}
 <div class="container">
     {% if image %}
     <figure class="single-thumb">
         <img src="{{ image }}"
-             alt="{{ artist.name }}"
+             alt="{{ artist }}"
              property="image"
              scale="0"/>
     </figure>
     {% endif %}
 
-    <h1 class="headword"><strong>{{ artist.name }}</strong></h1>
+    <h1 class="headword"><strong>{{ artist }}</strong></h1>
 
     {% if primary_senses %}
 
@@ -127,8 +127,8 @@
 
         {% if origin %}
         <div class="map-canvas">
-            <p class="hidden artist-slug">{{ artist.slug }}</p>
-            <p class="mapLabel">origin: {{ origin.name }}</p>
+            <p class="hidden artist-slug">{{ slug }}</p>
+            <p class="mapLabel">origin: {{ origin }}</p>
             <div id="map1" class="map"></div>
         </div>
         {% endif %}

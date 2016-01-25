@@ -55,11 +55,12 @@ def entry(request, headword_slug):
         print('Could not locate artist of first quotation')
     else:
         image = check_for_artist_image(artist_slug, 'full')
-        print(image)
 
     context = {
         'index': index,
-        'entry': entry,
+        'headword': entry.headword,
+        'pub_date': entry.pub_date,
+        'last_updated': entry.last_updated,
         'senses': senses,
         'published_entries': published,
         'image': image,
@@ -70,7 +71,6 @@ def entry(request, headword_slug):
 
 
 def artist_origins(request, artist_slug):
-    print(artist_slug)
     results = Artist.objects.filter(slug=artist_slug)
     if results:
         data = {'places': [build_artist_origin(artist) for artist in results]}
@@ -131,7 +131,7 @@ def remaining_examples(request, sense_id):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     sense_object = Sense.objects.filter(xml_id=sense_id)[0]
     example_results = sense_object.examples.order_by('release_date')
-    print(len(example_results))
+
     if example_results:
         data = {
             'sense_id': sense_id,
@@ -231,8 +231,9 @@ def artist(request, artist_slug):
 
     context = {
         'index': index,
-        'artist': artist,
-        'origin': origin,
+        'artist': artist.name,
+        'slug': artist.slug,
+        'origin': origin.name,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
@@ -255,7 +256,7 @@ def place(request, place_slug):
 
     context = {
         'index': index,
-        'place': place,
+        'place': place.name,
         'artists': [build_artist(artist) for artist in place.artists.order_by('name')],
         'entity_senses': entity_senses
     }
@@ -288,7 +289,8 @@ def entity(request, entity_slug):
             if entity.entity_type == 'place':
                 return redirect('/places/' + entity.pref_label_slug)
             entities.append({
-                'entity': entity,
+                'name': entity.name,
+                'pref_label': entity.pref_label,
                 'senses': [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
             })
 
@@ -313,7 +315,7 @@ def domain(request, domain_slug):
     data = [sense.headword for sense in sense_objects]
     context = {
         'index': index,
-        'domain': domain,
+        'domain': domain.name,
         'senses': senses,
         'published_entries': published,
         'data': json.dumps(data)
@@ -352,10 +354,10 @@ def check_for_artist_image(slug, folder='thumb'):
     if os.path.isfile(png):
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if len(images) == 0 and folder == 'thumb':
-        print('No image found for {}.'.format(slug))
+        # print('No image found for {}.'.format(slug))
         return '/static/dictionary/img/artists/thumb/__none.png'
     elif len(images) == 0:
-        print('No image found for {}.'.format(slug))
+        # print('No image found for {}.'.format(slug))
         return ''
     else:
         return random.choice(images)

@@ -1,19 +1,19 @@
 {% extends "dictionary/base.html" %}
-{% block title %}{{ entry.headword }} ⋅ {% endblock %}
+{% block title %}{{ headword }} ⋅ {% endblock %}
 {% block content %}
 
-<article id="{{ entry.headword }}" class="group post-container">
+<article id="{{ headword }}" class="group post-container">
     <header class="entry-header">
-        <h1 class="entry-title" property="name">meaning of <strong>{{ entry.headword }}</strong> in rap lyrics</h1>
+        <h1 class="entry-title" property="name">meaning of <strong>{{ headword }}</strong> in rap lyrics</h1>
         <div class="name-date">
-            <div>Published on <time>{{ entry.pub_date }}</time></div>
-            {% if entry.last_updated %}
-                <div>Last updated <time>{{ entry.last_updated }}</time></div>
+            <div>Published on <time>{{ pub_date }}</time></div>
+            {% if last_updated %}
+                <div>Last updated <time>{{ last_updated }}</time></div>
             {% endif %}
         </div>
     </header>
 
-    {% if entry %}
+    {% if headword %}
 
         <div class="entry-content">
             {% if image %}
@@ -30,7 +30,7 @@
                   </figcaption>
                 </figure>
             {% endif %}
-            <div class="headword">{{ entry.headword }}</div>
+            <div class="headword">{{ headword }}</div>
             {% for sense in senses %}
                 <div id="{{ sense.sense.xml_id }}" class="pos">{{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
                 <div class="definition">{{ sense.sense.definition }}</div>

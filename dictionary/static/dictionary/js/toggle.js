@@ -16,11 +16,7 @@ $(document).ready(function(){
             var endpoint = '/senses/' + sense_id + '/remaining_examples/';
             $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
                     parsed = $.parseJSON(data);
-                    $.each(parsed.remaining_examples, function(index, example) {
-                        if (example != null) {
-                            console.log(example);
-                        }
-                    });
+                    console.log(parsed)
                 });
         }
 		return false;
