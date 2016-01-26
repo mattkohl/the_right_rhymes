@@ -345,6 +345,7 @@ def stats(request):
 
 
 def check_for_artist_image(slug, folder='thumb'):
+    slug = slug.encode('utf-8').strip()
     jpg = 'dictionary/static/dictionary/img/artists/{}/{}.jpg'.format(folder, slug)
     png = 'dictionary/static/dictionary/img/artists/{}/{}.png'.format(folder, slug)
     images = []
