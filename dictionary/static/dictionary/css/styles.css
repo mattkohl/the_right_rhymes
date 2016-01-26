@@ -783,6 +783,10 @@ h1.trr-list-header {
     list-style: none;
 }
 
+.loading {
+    display: none;
+}
+
 .form-group #artist,
 .form-group #album,
 .form-group #date,

@@ -4,7 +4,9 @@
 $(document).ready(function(){
 	$(".toggle").click(function(){
 		$(this).parent().next(".examples").slideToggle("fast");
-		if ($(this).text() == 'Toggle fewer examples') {
+		var breaker = $(this).parent().find('.loading');
+        var context = $(this);
+        if ($(this).text() == 'Toggle fewer examples') {
             $(this).text('Toggle more examples');
             $(this).css("background-color","#9b9b9b");
         } else {
@@ -13,43 +15,60 @@ $(document).ready(function(){
             var sense_id = $(this).parent().find('.sense_id').text();
             var ul = $(this).parent().next(".examples");
             if (ul.children().length == 0) {
-                addRemainingExamples(sense_id, ul);
+                context.hide();
+                breaker.show();
+                addRemainingExamples(sense_id, ul, breaker, context);
+
             }
         }
 		return false;
 	});
 });
 
-function addRemainingExamples(sense_id, ul) {
-    console.log(sense_id);
+function addRemainingExamples(sense_id, ul, breaker, context) {
+    console.log(breaker);
     var endpoint = '/senses/' + sense_id + '/remaining_examples/';
-    $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
-        var parsed = $.parseJSON(data);
-        var examples = parsed.examples;
-        $.each(examples, function(i, example) {
-            var ex = $("<li></li>").append(
-                $('<span></span>', {"class": 'date', "text": example.release_date}),
-                $('<span></span>', {"class": 'artist'}).append(
-                    $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
-                $('<span></span>', {"class": 'songTitle', "text": '"' + example.song_title + '"'}));
-                if (example.featured_artists.length > 0) {
-                    ex.append('<span> feat. </span>');
-                    var featured = [];
-                    $.each(example.featured_artists, function(i, feat) {
+    console.log(breaker);
+    $.getJSON(
+        endpoint,
+        {'csrfmiddlewaretoken': '{{csrf_token}}' },
+        function(data) {
+            var parsed = $.parseJSON(data);
+            var examples = parsed.examples;
+            $.each(examples, function(i, example) {
+                var ex = $("<li></li>").append(
+                    $('<span></span>', {"class": 'date', "text": example.release_date}),
+                    $('<span></span>', {"class": 'artist'}).append(
+                        $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
+                    $('<span></span>', {"class": 'songTitle', "text": '"' + example.song_title + '"'}));
+                    if (example.featured_artists.length > 0) {
+                        ex.append('<span> feat. </span>');
+                        var featured = [];
+                        var last = example.featured_artists.pop();
+                        $.each(example.featured_artists, function(i, feat) {
+                            featured.push(
+                                $('<span></span>', {"class": 'artist'}).append(
+                                    $('<a></a>', {"href": '/artists/' + feat.slug, "text": feat.name}),
+                                    $('<span>, </span>'))
+                            );
+                        });
                         featured.push(
                             $('<span></span>', {"class": 'artist'}).append(
-                                $('<a></a>', {"href": '/artists/' + feat.slug, "text": feat.name}))
-                        );
-                    });
-                    ex.append(featured);
+                                    $('<a></a>', {"href": '/artists/' + last.slug, "text": last.name})
+                            ));
+                        ex.append(featured);
 
-                }
-                ex.append(
-                    $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
-                    $('<div class="lyric">' + example.linked_lyric + '</div>')
-                )
-            ex.appendTo(ul);
+
+                    }
+                    ex.append(
+                        $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
+                        $('<div class="lyric">' + example.linked_lyric + '</div>')
+                    )
+                ex.appendTo(ul);
+            });
+            breaker.hide();
+            context.show();
         });
-    });
+
 
 }
