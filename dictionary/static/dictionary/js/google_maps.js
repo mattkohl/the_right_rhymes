@@ -16,14 +16,18 @@ function initialize() {
         index = i+1;
         var map = new google.maps.Map(document.getElementById('map' + index), options);
         var markers = [];
-        var is_artist = false;
+        var is_entry = true;
         infowindow = new google.maps.InfoWindow({ content: '' });
         markerBounds = new google.maps.LatLngBounds();
         var sense_id = $(this).find('.sense_id').text();
         var artist_slug = $(this).find('.artist-slug').text();
+        var place_slug = $(this).find('.place-slug').text();
         if (artist_slug) {
             endpoint = '/artist_origins/' + artist_slug + '/';
-            is_artist = true;
+            is_entry = false;
+        } else if (place_slug) {
+            endpoint = '/places/' + place_slug + '/latlng/';
+            is_entry = false;
         } else {
             endpoint = '/senses/' + sense_id + '/artist_origins/';
         }
@@ -32,12 +36,18 @@ function initialize() {
                 $.each(parsed.places, function(index, p) {
                     if (p != null) {
                         tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
-                        markerText = p.artist + "<br>" + p.place_name;
+
+                        if (p.artist) {
+                            markerText = "<b>" + p.artist + "</b>" + "<br>" + "<a href='/places/" + p.place_slug + "/'>" + p.place_name + "</a>";
+                        } else {
+                            markerText = p.place_name;
+                        }
                         var marker = new google.maps.Marker({
                             map: map,
                             position: tmpLatLng,
                             title: markerText,
-                            animation: google.maps.Animation.DROP
+                            animation: google.maps.Animation.DROP,
+                            url: "/places/" + p.place_slug + "/"
                         });
                         markerBounds.extend(tmpLatLng);
                         bindInfoWindow(marker, map, infowindow, markerText);
@@ -46,7 +56,7 @@ function initialize() {
                     }
                 });
             });
-        if (is_artist) {
+        if (!is_entry) {
             zoomChangeBoundsListener = google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
                 if (this.getZoom()){
                     this.setZoom(10);

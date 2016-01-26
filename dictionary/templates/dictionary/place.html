@@ -3,23 +3,30 @@
 {% block content %}
 <div class="container">
     <div class="map-canvas">
-        <p class="mapLabel location">{{ place }}</p>
-        <div class="map"></div>
+        <p class="hidden place-slug">{{ slug }}</p>
+        <p class="mapLabel">{{ place }}</p>
+        <div id="map1" class="map"></div>
     </div>
 
-    {% for artist in artists %}
-    <a href="{% url 'artist' artist.slug %}">
-        <div class="artist">{{artist.name}}</div>
-        {% if artist.image %}
-            <figure class="single-thumb">
-                <img src="{{ artist.image }}"
-                     alt="{{ artist.name }}"
-                     property="image"
-                     scale="0"/>
-            </figure>
-        </a>
-        {% endif %}
-    {% endfor %}
+    {% if artists %}
+        <div class="artists-block">
+        {% for artist in artists %}
+            <a href="{% url 'artist' artist.slug %}">
+                {% if artist.image %}
+                    <figure class="single-thumb">
+                        <img src="{{ artist.image }}"
+                             alt="{{ artist.name }}"
+                             property="image"
+                             scale="0"
+                            width="200"
+                            height="200"/>
+                        <figcaption>{{artist.name}}</figcaption>
+                    </figure>
+                {% endif %}
+            </a>
+        {% endfor %}
+        </div>
+    {% endif %}
 
     {% if entity_senses %}
 

@@ -6,11 +6,11 @@ $(document).ready(function(){
 		$(this).parent().next(".examples").slideToggle("fast");
 		var breaker = $(this).parent().find('.loading');
         var context = $(this);
-        if ($(this).text() == 'Toggle fewer examples') {
-            $(this).text('Toggle more examples');
+        if ($(this).text() == 'Hide more examples') {
+            $(this).text('Show more examples');
             $(this).css("background-color","#9b9b9b");
         } else {
-            $(this).text('Toggle fewer examples');
+            $(this).text('Hide more examples');
             $(this).css("background-color","lightgray");
             var sense_id = $(this).parent().find('.sense_id').text();
             var ul = $(this).parent().next(".examples");
@@ -40,14 +40,14 @@ function addRemainingExamples(sense_id, ul, breaker, context) {
                         $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
                     $('<span></span>', {"class": 'songTitle', "text": '"' + example.song_title + '"'}));
                     if (example.featured_artists.length > 0) {
-                        ex.append('<span> feat. </span>');
+                        ex.append('<span class="comma"> feat. </span>');
                         var featured = [];
                         var last = example.featured_artists.pop();
                         $.each(example.featured_artists, function(i, feat) {
                             featured.push(
                                 $('<span></span>', {"class": 'artist'}).append(
                                     $('<a></a>', {"href": '/artists/' + feat.slug, "text": feat.name}),
-                                    $('<span>, </span>'))
+                                    $('<span></span>', {"class": 'comma', "text": ","}))
                             );
                         });
                         featured.push(

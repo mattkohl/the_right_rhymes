@@ -189,9 +189,7 @@
                 {% if sense.num_examples > 3 %}
                     <div class="toggle_exx">
                         <a href="#" class="toggle">
-                            <i class='fa fa-caret-down' style="padding-right:.5em;"></i>
-                            Toggle {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
-                            <i class='fa fa-caret-down' style="padding-left:.5em;"></i>
+                            Show {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
                         </a>
                         <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
                         <div class="loading">

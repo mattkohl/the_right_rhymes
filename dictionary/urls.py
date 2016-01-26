@@ -38,6 +38,9 @@ urlpatterns = [
     # /places/<place-name-slug>/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),
 
+    # /places/<place-name-slug>/latlng/
+    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/latlng/$", views.place_latlng, name='place_latlng'),
+
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
 

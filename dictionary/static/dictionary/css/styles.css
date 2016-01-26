@@ -389,10 +389,26 @@ p.mapLabel {
     font-size: .85em;
 }
 
+.examples span.comma {
+    padding: 0;
+}
+
+.examples span {
+    padding-right: .5em;
+}
+
 .artist {
 	font-weight: bold;
     color: black;
 	padding:.25em;
+}
+
+.artists-block, figure {
+    display: inline-block;
+}
+
+.artists-block .single-thumb {
+    margin: 0 .55em;
 }
 
 span.artist a:link,
@@ -763,7 +779,7 @@ h1.trr-list-header {
 .entry-content .examplesHead {
     position: relative;
     /*height: 230px;*/
-    padding: 5;
+    /*padding: .5em;*/
     list-style: none;
     margin-bottom: 0;
     overflow-x: hidden;
@@ -867,8 +883,8 @@ h1.trr-list-header {
 
 .toggle_exx a {
     color: white;
-    background: orangered;
-    border-radius: 1px;
+    background: #9b9b9b;
+    border-radius: 3px;
 }
 
 .toggle_exx a:link,

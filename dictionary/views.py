@@ -150,6 +150,7 @@ def build_artist_origin(artist):
             result = {
                 "artist": artist.name,
                 "place_name": origin_object.name,
+                "place_slug": origin_object.slug,
                 "longitude": origin_object.longitude,
                 "latitude": origin_object.latitude
             }
@@ -213,8 +214,10 @@ def artist(request, artist_slug):
     origin_results = artist.origin.all()
     if origin_results:
         origin = origin_results[0].name
+        origin_slug = origin_results[0].slug
     else:
         origin = ''
+        origin_slug = ''
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     template = loader.get_template('dictionary/artist.html')
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
@@ -233,6 +236,7 @@ def artist(request, artist_slug):
         'artist': artist.name,
         'slug': artist.slug,
         'origin': origin,
+        'origin_slug': origin_slug,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
@@ -256,10 +260,33 @@ def place(request, place_slug):
     context = {
         'index': index,
         'place': place.name,
+        'slug': place.slug,
         'artists': [build_artist(artist) for artist in place.artists.order_by('name')],
         'entity_senses': entity_senses
     }
     return HttpResponse(template.render(context, request))
+
+
+def place_latlng(request, place_slug):
+    results = Place.objects.filter(slug=place_slug)
+    if results:
+        data = {'places': [build_place_latlng(place) for place in results]}
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
+def build_place_latlng(place_object):
+    if place_object.longitude and place_object.latitude:
+        result = {
+            "place_name": place_object.name,
+            "place_slug": place_object.slug,
+            "longitude": place_object.longitude,
+            "latitude": place_object.latitude
+        }
+        return result
+    else:
+        return None
 
 
 def build_artist(artist_object):
