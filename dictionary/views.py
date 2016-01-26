@@ -345,13 +345,12 @@ def stats(request):
 
 
 def check_for_artist_image(slug, folder='thumb'):
-    slug = slug.encode('utf-8').strip()
     jpg = 'dictionary/static/dictionary/img/artists/{}/{}.jpg'.format(folder, slug)
     png = 'dictionary/static/dictionary/img/artists/{}/{}.png'.format(folder, slug)
     images = []
-    if os.path.isfile(jpg):
+    if os.path.isfile(jpg.encode('utf-8').strip()):
         images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))
-    if os.path.isfile(png):
+    if os.path.isfile(png.encode('utf-8').strip()):
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if len(images) == 0 and folder == 'thumb':
         # print('No image found for {}.'.format(slug))
