@@ -196,21 +196,7 @@
                         <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
                     </div>
                     <ul class="examples">
-                    {% for example in sense.examples|slice:"3:" %}
-                        <li>
-                            <span class="date">{{ example.release_date_string }}</span>
-                            <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                            <span class="songTitle">"{{example.song_title}}"</span>
-                            {% if example.featured_artists %}
-                                <span> feat. </span>
-                                {% for feat in example.featured_artists %}
-                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                                {% endfor %}
-                            {% endif %}
-                            <span class="album">[{{example.album }}]</span>
-                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                        </li>
-                    {% endfor %}
+
                     </ul>
                 {% endif %}
                 {% csrf_token %}

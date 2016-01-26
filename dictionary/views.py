@@ -213,7 +213,7 @@ def artist(request, artist_slug):
     artist = get_object_or_404(Artist, slug=artist_slug)
     origin_results = artist.origin.all()
     if origin_results:
-        origin = origin_results[0]
+        origin = origin_results[0].name
     else:
         origin = ''
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
@@ -233,7 +233,7 @@ def artist(request, artist_slug):
         'index': index,
         'artist': artist.name,
         'slug': artist.slug,
-        'origin': origin.name,
+        'origin': origin,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
