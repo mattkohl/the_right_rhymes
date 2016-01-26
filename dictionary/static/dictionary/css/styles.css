@@ -770,7 +770,7 @@ h1.trr-list-header {
     overflow-y: hidden;
 }
 
-.examplesHead li {
+.examplesHead li, .examples li {
     z-index: 2;
     overflow: auto;
     margin-bottom: 0;
