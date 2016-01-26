@@ -184,7 +184,6 @@ def add_links(lyric, links, published):
         try:
             lyric.index(link.link_text)
         except:
-            print("Could not inject link for {}".format(link.link_text))
             continue
         else:
             start = link.position + buffer

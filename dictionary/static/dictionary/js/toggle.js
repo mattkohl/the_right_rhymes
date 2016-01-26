@@ -26,9 +26,7 @@ $(document).ready(function(){
 });
 
 function addRemainingExamples(sense_id, ul, breaker, context) {
-    console.log(breaker);
     var endpoint = '/senses/' + sense_id + '/remaining_examples/';
-    console.log(breaker);
     $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}' },
