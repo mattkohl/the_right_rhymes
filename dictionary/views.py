@@ -229,7 +229,7 @@ def artist(request, artist_slug):
         for example in e.examples.all():
             entity_examples.append(build_example(example, published))
 
-    image = check_for_artist_image(artist.slug)
+    image = check_for_artist_image(artist.slug, 'full')
 
     context = {
         'index': index,
