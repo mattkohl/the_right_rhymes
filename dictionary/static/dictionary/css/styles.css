@@ -1003,7 +1003,7 @@ and (max-width : 719px ) {
 	}
 
 	#header-search div {
-		width: 100%;
+		/*width: 100%;*/
 	}
 
 	#header-search #searchform input#s {
