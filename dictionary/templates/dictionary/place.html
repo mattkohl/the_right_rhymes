@@ -2,31 +2,46 @@
 {% block title %}{{ place }} ⋅ {% endblock %}
 {% block content %}
 <div class="container">
+    <div class="headword"><strong>{{ place }}</strong></div>
     <div class="map-canvas">
         <p class="hidden place-slug">{{ slug }}</p>
-        <p class="mapLabel">{{ place }}</p>
-        <div id="map1" class="map"></div>
+        <p class="mapLabel">{{ place_name_full }}</p>
+        <div id="map1" class="map" width="50%"></div>
     </div>
 
-    {% if artists %}
+    {% if num_artists and artists_with_image %}
+        {% if num_artists == 1 %}
+            <h3 class="trr-list-header">{{ num_artists }} artist from <strong>{{ place }}</strong>:</h3>
+        {% else %}
+            <h3 class="trr-list-header">{{ num_artists }} artists from <strong>{{ place }}</strong> including:</h3>
+        {% endif %}
         <div class="artists-block">
-        {% for artist in artists %}
-            <a href="{% url 'artist' artist.slug %}">
-                {% if artist.image %}
-                    <figure class="single-thumb">
-                        <img src="{{ artist.image }}"
-                             alt="{{ artist.name }}"
-                             property="image"
-                             scale="0"
-                            width="200"
-                            height="200"/>
-                        <figcaption>{{artist.name}}</figcaption>
-                    </figure>
-                {% endif %}
-            </a>
-        {% endfor %}
+            {% for artist in artists_with_image %}
+                <a href="{% url 'artist' artist.slug %}">
+                    {% if artist.image %}
+                        <figure class="single-thumb">
+                            <img src="{{ artist.image }}"
+                                 alt="{{ artist.name }}"
+                                 property="image"
+                                 scale="0"
+                                width="200"
+                                height="200"/>
+                            <figcaption>{{artist.name}}</figcaption>
+                        </figure>
+                    {% endif %}
+                </a>
+            {% endfor %}
+            <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
         </div>
     {% endif %}
+    {% if artists_without_image %}
+        <ul>
+            {% for artist in artists_without_image %}
+               <li><a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 
     {% if entity_senses %}
 
@@ -69,7 +84,8 @@
             {% endif %}
             {% endfor %}
         </div>
-
+        {% else %}
+            <h3 class="trr-list-header">Could not find any mention of <strong>{{ place }}</strong> in the lyrics database</h3>
         {% endif %}
 </div>
 {% endblock %}
