@@ -4,17 +4,19 @@
 
 function initialize() {
 
-	var infowindow, markerBounds, endpoint;
+	var markerBounds, endpoint;
 	var latlng = new google.maps.LatLng(40.650002, -73.949997);
 	var options = {
         zoom: 10,
         center: latlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        scrollwheel: false
       };
 
 	$.each($('.map-canvas'), function(i) {
         index = i+1;
         var map = new google.maps.Map(document.getElementById('map' + index), options);
+        var infowindow;
         var markers = [];
         var is_entry = true;
         infowindow = new google.maps.InfoWindow({ content: '' });
