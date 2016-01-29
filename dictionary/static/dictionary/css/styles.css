@@ -9,16 +9,43 @@
 /* 'Rock Salt' */
 @import url(http://fonts.googleapis.com/css?family=Rock+Salt);
 
+html {
+   min-height: 100%;
+}
+
 body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
-	background-color: #CCCCCC;
+	background-color: #3399FF;
+    background-image: url(../img/header/skyline.png);
+    background-position: center bottom;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+
 }
 
 #body-wrapper {
     display: block;
     max-width: 1040px;
     margin: 0 auto;
-    background: #fff;
+    /*background: #fff;*/
+}
+
+#logo {
+    position: absolute;
+    top: 15%;
+    text-align: center;
+    width: 100%;
+    font-size: 2em;
+}
+
+#logo a {
+    color: white;
+}
+
+#logo-title {
+    width: 20em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #content-container {
@@ -1158,11 +1185,23 @@ and (max-width : 719px ) {
 	margin-left: 0;
 	}
 
-
 } /* END max-width : 719px */
 
 @media only screen
+and (max-width : 568px ) {
+
+    #logo {
+        font-size: 1.25em;
+    }
+}
+
+
+@media only screen
 and (max-width : 320px ) {
+
+    #logo {
+        font-size: 1em;
+    }
 
 	#pre-header {
 		padding: 0px 10px;
@@ -1228,3 +1267,11 @@ and (max-width : 320px ) {
 
 
 } /* END max-width : 320px */
+
+@media only screen
+and (max-width : 240px ) {
+
+    #logo {
+        font-size: .75em;
+    }
+}
