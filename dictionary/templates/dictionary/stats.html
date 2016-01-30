@@ -1,7 +1,13 @@
 {% extends "dictionary/base.html" %}
 {% block title %}Statistics ⋅ {% endblock %}
 {% block content %}
-<div class="container">
-    <div>Entries: {{ published_entries | length }}</div>
+<div id="wrapper">
+    <div id="content-container">
+        <div id="content" class="group">
+            <div class="container">
+                <div>Entries: {{ published_entries | length }}</div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

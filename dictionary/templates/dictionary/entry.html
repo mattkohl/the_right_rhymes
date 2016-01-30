@@ -1,23 +1,26 @@
 {% extends "dictionary/base.html" %}
 {% block title %}{{ headword }} ⋅ {% endblock %}
 {% block content %}
+    <div id="wrapper">
+        <div id="content-container">
+            <div id="content" class="group">
 
-<article id="{{ headword }}" class="group post-container">
-    <header class="entry-header">
-        <h1 class="entry-title" property="name">meaning of <strong>{{ headword }}</strong> in rap lyrics</h1>
-        <div class="name-date">
-            <div>Published on <time>{{ pub_date }}</time></div>
-            {% if last_updated %}
-                <div>Last updated <time>{{ last_updated }}</time></div>
-            {% endif %}
-        </div>
-    </header>
+<article id="{{ headword }}" class="group">
+    <!--<header class="e-header">-->
+        <!--<h1 class="entry-title" property="name">meaning of <strong>{{ headword }}</strong> in rap lyrics</h1>-->
+        <!--<div class="name-date">-->
+            <!--<div>Published on <time>{{ pub_date }}</time></div>-->
+            <!--{% if last_updated %}-->
+                <!--<div>Last updated <time>{{ last_updated }}</time></div>-->
+            <!--{% endif %}-->
+        <!--</div>-->
+    <!--</header>-->
 
     {% if headword %}
 
-        <div class="entry-content">
+        <div class="entry-content" style="margin-top: 3em;">
             {% if image %}
-                <figure class="single-thumb">
+                <figure class="single-thumb" style="margin-top: 2.5em;">
                     <img src="{{ image }}"
                       alt="{{ artist_name }}"
                       property="image"
