@@ -1,11 +1,45 @@
-{% extends "dictionary/base.html" %}
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> {% block title %}{% endblock %} The Right Rhymes </title>
+        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        {% load staticfiles %}
+        <link rel="shortcut icon" href="{% static 'dictionary/icon/favicon.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/index.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <div id="logo-wrapper" class="container">
+                <div id="logo">
+                    <hgroup id="logo-title">
+                        <h1 id="site-title"><a title="the Right Rhymes" rel="home" href="/">the Right Rhymes</a></h1>
+                        <h2 id="site-description"><a title="Hip-Hop Slang Defined" rel="home" href="/">Hip-Hop Slang Defined</a></h2>
+                    </hgroup>
+                </div>
+            </div>
+            <div id="example-wrapper" class="container">
+                <div>
+                    <span class="date">{{ example.release_date_string }}</span>
+                    <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                    <span class="songTitle">"{{example.song_title}}"</span>
+                    {% if example.featured_artists %}
+                        <span> feat. </span>
+                        {% for feat in example.featured_artists %}
+                            <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <span class="album">[{{example.album }}]</span>
+                    <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                </div>
+            </div>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="{% static 'dictionary/js/search_param.js' %}"></script>
 
-{% block content %}
-<div id="logo">
-    <hgroup id="logo-title">
-        <h1 id="site-title"><a title="the Right Rhymes" rel="home" href="/">the Right Rhymes</a></h1>
-        <h2 id="site-description"><a title="Hip-Hop Slang Defined" rel="home" href="/">Hip-Hop Slang Defined</a></h2>
-    </hgroup>
-</div>
-{% endblock %}
-
+    </body>
+</html>

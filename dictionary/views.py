@@ -13,9 +13,12 @@ NUM_QUOTS_TO_SHOW = 3
 
 def index(request):
     index = build_index()
+    published = Entry.objects.filter(publish=True)
     template = loader.get_template('dictionary/index.html')
+    random_example = build_example(Example.objects.order_by('?').first(), published, rf=True)
     context = {
         'index': index,
+        'example': random_example
     }
     return HttpResponse(template.render(context, request))
 
@@ -161,7 +164,7 @@ def build_artist_origin(artist):
         return None
 
 
-def build_example(example_object, published):
+def build_example(example_object, published, rf=False):
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
     result = {
@@ -173,12 +176,12 @@ def build_example(example_object, published):
         "release_date": str(example_object.release_date),
         "release_date_string": str(example_object.release_date_string),
         "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
-        "linked_lyric": add_links(lyric, lyric_links, published),
+        "linked_lyric": add_links(lyric, lyric_links, published, rf),
         "cited_at": [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id} for sense in example_object.illustrates_senses.order_by('headword')]
     }
     return result
 
-def add_links(lyric, links, published):
+def add_links(lyric, links, published, rf=False):
     linked_lyric = lyric
     buffer = 0
     for link in links:
@@ -187,8 +190,17 @@ def add_links(lyric, links, published):
         except:
             continue
         else:
+            print(link)
             start = link.position + buffer
             end = start + len(link.link_text)
+            if link.link_type == 'rf' and rf:
+                a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
+                linked_lyric = inject_link(linked_lyric, start, end, a)
+                buffer += (len(a) - len(link.link_text))
+            if link.link_type == 'rhyme':
+                a = '<a href="/rhymes/{}">{}</a>'.format(link.target_slug, link.link_text)
+                linked_lyric = inject_link(linked_lyric, start, end, a)
+                buffer += (len(a) - len(link.link_text))
             if link.link_type == 'xref' and link.target_lemma in published:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)

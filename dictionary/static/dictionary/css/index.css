@@ -1,0 +1,25 @@
+@import url("styles.css");
+
+#logo-wrapper {
+
+}
+
+#logo {
+    text-align: center;
+    font-size: 1.75em;
+}
+
+#logo-title {
+    width: 20em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#example-wrapper {
+    width: 50%;
+    margin-top: 2em;
+    background: white;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
