@@ -15,7 +15,9 @@ def index(request):
     index = build_index()
     published = Entry.objects.filter(publish=True)
     template = loader.get_template('dictionary/index.html')
-    random_example = build_example(Example.objects.order_by('?').first(), published, rf=True)
+    random_rhyme = ExampleRhyme.objects.order_by('?').first()
+
+    random_example = [build_example(example, published, rf=True) for example in random_rhyme.parent_example.all()][0]
     context = {
         'index': index,
         'example': random_example
