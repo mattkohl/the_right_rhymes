@@ -67,6 +67,10 @@ body {
 	font-size: 125%;
 }
 
+.entry-content figure {
+    padding-top: 2.5em;
+}
+
 .entry-content p {
 	line-height: 1.4em;
 	/*margin-bottom: 2em;*/
@@ -129,6 +133,7 @@ figcaption a.artist {
 .headword {
 	font-size: 1.75em;
 	font-weight: bold;
+    padding-top: .5em;
 }
 
 .definition {
@@ -239,6 +244,22 @@ p.mapLabel {
 	padding:.25em;
 }
 
+.altLabel {
+    font-style: italic;
+    font-size: .85em;
+}
+
+.artists-block, figure {
+    margin-top: 1em;
+    display: inline-block;
+    text-align: justify;
+}
+
+.force-justify {
+    width:100%;
+    height:0px;
+}
+
 span.artist a:link,
 span.artist a:visited {
 	color: #333;
@@ -260,6 +281,34 @@ span.artist a:focus {
 	padding:.25em;
 }
 
+a:link.feat,
+a:visited.feat {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover.feat,
+a:focus.feat {
+	color: #888;
+}
+
+.song {
+	padding:.25em;
+}
+
+.examples {
+	display: none;
+}
+
+.lyric {
+	display: block;
+	color: #3399FF;
+	font-style: italic;
+	margin-bottom: .5em;
+	margin-top: .5em;
+	margin-left: 1em;
+}
+
 .toggle_exx {
 	text-align: center;
     padding: 2px 20px;
@@ -278,4 +327,127 @@ span.artist a:focus {
 	text-decoration: none;
 	text-transform: uppercase;
 	line-height: 17px;
+}
+
+.trr-list-header {
+    background: #EAEAEA;
+    display: block;
+	font-size: 1em;
+	font-weight: 100;
+	text-transform: uppercase;
+    margin-top: 1em;
+    margin-bottom: .5em;
+    padding: 20px 25px;
+	line-height: 1.3em;
+	word-wrap: break-word;
+}
+
+.rhyme-header {
+    padding-top: 2.5em;
+}
+
+h1.trr-list-header {
+    font-size: 1.25em;
+    margin-top: -1em;
+
+}
+
+.trr-list {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    position: relative;
+    /*height: 330px;*/
+    margin-bottom: 50px;
+    padding: 5;
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.trr-list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    font-size: .9em;
+}
+
+.trr-list-group-item strong {
+    color: black;
+    font-size: large;
+    width:70%;
+    margin:20px auto;
+    overflow:hidden;
+    text-align:center;
+    line-height:1.2em;
+}
+
+.trr-list-group-item strong a {
+    color: black;
+}
+
+.trr-list-group-item strong:after {
+    content:"";
+    vertical-align:top;
+    display:inline-block;
+    width:100%;
+    height:0.65em;
+    border-bottom:1px solid #ccc;
+    margin:0 2% 0 -55%;
+}
+
+.trr-list-group-item strong:after {
+    margin:0 -55% 0 2%;
+}
+
+.trr-list-example {
+	display: block;
+	margin-bottom: .5em;
+	margin-top: .5em;
+	margin-left: 1em;
+}
+
+.trr-list-definition {
+	display: block;
+	margin-bottom: .5em;
+	margin-top: .5em;
+	margin-left: 1em;
+    font-weight: bold;
+}
+
+.trr-list-pos {
+	font-size: 0.8em;
+	padding: 2px 10px;
+	text-decoration: none;
+	line-height: 17px;
+	color: #9b9b9b;
+	text-transform: uppercase;
+	margin-bottom: .75em;
+	margin-top: 1em;
+}
+
+.name-date {
+    font-size: 0.7em;
+    text-transform: uppercase;
+    margin-top: 1.5em;
+    color: #9B9B9B;
+}
+
+.more-link {
+	text-align: center;
+    padding: 2px 20px;
+}
+.more-link a:link,
+.more-link a:visited,
+.more-link span {
+	font-size: 0.6em;
+	text-decoration: none;
+	text-transform: uppercase;
+	line-height: 17px;
+	color: black;
+}
+
+.more-link a:hover,
+.more-link a:focus {
+	color: #9B9B9B;
 }
