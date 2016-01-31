@@ -21,20 +21,9 @@
                     </hgroup>
                 </div>
             </div>
-            <div id="example-wrapper" class="container">
-                <div>
-                    <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                    <div>
-                        <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                        {% if example.featured_artists %}
-                            <span> feat. </span>
-                            {% for feat in example.featured_artists %}
-                                <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+
+            {% include 'dictionary/_search.html' %}
+
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

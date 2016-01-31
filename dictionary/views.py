@@ -12,15 +12,9 @@ from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, E
 NUM_QUOTS_TO_SHOW = 3
 
 def index(request):
-    index = build_index()
-    published = Entry.objects.filter(publish=True)
     template = loader.get_template('dictionary/index.html')
-    random_rhyme = ExampleRhyme.objects.order_by('?').first()
-
-    random_example = [build_example(example, published, rf=True) for example in random_rhyme.parent_example.all()][0]
     context = {
         'index': index,
-        'example': random_example
     }
     return HttpResponse(template.render(context, request))
 
