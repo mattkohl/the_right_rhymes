@@ -1,7 +1,7 @@
 @import url("styles.css");
 
 #logo-wrapper {
-
+    padding-top: 10%;
 }
 
 #logo {
@@ -15,11 +15,83 @@
     margin-right: auto;
 }
 
-#example-wrapper {
-    width: 50%;
-    margin-top: 2em;
-    background: white;
-    text-align: center;
-    padding-top: 2em;
-    padding-bottom: 2em;
+#search-wrapper {
+    width: 60%;
+    padding-top: 5%;
+}
+
+#search-type {
+    border-radius: 0;
+}
+
+/*
+--------------------------------------------------------------
+Media Queries Aplenty
+--------------------------------------------------------------
+*/
+
+@media only screen
+and (min-width : 720px) and (max-width : 1039px) {
+
+    #logo-wrapper {
+        padding-top: 15%;
+    }
+    #search-wrapper {
+        width: 80%;
+    }
+
+}
+
+@media only screen
+and (max-width : 719px) and (min-height : 558px ) {
+
+    #logo-wrapper {
+        padding-top: 20%;
+    }
+
+    #search-wrapper {
+        width: 95%;
+        padding-top: 10%;
+    }
+
+}
+
+@media only screen
+and (max-width : 568px) {
+
+    #logo {
+        font-size: 1em;
+    }
+
+    #search-type {
+        display: none;
+    }
+
+    #search-wrapper {
+        width: 95%;
+    }
+
+}
+
+@media only screen
+and (max-height : 320px) {
+
+    #logo-wrapper {
+        padding-top: 5%;
+    }
+
+    #search-wrapper {
+        padding-top: 3%;
+        width: 95%;
+    }
+
+}
+
+@media only screen
+and (max-width : 240px) and (max-height : 240px) {
+
+    #logo {
+        font-size: .65em;
+    }
+
 }

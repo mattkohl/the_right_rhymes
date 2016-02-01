@@ -42,7 +42,7 @@ nav {
 .navbar-custom.top-nav-collapse {
     padding: 0;
     border-bottom: 1px solid rgba(255,255,255,.3);
-    background-color: black;
+    background-color: #3399FF;
 }
 
 .navbar.center .navbar-inner {
@@ -63,6 +63,10 @@ nav {
     text-align: center;
     margin: auto;
     padding-top: .25em;
+}
+
+#ellipsis {
+    color: white;
 }
 
 ul.nav a {
@@ -111,7 +115,7 @@ ul.nav a:hover {
 
 #wrapper {
 	display: block;
-	max-width: 1040px;
+	max-width: 92%;
     margin-top: 6.5em;
 	margin-left:auto;
     margin-right:auto;
@@ -527,4 +531,16 @@ h1.trr-list-header {
 .more-link a:hover,
 .more-link a:focus {
 	color: #9B9B9B;
+}
+
+/*
+--------------------------------------------------------------
+Media Queries Aplenty
+--------------------------------------------------------------
+*/
+
+@media only screen
+and (min-width : 720px) and (max-width : 1039px) {
+
+
 }

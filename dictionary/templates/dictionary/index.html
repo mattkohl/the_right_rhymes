@@ -21,13 +21,13 @@
                     </hgroup>
                 </div>
             </div>
-
-            {% include 'dictionary/_search.html' %}
-
+            <div id="search-wrapper" class="container">
+                {% include 'dictionary/_search.html' %}
+            </div>
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="{% static 'dictionary/js/search_param.js' %}"></script>
+        <script src="{% static 'dictionary/js/search.js' %}"></script>
 
     </body>
 </html>

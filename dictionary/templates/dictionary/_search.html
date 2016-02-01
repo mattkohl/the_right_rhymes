@@ -1,10 +1,10 @@
 {% block search %}
-<div id="header-search-form-wrapper">
+
     <form id="header-search-form" class="form" action="{% url 'search' %}" method="get" name="search">
         <div class="row input-group input-group-lg" id="header-search">
             <input id="header-search-box" type="text" placeholder="Search..." class="form-control" name="q">
             <div class="input-group-btn search-panel">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <button id="search-type" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                     <span id="search_concept">Lyrics</span> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -24,5 +24,5 @@
             </span>
         </div>
     </form>
-</div>
+
 {% endblock %}

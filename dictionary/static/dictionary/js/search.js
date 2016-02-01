@@ -12,7 +12,7 @@ $(document).ready(function(e){
 });
 
 $(window).scroll(function() {
-    if ($(".navbar").offset().top > 10) {
+    if ($(".navbar").offset().top > 25) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
