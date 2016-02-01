@@ -19,6 +19,21 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
+def search_headwords(request):
+    q = request.GET.get('term', '')
+    entries = Entry.objects.filter(publish=True).filter(headword__startswith=q)[:20]
+    results = []
+    for entry in entries:
+        result = dict()
+        result['id'] = entry.slug
+        result['label'] = entry.headword
+        result['value'] = entry.slug
+        results.append(result)
+
+    data = {'headwords': results}
+    return JsonResponse(json.dumps(data), safe=False)
+
+
 def build_index():
     ABC = 'abcdefghijklmnopqrstuvwxyz#'
     index = []
@@ -186,7 +201,6 @@ def add_links(lyric, links, published, rf=False):
         except:
             continue
         else:
-            print(link)
             start = link.position + buffer
             end = start + len(link.link_text)
             if link.link_type == 'rf' and rf:

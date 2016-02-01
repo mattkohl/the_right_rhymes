@@ -1,19 +1,20 @@
 {% block search %}
 
     <form id="header-search-form" class="form" action="{% url 'search' %}" method="get" name="search">
-        <div class="row input-group input-group-lg" id="header-search">
+        <div class="row input-group input-group-lg ui-widget" id="header-search">
             <input id="header-search-box" type="text" placeholder="Search..." class="form-control" name="q">
             <div class="input-group-btn search-panel">
                 <button id="search-type" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span id="search_concept">Lyrics</span> <span class="caret"></span>
+                    <span id="search_concept">All</span> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#artists">Artists</a></li>
                     <li><a href="#domains">Domains</a></li>
                     <li><a href="#headwords">Headwords</a></li>
                     <li><a href="#rhymes">Rhymes</a></li>
-                    <li class="divider"></li>
                     <li><a href="#examples">Lyrics</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#all">All</a></li>
                 </ul>
             </div>
             <input type="hidden" name="search_param" value="examples" id="search_param">

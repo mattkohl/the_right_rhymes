@@ -20,6 +20,9 @@ urlpatterns = [
     # /search-results/
     url(r'^search/$', views.search, name='search'),
 
+    # /search-headwords/
+    url(r'^search_headwords/$', views.search_headwords, name='search_headwords'),
+
     # /<headword-slug>/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 

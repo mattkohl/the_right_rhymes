@@ -12,7 +12,7 @@ $(document).ready(function(e){
 });
 
 $(window).scroll(function() {
-    if ($(".navbar").offset().top > 25) {
+    if ($(".navbar").offset().top > 10) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
@@ -22,4 +22,20 @@ $(window).scroll(function() {
 // Closes the Responsive Menu on Menu Item Click
 $('.navbar-collapse ul li a').click(function() {
     $('.navbar-toggle:visible').click();
+});
+
+$(function() {
+  $("#header-search-box").autocomplete({
+    source: function(request, response) {
+        $.getJSON(
+            '/search_headwords/',
+            { 'term': request.term },
+            function(data) {
+                parsed = $.parseJSON(data);
+                response(parsed.headwords);
+            }
+        )
+    },
+    minLength: 2
+  });
 });
