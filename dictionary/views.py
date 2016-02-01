@@ -21,7 +21,7 @@ def index(request):
 
 def search_headwords(request):
     q = request.GET.get('term', '')
-    entries = Entry.objects.filter(publish=True).filter(headword__startswith=q)[:20]
+    entries = Entry.objects.filter(publish=True).filter(headword__istartswith=q)[:20]
     results = []
     for entry in entries:
         result = dict()
