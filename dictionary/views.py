@@ -60,15 +60,27 @@ def entry(request, headword_slug):
     senses = [build_sense(sense) for sense in sense_objects]
     published = [entry.slug for entry in Entry.objects.filter(publish=True)]
     image = ''
+    backup_image = ''
     artist_name = ''
     artist_slug = ''
+    backup_artist_name = ''
+    backup_artist_slug = ''
+
     try:
         artist_slug = senses[0]['examples'][0]['artist_slug']
         artist_name = senses[0]['examples'][0]['artist_name']
+        backup_artist_slug = senses[0]['examples'][1]['artist_slug']
+        backup_artist_name = senses[0]['examples'][1]['artist_name']
     except:
         print('Could not locate artist of first quotation')
     else:
         image = check_for_artist_image(artist_slug, 'full')
+        backup_image = check_for_artist_image(backup_artist_slug, 'full')
+
+    if image == '':
+        image = backup_image
+        artist_name = backup_artist_name
+        artist_slug = backup_artist_slug
 
     context = {
         'index': index,
@@ -414,10 +426,10 @@ def check_for_artist_image(slug, folder='thumb'):
     if os.path.isfile(png.encode('utf-8').strip()):
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if len(images) == 0 and folder == 'thumb':
-        # print('No image found for {}.'.format(slug))
+        print('No image found for {}.'.format(slug))
         return '/static/dictionary/img/artists/thumb/__none.png'
     elif len(images) == 0:
-        # print('No image found for {}.'.format(slug))
+        print('No image found for {}.'.format(slug))
         return ''
     else:
         return random.choice(images)

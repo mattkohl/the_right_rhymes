@@ -20,22 +20,27 @@
 
         <div class="entry-content">
             {% if image %}
-                <figure class="single-thumb">
+                <figure class="center-block">
                     <img src="{{ image }}"
                       alt="{{ artist_name }}"
                       property="image"
                       scale="0"/>
-                  <figcaption>
-                      <a class="artist"
-                         href="{% url 'artist' artist_slug %}">
-                          <span>{{ artist_name }}</span>
-                      </a>
-                  </figcaption>
+                    <figcaption>
+                        <a class="artist" href="{% url 'artist' artist_slug %}">
+                            <span>{{ artist_name }}</span>
+                        </a>
+                    </figcaption>
                 </figure>
             {% endif %}
             <div class="headword">{{ headword }}</div>
+            <div class="name-date">
+                <div>Published on <time>{{ pub_date }}</time></div>
+                {% if last_updated %}
+                    <div>Last updated <time>{{ last_updated }}</time></div>
+                {% endif %}
+            </div>
             {% for sense in senses %}
-                <div id="{{ sense.sense.xml_id }}" class="pos">{{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
+                <div id="{{ sense.sense.xml_id }}" class="pos anchor">{{ headword }} ⋅ {{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
                 <div class="definition">{{ sense.sense.definition }}</div>
                 {% if sense.sense.notes %}
                     <div class="note">({{ sense.sense.notes }})</div>
