@@ -194,7 +194,6 @@ figcaption a.artist {
 	font-size: 2em;
     text-transform: uppercase;
 	font-weight: bold;
-    padding-top: .5em;
 }
 
 .definition {
@@ -411,10 +410,15 @@ a:focus.feat {
 	height: auto;
 }
 
+.center-block {
+    max-height: 320px;
+    overflow: hidden;
+}
+
 .center-block img {
     display: block;
     margin: auto;
-    width: 50%;
+    width: 100%;
 }
 
 .trr-list-header {
@@ -565,6 +569,23 @@ Media Queries Aplenty
 --------------------------------------------------------------
 */
 
+
+
+@media (min-width: 1280px) {
+
+    #content-container {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+}
+    .center-block img {
+        display: block;
+        margin: auto;
+        width: 100%;
+        max-width: 1280px;
+    ]
+}
+
 @media (min-width: 768px)
 {
     .navbar-header {
@@ -620,7 +641,7 @@ and (max-width : 568px) {
     }
 
     .entry-content figure {
-        padding-top: 1.5em;
+        padding-top: 1em;
     }
 
     .entry-content .examplesHead {
@@ -638,6 +659,10 @@ and (max-width : 568px) {
 
     .headword {
         padding-top: 0;
+    }
+
+    figcaption {
+        text-align: left;
     }
 
 }
