@@ -6,7 +6,7 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404, rende
 from django.template import loader, RequestContext
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
-from .utils import build_query, decimal_default, slugify
+from .utils import build_query, decimal_default, slugify, reformat_name
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
 NUM_QUOTS_TO_SHOW = 3
@@ -192,7 +192,7 @@ def build_example(example_object, published, rf=False):
     lyric_links = example_object.lyric_links.order_by('position')
     result = {
         # "example": example_object,
-        "artist_name": str(example_object.artist_name),
+        "artist_name": reformat_name(str(example_object.artist_name)),
         "artist_slug": str(example_object.artist_slug),
         "song_title": str(example_object.song_title),
         "album": str(example_object.album),
@@ -265,9 +265,11 @@ def artist(request, artist_slug):
 
     image = check_for_artist_image(artist.slug, 'full')
 
+    name = reformat_name(artist.name)
+
     context = {
         'index': index,
-        'artist': artist.name,
+        'artist': name,
         'slug': artist.slug,
         'origin': origin,
         'origin_slug': origin_slug,
@@ -338,7 +340,7 @@ def build_place_latlng(place_object):
 def build_artist(artist_object):
     result = {
         # "artist": artist_object,
-        "name": artist_object.name,
+        "name": reformat_name(artist_object.name),
         "slug": artist_object.slug,
         "image": check_for_artist_image(artist_object.slug)
     }

@@ -50,3 +50,9 @@ def slugify(text):
     slug = re.sub(",", "", slug)
     slug = re.sub("-$", "", slug)
     return slug
+
+
+def reformat_name(name):
+    if name.lower().endswith(', the'):
+        return 'The ' + name[:-5]
+    return name
