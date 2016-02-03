@@ -604,32 +604,8 @@ and (min-width : 720px) and (max-width : 1039px) {
 }
 
 @media only screen
-    and (min-device-width : 375px)
-    and (max-device-width : 667px)
-    and (width : 375px)
-    and (height : 559px) {
-
-    #logo-wrapper {
-        padding-top: 40%;
-    }
-
-    #logo {
-        font-size: 2.25em;
-    }
-
-    #logo-title {
-        width: 10em;
-    }
-
-    #site-description {
-        margin-top: 1.5em;
-        font-size: 0.7em;
-    }
-
-}
-
-@media only screen
 and (max-width : 568px) {
+
     #site-title {
         font-size: 1.65em;
     }
@@ -649,6 +625,19 @@ and (max-width : 568px) {
 
     .entry-content .examplesHead {
          padding: 1em;
+    }
+
+    .entry-content .examples {
+         padding: 1em;
+    }
+
+    .center-block img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .headword {
+        padding-top: 0;
     }
 
 }
