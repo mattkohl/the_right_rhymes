@@ -25,18 +25,15 @@
                       alt="{{ artist_name }}"
                       property="image"
                       scale="0"/>
-                    <figcaption>
-                        <a class="artist" href="{% url 'artist' artist_slug %}">
-                            <span>{{ artist_name }}</span>
-                        </a>
-                    </figcaption>
                 </figure>
+                <div class="headword-image">{{ headword }}</div>
+            {% else %}
+                <div class="headword">{{ headword }}</div>
             {% endif %}
-            <div class="headword">{{ headword }}</div>
             <div class="name-date">
-                <div>Published on <time>{{ pub_date }}</time></div>
+                <span>Published on <time>{{ pub_date }}</time></span>
                 {% if last_updated %}
-                    <div>Last updated <time>{{ last_updated }}</time></div>
+                    <span> ⋅ Last updated <time>{{ last_updated }}</time></span>
                 {% endif %}
             </div>
             {% for sense in senses %}

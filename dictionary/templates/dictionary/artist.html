@@ -12,9 +12,10 @@
                          property="image"
                          scale="0"/>
                 </figure>
-                {% endif %}
-
-                <h1 class="headword"><strong>{{ artist }}</strong></h1>
+                <div class="headword-image">{{ artist }}</div>
+            {% else %}
+                <div class="headword">{{ artist }}</div>
+            {% endif %}
 
                 {% if primary_senses %}
 
