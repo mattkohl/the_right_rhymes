@@ -39,3 +39,26 @@ $(function() {
     minLength: 2
   });
 });
+
+//$(document).ready(function () {
+//     $('a[href*="#"]').on('click', function (e) {
+//         e.preventDefault();
+//
+//         var target = this.hash,
+//             $target = $(target);
+//
+//         $('html, body').stop().animate({
+//             'scrollTop': $target.offset().top - 100
+//         }, 900, 'swing', function () {
+//             window.location.hash = target;
+//         });
+//     });
+// });
+//
+//$(document).ready(function() {
+//    var h = scrollY || pageYOffset;
+//    console.log(h);
+//    if (scroll > 0) {
+//        $('html, body').animate({ scrollTop: h + 80 }, 50);
+//    }
+//});

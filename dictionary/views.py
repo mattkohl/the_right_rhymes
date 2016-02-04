@@ -191,7 +191,6 @@ def build_example(example_object, published, rf=False):
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
     result = {
-        # "example": example_object,
         "artist_name": reformat_name(str(example_object.artist_name)),
         "artist_slug": str(example_object.artist_slug),
         "song_title": str(example_object.song_title),
@@ -428,10 +427,10 @@ def check_for_artist_image(slug, folder='thumb'):
     if os.path.isfile(png.encode('utf-8').strip()):
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if len(images) == 0 and folder == 'thumb':
-        print('No image found for {}.'.format(slug))
+        # print('No image found for {}.'.format(slug))
         return '/static/dictionary/img/artists/thumb/__none.png'
     elif len(images) == 0:
-        print('No image found for {}.'.format(slug))
+        # print('No image found for {}.'.format(slug))
         return ''
     else:
         return random.choice(images)
