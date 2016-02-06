@@ -69,6 +69,12 @@ button.collapsed {
     color: white;
 }
 
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
+    background-color: #291621;
+}
+
 #ellipsis {
     color: white;
 }
@@ -612,7 +618,7 @@ Media Queries Aplenty
 
 @media only screen
 and (min-width : 720px) and (max-width : 1039px) {
-    .navbar-brand {
+    .navbar>.container-fluid .navbar-brand {
         margin-left: 0;
     }
 }
@@ -626,6 +632,10 @@ and (max-width : 568px) {
 
     #site-title {
         font-size: 1.65em;
+    }
+
+    .navbar>.container-fluid .navbar-brand {
+        margin-left: 0;
     }
 
     #content {
