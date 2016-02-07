@@ -38,10 +38,10 @@ body {
     color: white;
 }
 
-/*.navbar-brand {*/
-    /*float: none;*/
+.navbar-brand a {
+    text-decoration: none;
 
-  /*}*/
+  }
 
 .navbar-brand
 {
@@ -193,17 +193,16 @@ figcaption a.artist {
 
 .anchor {
     position:relative;
-    top:-80px; /* or whatever value you need */
+    top:-75px; /* or whatever value you need */
 }
 
 .headword {
     color: black;
     font-size: 2em;
-    /*margin-top: -1.4em;*/
     padding-left: .25em;
+    padding-top: .25em;
     opacity: .9;
     word-wrap: break-word;
-    /*text-align: center;*/
     text-transform: uppercase;
     font-weight: bold;
 }
