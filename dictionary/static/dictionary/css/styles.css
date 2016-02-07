@@ -171,6 +171,7 @@ button.collapsed {
 .examples {
 	margin-top: 0;
 	display: none;
+    padding-left: 1em;
     list-style: none;
 }
 
@@ -381,10 +382,6 @@ a:focus.feat {
 
 .song {
 	padding:.25em;
-}
-
-.examples {
-	display: none;
 }
 
 .lyric {
