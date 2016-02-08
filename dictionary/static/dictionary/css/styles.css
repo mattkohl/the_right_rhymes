@@ -124,8 +124,34 @@ button.collapsed {
 	font-size: 125%;
 }
 
+#colophon {
+    padding: .5em;
+    background: #333;
+    color: #CCCCCC;
+    font-size: 0.9em;
+    text-align: center;
+    clear: both;
+    display: block;
+    width: 100%;
+}
+
+#copyright, #last-fm-attrib {
+    margin-top: .5em;
+}
+
+#site-generator {
+    font-size: .8em;
+}
+
+#site-generator a {
+    padding-top: .5em;
+    text-decoration: none;
+    color: inherit;
+}
+
 .entry-content {
     padding-top: .5em;
+    margin-bottom: 3em;
 }
 
 .entry-content figure {
@@ -752,6 +778,7 @@ and (max-width : 240px) and (max-height : 240px) {
 
     .entry-content {
         padding-top: 0.01em;
+        margin-bottom: 1.5em;
     }
 
     .headword-image {

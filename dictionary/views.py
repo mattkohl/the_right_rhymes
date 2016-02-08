@@ -13,9 +13,7 @@ NUM_QUOTS_TO_SHOW = 3
 
 def index(request):
     template = loader.get_template('dictionary/index.html')
-    context = {
-        'index': index,
-    }
+    context = {}
     return HttpResponse(template.render(context, request))
 
 
@@ -48,7 +46,6 @@ def build_index():
 
 
 def entry(request, headword_slug):
-    index = build_index()
     if '#' in headword_slug:
         slug = headword_slug.split('#')[0]
     else:
@@ -83,7 +80,6 @@ def entry(request, headword_slug):
         artist_slug = backup_artist_slug
 
     context = {
-        'index': index,
         'headword': entry.headword,
         'pub_date': entry.pub_date,
         'last_updated': entry.last_updated,
@@ -242,7 +238,6 @@ def inject_link(lyric, start, end, a):
 
 
 def artist(request, artist_slug):
-    index = build_index()
     artist = get_object_or_404(Artist, slug=artist_slug)
     origin_results = artist.origin.all()
     if origin_results:
@@ -267,7 +262,6 @@ def artist(request, artist_slug):
     name = reformat_name(artist.name)
 
     context = {
-        'index': index,
         'artist': name,
         'slug': artist.slug,
         'origin': origin,
@@ -281,7 +275,6 @@ def artist(request, artist_slug):
 
 
 def place(request, place_slug):
-    index = build_index()
     place = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
 
@@ -302,7 +295,6 @@ def place(request, place_slug):
         place_name = place.name
 
     context = {
-        'index': index,
         'place': place_name,
         'place_name_full': place.name,
         'slug': place.slug,
@@ -347,7 +339,6 @@ def build_artist(artist_object):
 
 
 def entity(request, entity_slug):
-    index = build_index()
     results = get_list_or_404(NamedEntity, pref_label_slug=entity_slug)
     template = loader.get_template('dictionary/named_entity.html')
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
@@ -369,7 +360,6 @@ def entity(request, entity_slug):
 
         context = {
             'title': title,
-            'index': index,
             'entities': entities
         }
         return HttpResponse(template.render(context, request))
@@ -379,7 +369,6 @@ def entity(request, entity_slug):
 
 
 def domain(request, domain_slug):
-    index = build_index()
     template = loader.get_template('dictionary/domain.html')
     domain = get_object_or_404(Domain, slug=domain_slug)
     sense_objects = domain.senses.filter(publish=True).order_by('headword')
@@ -387,7 +376,6 @@ def domain(request, domain_slug):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     data = [sense.headword for sense in sense_objects]
     context = {
-        'index': index,
         'domain': domain.name,
         'senses': senses,
         'published_entries': published,
@@ -407,15 +395,18 @@ def domain_json(request, domain_slug):
 
 
 def stats(request):
-    index = build_index()
     published_entries = [entry.senses.all() for entry in Entry.objects.filter(publish=True)]
     template = loader.get_template('dictionary/stats.html')
     context = {
-            'index': index,
             'published_entries': published_entries
         }
     return HttpResponse(template.render(context, request))
 
+
+def about(request):
+    template = loader.get_template('dictionary/stats.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
 
 def check_for_artist_image(slug, folder='thumb'):
@@ -437,11 +428,9 @@ def check_for_artist_image(slug, folder='thumb'):
 
 
 def search(request):
-    index = build_index()
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     template = loader.get_template('dictionary/search_results.html')
     context = {
-        'index': index,
         'published_entries': published
         }
     if ('q' in request.GET) and request.GET['q'].strip():
@@ -468,7 +457,6 @@ def search(request):
 
 
 def rhyme(request, rhyme_slug):
-    index = build_index()
     template = loader.get_template('dictionary/rhyme.html')
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     title = rhyme_slug
@@ -501,7 +489,6 @@ def rhyme(request, rhyme_slug):
     rhymes = [{'slug': r, 'rhyme': rhymes_intermediate[r]['rhyme'], 'examples': rhymes_intermediate[r]['examples']} for r in rhymes_intermediate]
 
     context = {
-        'index': index,
         'published_entries': published,
         'rhyme': title,
         'rhymes': rhymes
@@ -511,18 +498,12 @@ def rhyme(request, rhyme_slug):
 
 
 def handler404(request):
-    index = build_index()
     template = loader.get_template('dictionary/404.html')
-    context = {
-        'index': index,
-        }
+    context = {}
     return HttpResponse(template.render(context, request), status=404)
 
 
 def handler500(request):
-    index = build_index()
     template = loader.get_template('dictionary/500.html')
-    context = {
-        'index': index,
-        }
+    context = {}
     return HttpResponse(template.render(context, request), status=500)
