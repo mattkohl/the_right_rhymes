@@ -1,7 +1,14 @@
 {% extends "dictionary/base.html" %}
 {% block title %}404 ⋅ {% endblock %}
 {% block content %}
-    <div class="container" style="text-align:center">
-        <strong>404 - Who you tryin' to get crazy with, <a href="{% url 'entry' 'ese' %}">ese</a>?</strong>
+<div id="error-wrapper">
+    <div class="entry-content">
+        <div class="error-code">
+            <strong>404</strong>
+        </div>
+        <div class="error-message">
+            <strong>Who you tryin' to get crazy with, <a href="{% url 'entry' 'ese' %}">ese</a>?</strong>
+        </div>
     </div>
+</div>
 {% endblock %}

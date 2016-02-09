@@ -1,210 +1,212 @@
 {% extends "dictionary/base.html" %}
 {% block title %}{{ headword }} ⋅ {% endblock %}
 {% block content %}
-    <div id="wrapper">
-        <div id="content-container">
-            <div id="content" class="group">
-
-<article id="{{ headword }}" class="group">
-    {% if headword %}
-        <div class="entry-content">
-            {% if image %}
-                <figure class="center-block">
-                    <img src="{{ image }}"
-                      alt="{{ artist_name }}"
-                      property="image"
-                      scale="0"/>
-                </figure>
-                <div class="headword-image">{{ headword }}</div>
-            {% else %}
-                <div class="headword">{{ headword }}</div>
-            {% endif %}
-            <div class="name-date">
-                <span>Published on <time>{{ pub_date }}</time></span>
-                {% if last_updated %}
-                    <span> ⋅ Last updated <time>{{ last_updated }}</time></span>
-                {% endif %}
-            </div>
-            {% for sense in senses %}
-                <div id="{{ sense.sense.xml_id }}" class="anchor"></div>
-                <div class="pos">{{ headword }} ⋅ {{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
-                <div class="definition">{{ sense.sense.definition }}</div>
-                {% if sense.sense.notes %}
-                    <div class="note">({{ sense.sense.notes }})</div>
-                {% endif %}
-                {% if sense.sense.etymology %}
-                    <div class="etym">
-                        <span class="xrlabel">Etymology:</span>
-                        {{ sense.sense.etymology }}
-                    </div>
-                {% endif %}
-                {% if sense.ancestors %}
-                    <div class="xref">
-                        <span class="xrlabel">Derives from:</span>
-                        {% for ancestor in sense.ancestors %}
-                            {% if ancestor.target_slug in published_entries %}
-                                <span class="ancestor"><a href="{% url 'entry' ancestor.target_slug %}#{{ancestor.target_id}}">{{ ancestor.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="ancestor">{{ ancestor.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+<div id="wrapper">
+    <div id="content-container">
+        <div id="content" class="group">
+            <article id="{{ headword }}" class="group">
+                {% if headword %}
+                    <div class="entry-content">
+                        {% if image %}
+                            <figure class="center-block">
+                                <img src="{{ image }}"
+                                  alt="{{ artist_name }}"
+                                  property="image"
+                                  scale="0"/>
+                            </figure>
+                            <div class="headword-image">{{ headword }}</div>
+                        {% else %}
+                            <div class="headword">{{ headword }}</div>
+                        {% endif %}
+                        <div class="name-date">
+                            <span>Published on <time>{{ pub_date }}</time></span>
+                            {% if last_updated %}
+                                <span> ⋅ Last updated <time>{{ last_updated }}</time></span>
                             {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.derivatives %}
-                    <div class="xref">
-                        <span class="xrlabel">Derivatives:</span>
-                        {% for derivative in sense.derivatives %}
-                            {% if derivative.target_slug in published_entries %}
-                                <span class="derivative"><a href="{% url 'entry' derivative.target_slug %}#{{derivative.target_id}}">{{ derivative.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="derivative">{{ derivative.xref_word }}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.domains %}
-                    <div class="xref">
-                        <span class="xrlabel">Domains:</span>
-                        {% for domain in sense.domains %}
-                            <span class="domain"><a href="{% url 'domain' domain.slug %}">{{ domain.name }}</a>{% if not forloop.last %}, {% endif %}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.synonyms %}
-                    <div class="xref">
-                        <span class="xrlabel">Synonyms:</span>
-                        {% for synonym in sense.synonyms %}
-                            {% if synonym.target_slug in published_entries %}
-                                 <span class="synonym"><a href="{% url 'entry' synonym.target_slug %}#{{synonym.target_id}}">{{ synonym.xref_word }}</a>{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
-                            {% else %}
-                                 <span class="synonym">{{ synonym.xref_word }}{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.antonyms %}
-                    <div class="xref">
-                        <span class="xrlabel">Antonyms:</span>
-                        {% for antonym in sense.antonyms %}
-                            {% if antonym.target_slug in published_entries %}
-                                <span class="antonym"><a href="{% url 'entry' antonym.target_slug %}#{{antonym.target_id}}">{{ antonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="antonym">{{ antonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.meronyms %}
-                    <div class="xref">
-                        <span class="xrlabel">Meronyms:</span>
-                        {% for meronym in sense.meronyms %}
-                            {% if meronym.target_slug in published_entries %}
-                                <span class="meronym"><a href="{% url 'entry' meronym.target_slug %}#{{meronym.target_id}}">{{ meronym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="meronym">{{ meronym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.holonyms %}
-                    <div class="xref">
-                        <span class="xrlabel">Holonyms:</span>
-                        {% for holonym in sense.holonyms %}
-                            {% if holonym.target_slug in published_entries %}
-                               <span class="holonym"> <a href="{% url 'entry' holonym.target_slug %}#{{holonym.target_id}}">{{ holonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="holonym">{{ holonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.related_concepts %}
-                    <div class="xref">
-                        <span class="xrlabel">Related concepts:</span>
-                        {% for related_concept in sense.related_concepts %}
-                            {% if related_concept.target_slug in published_entries %}
-                                <span class="related_concept"><a href="{% url 'entry' holonym.target_slug %}#{{related_concept.target_id}}">{{ related_concept.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="related_concept">{{ related_concept.xref_word }}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.related_words %}
-                    <div class="xref">
-                        <span class="xrlabel">Related words:</span>
-                        {% for related_word in sense.related_words %}
-                            {% if related_word.target_slug in published_entries %}
-                                <span class="related_word"><a href="{% url 'entry' related_word.target_slug %}#{{related_word.target_id}}">{{ related_word.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="related_word">{{ related_word.xref_word }}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.rhymes %}
-                    <div class="xref">
-                        <span class="xrlabel">Rhymes:</span>
-                        {% for rhyme in sense.rhymes %}
-                            <span class="rhyme"><a href="{% url 'rhyme' rhyme.rhyme_slug %}">{{ rhyme.rhyme }}</a>{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.collocates %}
-                    <div class="xref">
-                        <span class="xrlabel">Collocates:</span>
-                        {% for collocate in sense.collocates %}
-                            {% if related_word.target_slug in published_entries %}
-                                <span class="collocate"><a href="{% url 'entry' collocate.target_slug %}">{{ collocate.collocate_lemma }}</a>{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
-                            {% else %}
-                                <span class="collocate">{{ collocate.collocate_lemma }}{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if sense.examples %}
-                    <ul class="examplesHead">
-                    {% for example in sense.examples|slice:":3" %}
-                        <li>
-                            <span class="date">{{ example.release_date_string }}</span>
-                            <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                            <span class="songTitle">"{{example.song_title}}"</span>
-                            {% if example.featured_artists %}
-                                <span> feat. </span>
-                                {% for feat in example.featured_artists %}
-                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                                {% endfor %}
-                            {% endif %}
-                            <span class="album">[{{example.album }}]</span>
-                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-                {% if sense.num_examples > 3 %}
-                    <div class="toggle_exx">
-                        <a href="#" class="toggle">
-                            Show {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
-                        </a>
-                        <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
-                        <div class="loading">
-                            <img src="static/dictionary/img/loading/breakdance.gif" width="5%" height="5%"></img>
                         </div>
-                    </div>
-                    <ul class="examples">
+                        {% for sense in senses %}
+                            <div id="{{ sense.sense.xml_id }}" class="anchor"></div>
+                            <div class="pos">{{ headword }} ⋅ {{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
+                            <div class="definition">{{ sense.sense.definition }}</div>
+                            {% if sense.sense.notes %}
+                                <div class="note">({{ sense.sense.notes }})</div>
+                            {% endif %}
+                            {% if sense.sense.etymology %}
+                                <div class="etym">
+                                    <span class="xrlabel">Etymology:</span>
+                                    {{ sense.sense.etymology }}
+                                </div>
+                            {% endif %}
+                            {% if sense.ancestors %}
+                                <div class="xref">
+                                    <span class="xrlabel">Derives from:</span>
+                                    {% for ancestor in sense.ancestors %}
+                                        {% if ancestor.target_slug in published_entries %}
+                                            <span class="ancestor"><a href="{% url 'entry' ancestor.target_slug %}#{{ancestor.target_id}}">{{ ancestor.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="ancestor">{{ ancestor.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.derivatives %}
+                                <div class="xref">
+                                    <span class="xrlabel">Derivatives:</span>
+                                    {% for derivative in sense.derivatives %}
+                                        {% if derivative.target_slug in published_entries %}
+                                            <span class="derivative"><a href="{% url 'entry' derivative.target_slug %}#{{derivative.target_id}}">{{ derivative.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="derivative">{{ derivative.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.domains %}
+                                <div class="xref">
+                                    <span class="xrlabel">Domains:</span>
+                                    {% for domain in sense.domains %}
+                                        <span class="domain"><a href="{% url 'domain' domain.slug %}">{{ domain.name }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.synonyms %}
+                                <div class="xref">
+                                    <span class="xrlabel">Synonyms:</span>
+                                    {% for synonym in sense.synonyms %}
+                                        {% if synonym.target_slug in published_entries %}
+                                             <span class="synonym"><a href="{% url 'entry' synonym.target_slug %}#{{synonym.target_id}}">{{ synonym.xref_word }}</a>{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
+                                        {% else %}
+                                             <span class="synonym">{{ synonym.xref_word }}{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.antonyms %}
+                                <div class="xref">
+                                    <span class="xrlabel">Antonyms:</span>
+                                    {% for antonym in sense.antonyms %}
+                                        {% if antonym.target_slug in published_entries %}
+                                            <span class="antonym"><a href="{% url 'entry' antonym.target_slug %}#{{antonym.target_id}}">{{ antonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="antonym">{{ antonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.meronyms %}
+                                <div class="xref">
+                                    <span class="xrlabel">Meronyms:</span>
+                                    {% for meronym in sense.meronyms %}
+                                        {% if meronym.target_slug in published_entries %}
+                                            <span class="meronym"><a href="{% url 'entry' meronym.target_slug %}#{{meronym.target_id}}">{{ meronym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="meronym">{{ meronym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.holonyms %}
+                                <div class="xref">
+                                    <span class="xrlabel">Holonyms:</span>
+                                    {% for holonym in sense.holonyms %}
+                                        {% if holonym.target_slug in published_entries %}
+                                           <span class="holonym"> <a href="{% url 'entry' holonym.target_slug %}#{{holonym.target_id}}">{{ holonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="holonym">{{ holonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.related_concepts %}
+                                <div class="xref">
+                                    <span class="xrlabel">Related concepts:</span>
+                                    {% for related_concept in sense.related_concepts %}
+                                        {% if related_concept.target_slug in published_entries %}
+                                            <span class="related_concept"><a href="{% url 'entry' holonym.target_slug %}#{{related_concept.target_id}}">{{ related_concept.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="related_concept">{{ related_concept.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.related_words %}
+                                <div class="xref">
+                                    <span class="xrlabel">Related words:</span>
+                                    {% for related_word in sense.related_words %}
+                                        {% if related_word.target_slug in published_entries %}
+                                            <span class="related_word"><a href="{% url 'entry' related_word.target_slug %}#{{related_word.target_id}}">{{ related_word.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="related_word">{{ related_word.xref_word }}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.rhymes %}
+                                <div class="xref">
+                                    <span class="xrlabel">Rhymes:</span>
+                                    {% for rhyme in sense.rhymes %}
+                                        <span class="rhyme"><a href="{% url 'rhyme' rhyme.rhyme_slug %}">{{ rhyme.rhyme }}</a>{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.collocates %}
+                                <div class="xref">
+                                    <span class="xrlabel">Collocates:</span>
+                                    {% for collocate in sense.collocates %}
+                                        {% if related_word.target_slug in published_entries %}
+                                            <span class="collocate"><a href="{% url 'entry' collocate.target_slug %}">{{ collocate.collocate_lemma }}</a>{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
+                                            <span class="collocate">{{ collocate.collocate_lemma }}{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if sense.examples %}
+                                <ul class="examplesHead">
+                                {% for example in sense.examples|slice:":3" %}
+                                    <li>
+                                        <span class="date">{{ example.release_date_string }}</span>
+                                        <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                                        <span class="songTitle">"{{example.song_title}}"</span>
+                                        {% if example.featured_artists %}
+                                            <span> feat. </span>
+                                            {% for feat in example.featured_artists %}
+                                                <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <span class="album">[{{example.album }}]</span>
+                                        <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {% if sense.num_examples > 3 %}
+                                <div class="toggle_exx">
+                                    <a href="#" class="toggle">
+                                        Show {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
+                                    </a>
+                                    <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
+                                    <div class="loading">
+                                        <img src="static/dictionary/img/loading/breakdance.gif" width="5%" height="5%"></img>
+                                    </div>
+                                </div>
+                                <ul class="examples">
 
-                    </ul>
+                                </ul>
+                            {% endif %}
+                            {% csrf_token %}
+                            <div class="map-canvas">
+                                <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
+                                <p class="mapLabel">Origins of Cited Artists</p>
+                                <div id="map{{forloop.counter}}" class="map"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>This is not the entry you're looking for.</p>
                 {% endif %}
-                {% csrf_token %}
-                <div class="map-canvas">
-                    <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
-                    <p class="mapLabel">Origins of Cited Artists</p>
-                    <div id="map{{forloop.counter}}" class="map"></div>
-                </div>
-            {% endfor %}
+            </article>
         </div>
-    {% else %}
-        <p>This is not the entry you're looking for.</p>
-    {% endif %}
-</article>
+    </div>
+</div>
 {% endblock %}

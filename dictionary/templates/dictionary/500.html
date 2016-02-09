@@ -1,7 +1,13 @@
 {% extends "dictionary/base.html" %}
 {% block title %}500 ⋅ {% endblock %}
 {% block content %}
-    <div class="container" style="text-align:center">
-        <strong>500 - Don't you know I'm <a href="{% url 'entry' 'loco' %}">loco</a>?</strong>
+<div id="wrapper">
+    <div id="content-container">
+        <div id="content" class="group">
+            <div class="entry-content" style="text-align: center;">
+                <strong>500 - Don't you know I'm <a href="{% url 'entry' 'loco' %}">loco</a>?</strong>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}

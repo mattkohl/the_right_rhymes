@@ -56,14 +56,13 @@
                         </div>
                     {% endfor %}
                 </div>
+                {% elif query == '' %}
+                    <h3 class="trr-list-header"><strong>empty</strong> query string -- Your search game is <strong>weak</strong>, yo</h3>
+                {% else %}
+                    <h3 class="trr-list-header">Sorry, couldn't find any matches for <strong>{{ query }}</strong></h3>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
-
-    {% elif query == '' %}
-        <h3 class="trr-list-header"><strong>empty</strong> query string -- Your search game is <strong>weak</strong>, yo</h3>
-    {% else %}
-        <h3 class="trr-list-header">Sorry, couldn't find any matches for <strong>{{ query }}</strong></h3>
-    {% endif %}
 </div>
 {% endblock %}
