@@ -237,7 +237,8 @@ def inject_link(lyric, start, end, a):
 
 
 def artist(request, artist_slug):
-    artist = get_object_or_404(Artist, slug=artist_slug)
+    artist_results = get_list_or_404(Artist, slug=artist_slug)
+    artist = artist_results[0]
     origin_results = artist.origin.all()
     if origin_results:
         origin = origin_results[0].name
@@ -357,9 +358,15 @@ def entity(request, entity_slug):
                 'senses': [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
             })
 
+        image_exx = entities[0]['senses'][0]['examples']
+        artist_slug, artist_name, image = assign_image(image_exx)
+
         context = {
             'title': title,
-            'entities': entities
+            'entities': entities,
+            'image': image,
+            'artist_slug': artist_slug,
+            'artist_name': artist_name
         }
         return HttpResponse(template.render(context, request))
     else:
@@ -403,7 +410,7 @@ def stats(request):
 
 
 def about(request):
-    template = loader.get_template('dictionary/stats.html')
+    template = loader.get_template('dictionary/about.html')
     context = {}
     return HttpResponse(template.render(context, request))
 

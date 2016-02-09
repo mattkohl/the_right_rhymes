@@ -13,7 +13,10 @@
                           property="image"
                           scale="0"/>
                     </figure>
-                    <div class="headword-image">{{ rhyme }}<span class="rhymes-intro"> rhymes</span></div>
+                    <div class="headword-image">{{ rhyme }}</div>
+                    <header class="rhyme-header">
+                        <h1 class="trr-list-header">rhymes</h1>
+                    </header>
                 {% else %}
                     <header class="rhyme-header">
                         <h1 class="trr-list-header"><strong>{{ rhyme }}</strong> rhymes</h1>
@@ -43,7 +46,7 @@
                                          {% if example.featured_artists %}
                                             <span> feat. </span>
                                             {% for feat in example.featured_artists %}
-                                                <span class="artist"><a href="">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                                <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
                                             {% endfor %}
                                         {% endif %}
                                         <span class="album">[{{ example.album }}]</span>

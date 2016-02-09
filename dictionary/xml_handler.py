@@ -14,6 +14,9 @@ geolocator = Nominatim()
 geocache = []
 
 
+CHECK_FOR_UPDATES = False
+
+
 class XMLDict:
 
     def __init__(self, filename):
@@ -86,6 +89,7 @@ class TRREntry:
         self.xml_id = self.entry_dict['@eid']
         self.publish = False if self.entry_dict['@publish'] == 'no' else True
         self.entry_object = self.add_to_db()
+        self.updated = self.check_if_updated()
         self.update_entry()
         self.extract_lexemes()
         self.sense_count = 0
@@ -112,6 +116,11 @@ class TRREntry:
                                                      slug=self.slug)
         return entry
 
+    def check_if_updated(self):
+        if CHECK_FOR_UPDATES:
+            return self.entry_dict == self.entry_object.json
+        return True
+
     def update_entry(self):
         self.entry_object.publish = self.publish
         self.entry_object.json = self.entry_dict
@@ -119,9 +128,12 @@ class TRREntry:
         self.entry_object.save()
 
     def extract_lexemes(self):
-        lexemes = self.entry_dict['senses']
-        for l in lexemes:
-            self.process_lexeme(l)
+        if self.updated:
+            lexemes = self.entry_dict['senses']
+            for l in lexemes:
+                self.process_lexeme(l)
+        else:
+            print("Skipping", self.headword, ", as it hasn't been updated")
 
     def process_lexeme(self, lexeme):
         pos = lexeme['pos']
@@ -414,7 +426,7 @@ class TRRExample:
         new_date = self.release_date_string
         month = new_date[-2:]
         if len(new_date) == 7 and month == '02':
-            return new_date + '-29'
+            return new_date + '-28'
         if len(new_date) == 7 and month in ['04', '06', '11', '09']:
             return new_date + '-30'
         if len(new_date) == 7:
@@ -773,4 +785,8 @@ class TRRLyricLink:
                                                                target_slug=self.target_slug,
                                                                position=self.position)
         return link_object
-
+#
+#
+# if __name__ == '__main__':
+#     x = XMLDict('static/test/test.xml')
+#     t = TRRDict(x.xml_dict)

@@ -114,6 +114,13 @@ button.collapsed {
     text-transform: uppercase;
 }
 
+.ui-autocomplete {
+    max-height: 10em;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
 /*Entry Hierarchy*/
 
 #wrapper {
@@ -146,6 +153,15 @@ button.collapsed {
     display: block;
 }
 
+.error-code {
+    font-size: 6em;
+    opacity: .3;
+}
+
+.error-message {
+    z-index: 1000;
+}
+
 footer {
     height: 150px;
     padding: .5em;
@@ -161,16 +177,6 @@ footer {
 
 #copyright, #last-fm-attrib {
     margin-top: .5em;
-}
-
-.error-code {
-    font-size: 8em;
-    opacity: .3;
-}
-
-.error-message {
-    margin-top: -.85em;
-    z-index: 1000;
 }
 
 #content-container {

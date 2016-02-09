@@ -122,7 +122,7 @@
                                     <span class="xrlabel">Related concepts:</span>
                                     {% for related_concept in sense.related_concepts %}
                                         {% if related_concept.target_slug in published_entries %}
-                                            <span class="related_concept"><a href="{% url 'entry' holonym.target_slug %}#{{related_concept.target_id}}">{{ related_concept.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                            <span class="related_concept"><a href="{% url 'entry' related_concept.target_slug %}#{{related_concept.target_id}}">{{ related_concept.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
                                         {% else %}
                                             <span class="related_concept">{{ related_concept.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}

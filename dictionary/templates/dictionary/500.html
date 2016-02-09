@@ -1,12 +1,13 @@
 {% extends "dictionary/base.html" %}
 {% block title %}500 ⋅ {% endblock %}
 {% block content %}
-<div id="wrapper">
-    <div id="content-container">
-        <div id="content" class="group">
-            <div class="entry-content" style="text-align: center;">
-                <strong>500 - Don't you know I'm <a href="{% url 'entry' 'loco' %}">loco</a>?</strong>
-            </div>
+<div id="error-wrapper">
+    <div class="entry-content">
+        <div class="error-code">
+            <strong>500</strong>
+        </div>
+        <div class="error-message">
+            <strong>Dont' you know I'm <a href="{% url 'entry' 'loco' %}">loco</a>?</strong>
         </div>
     </div>
 </div>
