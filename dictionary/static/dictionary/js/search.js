@@ -36,6 +36,17 @@ $(function() {
             }
         )
     },
+    focus: function( event, ui ) {
+        $( "#search-box" ).val( ui.item.label );
+        return false;
+    },
+    select: function( event, ui ) {
+        $("#search-box").val( ui.item.label );
+        $("#search_slug").val( ui.item.id );
+        $("#search_param").val( 'headwords' );
+        $('#header-search-form').submit();
+        return false;
+    },
     minLength: 2
   });
 });

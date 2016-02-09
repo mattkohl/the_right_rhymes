@@ -25,7 +25,7 @@ def search_headwords(request):
         result = dict()
         result['id'] = entry.slug
         result['label'] = entry.headword
-        result['value'] = entry.slug
+        result['value'] = entry.headword
         results.append(result)
 
     data = {'headwords': results}
@@ -45,6 +45,25 @@ def build_index():
     return index
 
 
+def assign_image(examples):
+    THRESHOLD = 3
+    if len(examples) < THRESHOLD:
+        THRESHOLD = len(examples)
+    count = 0
+    artist_slug, artist_name, image = '', '', ''
+    for example in examples:
+        count += 1
+        if 'artist_slug' in example and 'artist_name' in example:
+            artist_slug = example['artist_slug']
+            artist_name = example['artist_name']
+            image = check_for_artist_image(artist_slug, 'full')
+        if image:
+            return artist_slug, artist_name, image
+        if count >= THRESHOLD:
+            return '', '', ''
+    return '', '', ''
+
+
 def entry(request, headword_slug):
     if '#' in headword_slug:
         slug = headword_slug.split('#')[0]
@@ -56,28 +75,8 @@ def entry(request, headword_slug):
     sense_objects = entry.senses.all()
     senses = [build_sense(sense) for sense in sense_objects]
     published = [entry.slug for entry in Entry.objects.filter(publish=True)]
-    image = ''
-    backup_image = ''
-    artist_name = ''
-    artist_slug = ''
-    backup_artist_name = ''
-    backup_artist_slug = ''
-
-    try:
-        artist_slug = senses[0]['examples'][0]['artist_slug']
-        artist_name = senses[0]['examples'][0]['artist_name']
-        backup_artist_slug = senses[0]['examples'][1]['artist_slug']
-        backup_artist_name = senses[0]['examples'][1]['artist_name']
-    except:
-        print('Could not locate artist of first quotation')
-    else:
-        image = check_for_artist_image(artist_slug, 'full')
-        backup_image = check_for_artist_image(backup_artist_slug, 'full')
-
-    if image == '':
-        image = backup_image
-        artist_name = backup_artist_name
-        artist_slug = backup_artist_slug
+    image_exx = [example for example in senses[0]['examples']]
+    artist_slug, artist_name, image = assign_image(image_exx)
 
     context = {
         'headword': entry.headword,
@@ -430,23 +429,14 @@ def check_for_artist_image(slug, folder='thumb'):
 def search(request):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     template = loader.get_template('dictionary/search_results.html')
-    context = {
-        'published_entries': published
-        }
+    context = dict()
     if ('q' in request.GET) and request.GET['q'].strip():
         search_param = request.GET['search_param']
+        search_slug = request.GET['search_slug']
         query_string = request.GET['q']
         context['search_param'] = search_param
-        if search_param == 'artists':
-            # return redirect('/artists/' + slugify(query_string))
-            artist_query = build_query(query_string, ['name'])
-            artist_results = [build_artist(artist) for artist in Artist.objects.filter(artist_query).order_by('slug')]
-            context['query'] = query_string
-            context['artists'] = artist_results
-        # elif search_param == 'rhymes':
-        #     return redirect('/rhymes/' + slugify(query_string))
-        # elif search_param == 'domains':
-        #     return redirect('/domains/' + slugify(query_string))
+        if search_param == 'headwords':
+            return redirect('entry', headword_slug=search_slug)
         else:
             sense_query = build_query(query_string, ['lyric_text'])
             example_results = [build_example(example, published) for example in Example.objects.filter(sense_query).order_by('release_date')]
@@ -459,11 +449,12 @@ def search(request):
 def rhyme(request, rhyme_slug):
     template = loader.get_template('dictionary/rhyme.html')
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    published_slugs = [entry.slug for entry in Entry.objects.filter(publish=True)]
     title = rhyme_slug
 
     rhyme_results = ExampleRhyme.objects.filter(Q(word_one_slug=rhyme_slug)|Q(word_two_slug=rhyme_slug))
-
     rhymes_intermediate = {}
+    image_exx = []
 
     for r in rhyme_results:
         if r.word_one_slug == rhyme_slug:
@@ -476,6 +467,8 @@ def rhyme(request, rhyme_slug):
             slug = r.word_one_slug
 
         exx = [build_example(example, published) for example in r.parent_example.all()]
+        if exx:
+            image_exx.extend(exx)
 
         if slug in rhymes_intermediate:
             rhymes_intermediate[slug]['examples'].extend(exx)
@@ -486,12 +479,17 @@ def rhyme(request, rhyme_slug):
             }
         rhymes_intermediate[slug]['examples'] = sorted(rhymes_intermediate[slug]['examples'], key=itemgetter('release_date'))
 
+    artist_slug, artist_name, image = assign_image(image_exx)
+
     rhymes = [{'slug': r, 'rhyme': rhymes_intermediate[r]['rhyme'], 'examples': rhymes_intermediate[r]['examples']} for r in rhymes_intermediate]
 
     context = {
-        'published_entries': published,
+        'published_entries': published_slugs,
         'rhyme': title,
-        'rhymes': rhymes
+        'rhymes': rhymes,
+        'artist_slug': artist_slug,
+        'artist_name': artist_name,
+        'image': image
         }
 
     return HttpResponse(template.render(context, request))

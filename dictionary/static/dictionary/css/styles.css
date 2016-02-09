@@ -20,6 +20,18 @@ body {
 
 }
 
+a:link,
+a:visited {
+	color: #888;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+	color: #333;
+	text-decoration: none;
+}
+
 #navbar-custom {
     border: none;
     border-radius: 0;
@@ -126,13 +138,14 @@ button.collapsed {
 
 #colophon {
     padding: .5em;
-    background: #333;
+    background: black;
     color: #CCCCCC;
     font-size: 0.9em;
     text-align: center;
     clear: both;
     display: block;
     width: 100%;
+    float: left;
 }
 
 #copyright, #last-fm-attrib {
@@ -151,7 +164,6 @@ button.collapsed {
 
 .entry-content {
     padding-top: .5em;
-    margin-bottom: 3em;
 }
 
 .entry-content figure {
@@ -246,6 +258,11 @@ figcaption a.artist {
     font-weight: bold;
 }
 
+.rhymes-intro {
+    font-weight: lighter;
+    text-transform: lowercase;
+}
+
 .definition {
 	margin-bottom: .75em;
 	font-weight: bold;
@@ -330,19 +347,11 @@ p.mapLabel {
 	font-weight: bold;
 }
 
-.etym {
-	font-size: .75em;
-	margin-top: .75em;
-	margin-bottom: .75em;
-	margin-left: 1em;
-}
-
-.xref {
+.xref, .etym {
 	font-size: .75em;
 	margin-bottom: .5em;
 	margin-left: .5em;
 }
-
 
 .xrlabel {
 	font-weight: bold;

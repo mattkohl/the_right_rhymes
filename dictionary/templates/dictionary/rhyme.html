@@ -5,10 +5,21 @@
 <div id="wrapper">
     <div id="content-container">
         <div id="content" class="group">
-            <header class="rhyme-header">
-                <h1 class="trr-list-header"><strong>{{ rhyme }}</strong> rhymes</h1>
-            </header>
             <div class="entry-content">
+                {% if image %}
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                          alt="{{ artist_name }}"
+                          property="image"
+                          scale="0"/>
+                    </figure>
+                    <div class="headword-image">{{ rhyme }}<span class="rhymes-intro"> rhymes</span></div>
+                {% else %}
+                    <header class="rhyme-header">
+                        <h1 class="trr-list-header"><strong>{{ rhyme }}</strong> rhymes</h1>
+                    </header>
+                {% endif %}
+
                 <div class="trr-list">
                     {% if rhymes %}
                         {% for rhyme in rhymes|dictsort:"slug" %}
@@ -16,7 +27,11 @@
                             {% ifchanged rhyme.slug %}
                             <div>
                                 <strong>
-                                    <a href="{% url 'rhyme' rhyme.slug %}">{{rhyme.rhyme}}</a>
+                                    {% if rhyme.slug in published_entries %}
+                                        <a href="{% url 'entry' rhyme.slug %}">{{rhyme.rhyme}}</a>
+                                    {% else %}
+                                        <a href="{% url 'rhyme' rhyme.slug %}">{{rhyme.rhyme}}</a>
+                                    {% endif %}
                                 </strong>
                             </div>
                             {% endifchanged %}
