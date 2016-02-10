@@ -176,7 +176,7 @@ footer {
 }
 
 #copyright, #last-fm-attrib {
-    margin-top: .5em;
+    margin: .5em 0;
 }
 
 #content-container {
@@ -834,6 +834,10 @@ and (max-width : 320px) {
 
     footer {
         height: 110px;
+    }
+
+    #copyright, #last-fm-attrib {
+        margin-bottom: .25em;
     }
 
 }

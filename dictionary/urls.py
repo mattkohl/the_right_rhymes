@@ -30,7 +30,7 @@ urlpatterns = [
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 
     # /artists/<artist-slug>/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!é]+)/$", views.artist, name='artist'),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé]+)/$", views.artist, name='artist'),
 
     # /senses/<sense_id>/artist_origins/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artist_origins/$", views.sense_artist_origins, name="sense_artist_origins"),
