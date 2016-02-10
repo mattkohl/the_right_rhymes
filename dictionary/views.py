@@ -444,6 +444,9 @@ def search(request):
         context['search_param'] = search_param
         if search_param == 'headwords':
             return redirect('entry', headword_slug=search_slug)
+        elif query_string in published:
+            q_slug = slugify(query_string)
+            return redirect('entry', headword_slug=q_slug)
         else:
             sense_query = build_query(query_string, ['lyric_text'])
             example_results = [build_example(example, published) for example in Example.objects.filter(sense_query).order_by('release_date')]

@@ -140,7 +140,7 @@ button.collapsed {
     font-size: 2em;
     text-align: center;
 	max-width: 1330px;
-    margin: 1em auto 150px auto;
+    margin: 1em auto -150px auto;
 	background: black;
     padding-right: 1em;
     padding-left: 1em;
@@ -788,13 +788,56 @@ and (max-width : 568px) {
 
 }
 
-
-
 @media only screen
-and (max-height : 320px) {
+and (max-width : 320px) {
 
+    .headword-image {
+        font-size: 1.35em;
+    }
+
+    .center-block {
+        max-height: 150px;
+    }
+
+    .trr-list-header {
+        padding: 10px 15px;
+        margin-top: 0.5em;
+    }
+
+    .artists-block, figure {
+        margin-top: .5em;
+    }
+
+    .trr-list {
+        margin-bottom: 5px;
+    }
+
+    .map-canvas {
+        padding-bottom: 0;
+    }
+
+    #site-generator {
+        font-size: .68em;
+    }
+
+    #wrapper {
+        margin: 3.5em auto -110px auto;
+    }
+
+    #error-wrapper {
+        margin: 1em auto -110px auto;
+    }
+
+    #wrapper:after, #error-wrapper:after {
+        height: 110px;
+    }
+
+    footer {
+        height: 110px;
+    }
 
 }
+
 
 @media only screen
 and (max-width : 240px) and (max-height : 240px) {
