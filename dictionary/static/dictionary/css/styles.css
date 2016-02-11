@@ -792,7 +792,7 @@ and (max-width : 568px) {
 and (max-width : 320px) {
 
     .headword-image {
-        font-size: 1.35em;
+        font-size: 1.3em;
     }
 
     .center-block {
