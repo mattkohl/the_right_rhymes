@@ -17,6 +17,15 @@
     {% block content %}
     {% endblock %}
 
+    <div id="search-overlay" class="overlay overlay-data">
+      <button type="button" class="overlay-close"><span>X</span></button>
+      <nav>
+        <ul>
+          <li>{% include 'dictionary/_search.html' %}</li>
+        </ul>
+      </nav>
+    </div>
+
     {% include "dictionary/_footer.html" %}
 
     {% block scripts %}
@@ -28,21 +37,22 @@
         <script src="{% static 'dictionary/js/toggle.js' %}"></script>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-            <script>
+        <script>
           $( "#overlay-menu" ).click(function() {
             $( ".overlay" ).addClass
             ('overlay-open');
+            $('#navbar-custom').hide();
           });
         </script>
         <script>
         $( ".overlay-close" ).click(function() {
-          $( ".overlay" ).removeClass
+          $( "#search-overlay" ).removeClass
           ( 'overlay-open' );
+            $('#navbar-custom').show();
           });
         </script>
     {% endblock %}
 
     {% block js %}{% endblock %}
-
 </body>
 </html>

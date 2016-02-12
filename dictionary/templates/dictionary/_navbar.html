@@ -14,23 +14,13 @@
             <span class="navbar-brand"><a href="/">The Right Rhymes</a></span>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form search-container navbar-left" action="{% url 'search' %}">
-                <input id="search-box" type="text" class="search-box" name="q"/>
-                <input type="hidden" name="search_param" value="examples" id="search_param">
-                <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
-                <input type="hidden" name="search_slug" value="dope" id="search_slug">
-                <input type="submit" id="search-submit"/>
-            </form>
+            <button id="overlay-menu" class="nav-search-icon">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'about' %}">About</a></li>
-                        <li><a href="{% url 'stats' %}">Statistics</a></li>
-                        <!--<li><a href="#">API</a></li>-->
-                    </ul>
-                </li>
+                <li><a href="{% url 'about' %}"><i class="fa fa-question"></i></a></li>
+                <li><a href="{% url 'stats' %}"><i class="fa fa-bar-chart-o"></i></a></li>
+                <li><a href="#"><i class="fa fa-cloud"></i></a></li>
             </ul>
         </div>
         <!--/.nav-collapse -->

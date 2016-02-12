@@ -22,9 +22,16 @@
                 </div>
             </div>
             <div id="search-icon-container" class="trr-search-icon">
-              <button class="menuButton" id="overlay-menu" type="button">
-                  <span class="glyphicon glyphicon-search"></span>
-              </button>
+                <ul class="list-inline">
+                    <li>
+                        <button class="index-menuButton" id="overlay-menu" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </li>
+                    <li><a href="{% url 'about' %}" class="index-menuButton"><i class="fa fa-question"></i></a></li>
+                    <li><a href="{% url 'stats' %}" class="index-menuButton"><i class="fa fa-bar-chart-o"></i></a></li>
+                    <li><a href="#" class="index-menuButton"><i class="fa fa-cloud"></i></a></li>
+                </ul>
             </div>
             <div class="overlay overlay-data">
               <button type="button" class="overlay-close"><span class="glyphicon glyphicon-remove"></span></button>
