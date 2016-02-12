@@ -25,7 +25,7 @@ $('.navbar-collapse ul li a').click(function() {
 });
 
 $(function() {
-  $("#site-search").autocomplete({
+  $("#index-search-box").autocomplete({
     source: function(request, response) {
         $.getJSON(
             '/search_headwords/',
@@ -37,11 +37,11 @@ $(function() {
         )
     },
     focus: function( event, ui ) {
-        $( "#site-search" ).val( ui.item.label );
+        $( "#index-search-box" ).val( ui.item.label );
         return false;
     },
     select: function( event, ui ) {
-        $("#search-box").val( ui.item.label );
+        $("#index-search-box").val( ui.item.label );
         $("#search_slug").val( ui.item.id );
         $("#search_param").val( 'headwords' );
         $('#header-search-form').submit();

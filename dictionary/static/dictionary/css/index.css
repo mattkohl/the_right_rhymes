@@ -31,12 +31,6 @@ body {
     padding-top: 5%;
 }
 
-
-input::-webkit-input-placeholder {
-    color: whitesmoke !important;
-}
-
-
 /*
 --------------------------------------------------------------
 Media Queries Aplenty

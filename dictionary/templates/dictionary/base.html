@@ -32,7 +32,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js"></script>
-        <!--<script src="{% static 'dictionary/js/search.js' %}"></script>-->
+        <script src="{% static 'dictionary/js/search.js' %}"></script>
         <script src="{% static 'dictionary/js/google_maps.js' %}"></script>
         <script src="{% static 'dictionary/js/toggle.js' %}"></script>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
@@ -42,6 +42,7 @@
             $( ".overlay" ).addClass
             ('overlay-open');
             $('#navbar-custom').hide();
+            $('#index-search-box').focus();
           });
         </script>
         <script>
