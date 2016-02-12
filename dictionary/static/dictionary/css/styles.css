@@ -692,7 +692,7 @@ and (min-width : 720px) and (max-width : 1039px) {
 }
 
 @media only screen
-and (max-width : 568px) {
+and (max-width : 600px) {
 
     #wrapper {
         padding: 0;
@@ -735,6 +735,10 @@ and (max-width : 568px) {
 
     .headword-image {
         font-size: 1.5em;
+    }
+
+    .navbar-nav {
+        margin: 7.5px -7.5px;
     }
 
     .navbar-brand {
