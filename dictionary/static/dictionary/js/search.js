@@ -25,7 +25,7 @@ $('.navbar-collapse ul li a').click(function() {
 });
 
 $(function() {
-  $("#search-box").autocomplete({
+  $("#site-search").autocomplete({
     source: function(request, response) {
         $.getJSON(
             '/search_headwords/',
@@ -37,7 +37,7 @@ $(function() {
         )
     },
     focus: function( event, ui ) {
-        $( "#search-box" ).val( ui.item.label );
+        $( "#site-search" ).val( ui.item.label );
         return false;
     },
     select: function( event, ui ) {
@@ -50,5 +50,9 @@ $(function() {
     minLength: 2
   });
 });
+
+jQuery.curCSS = function(element, prop, val) {
+    return jQuery(element).css(prop, val);
+};
 
 document.addEventListener("touchstart", function(){}, true);

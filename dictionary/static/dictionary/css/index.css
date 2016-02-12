@@ -3,6 +3,7 @@
 body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 	background-color: #3399FF;
+    /*background-color: transparent;*/
     background-image: url(../img/header/skyline.png);
     background-position: center bottom;
     background-size: 100% auto;
@@ -30,9 +31,11 @@ body {
     padding-top: 5%;
 }
 
-#search-type {
-    border-radius: 0;
+
+input::-webkit-input-placeholder {
+    color: whitesmoke !important;
 }
+
 
 /*
 --------------------------------------------------------------
@@ -83,8 +86,15 @@ and (max-width : 667px) and (max-height : 375px) {
 @media only screen
 and (max-width : 568px) {
 
+    .container {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
     #logo {
         font-size: 2.25em;
+        padding-right: .25em;
+        padding-left: .25em;
     }
 
     #logo-title {

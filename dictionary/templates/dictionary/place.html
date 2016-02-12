@@ -45,9 +45,7 @@
                     </ul>
                 {% endif %}
 
-
                 {% if entity_senses %}
-
                     {% if entity_senses|length > 1 %}
                     <h3 class="trr-list-header">mentioned in {{ entity_senses|length }} examples</h3>
                     {% elif entity_senses|length == 1 %}
@@ -87,9 +85,7 @@
                         {% endif %}
                         {% endfor %}
                     </div>
-                    {% else %}
-                        <h3 class="trr-list-header">Could not find any mention of <strong>{{ place }}</strong> in the lyrics database</h3>
-                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
