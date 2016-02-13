@@ -743,6 +743,11 @@ and (min-width : 720px) and (max-width : 1039px) {
     .navbar>.container-fluid .navbar-brand {
         margin-left: 0;
     }
+
+    .center-block {
+        max-height: 250px;
+    }
+
 }
 
 @media only screen
@@ -776,6 +781,10 @@ and (max-width : 600px) {
 
     .entry-content .examples {
          padding-left: .5em;
+    }
+
+    .center-block {
+        max-height: 200px;
     }
 
     .center-block img {

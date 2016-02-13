@@ -26,9 +26,9 @@ body {
     margin-right: auto;
 }
 
-#search-wrapper {
-    width: 60%;
-    padding-top: 5%;
+#search-icon-container {
+    padding-top: 8%;
+    font-size: 3em;
 }
 
 /*
@@ -41,23 +41,36 @@ Media Queries Aplenty
 and (min-width : 720px) and (max-width : 1039px) {
 
     #logo-wrapper {
-        padding-top: 15%;
+        padding-top: 25%;
     }
-    #search-wrapper {
-        width: 80%;
+
+    #search-icon-container {
+        padding-top: 8%;
+        font-size: 2.5em;
     }
 
 }
 
 @media only screen
+and (min-height : 720px) and (max-width : 1024px) {
+    #logo-wrapper {
+        padding-top: 20%;
+    }
+}
+
+@media only screen
 and (max-width : 719px) and (min-height : 558px ) {
+
+    body {
+        background-image: url(../img/header/skyline-mid-width.png);
+    }
+
 
     #logo-wrapper {
         padding-top: 40%;
     }
 
-    #search-wrapper {
-        width: 95%;
+    #search-icon-container {
         padding-top: 10%;
     }
 
@@ -70,23 +83,27 @@ and (max-width : 667px) and (max-height : 375px) {
         padding-top: 5%;
     }
 
-    #search-wrapper {
-        width: 75%;
-        padding-top: 2%;
+    #search-icon-container {
+        padding-top: 8%;
+        font-size: 2em;
     }
 
 }
 
 @media only screen
-and (max-width : 568px) {
+and (max-width : 600px) {
 
     .container {
         padding-right: 0;
         padding-left: 0;
     }
 
+    #logo-wrapper {
+        padding-top: 30%;
+    }
+
     #logo {
-        font-size: 2.25em;
+        font-size: 2.75em;
         padding-right: .25em;
         padding-left: .25em;
     }
@@ -107,23 +124,40 @@ and (max-width : 568px) {
         display: none;
     }
 
+    #search-icon-container {
+        padding-top: 8%;
+        font-size: 2em;
+    }
+
+    #search-icon-container ul li {
+        padding: .75em;
+    }
+
     #search-wrapper {
         width: 95%;
     }
 
 }
 
-
 @media only screen
 and (max-width : 375px) and (max-height : 667px) {
 
-    #logo-wrapper {
-        padding-top: 5%;
+    body {
+        background-image: url(../img/header/skyline-short-width.png);
     }
 
-    #search-wrapper {
-        width: 75%;
-        padding-top: 2%;
+    #logo {
+        font-size: 2.25em;
+        padding-right: .25em;
+        padding-left: .25em;
+    }
+
+    #logo-wrapper {
+        padding-top: 25%;
+    }
+
+    #search-icon-container {
+        padding-top: 10%;
     }
 
 }
