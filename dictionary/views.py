@@ -434,22 +434,28 @@ def check_for_artist_image(slug, folder='thumb'):
 
 
 def search(request):
-    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    published_entries = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    published_entry_slugs = [entry.slug for entry in Entry.objects.filter(publish=True)]
+
+    artist_slugs = [artist.slug for artist in Artist.objects.all()]
+
     template = loader.get_template('dictionary/search_results.html')
     context = dict()
     if ('q' in request.GET) and request.GET['q'].strip():
         search_param = request.GET['search_param']
         search_slug = request.GET['search_slug']
         query_string = request.GET['q']
+        query_slug = slugify(query_string)
         context['search_param'] = search_param
         if search_param == 'headwords':
             return redirect('entry', headword_slug=search_slug)
-        elif query_string in published:
-            q_slug = slugify(query_string)
-            return redirect('entry', headword_slug=q_slug)
+        elif query_slug in published_entry_slugs:
+            return redirect('entry', headword_slug=query_slug)
+        elif query_slug in artist_slugs:
+            return redirect('artist', artist_slug=query_slug)
         else:
             sense_query = build_query(query_string, ['lyric_text'])
-            example_results = [build_example(example, published) for example in Example.objects.filter(sense_query).order_by('release_date')]
+            example_results = [build_example(example, published_entries) for example in Example.objects.filter(sense_query).order_by('release_date')]
             context['query'] = query_string
             context['examples'] = example_results
 
