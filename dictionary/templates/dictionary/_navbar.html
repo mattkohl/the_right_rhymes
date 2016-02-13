@@ -14,13 +14,21 @@
             <span class="navbar-brand"><a href="/">The Right Rhymes</a></span>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <button id="overlay-menu" class="nav-search-icon">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
+            <ul class="nav navbar-nav navbar-left">
+                <li>
+                    <a id="overlay-menu" class="nav-search-icon"><span class="glyphicon glyphicon-search"></span><span class="collapse-only"> Search</span></a>
+                </li>
+                <li>
+                    <a href="{% url 'stats' %}"><i class="fa fa-bar-chart-o"></i><span class="collapse-only"> Statistics</span></a>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'about' %}"><i class="fa fa-question"></i></a></li>
-                <li><a href="{% url 'stats' %}"><i class="fa fa-bar-chart-o"></i></a></li>
-                <li><a href="#"><i class="fa fa-cloud"></i></a></li>
+                <li>
+                    <a href="{% url 'about' %}"><i class="fa fa-question"></i><span class="collapse-only"> About</span></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-cloud"></i><span class="collapse-only"> API</span></a>
+                </li>
             </ul>
         </div>
         <!--/.nav-collapse -->

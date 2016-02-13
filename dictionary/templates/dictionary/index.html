@@ -23,11 +23,7 @@
             </div>
             <div id="search-icon-container" class="trr-search-icon">
                 <ul class="list-inline">
-                    <li>
-                        <button class="index-menuButton" id="overlay-menu" type="button">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </li>
+                    <li><a href="#" class="index-menuButton" id="overlay-menu" type="button"><i class="fa fa-search"></i></a></li>
                     <li><a href="{% url 'about' %}" class="index-menuButton"><i class="fa fa-question"></i></a></li>
                     <li><a href="{% url 'stats' %}" class="index-menuButton"><i class="fa fa-bar-chart-o"></i></a></li>
                     <li><a href="#" class="index-menuButton"><i class="fa fa-cloud"></i></a></li>
@@ -44,7 +40,7 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script src="{% static 'dictionary/js/search.js' %}"></script>
+        <!--<script src="{% static 'dictionary/js/search.js' %}"></script>-->
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
         <script>

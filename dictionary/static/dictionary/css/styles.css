@@ -81,6 +81,13 @@ button.collapsed {
     color: white;
 }
 
+.navbar-left>li {
+    padding-left: 5em;
+}
+ .navbar-right>li {
+     padding-right: 5em;
+ }
+
 .navbar-default .navbar-nav>.open>a,
 .navbar-default .navbar-nav>.open>a:hover,
 .navbar-default .navbar-nav>.open>a:focus {
@@ -656,6 +663,10 @@ h1.trr-list-header {
 	color: black;
 }
 
+.collapse-only {
+    display: none;
+}
+
 /*
 --------------------------------------------------------------
 Media Queries Aplenty
@@ -679,10 +690,48 @@ Media Queries Aplenty
     ]
 }
 
+@media only screen and (max-width : 767px) {
 
-@media (min-width: 768px) {
+    .collapse-only {
+        display: inline-block;
+        padding-left: 2em;
+    }
 
+    .navbar-right>li>a>i {
+        width: 15px;
+    }
+
+    .navbar-brand {
+        width: 75%;
+        left: 12%;
+    }
+
+    .navbar-left>li, .navbar-right>li {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .navbar-default .navbar-header .navbar-toggle {
+        border: none;
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+        border: none;
+        padding: inherit;
+    }
+
+    .navbar-default .navbar-header .navbar-toggle:hover,
+    .navbar-default .navbar-header .navbar-toggle:focus,
+    {
+        background-color: transparent;
+    }
+
+    .navbar-default .navbar-header .navbar-form {
+        border: none;
+    }
 }
+
 
 @media only screen
 and (min-width : 720px) and (max-width : 1039px) {
@@ -735,35 +784,6 @@ and (max-width : 600px) {
 
     .headword-image {
         font-size: 1.5em;
-    }
-
-    .navbar-nav {
-        margin: 7.5px -7.5px;
-    }
-
-    .navbar-brand {
-        width: 75%;
-        left: 12%;
-    }
-
-    .navbar-default .navbar-header .navbar-toggle {
-        border: none;
-        background-color: transparent;
-    }
-
-    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-        border: none;
-        padding: inherit;
-    }
-
-    .navbar-default .navbar-header .navbar-toggle:hover,
-    .navbar-default .navbar-header .navbar-toggle:focus,
-    {
-        background-color: transparent;
-    }
-
-    .navbar-default .navbar-header .navbar-form {
-        border: none;
     }
 
     li.dropdown>a.dropdown-toggle {
