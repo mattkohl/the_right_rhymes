@@ -81,11 +81,16 @@ button.collapsed {
     color: white;
 }
 
+.navbar-left, .navbar-right {
+    width: 30%
+}
+
+
 .navbar-left>li {
-    padding-left: 5em;
+    padding-left: 29%;
 }
  .navbar-right>li {
-     padding-right: 5em;
+     padding-right: 29%;
  }
 
 .navbar-default .navbar-nav>.open>a,
