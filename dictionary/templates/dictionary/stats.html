@@ -5,7 +5,115 @@
     <div id="content-container">
         <div id="content" class="group">
             <div class="container">
-                <div>Entries: {{ published_entries | length }}</div>
+                <div>Entries: {{ num_entries }}</div>
+                <div>Senses: {{ num_senses }}</div>
+                <div>Examples: {{ num_examples }}</div>
+                <div>Best attested senses:
+                    <ul>
+                    {% for sense in best_attested_senses %}
+                        <li>{{sense.headword}} ({{sense.definition}}): {{sense.num_examples}}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+                <div>Artists: {{ num_artists }}</div>
+                <div>Places: {{ num_places }}</div>
+                <div>Best represented places:
+                    <ul>
+                    {% for place in best_represented_places %}
+                        <li>{{place.name}} ({{place.num_artists}} artists)</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+                <div>Earliest examples:
+                    <ul class="examplesHead">
+                        {% for example in earliest_date.example %}
+                            <li>
+                                <span class="date">{{ example.release_date_string }}</span>
+                                <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                                <span class="songTitle">"{{example.song_title}}"</span>
+                                {% if example.featured_artists %}
+                                    <span> feat. </span>
+                                    {% for feat in example.featured_artists %}
+                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                {% endif %}
+                                <span class="album">[{{example.album }}]</span>
+                                <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>Most recent examples:
+                    <ul class="examplesHead">
+                        {% for example in latest_date.example %}
+                            <li>
+                                <span class="date">{{ example.release_date_string }}</span>
+                                <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                                <span class="songTitle">"{{example.song_title}}"</span>
+                                {% if example.featured_artists %}
+                                    <span> feat. </span>
+                                    {% for feat in example.featured_artists %}
+                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                {% endif %}
+                                <span class="album">[{{example.album }}]</span>
+                                <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>Most cited example:
+                    <ul class="examplesHead">
+                        {% for example in most_linked_example.example %}
+                            <li>
+                                <span class="date">{{ example.release_date_string }}</span>
+                                <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                                <span class="songTitle">"{{example.song_title}}"</span>
+                                {% if example.featured_artists %}
+                                    <span> feat. </span>
+                                    {% for feat in example.featured_artists %}
+                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                {% endif %}
+                                <span class="album">[{{example.album }}]</span>
+                                <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                                <div>(Cited {{ most_linked_example.count }} times)</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+                <div>Number of examples by decade</div>
+                <ul>
+                    <li>1970's: {{ num_seventies }}</li>
+                    <li>1980's: {{ num_eighties }}</li>
+                    <li>1990's: {{ num_nineties }}</li>
+                    <li>2000's: {{ num_noughties }}</li>
+                    <li>2010's: {{ num_twenty_tens }}</li>
+                </ul>
+                <div>Most cited artists:
+                    <div class="artists-block">
+                        {% for artist in most_cited_artists %}
+                            <a href="{% url 'artist' artist.artist.slug %}">
+                                {% if artist.artist.image %}
+                                    <figure class="single-thumb">
+                                        <img src="{{ artist.artist.image }}"
+                                             alt="{{ artist.artist.name }}"
+                                             property="image"
+                                             scale="0"
+                                             width="200"
+                                             height="200"/>
+                                        <figcaption>{{artist.artist.name}}: {{ artist.count }}</figcaption>
+                                    </figure>
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                        <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@ from operator import itemgetter
 from django.shortcuts import redirect, get_object_or_404, get_list_or_404, render_to_response
 from django.template import loader, RequestContext
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Count
 from .utils import build_query, decimal_default, slugify, reformat_name
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
@@ -401,11 +401,40 @@ def domain_json(request, domain_slug):
 
 
 def stats(request):
-    published_entries = [entry.senses.all() for entry in Entry.objects.filter(publish=True)]
+    published_entries = Entry.objects.filter(publish=True)
+    published_senses = [sense for entry in published_entries for sense in entry.senses.all()]
+    examples = [example for sense in published_senses for example in sense.examples.all()]
+    best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
+
+    dates = [example for example in Example.objects.order_by('release_date')]
+    seventies = [example.release_date for example in Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"])]
+    eighties = [example.release_date for example in Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"])]
+    nineties = [example.release_date for example in Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"])]
+    noughties = [example.release_date for example in Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"])]
+    twenty_tens = [example.release_date for example in Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"])]
+    artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
+    linked_exx = [example for example in Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')]
+
     template = loader.get_template('dictionary/stats.html')
     context = {
-            'published_entries': published_entries
-        }
+        'num_entries': len(published_entries),
+        'num_senses': len(published_senses),
+        'num_examples': len(examples),
+        'best_attested_senses': [{'headword': sense.headword, 'definition': sense.definition, 'num_examples': sense.num_examples} for sense in best_attested_senses[:5]],
+        'num_artists': len(artists),
+        'num_places': len(places),
+        'best_represented_places': [{'name': place.name.split(', ')[0], 'num_artists': place.num_artists} for place in places[:5]],
+        'earliest_date': {'example': [build_example(date, published_entries) for date in dates[:5]]},
+        'latest_date': {'example': [build_example(date, published_entries) for date in dates[-5:]]},
+        'num_seventies': len(seventies),
+        'num_eighties': len(eighties),
+        'num_nineties': len(nineties),
+        'num_noughties': len(noughties),
+        'num_twenty_tens': len(twenty_tens),
+        'most_linked_example': {'example': [build_example(linked_exx[0], published_entries)], 'count': linked_exx[0].num_links},
+        'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:5]]
+    }
     return HttpResponse(template.render(context, request))
 
 
