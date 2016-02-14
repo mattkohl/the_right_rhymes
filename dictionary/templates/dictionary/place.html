@@ -5,12 +5,17 @@
     <div id="content-container">
         <div id="content" class="group">
             <div class="entry-content">
-                <div class="headword"><strong>{{ place }}</strong></div>
-                <div class="map-canvas">
-                    <p class="hidden place-slug">{{ slug }}</p>
-                    <p class="mapLabel">{{ place_name_full }}</p>
-                    <div id="map1" class="map" width="50%"></div>
-                </div>
+                {% if image %}
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                          alt="{{ place }}"
+                          property="image"
+                          scale="0"/>
+                    </figure>
+                    <div class="headword-image">{{ place }}</div>
+                {% else %}
+                    <div class="headword">{{ place }}</div>
+                {% endif %}
 
                 {% if num_artists and artists_with_image %}
                     {% if num_artists == 1 %}
@@ -86,6 +91,12 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+
+                <div class="map-canvas">
+                    <p class="hidden place-slug">{{ slug }}</p>
+                    <p class="mapLabel">{{ place_name_full }}</p>
+                    <div id="map1" class="map" width="50%"></div>
+                </div>
             </div>
         </div>
     </div>

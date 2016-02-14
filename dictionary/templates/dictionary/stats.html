@@ -21,7 +21,7 @@
                 <div>Best represented places:
                     <ul>
                     {% for place in best_represented_places %}
-                        <li>{{place.name}} ({{place.num_artists}} artists)</li>
+                        <li><a href="{%url 'place' place.slug %}">{{place.name}}</a> ({{place.num_artists}} artists)</li>
                     {% endfor %}
                     </ul>
                 </div>
