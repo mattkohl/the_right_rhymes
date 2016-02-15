@@ -161,6 +161,15 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
+def collect_place_artists(place_object, artists):
+
+    artists.extend([build_artist(artist) for artist in place_object.artists.all()])
+    contains = place_object.contains.all()
+    if contains:
+        for contained in contains:
+            collect_place_artists(contained, artists)
+    return sorted(artists, key=itemgetter('name'))
+
 def place(request, place_slug):
     place = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
@@ -168,7 +177,9 @@ def place(request, place_slug):
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
     entity_senses = []
-    artists = [build_artist(artist) for artist in place.artists.order_by('name')]
+
+    artists = collect_place_artists(place, [])
+
     artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
     artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
 
