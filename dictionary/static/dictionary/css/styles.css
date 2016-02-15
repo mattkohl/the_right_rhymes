@@ -697,9 +697,14 @@ Media Queries Aplenty
 
 @media only screen and (max-width : 767px) {
 
+    .navbar-nav>li>a>span, .navbar-nav>li>a>.fa {
+        width: calc(100% - 50px);
+    }
+
     .collapse-only {
         display: inline-block;
         padding-left: 2em;
+        position: relative;
     }
 
     .navbar-right>li>a>i {
@@ -746,6 +751,10 @@ and (min-width : 720px) and (max-width : 1039px) {
 
     .center-block {
         max-height: 250px;
+    }
+
+    figcaption {
+        font-size: .75em;
     }
 
 }
@@ -804,7 +813,6 @@ and (max-width : 600px) {
         display: none;
     }
 
-
     nav .dropdown-menu{
         display: block;
         position: static;
@@ -821,9 +829,18 @@ and (max-width : 600px) {
         height: 20%;
     }
 
+    .single-thumb {
+        width: 185px;
+    }
+
     figcaption {
         text-align: left;
     }
+
+
+    .trr-list-header {
+         padding: 10px 15px;
+     }
 
 }
 
@@ -841,6 +858,8 @@ and (max-width : 320px) {
     .trr-list-header {
         padding: 10px 15px;
         margin-top: 0.5em;
+        margin-bottom: 0;
+        font-size: .9em;
     }
 
     .artists-block, figure {
@@ -877,6 +896,10 @@ and (max-width : 320px) {
 
     #copyright, #last-fm-attrib {
         margin-bottom: .25em;
+    }
+
+    .single-thumb {
+        width: 145px;
     }
 
 }
@@ -926,6 +949,15 @@ and (max-width : 240px) and (max-height : 240px) {
 
     .entry-content .examples {
          padding-left: 0;
+    }
+
+    .trr-list-header {
+        padding: 8px;
+        font-size: .7em;
+    }
+
+    .single-thumb {
+        width: 105px;
     }
 
 }
