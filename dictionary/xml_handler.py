@@ -465,9 +465,11 @@ class TRRPlace:
 
     def __init__(self, name):
         self.name = name
+        self.full_name = name
         self.slug = slugify(self.name)
         self.place_object = self.add_to_db()
         self.add_lat_long()
+        self.check_if_part()
 
     def add_to_db(self):
         print('Adding Place:', self.name)
@@ -491,6 +493,17 @@ class TRRPlace:
                 if latitude:
                     self.place_object.latitude = latitude
                 self.place_object.save()
+
+    def check_if_part(self):
+        if ', ' in self.name:
+            tokens = self.name.split(', ')
+            within = ', '.join(tokens[1:])
+            self.name = tokens[0]
+            container = TRRPlace(within)
+            container.place_object.contains.add(self.place_object)
+            container.place_object.save()
+            self.place_object.save()
+
 
 class TRRDomain:
 

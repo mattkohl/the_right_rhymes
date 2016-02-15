@@ -171,6 +171,14 @@ def place(request, place_slug):
     artists = [build_artist(artist) for artist in place.artists.order_by('name')]
     artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
     artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
+
+    contains = [{'name': c.name, 'slug': c.slug} for c in place.contains.order_by('name')]
+    within = {}
+    if ', ' in place.name:
+        w_name = ', '.join(place.name.split(', ')[1:])
+        w_slug = slugify(w_name)
+        within = {'name': w_name, 'slug': w_slug}
+
     if len(entity_results) >= 1:
         for entity in entity_results:
             entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
@@ -179,6 +187,8 @@ def place(request, place_slug):
         'place': abbreviate_place_name(place.name),
         'place_name_full': place.name,
         'slug': place.slug,
+        'contains': contains,
+        'within': within,
         'num_artists': len(artists),
         'artists_with_image': artists_with_image,
         'artists_without_image': artists_without_image,

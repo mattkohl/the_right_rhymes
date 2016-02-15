@@ -72,10 +72,13 @@ class Artist(models.Model):
 class Place(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000)
+    full_name = models.CharField(max_length=1000, null=True, blank=True)
     slug = models.CharField('Place Slug', max_length=1000, db_index=True, null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    comment = models.CharField(max_length=10000, null=True, blank=True)
     artists = models.ManyToManyField(Artist, through=Artist.origin.through, related_name="+")
+    contains = models.ManyToManyField("self", blank=True, symmetrical=False)
 
     class Meta:
         ordering = ["name"]
@@ -151,7 +154,7 @@ class SynSet(models.Model):
 
 class Domain(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
-    slug = models.SlugField('Domain Slug', blank=True, null=True)
+    slug = models.SlugField('Domain Slug', max_length=1000, blank=True, null=True)
     senses = models.ManyToManyField('Sense', through=Sense.domains.through, related_name='+', blank=True)
 
     class Meta:
@@ -164,9 +167,9 @@ class Domain(models.Model):
 class NamedEntity(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=1000, blank=True, null=True)
-    slug = models.SlugField('Entity Slug', blank=True, null=True)
+    slug = models.SlugField('Entity Slug', max_length=1000, blank=True, null=True)
     pref_label = models.CharField(max_length=1000, blank=True, null=True)
-    pref_label_slug = models.SlugField('Entity PrefLabel Slug', db_index=True, blank=True, null=True)
+    pref_label_slug = models.SlugField('Entity PrefLabel Slug', max_length=1000, db_index=True, blank=True, null=True)
     entity_type = models.CharField(max_length=1000, blank=True, null=True)
     mentioned_at_senses = models.ManyToManyField(Sense, through=Sense.features_entities.through, related_name="+", blank=True)
     examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)
@@ -252,7 +255,7 @@ class LyricLink(models.Model):
     link_type = models.CharField(max_length=1000, blank=True, null=True)
     link_text = models.CharField(max_length=1000, blank=True, null=True)
     target_lemma = models.CharField(max_length=1000, blank=True, null=True)
-    target_slug = models.SlugField(blank=True, null=True)
+    target_slug = models.SlugField(max_length=1000, blank=True, null=True)
     position = models.IntegerField(blank=True, null=True)
     parent_example = models.ManyToManyField(Example, through=Example.lyric_links.through, related_name="+")
 

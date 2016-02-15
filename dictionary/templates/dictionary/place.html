@@ -92,6 +92,21 @@
                     </div>
                 {% endif %}
 
+                {% if within %}
+                    <div><strong>Within:</strong></div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'place' within.slug %}">{{within.name}}</a></li>
+                    </ul>
+                {% endif %}
+
+                {% if contains %}
+                    <div><strong>Contains:</strong></div>
+                    <ul class="list-group">
+                    {% for contained in contains %}
+                        <li class="list-group-item"><a href="{% url 'place' contained.slug %}">{{contained.name}}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
                 <div class="map-canvas">
                     <p class="hidden place-slug">{{ slug }}</p>
                     <p class="mapLabel">{{ place_name_full }}</p>
