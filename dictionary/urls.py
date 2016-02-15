@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^$', views.index, name="dictionary_index"),
 
     # /statistics/
-    url(r"^statistics/?$", views.stats, name='stats'),
+    url(r"^statistics/$", views.stats, name='stats'),
 
     # /search-results/
     url(r'^search/$', views.search, name='search'),
