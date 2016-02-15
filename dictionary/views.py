@@ -14,6 +14,9 @@ from .utils import build_query, decimal_default, slugify, reformat_name
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
 
+NUM_QUOTS_TO_SHOW = 3
+
+
 def about(request):
     template = loader.get_template('dictionary/about.html')
     context = {}
