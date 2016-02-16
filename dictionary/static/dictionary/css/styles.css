@@ -672,6 +672,10 @@ h1.trr-list-header {
     display: none;
 }
 
+td {
+    width: 50%;
+}
+
 /*
 --------------------------------------------------------------
 Media Queries Aplenty

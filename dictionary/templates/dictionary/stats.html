@@ -10,7 +10,7 @@
                 </div>
                 <div class="trr-list-header">Overall Totals</div>
                 <table class="table">
-                    <tr><td>Entries</td><td>{{ num_entries }}</td></tr>
+                    <tr><td class="col-md-1">Entries</td><td class="col-md-1">{{ num_entries }}</td></tr>
                     <tr><td>Senses</td><td>{{ num_senses }}</td></tr>
                     <tr><td>Examples</td><td>{{ num_examples }}</td></tr>
                     <tr><td>Artists</td><td>{{ num_artists }}</td></tr>
@@ -18,10 +18,10 @@
                 </table>
                 <div class="trr-list-header">Best attested senses</div>
                 <table class="table">
-                    <th colspan="1">Headword, definition</th><th colspan="1"># Examples</th>
+                    <th colspan="1">Headword</th><th colspan="1"># Examples</th>
                     {% for sense in best_attested_senses %}
                     <tr>
-                        <td><a href="{% url 'entry' sense.slug %}#{{sense.anchor}}">{{sense.headword}}</a> ({{sense.definition}})</td><td>{{sense.num_examples}}</td>
+                        <td class="col-md-1"><a href="{% url 'entry' sense.slug %}#{{sense.anchor}}">{{sense.headword}}</a></td><td class="col-md-1">{{sense.num_examples}}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -29,13 +29,13 @@
                 <table class="table">
                     <th colspan="1">Location</th><th colspan="1"># Artists</th>
                     {% for place in best_represented_places %}
-                    <tr><td><a href="{%url 'place' place.slug %}">{{place.name}}</a></td><td>{{place.num_artists}}</td></tr>
+                    <tr><td class="col-md-1"><a href="{%url 'place' place.slug %}">{{place.name}}</a></td><td class="col-md-1">{{place.num_artists}}</td></tr>
                     {% endfor %}
                 </table>
 
                 <div class="trr-list-header">Number of examples by decade</div>
                 <table class="table">
-                    <tr><td>1970's</td><td>{{ num_seventies }}</td></tr>
+                    <tr><td class="col-md-1">1970's</td><td class="col-md-1">{{ num_seventies }}</td></tr>
                     <tr><td>1980's</td><td>{{ num_eighties }}</td></tr>
                     <tr><td>1990's</td><td>{{ num_nineties }}</td></tr>
                     <tr><td>2000's</td><td>{{ num_noughties }}</td></tr>
@@ -43,9 +43,10 @@
                 </table>
 
                 <div class="trr-list-header">Earliest examples</div>
-                <ul class="examplesHead">
+                <table class="table">
                     {% for example in earliest_date.example %}
-                        <li>
+                        <tr>
+                            <td>
                             <span class="date">{{ example.release_date_string }}</span>
                             <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
                             <span class="songTitle">"{{example.song_title}}"</span>
@@ -57,14 +58,15 @@
                             {% endif %}
                             <span class="album">[{{example.album }}]</span>
                             <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                        </li>
+                            </td>
+                        </tr>
                     {% endfor %}
-                </ul>
-                <div>
+                </table>
+                <table class="table">
                     <div class="trr-list-header">Most recent examples</div>
-                    <ul class="examplesHead">
                         {% for example in latest_date.example %}
-                            <li>
+                            <tr>
+                                <td>
                                 <span class="date">{{ example.release_date_string }}</span>
                                 <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
                                 <span class="songTitle">"{{example.song_title}}"</span>
@@ -76,10 +78,10 @@
                                 {% endif %}
                                 <span class="album">[{{example.album }}]</span>
                                 <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                            </li>
+                                </td>
+                            </tr>
                         {% endfor %}
-                    </ul>
-                </div>
+                </table>
                 <div>
                     <div class="trr-list-header">Most cited example</div>
                     <ul class="examplesHead">
