@@ -22,9 +22,11 @@ def build_query(query_string, search_fields):
     query = None
     terms = normalize_query(query_string)
     for term in terms:
+        escaped = re.escape(term)
+        term = r'\y{}s?\y'.format(escaped)
         or_query = None
         for field_name in search_fields:
-            q = Q(**{"%s__icontains" % field_name: term})
+            q = Q(**{"%s__iregex" % field_name: term})
 
             if or_query:
                 or_query = or_query or q
@@ -34,6 +36,7 @@ def build_query(query_string, search_fields):
             query = query and or_query
         else:
             query = or_query
+    print(query)
     return query
 
 
