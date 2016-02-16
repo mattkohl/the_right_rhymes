@@ -686,19 +686,37 @@ Media Queries Aplenty
         max-width: 1280px;
         margin: 0 auto;
     }
-}
+
     .center-block img {
         display: block;
         margin: auto;
         width: 100%;
         max-width: 1280px;
-    ]
+    }
+
+    .single-thumb {
+        width: 200px;
+    }
 }
+
+@media (min-width: 1024px) and (max-width: 1279px){
+    .single-thumb {
+        width: 194px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    .single-thumb {
+        width: 180px;
+    }
+}
+
 
 @media only screen and (max-width : 767px) {
 
-    .navbar-nav>li>a>span, .navbar-nav>li>a>.fa {
-        width: calc(100% - 50px);
+    .navbar-left, .navbar-right {
+        width: 100%
     }
 
     .collapse-only {
@@ -845,6 +863,20 @@ and (max-width : 600px) {
 }
 
 @media only screen
+and (min-width : 481px) and (max-width : 568px) {
+    .single-thumb {
+        width: 176px;
+    }
+}
+
+@media only screen
+and (min-width : 321px) and (max-width : 480px) {
+    .single-thumb {
+        width: 146px;
+    }
+}
+
+@media only screen
 and (max-width : 320px) {
 
     .headword-image {
@@ -926,8 +958,8 @@ and (max-width : 240px) and (max-height : 240px) {
     }
 
     .navbar-brand {
-        width: 90%;
-        left: 4%;
+        width: 89%;
+        left: 2%;
     }
 
     .entry-content {
