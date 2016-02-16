@@ -869,8 +869,16 @@ and (min-width : 481px) and (max-width : 568px) {
     }
 }
 
+
 @media only screen
-and (min-width : 321px) and (max-width : 480px) {
+and (min-width : 375px) and (max-width : 480px) {
+    .single-thumb {
+        width: 170px;
+    }
+}
+
+@media only screen
+and (min-width : 321px) and (max-width : 374px) {
     .single-thumb {
         width: 146px;
     }
