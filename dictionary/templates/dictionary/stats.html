@@ -5,47 +5,63 @@
     <div id="content-container">
         <div id="content" class="group">
             <div class="container">
-                <div>Entries: {{ num_entries }}</div>
-                <div>Senses: {{ num_senses }}</div>
-                <div>Examples: {{ num_examples }}</div>
-                <div>Best attested senses:
-                    <ul>
+                <div class="page-header">
+                    <h2><strong>Statistics</strong></h2>
+                </div>
+                <div class="trr-list-header">Overall Totals</div>
+                <table class="table">
+                    <tr><td>Entries</td><td>{{ num_entries }}</td></tr>
+                    <tr><td>Senses</td><td>{{ num_senses }}</td></tr>
+                    <tr><td>Examples</td><td>{{ num_examples }}</td></tr>
+                    <tr><td>Artists</td><td>{{ num_artists }}</td></tr>
+                    <tr><td>Places</td><td>{{ num_places }}</td></tr>
+                </table>
+                <div class="trr-list-header">Best attested senses</div>
+                <table class="table">
+                    <th colspan="1">Headword, definition</th><th colspan="1"># Examples</th>
                     {% for sense in best_attested_senses %}
-                        <li>{{sense.headword}} ({{sense.definition}}): {{sense.num_examples}}</li>
+                    <tr>
+                        <td><a href="{% url 'entry' sense.slug %}#{{sense.anchor}}">{{sense.headword}}</a> ({{sense.definition}})</td><td>{{sense.num_examples}}</td>
+                    </tr>
                     {% endfor %}
-                    </ul>
-                </div>
-
-                <div>Artists: {{ num_artists }}</div>
-                <div>Places: {{ num_places }}</div>
-                <div>Best represented places:
-                    <ul>
+                </table>
+                <div class="trr-list-header">Best represented places</div>
+                <table class="table">
+                    <th colspan="1">Location</th><th colspan="1"># Artists</th>
                     {% for place in best_represented_places %}
-                        <li><a href="{%url 'place' place.slug %}">{{place.name}}</a> ({{place.num_artists}} artists)</li>
+                    <tr><td><a href="{%url 'place' place.slug %}">{{place.name}}</a></td><td>{{place.num_artists}}</td></tr>
                     {% endfor %}
-                    </ul>
-                </div>
+                </table>
 
-                <div>Earliest examples:
-                    <ul class="examplesHead">
-                        {% for example in earliest_date.example %}
-                            <li>
-                                <span class="date">{{ example.release_date_string }}</span>
-                                <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                                <span class="songTitle">"{{example.song_title}}"</span>
-                                {% if example.featured_artists %}
-                                    <span> feat. </span>
-                                    {% for feat in example.featured_artists %}
-                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                                    {% endfor %}
-                                {% endif %}
-                                <span class="album">[{{example.album }}]</span>
-                                <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div>Most recent examples:
+                <div class="trr-list-header">Number of examples by decade</div>
+                <table class="table">
+                    <tr><td>1970's</td><td>{{ num_seventies }}</td></tr>
+                    <tr><td>1980's</td><td>{{ num_eighties }}</td></tr>
+                    <tr><td>1990's</td><td>{{ num_nineties }}</td></tr>
+                    <tr><td>2000's</td><td>{{ num_noughties }}</td></tr>
+                    <tr><td>2010's</td><td>{{ num_twenty_tens }}</td></tr>
+                </table>
+
+                <div class="trr-list-header">Earliest examples</div>
+                <ul class="examplesHead">
+                    {% for example in earliest_date.example %}
+                        <li>
+                            <span class="date">{{ example.release_date_string }}</span>
+                            <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                            <span class="songTitle">"{{example.song_title}}"</span>
+                            {% if example.featured_artists %}
+                                <span> feat. </span>
+                                {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                {% endfor %}
+                            {% endif %}
+                            <span class="album">[{{example.album }}]</span>
+                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div>
+                    <div class="trr-list-header">Most recent examples</div>
                     <ul class="examplesHead">
                         {% for example in latest_date.example %}
                             <li>
@@ -64,7 +80,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div>Most cited example:
+                <div>
+                    <div class="trr-list-header">Most cited example</div>
                     <ul class="examplesHead">
                         {% for example in most_linked_example.example %}
                             <li>
@@ -85,15 +102,8 @@
                     </ul>
 
                 </div>
-                <div>Number of examples by decade</div>
-                <ul>
-                    <li>1970's: {{ num_seventies }}</li>
-                    <li>1980's: {{ num_eighties }}</li>
-                    <li>1990's: {{ num_nineties }}</li>
-                    <li>2000's: {{ num_noughties }}</li>
-                    <li>2010's: {{ num_twenty_tens }}</li>
-                </ul>
-                <div>Most cited artists:
+                <div>
+                    <div class="trr-list-header">Most cited artists</div>
                     <div class="artists-block">
                         {% for artist in most_cited_artists %}
                             <a href="{% url 'artist' artist.artist.slug %}">
