@@ -678,8 +678,6 @@ Media Queries Aplenty
 --------------------------------------------------------------
 */
 
-
-
 @media (min-width: 1280px) {
 
     #content-container {
@@ -711,7 +709,6 @@ Media Queries Aplenty
         width: 180px;
     }
 }
-
 
 @media only screen and (max-width : 767px) {
 
@@ -759,7 +756,6 @@ Media Queries Aplenty
         border: none;
     }
 }
-
 
 @media only screen
 and (min-width : 720px) and (max-width : 1039px) {
@@ -869,11 +865,10 @@ and (min-width : 481px) and (max-width : 568px) {
     }
 }
 
-
 @media only screen
 and (min-width : 375px) and (max-width : 480px) {
     .single-thumb {
-        width: 170px;
+        width: 172px;
     }
 }
 
@@ -943,7 +938,6 @@ and (max-width : 320px) {
     }
 
 }
-
 
 @media only screen
 and (max-width : 240px) and (max-height : 240px) {
