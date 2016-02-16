@@ -36,7 +36,6 @@ def build_query(query_string, search_fields):
             query = query and or_query
         else:
             query = or_query
-    print(query)
     return query
 
 
