@@ -329,7 +329,7 @@
                </example>
                <example id="40521">
                   <date>1996-08-20</date>
-                  <artist origin="New Orleans, Louisiana, USA">Silkk The Shocker</artist>
+                  <artist origin="New Orleans, Louisiana, USA">Silkk the Shocker</artist>
                   <songTitle>Ain't Nothing</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mo B. Dick</feat>
                   <album>The Shocker</album>
@@ -445,7 +445,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Eyes On Your Enemies</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mia X</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Ghetto D</album>
                   <lyric><text>I saw the tears from my baby mama's eyes</text> <rf target="e2620_n_1" position="24" lemma="baby mama">baby mama</rf></lyric>
                </example>
@@ -454,7 +454,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Ghetto D</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">C-Murder</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Ghetto D</album>
                   <lyric><text>Never slang dope out ya baby momma's house</text> <xref target="e9700_trV_1" position="6" lemma="slang">slang</xref> <xref target="e4890_n_1" position="12" lemma="dope">dope</xref> <rf target="e2620_n_1" position="24" lemma="baby mama">baby momma</rf></lyric>
                </example>
@@ -463,7 +463,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Let's Get Em</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mystikal</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Ghetto D</album>
                   <lyric><text>Yo baby momma lovin me</text> <rf target="e2620_n_1" position="3" lemma="baby mama">baby momma</rf></lyric>
                </example>
@@ -2427,7 +2427,7 @@
                   <artist origin="North Philadelphia, Pennsylvania, USA">Freeway &amp; Jake One</artist>
                   <songTitle>Never Gonna Change</songTitle>
                   <album>The Stimulus Package</album>
-                  <lyric><text>Heard it through the wire, his baby mama in Baltimore</text> <rf target="e2620_n_1" position="31" lemma="baby mama">baby mama</rf> <entity type="place" position="44" prefLabel="Baltimore, Maryland, USA">Baltimore</entity></lyric>
+                  <lyric><text>Heard it through the wire, his baby mama in Baltimore</text> <rf target="e2620_n_1" position="31" lemma="baby mama">baby mama</rf> <entity type="place" position="44" prefLabel="Baltimore">Baltimore</entity></lyric>
                </example>
                <example id="20722">
                   <date>2010-03-23</date>
@@ -2503,7 +2503,7 @@
                   <artist origin="Staten Island, New York City, New York, USA">9th Prince</artist>
                   <songTitle>Industry Grave Digga</songTitle>
                   <album>One Man Army</album>
-                  <lyric><text>I'm too live, with ya baby mama getting head across the Harlem River Drive</text> <xref target="e7290_adj_1" position="8" lemma="live">live</xref> <rf target="e2620_n_1" position="22" lemma="baby mama">baby mama</rf> <xref target="e6110_n_2" position="40" lemma="head">head</xref> <entity type="place" position="56" prefLabel="Harlem River Drive, Harlem, Manhattan, New York City, New York, USA">Harlem River Drive</entity></lyric>
+                  <lyric><text>I'm too live, with ya baby mama getting head across the Harlem River Drive</text> <xref target="e7290_adj_1" position="8" lemma="live">live</xref> <rf target="e2620_n_1" position="22" lemma="baby mama">baby mama</rf> <xref target="e6110_n_2" position="40" lemma="head">head</xref> <entity type="place" position="56" prefLabel="Harlem River Drive">Harlem River Drive</entity></lyric>
                </example>
                <example id="52511">
                   <date>2011-03-29</date>
@@ -3593,7 +3593,7 @@
                </example>
                <example id="40492">
                   <date>1996-08-20</date>
-                  <artist origin="New Orleans, Louisiana, USA">Silkk The Shocker</artist>
+                  <artist origin="New Orleans, Louisiana, USA">Silkk the Shocker</artist>
                   <songTitle>Murder</songTitle>
                   <feat origin="Richmond, California, USA">Big Ed</feat>
                   <feat origin="New Orleans, Louisiana, USA">Master P</feat>
@@ -3831,7 +3831,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Playa From Around The Way</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mo B. Dick</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Ice Cream Man</album>
                   <lyric><text>The ice cream man, you know that he don't play</text> <rf target="e6594_n_1" position="4" lemma="ice cream man">ice cream man</rf> <xref target="e8470_intrV_1" position="42" lemma="play">play</xref></lyric>
                </example>
@@ -7134,7 +7134,7 @@
                   <songTitle>Trap Or Die</songTitle>
                   <feat origin="Port Arthur, Texas, USA">Bun B</feat>
                   <album>Let's Get It: Thug Motivation 101</album>
-                  <lyric><text>In P.A.T. it's trap or die, and we ain't down for gettin killed</text> <entity type="place" prefLabel="Port Arthur, Texas, USA" position="3">P.A.T.</entity> <rf target="e10890_intrV_1" position="15" lemma="trap">trap</rf> <xref target="e4920_adj_1" position="41" lemma="down">down</xref></lyric>
+                  <lyric><text>In P.A.T. it's trap or die, and we ain't down for gettin killed</text> <entity type="place" prefLabel="Port Arthur, Texas" position="3">P.A.T.</entity> <rf target="e10890_intrV_1" position="15" lemma="trap">trap</rf> <xref target="e4920_adj_1" position="41" lemma="down">down</xref></lyric>
                </example>
                <example id="49657">
                   <date>2006-02-06</date>
@@ -8183,7 +8183,7 @@
                   <artist origin="Flushing, Queens, New York City, New York, USA">Action Bronson</artist>
                   <songTitle>Get Off My P.P.</songTitle>
                   <album>Dr. Lecter</album>
-                  <lyric><text>I'm on a roll, blow trees through east Harlem</text> <xref target="e3140_trV_1" position="15" lemma="blow">blow</xref> <rf target="e10910_n_1" position="20" lemma="tree">trees</rf> <entity type="place" position="39" prefLabel="Harlem, Manhattan, New York City, New York, USA">Harlem</entity></lyric>
+                  <lyric><text>I'm on a roll, blow trees through east Harlem</text> <xref target="e3140_trV_1" position="15" lemma="blow">blow</xref> <rf target="e10910_n_1" position="20" lemma="tree">trees</rf> <entity type="place" position="39" prefLabel="Harlem">Harlem</entity></lyric>
                </example>
                <example id="8931">
                   <date>2011-03-22</date>
@@ -8520,7 +8520,7 @@
                   <feat origin="New Orleans, Louisiana, USA">Curren$y</feat>
                   <feat origin="New Orleans, Louisiana, USA">Mac</feat>
                   <album>The Truest Shit I Ever Said</album>
-                  <lyric><text>The New Orleans Jesus, pack a tre-deuce</text> <entity type="place" position="4" prefLabel="New Orleans, Louisiana, USA">New Orleans</entity> <entity type="religiousFigure" position="16" prefLabel="Jesus">Jesus</entity> <xref target="e8240_trV_1" position="23" lemma="pack">pack</xref> <rf target="e10930_n_1" position="30" lemma="trey deuce">tre-deuce</rf></lyric>
+                  <lyric><text>The New Orleans Jesus, pack a tre-deuce</text> <entity type="place" position="4" prefLabel="New Orleans">New Orleans</entity> <entity type="religiousFigure" position="16" prefLabel="Jesus">Jesus</entity> <xref target="e8240_trV_1" position="23" lemma="pack">pack</xref> <rf target="e10930_n_1" position="30" lemma="trey deuce">tre-deuce</rf></lyric>
                </example>
                <example id="31717">
                   <date>2005-07-26</date>
@@ -9096,7 +9096,7 @@
                   <feat origin="Los Angeles, California, USA">Game, The</feat>
                   <feat>Willy Northpole</feat>
                   <album>Theater of The Mind</album>
-                  <lyric><text>This chrome trey-pound got me feelin Atlanta brave now</text> <rf target="e10950_n_1" position="12" lemma="trey pound">trey-pound</rf> <entity type="place" position="37" prefLabel="Atlanta, Georgia, USA">Atlanta</entity></lyric>
+                  <lyric><text>This chrome trey-pound got me feelin Atlanta brave now</text> <rf target="e10950_n_1" position="12" lemma="trey pound">trey-pound</rf> <entity type="place" position="37" prefLabel="Atlanta">Atlanta</entity></lyric>
                </example>
                <example id="21180">
                   <date>2009-04-07</date>
@@ -9873,7 +9873,7 @@
                   <artist origin="The Bronx, New York City, New York, USA">Chino XL</artist>
                   <songTitle>Thousands</songTitle>
                   <album>Here To Save You All</album>
-                  <lyric><text>Dismal sketches of Jersey trife shit</text> <entity type="place" prefLabel="New Jersey, USA" position="19">Jersey</entity> <rf target="e10970_adj_1" position="26" lemma="trife">trife</rf></lyric>
+                  <lyric><text>Dismal sketches of Jersey trife shit</text> <entity type="place" prefLabel="New Jersey" position="19">Jersey</entity> <rf target="e10970_adj_1" position="26" lemma="trife">trife</rf></lyric>
                </example>
                <example id="40425">
                   <date>1996-05-28</date>
@@ -10157,14 +10157,14 @@
                </example>
                <example id="40514">
                   <date>1998-02-17</date>
-                  <artist origin="New Orleans, Louisiana, USA">Silkk The Shocker</artist>
+                  <artist origin="New Orleans, Louisiana, USA">Silkk the Shocker</artist>
                   <songTitle>We Can Dance</songTitle>
                   <album>Charge It To Da Game</album>
                   <lyric><text>Get my bang on, so bring it on, bitch, I'm trife</text> <xref target="e5743_phr_1" position="0" lemma="get your ____ on">Get my bang on</xref> <xref target="e3470_trV_1" position="19" lemma="bring">bring</xref> <xref target="e3040_n_1" position="32" lemma="bitch">bitch</xref> <rf target="e10970_adj_1" position="43" lemma="trife">trife</rf></lyric>
                </example>
                <example id="40539">
                   <date>1998-02-17</date>
-                  <artist origin="New Orleans, Louisiana, USA">Silkk The Shocker</artist>
+                  <artist origin="New Orleans, Louisiana, USA">Silkk the Shocker</artist>
                   <songTitle>I'm A Soldier</songTitle>
                   <feat>No Limit All-Stars</feat>
                   <album>Charge It 2 Da Game</album>
@@ -10351,7 +10351,7 @@
                   <songTitle>Fantastic Four Pt. 2</songTitle>
                   <feat origin="Harlem, Manhattan, New York City, New York, USA">Cam'Ron</feat>
                   <feat origin="Brooklyn, New York City, New York, USA">Fabolous</feat>
-                  <feat origin="Yonkers, New York, USA">Lox, The</feat>
+                  <feat origin="Yonkers, New York, USA">LOX, The</feat>
                   <feat origin="Queensbridge, Long Island City, Queens, New York City, New York, USA">Nature</feat>
                   <album>The Professional</album>
                   <lyric><text>Listen, that there is trife</text> <rf target="e10970_adj_1" position="22" lemma="trife">trife</rf></lyric>
@@ -11109,7 +11109,7 @@
                   <songTitle>Angel Dust</songTitle>
                   <feat origin="Queens, New York City, New York, USA">Havoc</feat>
                   <album>The Testament</album>
-                  <lyric><text>Invincible foulness, my style is trife like Rikers Island get</text> <rf target="e10970_adj_1" position="33" lemma="trife">trife</rf> <entity type="place" position="44" prefLabel="Rikers Island, The Bronx, New York City, New York, USA">Rikers Island</entity></lyric>
+                  <lyric><text>Invincible foulness, my style is trife like Rikers Island get</text> <rf target="e10970_adj_1" position="33" lemma="trife">trife</rf> <entity type="place" position="44" prefLabel="Rikers Island">Rikers Island</entity></lyric>
                </example>
                <example id="22296">
                   <date>2005-02</date>
@@ -11337,7 +11337,7 @@
                   <artist origin="The Bronx, New York City, New York, USA">Dr. Dooom</artist>
                   <songTitle>Simon</songTitle>
                   <album>Dr. Dooom 2</album>
-                  <lyric><text>I'm surreal trife, watchin these girls out in Vegas</text> <rf target="e10970_adj_1" position="12" lemma="trife">trife</rf> <entity type="place" prefLabel="Las Vegas, Nevada, USA" position="46">Vegas</entity></lyric>
+                  <lyric><text>I'm surreal trife, watchin these girls out in Vegas</text> <rf target="e10970_adj_1" position="12" lemma="trife">trife</rf> <entity type="place" prefLabel="Las Vegas" position="46">Vegas</entity></lyric>
                </example>
                <example id="19042">
                   <date>2008-09-23</date>
@@ -11891,7 +11891,7 @@
                   <date>1999-10-26</date>
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Return of Da Don</songTitle>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Only God Can Judge Me</album>
                   <lyric><text>I'm bout gettin paid for life, y'all bout livin trife</text> <xref target="e3345_prep_1" position="4" lemma="bout">bout</xref> <xref target="e3345_prep_1" position="37" lemma="bout">bout</xref> <rf target="e10970_adv_1" position="48" lemma="trife">trife</rf></lyric>
                </example>
@@ -12441,7 +12441,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Kane &amp; Abel</artist>
                   <songTitle>Watch Me</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mystikal</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <feat origin="New Orleans, Louisiana, USA">Soulja Slim</feat>
                   <album>Am I My Brothers Keeper</album>
                   <lyric><text>Ill niggas and trill niggas, get-it-how-they-live niggas</text> <xref rhymeTarget="e10990_adj_1" target="e6620_adj_1" position="0" lemma="ill" rhymeTargetWord="trill" rhymeTargetPosition="15">Ill</xref> <rf target="e10990_adj_1" position="15" lemma="trill">trill</rf></lyric>
@@ -12460,7 +12460,7 @@
                   <songTitle>What's Your Alias?</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mac</feat>
                   <feat origin="New Orleans, Louisiana, USA">Fiend</feat>
-                  <feat>Silkk The Shocker</feat>
+                  <feat>Silkk the Shocker</feat>
                   <album>Ghetto Fabulous</album>
                   <lyric><text>My formula's trill, watch it, watch it</text> <rf target="e10990_adj_1" position="13" lemma="trill">trill</rf></lyric>
                </example>
@@ -12470,7 +12470,7 @@
                   <songTitle>Realist Rhymin</songTitle>
                   <feat>Lil' Flip</feat>
                   <album>Shinin &amp; Grindin</album>
-                  <lyric><text>From here on to Nashville, you know we lookin trill</text> <entity rhymeTarget="e10990_adj_1" type="place" position="16" prefLabel="Nashville, Tennessee, USA" rhymeTargetWord="trill" rhymeTargetPosition="46">Nashville</entity> <rf target="e10990_adj_1" position="46" lemma="trill">trill</rf></lyric>
+                  <lyric><text>From here on to Nashville, you know we lookin trill</text> <entity rhymeTarget="e10990_adj_1" type="place" position="16" prefLabel="Nashville" rhymeTargetWord="trill" rhymeTargetPosition="46">Nashville</entity> <rf target="e10990_adj_1" position="46" lemma="trill">trill</rf></lyric>
                </example>
                <example id="47044">
                   <date>1999-06-01</date>
@@ -12605,7 +12605,7 @@
                   <artist origin="Jackson, Mississippi, USA">David Banner</artist>
                   <songTitle>So Trill</songTitle>
                   <album>Mississippi: The Album</album>
-               	<lyric><text>The subs and the boys in Hattiesburg so trill</text> <entity type="place" position="25" prefLabel="Hattiesburg, Mississippi, USA">Hattiesburg</entity> <rf target="e10990_adj_1" position="40" lemma="trill">trill</rf></lyric>
+                  <lyric><text>The subs and the boys in Hattiesburg so trill</text> <entity type="place" position="25" prefLabel="Hattiesburg">Hattiesburg</entity> <rf target="e10990_adj_1" position="40" lemma="trill">trill</rf></lyric>
                </example>
                <example id="7070">
                   <date>2003-07-22</date>
@@ -12653,7 +12653,7 @@
                   <feat>Angel Dust</feat>
                   <feat origin="None">Pitbull</feat>
                   <album>Super Saucy</album>
-                  <lyric><text>Tejas, where the trill players don't play</text> <entity type="place" prefLabel="Texas, USA" position="0">Tejas</entity> <rf target="e10990_adj_1" position="17" lemma="trill">trill</rf> <xref target="e8490_n_2" position="23" lemma="player">players</xref> <xref target="e8470_intrV_1" position="37" lemma="play">play</xref></lyric>
+                  <lyric><text>Tejas, where the trill players don't play</text> <entity type="place" prefLabel="Texas" position="0">Tejas</entity> <rf target="e10990_adj_1" position="17" lemma="trill">trill</rf> <xref target="e8490_n_2" position="23" lemma="player">players</xref> <xref target="e8470_intrV_1" position="37" lemma="play">play</xref></lyric>
                </example>
                <example id="50245">
                   <date>2005-04-26</date>
@@ -12662,7 +12662,7 @@
                   <feat origin="Houston, Texas, USA">Lil' Flip</feat>
                   <feat origin="Houston, Texas, USA">Paul Wall</feat>
                   <album>Let The Truth Be Told</album>
-                  <lyric><text>You embarrassing Texas, nigga, you ain't trill</text> <entity type="place" position="17" prefLabel="Texas, USA">Texas</entity> <rf target="e10990_adj_1" position="41" lemma="trill">trill</rf></lyric>
+                  <lyric><text>You embarrassing Texas, nigga, you ain't trill</text> <entity type="place" position="17" prefLabel="Texas">Texas</entity> <rf target="e10990_adj_1" position="41" lemma="trill">trill</rf></lyric>
                </example>
                <example id="40950">
                   <date>2005-07-12</date>
@@ -12688,7 +12688,7 @@
                   <songTitle>Front Back</songTitle>
                   <feat origin="Port Arthur, Texas, USA">UGK</feat>
                   <album>King</album>
-                  <lyric><text>Keep it trill, this the south, baby, Texas and GA</text> <rf target="e10990_adj_1" position="8" lemma="trill">trill</rf> <entity type="place" position="37" prefLabel="Texas, USA">Texas</entity> <entity type="place" prefLabel="Georgia, USA" position="47">GA</entity></lyric>
+                  <lyric><text>Keep it trill, this the south, baby, Texas and GA</text> <rf target="e10990_adj_1" position="8" lemma="trill">trill</rf> <entity type="place" position="37" prefLabel="Texas">Texas</entity> <entity type="place" prefLabel="Georgia" position="47">GA</entity></lyric>
                </example>
                <example id="41497">
                   <date>2007-02-27</date>
@@ -13054,7 +13054,7 @@
                   <artist origin="Houston, Texas, USA">Slim Thug</artist>
                   <songTitle>Diamonds</songTitle>
                   <album>Already Platinum</album>
-                  <lyric><text>I'm straight up outta Texas, yeah, the land of the trill</text> <entity type="place" position="22" prefLabel="Texas, USA">Texas</entity> <rf target="e10990_n_1" position="51" lemma="trill">trill</rf></lyric>
+                  <lyric><text>I'm straight up outta Texas, yeah, the land of the trill</text> <entity type="place" position="22" prefLabel="Texas">Texas</entity> <rf target="e10990_n_1" position="51" lemma="trill">trill</rf></lyric>
                </example>
                <example id="35119">
                   <date>2005-09-13</date>
@@ -13068,7 +13068,7 @@
                   <artist origin="Houston, Texas, USA">Lecrae</artist>
                   <songTitle>The Line</songTitle>
                   <album>Real Talk</album>
-                  <lyric><text>From the land of the trill, worse than Amityville</text> <rf target="e10990_n_1" position="21" lemma="trill">trill</rf> <entity rhymeTarget="e10990_n_1" type="place" position="39" prefLabel="Amityville, New York, USA" rhymeTargetWord="trill" rhymeTargetPosition="21">Amityville</entity></lyric>
+                  <lyric><text>From the land of the trill, worse than Amityville</text> <rf target="e10990_n_1" position="21" lemma="trill">trill</rf> <entity rhymeTarget="e10990_n_1" type="place" position="39" prefLabel="Amityville" rhymeTargetWord="trill" rhymeTargetPosition="21">Amityville</entity></lyric>
                </example>
                <example id="6656">
                   <date>2005-10-18</date>
@@ -13086,7 +13086,7 @@
                   <feat>Mike D</feat>
                   <feat origin="Houston, Texas, USA">Lil' O</feat>
                   <album>Straight Wreckin: The S.U.C. Mixtape Vol. 2</album>
-                  <lyric><text>Southwest Houston, Tex, nigga, land of the trill</text> <entity type="place" position="10" prefLabel="Houston, Texas, USA">Houston, Tex</entity> <rf target="e10990_n_1" position="43" lemma="trill">trill</rf></lyric>
+                  <lyric><text>Southwest Houston, Tex, nigga, land of the trill</text> <entity type="place" position="10" prefLabel="Houston, Tex">Houston, Tex</entity> <rf target="e10990_n_1" position="43" lemma="trill">trill</rf></lyric>
                </example>
                <example id="35615">
                   <date>2006-07-11</date>
@@ -13710,7 +13710,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>I Miss My Homies</songTitle>
                   <feat origin="Houston, Texas, USA">Pimp C</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Ghetto D</album>
                   <lyric><text>Candy painted Cadillacs and triple gold</text> <xref target="e3860_n_2" position="0" lemma="candy">Candy</xref> <xref target="e3780_n_1" position="14" lemma="Cadillac">Cadillacs</xref> <rf target="e11005_n_1" position="28" lemma="triple gold">triple gold</rf></lyric>
                </example>
@@ -13735,7 +13735,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Mystikal</artist>
                   <songTitle>Born To Be A Soldier</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Master P</feat>
-                  <feat>Silkk The Shocker</feat>
+                  <feat>Silkk the Shocker</feat>
                   <feat origin="New Orleans, Louisiana, USA">Fiend</feat>
                   <feat origin="New Orleans, Louisiana, USA">Mac</feat>
                   <album>Unpredictable</album>
@@ -13753,7 +13753,7 @@
                </example>
                <example id="40541">
                   <date>1998-02-17</date>
-                  <artist origin="New Orleans, Louisiana, USA">Silkk The Shocker</artist>
+                  <artist origin="New Orleans, Louisiana, USA">Silkk the Shocker</artist>
                   <songTitle>If I Don't Gotta</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Fiend</feat>
                   <feat origin="New Orleans, Louisiana, USA">Master P</feat>
@@ -14240,7 +14240,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Always Look A Man In The Eyes</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Mystikal</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>The Ghettos Tryin to Kill Me!</album>
                   <lyric><text>My dream, know what I'm saying, got to get the cream or triple beam</text> <rhyme rhymeTarget="e11020_n_1" position="3" rhymeTargetWord="triple beam" rhymeTargetPosition="56">dream</rhyme> <xref rhymeTarget="e11020_n_1" target="e4430_n_1" position="47" lemma="cream" rhymeTargetWord="triple beam" rhymeTargetPosition="56">cream</xref> <rf target="e11020_n_1" position="56" lemma="triple beam">triple beam</rf></lyric>
                </example>
@@ -14315,7 +14315,7 @@
                   <artist origin="Port Arthur, Texas, USA">UGK</artist>
                   <songTitle>Playaz From The South</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">Master P</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Down South Hustlers: Bouncin' &amp; Swingin'</album>
                   <lyric><text>Work the fuck out a triple beam</text> <rf target="e11020_n_1" position="20" lemma="triple beam">triple beam</rf></lyric>
                </example>
@@ -14362,7 +14362,7 @@
                   <date>1996-05-21</date>
                   <artist origin="Oakland, California, USA">Too $hort</artist>
                   <songTitle>Never Talk Down</songTitle>
-                  <feat origin="Flint, Michigan, USA">Mc Breed</feat>
+                  <feat origin="Flint, Michigan, USA">MC Breed</feat>
                   <feat origin="Fillmore, San Francisco, California, USA">Rappin' 4-Tay</feat>
                   <album>Gettin' It (Album Number Ten)</album>
                   <lyric><text>Heard you was on a stick up mission, triple-beam in the kitchen</text> <rf target="e11020_n_1" position="37" lemma="triple beam">triple-beam</rf></lyric>
@@ -14416,7 +14416,7 @@
                   <date>1997-02-18</date>
                   <artist origin="New Orleans, Louisiana, USA">TRU</artist>
                   <songTitle>I Got Candy</songTitle>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <feat origin="New Orleans, Louisiana, USA">Mo B. Dick</feat>
                   <feat origin="New Orleans, Louisiana, USA">Master P</feat>
                   <album>Tru 2 Da Game</album>
@@ -14443,7 +14443,7 @@
                   <date>1997-05-13</date>
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>If I Could Change</songTitle>
-                  <feat origin="Oakland, California, USA">Steady Mobb'N</feat>
+                  <feat origin="Oakland, California, USA">Steady Mobb'n</feat>
                   <album>I'm Bout It Soundtrack</album>
                   <lyric><text>Should have been a chemist, the way I work a triple beam</text> <rf target="e11020_n_1" position="45" lemma="triple beam">triple beam</rf></lyric>
                </example>
@@ -14459,7 +14459,7 @@
                   <artist origin="New Orleans, Louisiana, USA">Master P</artist>
                   <songTitle>Ghetto D</songTitle>
                   <feat origin="New Orleans, Louisiana, USA">C-Murder</feat>
-                  <feat origin="New Orleans, Louisiana, USA">Silkk The Shocker</feat>
+                  <feat origin="New Orleans, Louisiana, USA">Silkk the Shocker</feat>
                   <album>Ghetto D</album>
                   <lyric><text>Never buy any dope without weighin it on the triple beam</text> <xref target="e4890_n_1" position="14" lemma="dope">dope</xref> <rf target="e11020_n_1" position="45" lemma="triple beam">triple beam</rf></lyric>
                </example>
@@ -16122,7 +16122,7 @@
                   <feat origin="College Park, Georgia, USA">Slimm Calhoun</feat>
                   <feat>T-Mo</feat>
                   <album>Stankonia</album>
-                  <lyric><text>C-bone in this bitch, College Park trump tight</text> <entity type="place" prefLabel="College Park, Georgia, USA" position="22">College Park</entity> <rf target="e11050_adj_1" position="35" lemma="trump tight">trump tight</rf></lyric>
+                  <lyric><text>C-bone in this bitch, College Park trump tight</text> <entity type="place" prefLabel="College Park, Georgia" position="22">College Park</entity> <rf target="e11050_adj_1" position="35" lemma="trump tight">trump tight</rf></lyric>
                </example>
                <example id="21881">
                   <date>2000</date>

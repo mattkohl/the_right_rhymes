@@ -29,10 +29,10 @@
                         {% for sense in primary_senses %}
                             {% if sense.examples %}
                             <div class="trr-list-group-item">
-                                {% ifchanged sense.sense.headword %}
+                                {% ifchanged sense.headword %}
                                 <div>
                                     <strong>
-                                        <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
+                                        <a href="{% url 'entry' sense.slug %}">{{ sense.headword }}</a>
                                     </strong>
                                 </div>
                                 {% endifchanged %}
@@ -74,7 +74,7 @@
                             <div class="trr-list-group-item">
                                 <div>
                                     <strong>
-                                        <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
+                                        <a href="{% url 'entry' sense.slug %}">{{ sense.headword }}</a>
                                     </strong>
                                 </div>
 

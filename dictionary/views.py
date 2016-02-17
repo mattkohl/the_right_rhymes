@@ -37,8 +37,8 @@ def artist(request, artist_slug):
     template = loader.get_template('dictionary/artist.html')
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
 
-    primary_senses = [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.filter(publish=True).order_by('headword')]
-    featured_senses = [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
+    primary_senses = [{'headword': sense.headword, 'slug': sense.slug, 'xml_id': sense.xml_id, 'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.filter(publish=True).order_by('headword')]
+    featured_senses = [{'headword': sense.headword, 'slug': sense.slug, 'xml_id': sense.xml_id, 'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
     entity_examples = []
     for e in entity_results:
         for example in e.examples.all():
@@ -306,7 +306,7 @@ def search(request):
             return redirect('artist', artist_slug=query_slug)
         else:
             sense_query = build_query(query_string, ['lyric_text'])
-            example_results = [build_example(example, published_entries) for example in Example.objects.filter(sense_query).order_by('release_date')]
+            example_results = [build_example(example, published=published_entries, rf=True) for example in Example.objects.filter(sense_query).order_by('release_date')]
             context['query'] = query_string
             context['examples'] = example_results
 
