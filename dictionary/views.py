@@ -9,7 +9,7 @@ from django.http import HttpResponse, JsonResponse
 from django.db.models import Q, Count
 
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
-    build_artist_origin, build_example, check_for_image, abbreviate_place_name
+    build_artist_origin, build_example, check_for_image, abbreviate_place_name, build_timeline_example
 from .utils import build_query, decimal_default, slugify, reformat_name
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
 
@@ -336,6 +336,43 @@ def sense_artist_origins(request, sense_id):
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
+
+
+def sense_timeline_json(request, sense_id):
+    published_entries = Entry.objects.filter(publish=True)
+    results = Sense.objects.filter(xml_id=sense_id)
+    if results:
+        sense_object = results[0]
+        exx = sense_object.examples.order_by('release_date')
+        image_exx = [build_example(example, published_entries) for example in exx]
+        artist_slug, artist_name, image = assign_artist_image(image_exx)
+        data = {
+            "title": {
+                "media": {
+                    "url": image,
+                    "caption": artist_name,
+                    "credit": ""
+                },
+                "text": {
+                    "headline": sense_object.headword,
+                    "text": sense_object.definition
+                }
+            },
+            "events": [build_timeline_example(example, published_entries) for example in exx]
+        }
+        return JsonResponse(json.dumps(data), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+def timeline(request, sense_id):
+    sense = get_object_or_404(Sense, xml_id=sense_id)
+
+    template = loader.get_template('dictionary/_timeline.html')
+    context = {
+        "sense_id": sense_id,
+        "headword": sense.headword
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def stats(request):

@@ -196,6 +196,29 @@ def build_example(example_object, published, rf=False):
     return result
 
 
+def build_timeline_example(example_object, published, rf=False):
+    example = build_example(example_object, published, rf)
+    url = check_for_image(example['artist_slug'], 'artists', 'full')
+    year, month, day = example['release_date'].split('-')
+
+    result = {
+        "background": {
+            "url": url
+        },
+        "start_date": {
+            "month": month,
+            "day": day,
+            "year": year
+        },
+        "text": {
+            "headline": example['linked_lyric'],
+            "text": example['artist_name'] + ': "' + example['song_title'] + '"'
+
+        }
+    }
+    return result
+
+
 def add_links(lyric, links, published, rf=False):
     linked_lyric = lyric
     buffer = 0

@@ -38,6 +38,12 @@ urlpatterns = [
     # /senses/<sense_id>/remaining_examples/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_examples, name="remaining_examples"),
 
+    # /timelines/<sense_id>/
+    url(r"^timelines/(?P<sense_id>[a-zA-Z0-9\-_’']+)/$", views.timeline, name='timeline'),
+
+    # /senses/<sense_id>/timeline/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline_json, name="sense_timeline_json"),
+
     # /artist_origins/<artist_slug>/
     url(r"^artist_origins/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.artist_origins, name="artist_origins"),
 
