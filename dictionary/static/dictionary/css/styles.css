@@ -215,7 +215,7 @@ footer {
     padding-top: .5em;
 }
 
-.entry-content figure {
+.entry-content figure, .page-header figure {
     background-color: black
 }
 
