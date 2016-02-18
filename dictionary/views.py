@@ -348,13 +348,13 @@ def sense_timeline_json(request, sense_id):
         artist_slug, artist_name, image = assign_artist_image(image_exx)
         data = {
             "title": {
-                "media": {
+                "background": {
                     "url": image,
                     "caption": artist_name,
                     "credit": ""
                 },
                 "text": {
-                    "headline": sense_object.headword,
+                    "headline": '<a href="/' + sense_object.slug + '">' + sense_object.headword + '</a>',
                     "text": sense_object.definition
                 }
             },

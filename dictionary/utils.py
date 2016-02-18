@@ -131,6 +131,7 @@ def build_sense(sense_object, full=False):
         examples = [build_example(example, published) for example in example_results[:NUM_QUOTS_TO_SHOW]]
     result = {
         "sense": sense_object,
+        "xml_id": sense_object.xml_id,
         "domains": sense_object.domains.order_by('name'),
         "examples": examples,
         "num_examples": len(example_results),

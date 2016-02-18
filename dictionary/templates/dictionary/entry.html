@@ -161,7 +161,10 @@
                                     {% endfor %}
                                 </div>
                             {% endif %}
+
                             {% if sense.examples %}
+                                <a class="sense_timeline" href="{% url 'timeline' sense.xml_id %}"><i class="fa fa-clock-o"></i></a>
+
                                 <ul class="examplesHead">
                                 {% for example in sense.examples|slice:":3" %}
                                     <li>

@@ -477,6 +477,12 @@ a:focus.feat {
 	margin-left: 1em;
 }
 
+.sense_timeline {
+    font-size: 1em;
+    text-transform: uppercase;
+    padding-left: .5em;
+}
+
 .toggle_exx {
 	text-align: center;
     padding: 2px 20px;
@@ -676,6 +682,11 @@ td {
     width: 50%;
 }
 
+.tl-slide {
+    height: 150%; !important;
+}
+
+
 /*
 --------------------------------------------------------------
 Media Queries Aplenty
@@ -860,6 +871,13 @@ and (max-width : 600px) {
          padding: 10px 15px;
      }
 
+    .tl-slide-content {
+        padding-left: 40px;
+        padding-right: 0px;
+    }
+    .entry-content .tl-headline {
+        font-size: 24px; !important;
+    }
 }
 
 @media only screen
