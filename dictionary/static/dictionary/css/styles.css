@@ -682,10 +682,6 @@ td {
     width: 50%;
 }
 
-.tl-slide {
-    height: 150%; !important;
-}
-
 
 /*
 --------------------------------------------------------------
@@ -737,8 +733,8 @@ Media Queries Aplenty
         position: relative;
     }
 
-    .navbar-right>li>a>i {
-        width: 15px;
+    .navbar-right>li>a>i, .navbar-left>li>a>i, .navbar-left>li>a>span {
+        width: 20px;
     }
 
     .navbar-brand {
@@ -871,13 +867,6 @@ and (max-width : 600px) {
          padding: 10px 15px;
      }
 
-    .tl-slide-content {
-        padding-left: 40px;
-        padding-right: 0px;
-    }
-    .entry-content .tl-headline {
-        font-size: 24px; !important;
-    }
 }
 
 @media only screen

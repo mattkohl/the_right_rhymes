@@ -24,9 +24,16 @@
             <div id="search-icon-container" class="trr-search-icon">
                 <ul class="list-inline">
                     <li><a href="#" class="index-menuButton" id="overlay-menu" type="button"><i class="fa fa-search"></i></a></li>
-                    <li><a href="{% url 'about' %}" class="index-menuButton"><i class="fa fa-question"></i></a></li>
-                    <li><a href="{% url 'stats' %}" class="index-menuButton"><i class="fa fa-bar-chart-o"></i></a></li>
-                    <li><a href="#" class="index-menuButton"><i class="fa fa-cloud"></i></a></li>
+                    <li><span class="fa-stack"><a href="{% url 'about' %}" class="index-menuButton"><i class="fa fa-info"></i></a></span></li>
+                    <li><span class="fa-stack"><a href="{% url 'stats' %}" class="index-menuButton"><i class="fa fa-bar-chart-o"></i></a></span></li>
+                    <li>
+                        <a href="#" class="index-menuButton" style="font-size: .65em; padding-bottom: .25em;">
+                            <span class="fa-stack">
+                                <i class="fa fa-cloud fa-stack-2x"></i>
+                                <i class="fa fa-cog fa-stack-1x" style="color: #3399FF;"></i>
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="overlay overlay-data">
