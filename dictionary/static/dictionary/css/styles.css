@@ -433,16 +433,19 @@ p.mapLabel {
 }
 
 span.artist a:link,
-span.artist a:visited {
+span.artist a:visited,
+span.songTitle a:link,
+span.songTitle a:visited{
 	color: #333;
 	text-decoration: none;
 }
 
 span.artist a:hover,
-span.artist a:focus {
+span.artist a:focus,
+span.songTitle a:hover,
+span.songTitle a:focus{
 	color: #888;
 }
-
 
 .album {
 	padding:.25em;
