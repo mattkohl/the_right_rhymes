@@ -120,7 +120,7 @@ class Sense(models.Model):
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
     xml_id = models.CharField('XML id', db_index=True, max_length=50, null=True, blank=True)
-    slug = models.CharField('Place Slug', max_length=1000, db_index=True, null=True, blank=True)
+    slug = models.CharField('Slug', max_length=1000, db_index=True, null=True, blank=True)
     title = models.CharField('Title', max_length=1000)
     artist = models.ManyToManyField(Artist, through=Artist.primary_songs.through, related_name="+")
     artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)

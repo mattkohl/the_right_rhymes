@@ -12,7 +12,7 @@ from django.db.models import Q, Count
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_artist_origin, build_example, check_for_image, abbreviate_place_name, build_timeline_example
 from .utils import build_query, decimal_default, slugify, reformat_name
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -371,6 +371,17 @@ def sense_timeline_json(request, sense_id):
         return JsonResponse(json.dumps(data), safe=False)
     else:
         return JsonResponse(json.dumps({}))
+
+
+def song(request, song_slug):
+    song = get_object_or_404(Song, slug=song_slug)
+    template = loader.get_template('dictionary/song.html')
+    context = {
+        "title": song.title,
+        "examples": [build_example(example) for example in song.examples.all()]
+    }
+    return HttpResponse(template.render(context, request))
+
 
 def timeline(request, sense_id):
     sense = get_object_or_404(Sense, xml_id=sense_id)

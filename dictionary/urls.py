@@ -35,6 +35,9 @@ urlpatterns = [
     # /artists/<artist-slug>/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½]+)/$", views.artist, name='artist'),
 
+    # /songs/<song-slug>/
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½]+)/$", views.song, name='song'),
+
     # /senses/<sense_id>/artist_origins/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artist_origins/$", views.sense_artist_origins, name="sense_artist_origins"),
 

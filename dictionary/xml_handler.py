@@ -299,6 +299,7 @@ class TRRSong:
     def update_song(self):
         self.song_object.title = self.title
         self.song_object.album = self.album
+        self.song_object.slug = self.slug
         self.song_object.release_date = self.release_date
         self.song_object.release_date_string = self.release_date_string
         self.song_object.artist_name = self.artist_name
