@@ -375,10 +375,11 @@ def sense_timeline_json(request, sense_id):
 
 def song(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug)
+    published_entries = Entry.objects.filter(publish=True)
     template = loader.get_template('dictionary/song.html')
     context = {
         "title": song.title,
-        "examples": [build_example(example) for example in song.examples.all()]
+        "examples": [build_example(example, published_entries, rf=True) for example in song.examples.all()]
     }
     return HttpResponse(template.render(context, request))
 

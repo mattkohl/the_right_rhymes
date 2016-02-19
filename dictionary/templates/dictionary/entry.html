@@ -170,7 +170,7 @@
                                     <li>
                                         <span class="date">{{ example.release_date_string }}</span>
                                         <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                                        <span class="songTitle">"{{example.song_title}}"</span>
+                                        <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                         {% if example.featured_artists %}
                                             <span> feat. </span>
                                             {% for feat in example.featured_artists %}
