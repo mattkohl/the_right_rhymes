@@ -26,6 +26,9 @@ urlpatterns = [
     # /about/
     url(r'^about/$', views.about, name='about'),
 
+    # /random/
+    url(r'^random/$', views.random_entry, name='random_entry'),
+
     # /<headword-slug>/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 

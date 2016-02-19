@@ -24,16 +24,7 @@
             <div id="search-icon-container" class="trr-search-icon">
                 <ul class="list-inline">
                     <li><a href="#" class="index-menuButton" id="overlay-menu" type="button"><i class="fa fa-search"></i></a></li>
-                    <li><span class="fa-stack"><a href="{% url 'about' %}" class="index-menuButton"><i class="fa fa-info"></i></a></span></li>
-                    <li><span class="fa-stack"><a href="{% url 'stats' %}" class="index-menuButton"><i class="fa fa-bar-chart-o"></i></a></span></li>
-                    <li>
-                        <a href="#" class="index-menuButton" style="font-size: .65em; padding-bottom: .25em;">
-                            <span class="fa-stack">
-                                <i class="fa fa-cloud fa-stack-2x"></i>
-                                <i class="fa fa-cog fa-stack-1x" style="color: #3399FF;"></i>
-                            </span>
-                        </a>
-                    </li>
+                    <li><a href="{% url 'random_entry' %}" class="index-menuButton"><i class="fa fa-random"></i></a></li>
                 </ul>
             </div>
             <div class="overlay overlay-data">
@@ -47,7 +38,6 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <!--<script src="{% static 'dictionary/js/search.js' %}"></script>-->
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
         <script>

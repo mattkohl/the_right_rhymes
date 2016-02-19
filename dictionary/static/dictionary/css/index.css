@@ -27,7 +27,7 @@ body {
 }
 
 #search-icon-container {
-    padding-top: 8%;
+    /*padding-top: 8%;*/
     font-size: 3em;
 }
 
@@ -45,7 +45,7 @@ and (min-width : 720px) and (max-width : 1039px) {
     }
 
     #search-icon-container {
-        padding-top: 8%;
+        /*padding-top: 8%;*/
         font-size: 2.5em;
     }
 
@@ -71,7 +71,7 @@ and (max-width : 719px) and (min-height : 558px ) {
     }
 
     #search-icon-container {
-        padding-top: 10%;
+        /*padding-top: 10%;*/
     }
 
 }
@@ -84,7 +84,7 @@ and (max-width : 667px) and (max-height : 375px) {
     }
 
     #search-icon-container {
-        padding-top: 8%;
+        /*padding-top: 8%;*/
         font-size: 2em;
     }
 
@@ -125,7 +125,7 @@ and (max-width : 600px) {
     }
 
     #search-icon-container {
-        padding-top: 8%;
+        /*padding-top: 8%;*/
         font-size: 2em;
     }
 
@@ -157,7 +157,7 @@ and (max-width : 375px) and (max-height : 667px) {
     }
 
     #search-icon-container {
-        padding-top: 10%;
+        /*padding-top: 10%;*/
     }
 
 }

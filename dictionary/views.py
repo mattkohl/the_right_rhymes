@@ -1,4 +1,5 @@
 import json
+import random
 
 from operator import itemgetter
 
@@ -129,6 +130,13 @@ def entity(request, entity_slug):
         return HttpResponse(template.render(context, request))
     else:
         return HttpResponse("Whoa, what is {}?".format(entity_slug))
+
+
+def random_entry(request):
+    published = [entry.slug for entry in Entry.objects.filter(publish=True)]
+    print(published)
+    slug = random.choice(published)
+    return redirect('entry', headword_slug=slug)
 
 
 def entry(request, headword_slug):
