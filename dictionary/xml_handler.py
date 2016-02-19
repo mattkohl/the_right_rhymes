@@ -273,18 +273,20 @@ class TRRSense:
 
 class TRRSong:
 
-    def __init__(self, xml_id, release_date, release_date_string, song_title, artist_name, artist_slug, primary_artists, feat_artists, album, example_object):
+    def __init__(self, xml_id, release_date, release_date_string, song_title, artist_name, artist_slug, primary_artists, feat_artists, album):
         self.xml_id = xml_id
         self.release_date = release_date
         self.release_date_string = release_date_string
         self.title = song_title
         self.artist_name = artist_name
         self.artist_slug = artist_slug
+        self.slug = slugify(self.artist_name + ' ' + self.title)
         self.primary_artists = primary_artists
         self.feat_artists = feat_artists
         self.album = album
         self.song_object = self.add_to_db()
         self.update_song()
+        self.add_relations()
 
     def __str__(self):
         return '"' + self.title + '" '
@@ -303,6 +305,15 @@ class TRRSong:
         self.song_object.artist_slug = self.artist_slug
         self.song_object.save()
 
+    def add_relations(self):
+        for artist in self.primary_artists:
+            self.song_object.artist.add(artist.artist_object)
+            artist.artist_object.primary_songs.add(self.song_object)
+            artist.artist_object.save()
+        for artist in self.feat_artists:
+            self.song_object.feat_artist.add(artist.artist_object)
+            artist.artist_object.featured_songs.add(self.song_object)
+            artist.artist_object.save()
 
 class TRRExample:
 
@@ -315,6 +326,7 @@ class TRRExample:
         self.release_date = self.clean_up_date()
         self.album = self.example_dict['album']
         self.artist_name = self.get_artist_name()
+        self.artist_slug = slugify(self.artist_name)
         self.lyric_text = self.example_dict['lyric']['text']
         self.example_object = self.add_to_db()
         self.remove_previous_lyric_links_and_rhymes()
@@ -328,7 +340,9 @@ class TRRExample:
         self.update_example()
         self.primary_artists = self.get_primary_artists()
         self.featured_artists = self.get_featured_artists()
-        self.song_object = TRRSong(self.xml_id, self.song_title, self.primary_artists, self.featured_artists, self.album, self.example_object)
+        self.song_object = TRRSong(self.xml_id, self.release_date, self.release_date_string,
+                                   self.song_title, self.artist_name, self.artist_slug,
+                                   self.primary_artists, self.featured_artists, self.album)
         self.add_relations()
 
     def get_artist_name(self):
@@ -439,6 +453,7 @@ class TRRExample:
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
+        self.example_object.from_song.add(self.song_object)
         for artist in self.primary_artists:
             self.example_object.artist.add(artist.artist_object)
             artist.artist_object.primary_senses.add(self.sense_object)

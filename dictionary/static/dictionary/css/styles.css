@@ -835,6 +835,10 @@ and (max-width : 600px) {
         margin-left: .5em;
     }
 
+    .sense_timeline i {
+        margin-top: -.75em;
+    }
+
     .entry-content .examples {
          padding-left: .5em;
     }
