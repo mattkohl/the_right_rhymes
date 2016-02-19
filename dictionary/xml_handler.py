@@ -6,7 +6,8 @@ from collections import OrderedDict
 import xmltodict
 from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
-    NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, Place
+    NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
+    Place, Song
 from .utils import slugify
 
 
@@ -270,12 +271,46 @@ class TRRSense:
             self.sense_object.sense_rhymes.add(r.rhyme_object)
 
 
+class TRRSong:
+
+    def __init__(self, xml_id, release_date, release_date_string, song_title, artist_name, artist_slug, primary_artists, feat_artists, album, example_object):
+        self.xml_id = xml_id
+        self.release_date = release_date
+        self.release_date_string = release_date_string
+        self.title = song_title
+        self.artist_name = artist_name
+        self.artist_slug = artist_slug
+        self.primary_artists = primary_artists
+        self.feat_artists = feat_artists
+        self.album = album
+        self.song_object = self.add_to_db()
+        self.update_song()
+
+    def __str__(self):
+        return '"' + self.title + '" '
+
+    def add_to_db(self):
+        print('Adding Song: "', self.title, '"')
+        song_object, created = Song.objects.get_or_create(xml_id=self.xml_id)
+        return song_object
+
+    def update_song(self):
+        self.song_object.title = self.title
+        self.song_object.album = self.album
+        self.song_object.release_date = self.release_date
+        self.song_object.release_date_string = self.release_date_string
+        self.song_object.artist_name = self.artist_name
+        self.song_object.artist_slug = self.artist_slug
+        self.song_object.save()
+
+
 class TRRExample:
 
     def __init__(self, sense_object, example_dict):
         self.sense_object = sense_object
         self.example_dict = example_dict
         self.song_title = self.example_dict['songTitle']
+        self.xml_id = self.example_dict['@id']
         self.release_date_string = self.example_dict['date']
         self.release_date = self.clean_up_date()
         self.album = self.example_dict['album']
@@ -293,6 +328,7 @@ class TRRExample:
         self.update_example()
         self.primary_artists = self.get_primary_artists()
         self.featured_artists = self.get_featured_artists()
+        self.song_object = TRRSong(self.xml_id, self.song_title, self.primary_artists, self.featured_artists, self.album, self.example_object)
         self.add_relations()
 
     def get_artist_name(self):

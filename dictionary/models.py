@@ -61,6 +61,8 @@ class Artist(models.Model):
     primary_senses = models.ManyToManyField('Sense', related_name="+")
     featured_examples = models.ManyToManyField('Example', related_name="+")
     featured_senses = models.ManyToManyField('Sense', related_name="+")
+    primary_songs = models.ManyToManyField('Song', related_name="+")
+    featured_songs = models.ManyToManyField('Song', related_name="+")
 
     class Meta:
         ordering = ["name"]
@@ -115,12 +117,33 @@ class Sense(models.Model):
         return self.headword + ', ' + self.part_of_speech + ' (' + self.xml_id + ')'
 
 
+class Song(models.Model):
+    id = models.AutoField(primary_key=True)
+    xml_id = models.CharField('XML id', db_index=True, max_length=50, null=True, blank=True)
+    artist = models.ManyToManyField(Artist, through=Artist.primary_songs.through, related_name="+")
+    artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
+    artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
+    title = models.CharField('Title', max_length=200)
+    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_songs.through, related_name="+")
+    release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
+    release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
+    album = models.CharField('Album', max_length=200)
+    examples = models.ManyToManyField('Example', db_index=True, related_name="+")
+
+    class Meta:
+        ordering = ["title", "artist_name"]
+
+    def __str__(self):
+        return '"' + str(self.title) + '" (' + str(self.artist_name) + ') '
+
+
 class Example(models.Model):
     id = models.AutoField(primary_key=True)
     artist = models.ManyToManyField(Artist, through=Artist.primary_examples.through, related_name="+")
     artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
+    from_song = models.ManyToManyField('Song', through=Song.examples.through, related_name="+")
     feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
     release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)

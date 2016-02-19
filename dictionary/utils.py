@@ -213,7 +213,7 @@ def build_timeline_example(example_object, published, rf=False):
         },
         "text": {
             "headline": example['linked_lyric'],
-            "text": example['artist_name'] + ': "' + example['song_title'] + '"'
+            "text": '<a href="/artists/' + example['artist_slug'] + '">' + example['artist_name'] + '</a> - "' + example['song_title'] + '"'
 
         }
     }

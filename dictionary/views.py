@@ -358,7 +358,7 @@ def sense_timeline_json(request, sense_id):
                     "text": sense_object.definition
                 }
             },
-            "events": [build_timeline_example(example, published_entries) for example in exx]
+            "events": [build_timeline_example(example, published_entries) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
         }
         return JsonResponse(json.dumps(data), safe=False)
     else:
