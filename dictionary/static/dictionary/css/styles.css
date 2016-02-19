@@ -831,6 +831,10 @@ and (max-width : 600px) {
          padding-left: .5em;
     }
 
+    .sense_timeline {
+        margin-left: .5em;
+    }
+
     .entry-content .examples {
          padding-left: .5em;
     }
@@ -1008,6 +1012,10 @@ and (max-width : 240px) and (max-height : 240px) {
 
     .entry-content .examplesHead {
          padding-left: 0;
+    }
+
+    .sense_timeline {
+        margin-left: 0;
     }
 
     .entry-content .examples {
