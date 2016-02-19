@@ -53,8 +53,8 @@ class Image(models.Model):
 
 
 class Artist(models.Model):
-    name = models.CharField(primary_key=True, max_length=1000)
-    slug = models.SlugField('Artist Slug', db_index=True)
+    name = models.CharField('Artist Name', max_length=1000, null=True, blank=True)
+    slug = models.SlugField(primary_key=True, db_index=True)
     origin = models.ManyToManyField('Place', related_name="+")
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="depicts", null=True, blank=True)
     primary_examples = models.ManyToManyField('Example', related_name="+")
@@ -144,7 +144,7 @@ class Example(models.Model):
     artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
-    from_song = models.ManyToManyField('Song', through=Song.examples.through, related_name="+")
+    from_song = models.ManyToManyField(Song, through=Song.examples.through, related_name="+")
     feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
     release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)

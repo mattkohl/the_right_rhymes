@@ -292,7 +292,7 @@ class TRRSong:
         return '"' + self.title + '" '
 
     def add_to_db(self):
-        print('Adding Song: "', self.title, '"')
+        print('Adding Song: "' + self.title + '"')
         song_object, created = Song.objects.get_or_create(xml_id=self.xml_id)
         return song_object
 
@@ -340,7 +340,7 @@ class TRRExample:
         self.update_example()
         self.primary_artists = self.get_primary_artists()
         self.featured_artists = self.get_featured_artists()
-        self.song_object = TRRSong(self.xml_id, self.release_date, self.release_date_string,
+        self.song = TRRSong(self.xml_id, self.release_date, self.release_date_string,
                                    self.song_title, self.artist_name, self.artist_slug,
                                    self.primary_artists, self.featured_artists, self.album)
         self.add_relations()
@@ -453,7 +453,6 @@ class TRRExample:
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
-        self.example_object.from_song.add(self.song_object)
         for artist in self.primary_artists:
             self.example_object.artist.add(artist.artist_object)
             artist.artist_object.primary_senses.add(self.sense_object)
@@ -472,6 +471,7 @@ class TRRExample:
         for r in self.example_rhymes:
             r.rhyme_object.parent_example.add(self.example_object)
             r.rhyme_object.save()
+        self.example_object.from_song.add(self.song.song_object)
 
     def clean_up_date(self):
         new_date = self.release_date_string
@@ -494,18 +494,20 @@ class TRRArtist:
         self.origin = origin
         self.slug = slugify(self.name)
         self.artist_object = self.add_to_db()
-        self.update_origin()
+        self.update_artist()
 
     def __str__(self):
         return self.name
 
     def add_to_db(self):
-        print('Adding Artist:', self.name)
-        artist_object, created = Artist.objects.get_or_create(name=self.name,
-                                                              slug=self.slug)
+        print('Adding Artist:', self.name, self.slug)
+        artist_object, created = Artist.objects.get_or_create(slug=self.slug)
         return artist_object
 
-    def update_origin(self):
+    def update_artist(self):
+        if self.artist_object.name is None:
+            self.artist_object.name = self.name
+            self.artist_object.save()
         if self.origin:
             o = TRRPlace(self.origin)
             self.artist_object.origin.add(o.place_object)
