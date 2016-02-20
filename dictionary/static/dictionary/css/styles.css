@@ -296,15 +296,17 @@ figcaption a.artist {
 }
 
 h1.song-title-header {
-    margin-top: -2em;
+    margin-top: -2.25em;
     font-size: 2em;
-    padding-left: .25em
+    padding-left: .25em;
+    padding-bottom: .25em;
 }
 
 h2.song-artist-header {
     margin-top: -.5em;
     font-size: 1.25em;
-    padding-left: .5em
+    padding-left: .5em;
+    padding-bottom: .25em;
 }
 
 h2.song-artist-header a:link,
@@ -955,6 +957,7 @@ and (max-width : 320px) {
 
     .headword-image, h1.song-title-header {
         font-size: 1.3em;
+        padding-bottom: 0;
     }
 
     h2.song-artist-header {
