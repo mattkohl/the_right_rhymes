@@ -187,7 +187,7 @@ def build_example(example_object, published, rf=False):
         "artist_name": reformat_name(str(example_object.artist_name)),
         "artist_slug": str(example_object.artist_slug),
         "song_title": str(example_object.song_title),
-        "song_slug": slugify(example_object.artist_slug + ' ' + example_object.song_title),
+        "song_slug": slugify(example_object.artist_name + ' ' + example_object.song_title),
         "album": str(example_object.album),
         "release_date": str(example_object.release_date),
         "release_date_string": str(example_object.release_date_string),

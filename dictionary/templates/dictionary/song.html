@@ -6,29 +6,54 @@
         <div id="content" class="group">
             <div class="entry-content">
                 {% if image %}
-                <figure class="center-block">
-                    <img src="{{ image }}"
-                         alt="{{ artist }}"
-                         property="image"
-                         scale="0"/>
-                </figure>
-                <div class="headword-image">{{ title }}</div>
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                             alt="{{ artist }}"
+                             property="image"
+                             scale="0"/>
+                    </figure>
+                    <div class="headword-image">"{{ title }}"</div>
                 {% else %}
-                    <div class="headword">{{ title }}</div>
+                    <div class="headword">"{{ title }}"</div>
                 {% endif %}
+                    <div class="album">[{{ album }}]</div>
+                    <div class="release_date">{{ release_date_string }}</div>
+                    <div class="artists-block">
+                        {% for artist in primary_artist %}
+                            <a href="{% url 'artist' artist.slug %}">
+                                {% if artist.image %}
+                                    <figure class="single-thumb">
+                                        <img src="{{ artist.image }}"
+                                             alt="{{ artist.name }}"
+                                             property="image"
+                                             scale="0"
+                                             width="200"
+                                             height="200"/>
+                                        <figcaption>{{artist.name}}</figcaption>
+                                    </figure>
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                        {% for artist in featured_artists %}
+                            <a href="{% url 'artist' artist.slug %}">
+                                {% if artist.image %}
+                                    <figure class="single-thumb">
+                                        <img src="{{ artist.image }}"
+                                             alt="{{ artist.name }}"
+                                             property="image"
+                                             scale="0"
+                                             width="200"
+                                             height="200"/>
+                                        <figcaption>{{artist.name}}</figcaption>
+                                    </figure>
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                        <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
+                    </div>
 
                 {% for example in examples %}
                     <div>
-                        <span class="date">{{ example.release_date_string }}</span>
-                        <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                        <span class="songTitle">"{{example.song_title}}"</span>
-                        {% if example.featured_artists %}
-                        <span> feat. </span>
-                        {% for feat in example.featured_artists %}
-                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                        {% endfor %}
-                        {% endif %}
-                        <span class="album">[{{example.album }}]</span>
                         <div class="lyric">{{ example.linked_lyric|safe }}</div>
                     </div>
                 {% endfor %}

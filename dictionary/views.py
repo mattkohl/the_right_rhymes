@@ -379,6 +379,11 @@ def song(request, song_slug):
     template = loader.get_template('dictionary/song.html')
     context = {
         "title": song.title,
+        "primary_artist": [build_artist(a) for a in song.artist.all()],
+        "featured_artists": [build_artist(a) for a in song.feat_artist.all()],
+        "release_date": song.release_date,
+        "release_date_string": song.release_date_string,
+        "album": song.album,
         "examples": [build_example(example, published_entries, rf=True) for example in song.examples.all()]
     }
     return HttpResponse(template.render(context, request))

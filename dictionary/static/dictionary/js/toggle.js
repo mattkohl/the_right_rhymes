@@ -38,7 +38,9 @@ function addRemainingExamples(sense_id, ul, breaker, context) {
                     $('<span></span>', {"class": 'date', "text": example.release_date}),
                     $('<span></span>', {"class": 'artist'}).append(
                         $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
-                    $('<span></span>', {"class": 'songTitle', "text": '"' + example.song_title + '"'}));
+                    $('<span></span>', {"class": 'songTitle'}).append(
+                        $('<a></a>', {"href": '/songs/' + example.song_slug, "text": '"' + example.song_title + '"'}))
+                );
                     if (example.featured_artists.length > 0) {
                         ex.append('<span class="comma"> feat. </span>');
                         var featured = [];
