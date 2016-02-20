@@ -295,14 +295,35 @@ figcaption a.artist {
     font-weight: bold;
 }
 
-.headword-image {
-    color: white;
+h1.song-title-header {
+    margin-top: -2em;
     font-size: 2em;
+    padding-left: .25em
+}
+
+h2.song-artist-header {
+    margin-top: -.5em;
+    font-size: 1.25em;
+    padding-left: .5em
+}
+
+h2.song-artist-header a:link,
+h2.song-artist-header a:hover,
+h2.song-artist-header a:visited,
+h2.song-artist-header a:focus {
+    color: white;
+}
+
+.headword-image {
     margin-top: -1.4em;
-    padding-left: .25em;
+    font-size: 2em;
+    padding-left: .25em
+}
+
+.headword-image, h1.song-title-header, h2.song-artist-header {
+    color: white;
     opacity: .9;
     word-wrap: break-word;
-    /*text-align: center;*/
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -480,11 +501,18 @@ a:focus.feat {
 	margin-left: 1em;
 }
 
+.lyric-list {
+	display: block;
+	color: #3399FF;
+	font-style: italic;
+	margin: 1em;
+}
+
 .sense_timeline {
     font-size: 0.6em;
     padding: 2px 10px;
     text-transform: uppercase;
-    background-color: #888;
+    background-color: #9b9b9b;
     color: #fff;
     border-radius: 3px;
     margin-left: 1em;
@@ -859,8 +887,12 @@ and (max-width : 600px) {
         padding-top: 0;
     }
 
-    .headword-image {
+    .headword-image, h1.song-title-header {
         font-size: 1.5em;
+    }
+
+    h2.song-artist-header {
+        font-size: 1.1em;
     }
 
     li.dropdown>a.dropdown-toggle {
@@ -874,7 +906,6 @@ and (max-width : 600px) {
         border:0 none;
         box-shadow:none;
         margin-top:0;
-        position:static;
         width:100%;
     }
 
@@ -922,8 +953,12 @@ and (min-width : 321px) and (max-width : 374px) {
 @media only screen
 and (max-width : 320px) {
 
-    .headword-image {
+    .headword-image, h1.song-title-header {
         font-size: 1.3em;
+    }
+
+    h2.song-artist-header {
+        font-size: .9em;
     }
 
     .center-block {
@@ -1009,8 +1044,12 @@ and (max-width : 240px) and (max-height : 240px) {
         margin-bottom: 1.5em;
     }
 
-    .headword-image {
+    .headword-image, h1.song-title-header {
         font-size: 1.1em;
+    }
+
+    h2.song-artist-header {
+        font-size: .75em;
     }
 
     #site-title {
