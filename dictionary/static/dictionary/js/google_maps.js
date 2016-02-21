@@ -14,13 +14,13 @@ $(function(){
           };
 
         $.each($('.map-canvas'), function(i) {
-            index = i+1;
+            var index = i+1;
             var map = new google.maps.Map(document.getElementById('map' + index), options);
             var infowindow;
             var markers = [];
             var is_entry = true;
-            infowindow = new google.maps.InfoWindow({ content: '' });
-            markerBounds = new google.maps.LatLngBounds();
+            var infowindow = new google.maps.InfoWindow({ content: '' });
+            var markerBounds = new google.maps.LatLngBounds();
             var sense_id = $(this).find('.sense_id').text();
             var artist_slug = $(this).find('.artist-slug').text();
             var place_slug = $(this).find('.place-slug').text();
