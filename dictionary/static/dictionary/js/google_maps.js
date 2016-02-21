@@ -4,19 +4,20 @@
 $(function(){
     function initialize() {
 
-        var markerBounds, endpoint;
+        var endpoint;
         var latlng = new google.maps.LatLng(40.650002, -73.949997);
+        var isDraggable = !('ontouchstart' in document.documentElement);
         var options = {
             zoom: 10,
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
+            scrollwheel: false,
+            draggable: isDraggable
           };
 
         $.each($('.map-canvas'), function(i) {
             var index = i+1;
             var map = new google.maps.Map(document.getElementById('map' + index), options);
-            var infowindow;
             var markers = [];
             var is_entry = true;
             var infowindow = new google.maps.InfoWindow({ content: '' });
