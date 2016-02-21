@@ -19,6 +19,7 @@ $(function(){
             var index = i+1;
             var map = new google.maps.Map(document.getElementById('map' + index), options);
             var markers = [];
+            var mc = new MarkerClusterer(map);
             var is_entry = true;
             var infowindow = new google.maps.InfoWindow({ content: '' });
             var markerBounds = new google.maps.LatLngBounds();
@@ -55,9 +56,11 @@ $(function(){
                             markerBounds.extend(tmpLatLng);
                             bindInfoWindow(marker, map, infowindow, markerText);
                             markers.push(marker);
+                            mc.addMarker(marker);
                             map.fitBounds(markerBounds);
                         }
                     });
+
                 });
             if (!is_entry) {
                 zoomChangeBoundsListener = google.maps.event.addListener(map, 'bounds_changed', function(event) { this.setZoom(10) });
@@ -68,7 +71,9 @@ $(function(){
                 infowindow.setContent(html);
                 infowindow.open(map, marker);
                 });
-            }
+            };
+
+
         })
     }
     google.maps.event.addDomListener(window, "load", initialize);
