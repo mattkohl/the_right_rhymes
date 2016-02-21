@@ -380,7 +380,7 @@ span a.toggle {
 }
 
 .map-canvas {
-    padding-bottom: 1em;
+    /*padding-bottom: 1em;*/
 }
 
 p.mapLabel {
@@ -441,7 +441,7 @@ p.mapLabel {
 }
 
 .artists-block, figure {
-    margin-top: 1em;
+    margin-top: .25em;
     display: inline-block;
     text-align: justify;
 }
