@@ -931,10 +931,17 @@ and (max-width : 600px) {
         text-align: left;
     }
 
-
     .trr-list-header {
          padding: 10px 15px;
      }
+
+   .lyrics i {
+        font-size: .5em;
+    }
+
+    .lyric-list {
+        font-size: 1em;
+    }
 
 }
 
