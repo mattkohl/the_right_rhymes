@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Entry, Editor, Artist, Image, Sense, \
+from .models import Entry, Editor, Artist, Sense, \
     Example, Domain, SynSet, NamedEntity, Xref, Collocate, \
     SenseRhyme, ExampleRhyme, LyricLink, Place, Song
 
@@ -32,7 +32,6 @@ class XrefAdmin(admin.ModelAdmin):
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(Editor)
 admin.site.register(Artist, ArtistAdmin)
-admin.site.register(Image)
 admin.site.register(Sense, SenseAdmin)
 admin.site.register(Example, ExampleAdmin)
 admin.site.register(Domain)

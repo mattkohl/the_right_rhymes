@@ -13,7 +13,6 @@ class Entry(models.Model):
     pub_date = models.DateTimeField('Date Published', auto_now_add=True, blank=True)
     last_updated = models.DateField('Last Updated', auto_now=True, null=True, blank=True)
     json = JSONField(null=True, blank=True)
-    image = models.ForeignKey('Image', on_delete=models.CASCADE, related_name="entry_image", null=True, blank=True)
     senses = models.ManyToManyField('Sense', related_name='+', blank=True)
 
     class Meta:
@@ -39,30 +38,16 @@ class Editor(models.Model):
         return self.name
 
 
-class Image(models.Model):
-    id = models.AutoField(primary_key=True)
-    title = models.CharField('Image Title', max_length=1000)
-    slug = models.SlugField('Slug')
-    image = models.ImageField()
-
-    class Meta:
-        ordering = ["title"]
-
-    def __str__(self):
-        return self.title
-
-
 class Artist(models.Model):
     name = models.CharField('Artist Name', max_length=1000, null=True, blank=True)
     slug = models.SlugField(primary_key=True, db_index=True)
     origin = models.ManyToManyField('Place', related_name="+")
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="depicts", null=True, blank=True)
-    primary_examples = models.ManyToManyField('Example', related_name="+")
-    primary_senses = models.ManyToManyField('Sense', related_name="+")
-    featured_examples = models.ManyToManyField('Example', related_name="+")
-    featured_senses = models.ManyToManyField('Sense', related_name="+")
-    primary_songs = models.ManyToManyField('Song', related_name="+")
-    featured_songs = models.ManyToManyField('Song', related_name="+")
+    primary_examples = models.ManyToManyField('Example', related_name="+", blank=True)
+    primary_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
+    featured_examples = models.ManyToManyField('Example', related_name="+", blank=True)
+    featured_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
+    primary_songs = models.ManyToManyField('Song', related_name="+", blank=True)
+    featured_songs = models.ManyToManyField('Song', related_name="+", blank=True)
 
     class Meta:
         ordering = ["name"]
@@ -102,12 +87,12 @@ class Sense(models.Model):
     etymology = models.CharField(max_length=2000, null=True, blank=True)
     notes = models.CharField(max_length=2000, null=True, blank=True)
     examples = models.ManyToManyField('Example', db_index=True, related_name="+")
-    domains = models.ManyToManyField('Domain', related_name="+")
-    synset = models.ManyToManyField('SynSet', related_name="+")
-    xrefs = models.ManyToManyField('Xref', related_name="+")
+    domains = models.ManyToManyField('Domain', related_name="+", blank=True)
+    synset = models.ManyToManyField('SynSet', related_name="+", blank=True)
+    xrefs = models.ManyToManyField('Xref', related_name="+", blank=True)
     sense_rhymes = models.ManyToManyField('SenseRhyme', related_name="+", blank=True)
     collocates = models.ManyToManyField('Collocate', related_name="+", blank=True)
-    features_entities = models.ManyToManyField('NamedEntity', related_name="+")
+    features_entities = models.ManyToManyField('NamedEntity', related_name="+", blank=True)
     cites_artists = models.ManyToManyField(Artist, through=Artist.primary_senses.through, related_name="+")
 
     class Meta:
@@ -125,7 +110,7 @@ class Song(models.Model):
     artist = models.ManyToManyField(Artist, through=Artist.primary_songs.through, related_name="+")
     artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
-    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_songs.through, related_name="+")
+    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_songs.through, related_name="+", blank=True)
     release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)
@@ -145,7 +130,7 @@ class Example(models.Model):
     artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
     song_title = models.CharField('Song Title', max_length=200)
     from_song = models.ManyToManyField(Song, through=Song.examples.through, related_name="+")
-    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+")
+    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+", blank=True)
     release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)
@@ -153,7 +138,7 @@ class Example(models.Model):
     json = JSONField(null=True, blank=True)
     example_rhymes = models.ManyToManyField('ExampleRhyme', related_name="+")
     illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
-    features_entities = models.ManyToManyField('NamedEntity', db_index=True, related_name="+")
+    features_entities = models.ManyToManyField('NamedEntity', db_index=True, related_name="+", blank=True)
     lyric_links = models.ManyToManyField('LyricLink', related_name="+")
 
     class Meta:

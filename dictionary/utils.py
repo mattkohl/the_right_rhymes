@@ -58,6 +58,8 @@ def slugify(text):
     slug = re.sub("'", "", slug)
     slug = re.sub(",", "", slug)
     slug = re.sub("-$", "", slug)
+    slug = re.sub("\?", "", slug)
+    slug = re.sub("[\(\)]", "", slug)
     return slug
 
 
