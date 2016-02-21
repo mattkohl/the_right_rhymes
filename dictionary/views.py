@@ -373,10 +373,15 @@ def sense_timeline_json(request, sense_id):
         return JsonResponse(json.dumps({}))
 
 
+def date(request, date):
+    pass
+
+
 def song(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug)
     published_entries = Entry.objects.filter(publish=True)
     template = loader.get_template('dictionary/song.html')
+    same_dates = [{'title': s.title, 'artist_name': s.artist_name, 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date) if s != song]
     context = {
         "title": song.title,
         "artist_name": song.artist_name,
@@ -386,7 +391,8 @@ def song(request, song_slug):
         "release_date": song.release_date,
         "release_date_string": song.release_date_string,
         "album": song.album,
-        "examples": [build_example(example, published_entries, rf=True) for example in song.examples.all()]
+        "examples": [build_example(example, published_entries, rf=True) for example in song.examples.all()],
+        "same_dates": same_dates
     }
     return HttpResponse(template.render(context, request))
 
@@ -410,7 +416,7 @@ def stats(request):
     published_senses = [sense for entry in published_entries for sense in entry.senses.all()]
     examples = [example for sense in published_senses for example in sense.examples.all()]
     best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
-
+    most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
     dates = [example for example in Example.objects.order_by('release_date')]
     seventies = [example.release_date for example in Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"])]
     eighties = [example.release_date for example in Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"])]
@@ -427,6 +433,7 @@ def stats(request):
         'num_senses': len(published_senses),
         'num_examples': len(examples),
         'best_attested_senses': [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id, 'definition': sense.definition, 'num_examples': sense.num_examples} for sense in best_attested_senses[:LIST_LENGTH]],
+        'most_cited_songs': [{'title': song.title, 'slug': song.slug, 'artist_name': song.artist_name, 'artist_slug':song.artist_slug, 'num_examples': song.num_examples} for song in most_cited_songs[:LIST_LENGTH]],
         'num_artists': len(artists),
         'num_places': len(places),
         'best_represented_places': [{'name': place.name.split(', ')[0], 'slug': place.slug, 'num_artists': place.num_artists} for place in places[:LIST_LENGTH]],

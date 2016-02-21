@@ -30,6 +30,19 @@
                     </tr>
                     {% endfor %}
                 </table>
+                <div class="trr-list-header">Most cited songs</div>
+                <table class="table">
+                    <th colspan="1">Song</th><th colspan="1"># Examples</th>
+                    {% for song in most_cited_songs %}
+                    <tr>
+                        <td class="col-md-1">
+                            <span class="artist"><a href="{% url 'artist' song.artist_slug %}">{{song.artist_name}}</a></span>
+                            <span class="songTitle"> "<a href="{% url 'song' song.slug %}">{{song.title}}</a>"</span>
+                        </td>
+                        <td class="col-md-1">{{song.num_examples}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 <div class="trr-list-header">Best represented places</div>
                 <table class="table">
                     <th colspan="1">Location</th><th colspan="1"># Artists</th>
@@ -103,7 +116,7 @@
                                 {% endif %}
                                 <span class="album">[{{example.album }}]</span>
                                 <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                                <div>(Cited {{ most_linked_example.count }} times)</div>
+                                <div>(Cited at {{ most_linked_example.count }} senses)</div>
                             </li>
                         {% endfor %}
                     </ul>
