@@ -503,11 +503,18 @@ a:focus.feat {
 	margin-left: 1em;
 }
 
+.lyrics i {
+    font-size: .7em;
+}
+
 .lyric-list {
 	display: block;
 	color: #3399FF;
 	font-style: italic;
-	margin: 1em;
+    font-size: 1.25em;
+    margin-top: -.5em;
+    margin-left: 1em;
+	margin-bottom: 1em;
 }
 
 .sense_timeline {

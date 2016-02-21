@@ -381,10 +381,10 @@ def song(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug)
     published_entries = Entry.objects.filter(publish=True)
     template = loader.get_template('dictionary/song.html')
-    same_dates = [{'title': s.title, 'artist_name': s.artist_name, 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
+    same_dates = [{'title': s.title, 'artist_name': reformat_name(s.artist_name), 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
     context = {
         "title": song.title,
-        "artist_name": song.artist_name,
+        "artist_name": reformat_name(song.artist_name),
         "artist_slug": song.artist_slug,
         "primary_artist": [build_artist(a) for a in song.artist.all()],
         "featured_artists": [build_artist(a) for a in song.feat_artist.all()],
