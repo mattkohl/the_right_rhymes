@@ -55,6 +55,7 @@ $(function(){
                             bindInfoWindow(marker, map, infowindow, markerText);
                             markers.push(marker);
                             map.fitBounds(markerBounds);
+                            map.initialZoom = true;
                         }
                     });
                 });
