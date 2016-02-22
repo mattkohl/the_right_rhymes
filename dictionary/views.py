@@ -412,39 +412,41 @@ def stats(request):
 
     LIST_LENGTH = 5
 
-    published_entries = Entry.objects.filter(publish=True)
-    published_senses = [sense for entry in published_entries for sense in entry.senses.all()]
-    examples = [example for sense in published_senses for example in sense.examples.all()]
-    best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
-    most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
+    published_headwords = Entry.objects.filter(publish=True).values('headword')
+
+    entry_count = Entry.objects.filter(publish=True).count()
+    sense_count = Sense.objects.filter(publish=True).count()
+    example_count = Example.objects.all().count()
+    best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
+    most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     dates = [example for example in Example.objects.order_by('release_date')]
-    seventies = [example.release_date for example in Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"])]
-    eighties = [example.release_date for example in Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"])]
-    nineties = [example.release_date for example in Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"])]
-    noughties = [example.release_date for example in Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"])]
-    twenty_tens = [example.release_date for example in Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"])]
+    seventies = Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
+    eighties = Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"]).count()
+    nineties = Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
+    noughties = Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"]).count()
+    twenty_tens = Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
     artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
     linked_exx = [example for example in Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')]
 
     template = loader.get_template('dictionary/stats.html')
     context = {
-        'num_entries': len(published_entries),
-        'num_senses': len(published_senses),
-        'num_examples': len(examples),
-        'best_attested_senses': [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id, 'definition': sense.definition, 'num_examples': sense.num_examples} for sense in best_attested_senses[:LIST_LENGTH]],
-        'most_cited_songs': [{'title': song.title, 'slug': song.slug, 'artist_name': song.artist_name, 'artist_slug':song.artist_slug, 'num_examples': song.num_examples} for song in most_cited_songs[:LIST_LENGTH]],
+        'num_entries': entry_count,
+        'num_senses': sense_count,
+        'num_examples': example_count,
+        'best_attested_senses': [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id, 'definition': sense.definition, 'num_examples': sense.num_examples} for sense in best_attested_senses],
+        'most_cited_songs': [{'title': song.title, 'slug': song.slug, 'artist_name': song.artist_name, 'artist_slug':song.artist_slug, 'num_examples': song.num_examples} for song in most_cited_songs],
         'num_artists': len(artists),
         'num_places': len(places),
         'best_represented_places': [{'name': place.name.split(', ')[0], 'slug': place.slug, 'num_artists': place.num_artists} for place in places[:LIST_LENGTH]],
-        'earliest_date': {'example': [build_example(date, published_entries) for date in dates[:LIST_LENGTH]]},
-        'latest_date': {'example': [build_example(date, published_entries) for date in dates[-LIST_LENGTH:]]},
-        'num_seventies': len(seventies),
-        'num_eighties': len(eighties),
-        'num_nineties': len(nineties),
-        'num_noughties': len(noughties),
-        'num_twenty_tens': len(twenty_tens),
-        'most_linked_example': {'example': [build_example(linked_exx[0], published_entries)], 'count': linked_exx[0].num_links},
+        'earliest_date': {'example': [build_example(date, published_headwords) for date in dates[:LIST_LENGTH]]},
+        'latest_date': {'example': [build_example(date, published_headwords) for date in dates[-LIST_LENGTH:]]},
+        'num_seventies': seventies,
+        'num_eighties': eighties,
+        'num_nineties': nineties,
+        'num_noughties': noughties,
+        'num_twenty_tens': twenty_tens,
+        'most_linked_example': {'example': [build_example(linked_exx[0], published_headwords)], 'count': linked_exx[0].num_links},
         'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:LIST_LENGTH]]
     }
     return HttpResponse(template.render(context, request))
