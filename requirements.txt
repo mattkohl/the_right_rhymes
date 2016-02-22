@@ -2,3 +2,4 @@ django
 xmltodict
 geopy
 psycopg2
+bokeh

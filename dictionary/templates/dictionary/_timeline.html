@@ -21,7 +21,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var sense_id = "{{ sense_id }}";
-    var endpoint = '/senses/' + sense_id + '/timeline/';
+    var endpoint = '/senses/' + sense_id + '/timeline/json/';
     $.getJSON(
             endpoint,
             {'csrfmiddlewaretoken': '{{csrf_token}}'},

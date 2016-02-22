@@ -8,11 +8,11 @@ from . import views
 
 urlpatterns = [
 
-    # /admin/
-    url(r'^admin/?', admin.site.urls),
-
     # /
     url(r'^$', views.index, name="dictionary_index"),
+
+    # /admin/
+    url(r'^admin/?', admin.site.urls),
 
     # /statistics/
     url(r"^statistics/$", views.stats, name='stats'),
@@ -35,26 +35,17 @@ urlpatterns = [
     # /artists/<artist-slug>/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½]+)/$", views.artist, name='artist'),
 
-    # /songs/<song-slug>/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½]+)/$", views.song, name='song'),
+    # /artists/<artist_slug>/json/
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/json/$", views.artist_json, name="artist_json"),
 
-    # /dates/<date-slug>/
-    url(r"^dates/(?P<date_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½]+)/$", views.date, name='date'),
+    # /domains/<domain-slug>/
+    url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
 
-    # /senses/<sense_id>/artist_origins/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artist_origins/$", views.sense_artist_origins, name="sense_artist_origins"),
+    # /domains/<domain-slug>/json/
+    url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/json/$", views.domain_json, name='domain_json'),
 
-    # /senses/<sense_id>/remaining_examples/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_examples, name="remaining_examples"),
-
-    # /timelines/<sense_id>/
-    url(r"^timelines/(?P<sense_id>[a-zA-Z0-9\-_’']+)/$", views.timeline, name='timeline'),
-
-    # /senses/<sense_id>/timeline/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline_json, name="sense_timeline_json"),
-
-    # /artist_origins/<artist_slug>/
-    url(r"^artist_origins/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.artist_origins, name="artist_origins"),
+    # /entities/<named-entity-slug>/
+    url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),
 
     # /places/<place-name-slug>/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),
@@ -62,17 +53,24 @@ urlpatterns = [
     # /places/<place-name-slug>/latlng/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/latlng/$", views.place_latlng, name='place_latlng'),
 
-    # /domains/<domain-slug>/
-    url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
-
-    # /domain_json/<domain-slug>/
-    url(r"^domain_json/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain_json, name='domain_json'),
-
-    # /entities/<named-entity-slug>/
-    url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),
-
     # /rhymes/<rhyme-slug>/
     url(r"^rhymes/(?P<rhyme_slug>[a-zA-Z0-9\-_#’']+)/?$", views.rhyme, name='rhyme'),
+
+    # /senses/<sense_id>/artists/json/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/json/$", views.sense_artists_json, name="sense_artists_json"),
+
+    # /senses/<sense_id>/remaining_examples/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_examples, name="remaining_examples"),
+
+    # /senses/<sense_id>/timeline/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9\-_’']+)/timeline/$", views.sense_timeline, name='sense_timeline'),
+
+    # /senses/<sense_id>/timeline/json/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/json/$", views.sense_timeline_json, name="sense_timeline_json"),
+
+    # /songs/<song-slug>/
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½]+)/$", views.song, name='song'),
+
 
 ]
 

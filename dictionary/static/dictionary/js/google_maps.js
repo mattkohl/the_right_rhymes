@@ -27,13 +27,13 @@ $(function(){
             var artist_slug = $(this).find('.artist-slug').text();
             var place_slug = $(this).find('.place-slug').text();
             if (artist_slug) {
-                endpoint = '/artist_origins/' + artist_slug + '/';
+                endpoint = '/artists/' + artist_slug + '/json/';
                 is_entry = false;
             } else if (place_slug) {
                 endpoint = '/places/' + place_slug + '/latlng/';
                 is_entry = false;
             } else {
-                endpoint = '/senses/' + sense_id + '/artist_origins/';
+                endpoint = '/senses/' + sense_id + '/artists/json/';
             }
             $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
                     parsed = $.parseJSON(data);
@@ -41,8 +41,8 @@ $(function(){
                         if (p != null) {
                             tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
 
-                            if (p.artist) {
-                                markerText = "<b>" + p.artist + "</b>" + "<br>" + "<a href='/places/" + p.place_slug + "/'>" + p.place_name + "</a>";
+                            if (p.name) {
+                                markerText = "<b>" + p.name + "</b>" + "<br>" + "<a href='/places/" + p.place_slug + "/'>" + p.place_name + "</a>";
                             } else {
                                 markerText = p.place_name;
                             }

@@ -1,19 +1,17 @@
 import json
 import random
-
 from operator import itemgetter
 
 from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.http import HttpResponse, JsonResponse
-
 from django.db.models import Q, Count
 
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
-    build_artist_origin, build_example, check_for_image, abbreviate_place_name, build_timeline_example
-from .utils import build_query, decimal_default, slugify, reformat_name
+    build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
+    collect_place_artists
+from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
-
 
 NUM_QUOTS_TO_SHOW = 3
 
@@ -62,10 +60,10 @@ def artist(request, artist_slug):
     return HttpResponse(template.render(context, request))
 
 
-def artist_origins(request, artist_slug):
+def artist_json(request, artist_slug):
     results = Artist.objects.filter(slug=artist_slug)
     if results:
-        data = {'places': [build_artist_origin(artist) for artist in results]}
+        data = {'places': [build_artist(artist) for artist in results]}
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
@@ -172,15 +170,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-def collect_place_artists(place_object, artists):
-
-    artists.extend([build_artist(artist) for artist in place_object.artists.all()])
-    contains = place_object.contains.all()
-    if contains:
-        for contained in contains:
-            collect_place_artists(contained, artists)
-    return sorted(artists, key=itemgetter('name'))
-
 def place(request, place_slug):
     place = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
@@ -239,7 +228,7 @@ def remaining_examples(request, sense_id):
             'sense_id': sense_id,
             'examples': [build_example(example, published) for example in example_results[NUM_QUOTS_TO_SHOW:]]
         }
-        return JsonResponse(json.dumps(data), safe=False)
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
 
@@ -336,23 +325,39 @@ def search_headwords(request):
     return JsonResponse(json.dumps(data), safe=False)
 
 
-def sense_artist_origins(request, sense_id):
+def sense_artists_json(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        data = {'places': [build_artist_origin(artist) for artist in sense_object.cites_artists.all()]}
+        data = {'places': [build_artist(artist, require_origin=True) for artist in sense_object.cites_artists.all()]}
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
 
 
+def sense_timeline(request, sense_id):
+    sense = get_object_or_404(Sense, xml_id=sense_id)
+
+    template = loader.get_template('dictionary/_timeline.html')
+    context = {
+        "sense_id": sense_id,
+        "headword": sense.headword
+    }
+    return HttpResponse(template.render(context, request))
+
+
 def sense_timeline_json(request, sense_id):
+    EXX_THRESHOLD = 30
     published_entries = Entry.objects.filter(publish=True)
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
         exx = sense_object.examples.order_by('release_date')
-        image_exx = [build_example(example, published_entries) for example in exx]
+        exx_count = exx.count()
+        if exx_count > 30:
+            image_exx = [build_example(example, published_entries) for example in reduce_ordered_list(exx, EXX_THRESHOLD)]
+        else:
+            image_exx = [build_example(example, published_entries) for example in exx]
         artist_slug, artist_name, image = assign_artist_image(image_exx)
         data = {
             "title": {
@@ -397,17 +402,6 @@ def song(request, song_slug):
     return HttpResponse(template.render(context, request))
 
 
-def timeline(request, sense_id):
-    sense = get_object_or_404(Sense, xml_id=sense_id)
-
-    template = loader.get_template('dictionary/_timeline.html')
-    context = {
-        "sense_id": sense_id,
-        "headword": sense.headword
-    }
-    return HttpResponse(template.render(context, request))
-
-
 def stats(request):
 
     LIST_LENGTH = 5
@@ -419,7 +413,8 @@ def stats(request):
     example_count = Example.objects.all().count()
     best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
-    dates = [example for example in Example.objects.order_by('release_date')]
+    examples_date_ascending = Example.objects.order_by('release_date')
+    examples_date_descending = Example.objects.order_by('-release_date')
     seventies = Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
     eighties = Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"]).count()
     nineties = Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
@@ -427,7 +422,7 @@ def stats(request):
     twenty_tens = Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
     artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
-    linked_exx = [example for example in Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')]
+    linked_exx = Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')
 
     template = loader.get_template('dictionary/stats.html')
     context = {
@@ -439,14 +434,14 @@ def stats(request):
         'num_artists': len(artists),
         'num_places': len(places),
         'best_represented_places': [{'name': place.name.split(', ')[0], 'slug': place.slug, 'num_artists': place.num_artists} for place in places[:LIST_LENGTH]],
-        'earliest_date': {'example': [build_example(date, published_headwords) for date in dates[:LIST_LENGTH]]},
-        'latest_date': {'example': [build_example(date, published_headwords) for date in dates[-LIST_LENGTH:]]},
+        'earliest_date': {'example': [build_example(date, published_headwords) for date in examples_date_ascending[:LIST_LENGTH]]},
+        'latest_date': {'example': [build_example(date, published_headwords) for date in examples_date_descending[:LIST_LENGTH]]},
         'num_seventies': seventies,
         'num_eighties': eighties,
         'num_nineties': nineties,
         'num_noughties': noughties,
         'num_twenty_tens': twenty_tens,
-        'most_linked_example': {'example': [build_example(linked_exx[0], published_headwords)], 'count': linked_exx[0].num_links},
+        'most_linked_example': {'example': [build_example(linked_exx[:1][0], published_headwords)], 'count': linked_exx[:1][0].num_links},
         'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:LIST_LENGTH]]
     }
     return HttpResponse(template.render(context, request))

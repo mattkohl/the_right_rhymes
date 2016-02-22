@@ -1,3 +1,4 @@
+from operator import itemgetter
 import os
 import random
 from dictionary.models import Entry
@@ -82,14 +83,27 @@ def build_place_latlng(place_object):
         return None
 
 
-def build_artist(artist_object):
+def build_artist(artist_object, require_origin=False):
     result = {
-        # "artist": artist_object,
         "name": reformat_name(artist_object.name),
         "slug": artist_object.slug,
         "image": check_for_image(artist_object.slug, 'artists', 'thumb')
     }
-    return result
+    origin_results = artist_object.origin.all()
+    if origin_results:
+        origin_object = origin_results[0]
+        if origin_object.longitude and origin_object.latitude:
+            result["place_name"] = origin_object.name
+            result["place_slug"] = origin_object.slug
+            result["longitude"] = origin_object.longitude
+            result["latitude"] = origin_object.latitude
+
+    if require_origin:
+        if 'place_name' in result:
+            return result
+        return None
+    else:
+        return result
 
 
 def build_index():
@@ -148,8 +162,7 @@ def build_sense(sense_object, full=False):
         "related_concepts": sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word'),
         "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
         "rhymes": sense_object.sense_rhymes.order_by('-frequency'),
-        "collocates": sense_object.collocates.order_by('-frequency'),
-        "artist_origins": [build_artist_origin(artist) for artist in sense_object.cites_artists.all()]
+        "collocates": sense_object.collocates.order_by('-frequency')
     }
     return result
 
@@ -161,25 +174,6 @@ def build_sense_preview(sense_object):
         "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
     }
     return result
-
-
-def build_artist_origin(artist):
-    origin_results = artist.origin.all()
-    if origin_results:
-        origin_object = origin_results[0]
-        if origin_object.longitude and origin_object.latitude:
-            result = {
-                "artist": artist.name,
-                "place_name": origin_object.name,
-                "place_slug": origin_object.slug,
-                "longitude": origin_object.longitude,
-                "latitude": origin_object.latitude
-            }
-            return result
-        else:
-            return None
-    else:
-        return None
 
 
 def build_example(example_object, published, rf=False):
@@ -266,7 +260,7 @@ def check_for_image(slug, image_type='artists', folder='thumb'):
     png = 'dictionary/static/dictionary/img/{}/{}/{}.png'.format(image_type, folder, slug)
     images = []
 
-    if image_type=='places':
+    if image_type == 'places':
         print(jpg)
         print(png)
 
@@ -290,3 +284,25 @@ def abbreviate_place_name(place_name):
         return tokens[0]
     else:
         return place_name
+
+
+def reduce_ordered_list(seq, k):
+    print(seq)
+    if not 0 <= k <= len(seq):
+        raise ValueError('Required that 0 <= sample_size <= population_size')
+
+    numbers_picked = 0
+    for i, number in enumerate(seq):
+        prob = (k - numbers_picked) / (len(seq) - i)
+        if random.random() < prob:
+            yield number
+            numbers_picked += 1
+
+
+def collect_place_artists(place_object, artists):
+    artists.extend([build_artist(artist) for artist in place_object.artists.all()])
+    contains = place_object.contains.all()
+    if contains:
+        for contained in contains:
+            collect_place_artists(contained, artists)
+    return sorted(artists, key=itemgetter('name'))
