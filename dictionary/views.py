@@ -355,31 +355,15 @@ def sense_timeline_json(request, sense_id):
         exx = sense_object.examples.order_by('release_date')
         exx_count = exx.count()
         if exx_count > 30:
-            image_exx = [build_example(example, published_entries) for example in reduce_ordered_list(exx, EXX_THRESHOLD)]
-        else:
-            image_exx = [build_example(example, published_entries) for example in exx]
-        artist_slug, artist_name, image = assign_artist_image(image_exx)
+            exx = [ex for ex in reduce_ordered_list(exx, EXX_THRESHOLD)]
+        events = [build_timeline_example(example, published_entries) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
+        print(len(events))
         data = {
-            "title": {
-                "background": {
-                    "url": image,
-                    "caption": artist_name,
-                    "credit": ""
-                },
-                "text": {
-                    "headline": '<a href="/' + sense_object.slug + '">' + sense_object.headword + '</a>',
-                    "text": sense_object.definition
-                }
-            },
-            "events": [build_timeline_example(example, published_entries) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
+            "events": events
         }
         return JsonResponse(json.dumps(data), safe=False)
     else:
         return JsonResponse(json.dumps({}))
-
-
-def date(request, date):
-    pass
 
 
 def song(request, song_slug):

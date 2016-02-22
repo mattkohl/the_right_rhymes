@@ -287,13 +287,16 @@ def abbreviate_place_name(place_name):
 
 
 def reduce_ordered_list(seq, k):
-    print(seq)
     if not 0 <= k <= len(seq):
         raise ValueError('Required that 0 <= sample_size <= population_size')
 
+    seq_len = len(seq)
     numbers_picked = 0
     for i, number in enumerate(seq):
-        prob = (k - numbers_picked) / (len(seq) - i)
+        if i == 0 or i == seq_len-1:
+            numbers_picked += 1
+            yield number
+        prob = (k - numbers_picked) / (seq_len - i)
         if random.random() < prob:
             yield number
             numbers_picked += 1
