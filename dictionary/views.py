@@ -356,7 +356,7 @@ def sense_timeline_json(request, sense_id):
         exx_count = exx.count()
         if exx_count > 30:
             exx = [ex for ex in reduce_ordered_list(exx, EXX_THRESHOLD)]
-        events = [build_timeline_example(example, published_entries) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
+        events = [build_timeline_example(example, published_entries, True) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
         print(len(events))
         data = {
             "events": events

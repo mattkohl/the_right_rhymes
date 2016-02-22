@@ -36,7 +36,9 @@ $(document).ready(function() {
                 window.timeline = new TL.Timeline('timeline-embed', parsed, options);
                 $('.tl-slide').css('height', '150%');
                 $('.tl-slide-background').css('opacity', .25);
-                $('a').css('text-decoration', 'none')
+                $('h2.tl-headline a:link').attr('style', 'color: #9b9b9b !important');
+                $('a').css('text-decoration', 'none');
+
             }
     );
 });
