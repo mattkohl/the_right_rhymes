@@ -89,6 +89,10 @@
     color: lightgray;
 }
 
+.overlay-close i {
+    font-size: 1em;
+}
+
 .overlay-data {
     opacity: 0;
     visibility: hidden;
@@ -128,6 +132,10 @@
     color: lightgray;
     font-size: .65em;
     padding-right: .5em;
+}
+
+#index-search-button i {
+    font-size: 1em;
 }
 
 input:focus, button:focus

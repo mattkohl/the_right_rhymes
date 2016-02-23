@@ -163,7 +163,7 @@
                             {% endif %}
 
                             {% if sense.examples %}
-                                <a class="sense_timeline" href="{% url 'sense_timeline' sense.xml_id %}">Visualize as Timeline <i class="fa fa-calendar"></i></a>
+                                <a class="sense_timeline" href="{% url 'sense_timeline' sense.xml_id %}">Visualize as Timeline <i class="material-icons">timeline</i></a>
 
                                 <ul class="examplesHead">
                                 {% for example in sense.examples|slice:":3" %}

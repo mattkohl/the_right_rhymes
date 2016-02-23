@@ -132,7 +132,6 @@ def entity(request, entity_slug):
 
 def random_entry(request):
     published = [entry.slug for entry in Entry.objects.filter(publish=True)]
-    print(published)
     slug = random.choice(published)
     return redirect('entry', headword_slug=slug)
 
@@ -183,7 +182,7 @@ def place(request, place_slug):
     artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
     artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
 
-    contains = [{'name': c.name, 'slug': c.slug} for c in place.contains.order_by('name')]
+    contains = [{'name': abbreviate_place_name(c.name), 'slug': c.slug} for c in place.contains.order_by('name')]
     within = {}
     if ', ' in place.name:
         w_name = ', '.join(place.name.split(', ')[1:])
@@ -357,7 +356,6 @@ def sense_timeline_json(request, sense_id):
         if exx_count > 30:
             exx = [ex for ex in reduce_ordered_list(exx, EXX_THRESHOLD)]
         events = [build_timeline_example(example, published_entries, True) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
-        print(len(events))
         data = {
             "events": events
         }

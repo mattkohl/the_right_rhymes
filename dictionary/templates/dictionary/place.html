@@ -43,11 +43,11 @@
                     </div>
                 {% endif %}
                 {% if artists_without_image %}
-                    <ul>
+                    <div class="not-pictured"><strong>Not pictured:</strong>
                         {% for artist in artists_without_image %}
-                           <li><a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}</li>
+                           <span><a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}</span>
                         {% endfor %}
-                    </ul>
+                    </div>
                 {% endif %}
 
                 {% if entity_senses %}
@@ -93,20 +93,24 @@
                 {% endif %}
 
                 {% if within %}
-                    <div><strong>Within:</strong></div>
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="{% url 'place' within.slug %}">{{within.name}}</a></li>
-                    </ul>
+                    <div><strong>{{ place}} is within:</strong>
+                        <table class="table">
+                            <tr><td><a href="{% url 'place' within.slug %}">{{within.name}}</a></td></tr>
+                        </table>
+                    </div>
                 {% endif %}
 
                 {% if contains %}
-                    <div><strong>Contains:</strong></div>
-                    <ul class="list-group">
-                    {% for contained in contains %}
-                        <li class="list-group-item"><a href="{% url 'place' contained.slug %}">{{contained.name}}</a></li>
-                    {% endfor %}
-                    </ul>
+                    <div><strong>{{ place}} contains:</strong>
+                        <table class="table">
+                        {% for contained in contains %}
+                            <tr><td><a href="{% url 'place' contained.slug %}">{{contained.name}}</a></td></tr>
+                        {% endfor %}
+                        </table>
+                    </div>
                 {% endif %}
+
+
                 <div class="map-canvas">
                     <p class="hidden place-slug">{{ slug }}</p>
                     <p class="mapLabel">{{ place_name_full }}</p>
