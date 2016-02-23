@@ -32,7 +32,11 @@ a:focus {
 	text-decoration: none;
 }
 
-#navbar-custom {
+html>body>nav.navbar-fixed-top {
+    box-shadow: inset 0 0 0 .5px #27496d,0 .5px 3px #193047; !important;
+}
+
+html>body>#navbar-custom {
     border: none;
     border-radius: 0;
     z-index: 1000;
@@ -525,6 +529,7 @@ a:focus.feat {
     color: #fff;
     border-radius: 3px;
     margin-left: 1em;
+    box-shadow: inset 0 0 0 .5px #27496d,0 .5px 3px #193047;
 }
 
 a.sense_timeline {
@@ -546,6 +551,7 @@ a.sense_timeline {
     color: white;
     background: #9b9b9b;
     border-radius: 3px;
+    box-shadow: inset 0 0 0 .5px #27496d,0 .5px 3px #193047;
 }
 
 .toggle_exx a:link,
