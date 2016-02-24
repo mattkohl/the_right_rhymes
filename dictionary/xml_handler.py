@@ -518,28 +518,34 @@ class TRRArtist:
 class TRRPlace:
 
     def __init__(self, name):
-        self.name = name
         self.full_name = name
-        self.slug = slugify(self.name)
+        self.name = self.extract_short_name()
+        self.slug = slugify(self.full_name)
         self.place_object = self.add_to_db()
+        self.update_place_object()
         self.add_lat_long()
         self.check_if_part()
 
+    def extract_short_name(self):
+        if ',' in self.full_name:
+            return self.full_name.split(', ')[0]
+        else:
+            return self.full_name
+
     def add_to_db(self):
         print('Adding Place:', self.name)
-        place_object, created = Place.objects.get_or_create(name=self.name,
-                                                            slug=self.slug)
+        place_object, created = Place.objects.get_or_create(slug=self.slug)
         return place_object
 
     def add_lat_long(self):
-        if self.place_object and not self.place_object.longitude and self.name not in geocache:
+        if self.place_object and not self.place_object.longitude and self.slug not in geocache:
             print('Geocoding:', self.name)
             try:
-                coded = geolocator.geocode(self.name)
+                coded = geolocator.geocode(self.full_name)
                 longitude = coded.longitude
                 latitude = coded.latitude
             except:
-                geocache.append(self.name)
+                geocache.append(self.slug)
                 print('Unable to geolocate', self.name)
             else:
                 if longitude:
@@ -549,14 +555,19 @@ class TRRPlace:
                 self.place_object.save()
 
     def check_if_part(self):
-        if ', ' in self.name:
-            tokens = self.name.split(', ')
+        if ', ' in self.full_name:
+            tokens = self.full_name.split(', ')
             within = ', '.join(tokens[1:])
-            self.name = tokens[0]
             container = TRRPlace(within)
             container.place_object.contains.add(self.place_object)
             container.place_object.save()
             self.place_object.save()
+
+    def update_place_object(self):
+        self.place_object.name = self.name
+        self.place_object.full_name = self.full_name
+        self.place_object.save()
+
 
 
 class TRRDomain:

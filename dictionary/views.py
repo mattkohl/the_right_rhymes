@@ -194,8 +194,8 @@ def place(request, place_slug):
             entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
 
     context = {
-        'place': abbreviate_place_name(place.name),
-        'place_name_full': place.name,
+        'place': place.name,
+        'place_name_full': place.full_name,
         'slug': place.slug,
         'contains': contains,
         'within': within,

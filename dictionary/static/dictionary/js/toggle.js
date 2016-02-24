@@ -76,5 +76,5 @@ $(".toggle").click(function(){
     var copy = content.clone( true );
     var placeholder = $(this).nextAll('.placeholder:first');
     placeholder.html(copy);
-    placeholder.find('.the-list').toggle(200);
+    placeholder.find('.the-list').toggle(100);
 });
