@@ -187,7 +187,7 @@ def place(request, place_slug):
     if ', ' in place.name:
         w_name = ', '.join(place.name.split(', ')[1:])
         w_slug = slugify(w_name)
-        within = {'name': w_name, 'slug': w_slug}
+        within = {'name': abbreviate_place_name(w_name), 'slug': w_slug}
 
     if len(entity_results) >= 1:
         for entity in entity_results:

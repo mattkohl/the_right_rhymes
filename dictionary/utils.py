@@ -268,12 +268,8 @@ def check_for_image(slug, image_type='artists', folder='thumb'):
         images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))
     if os.path.isfile(png.encode('utf-8').strip()):
         images.append(png.replace('dictionary/static/dictionary/', '/static/dictionary/'))
-    if len(images) == 0 and folder == 'thumb':
-        # print('No image found for {}.'.format(slug))
-        return '/static/dictionary/img/artists/thumb/__none.png'
-    elif len(images) == 0:
-        # print('No image found for {}.'.format(slug))
-        return ''
+    if len(images) == 0:
+        return '/static/dictionary/img/artists/{}/__none.png'.format(folder)
     else:
         return random.choice(images)
 
