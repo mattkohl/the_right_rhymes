@@ -38,7 +38,7 @@
                                 </div>
                             {% endif %}
                             {% if sense.ancestors %}
-                                <div class="xref">
+                                <div class="etym">
                                     <span class="xrlabel">Derives from:</span>
                                     {% for ancestor in sense.ancestors %}
                                         {% if ancestor.target_slug in published_entries %}
@@ -50,8 +50,9 @@
                                 </div>
                             {% endif %}
                             {% if sense.derivatives %}
-                                <div class="xref">
-                                    <span class="xrlabel">Derivatives:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="1">Derivatives</span>
+                                    <span class="the-list">
                                     {% for derivative in sense.derivatives %}
                                         {% if derivative.target_slug in published_entries %}
                                             <span class="derivative"><a href="{% url 'entry' derivative.target_slug %}#{{derivative.target_id}}">{{ derivative.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -59,19 +60,23 @@
                                             <span class="derivative">{{ derivative.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.domains %}
-                                <div class="xref">
-                                    <span class="xrlabel">Domains:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="2">Domains</span>
+                                    <span class="the-list">
                                     {% for domain in sense.domains %}
                                         <span class="domain"><a href="{% url 'domain' domain.slug %}">{{ domain.name }}</a>{% if not forloop.last %}, {% endif %}</span>
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.synonyms %}
-                                <div class="xref">
-                                    <span class="xrlabel">Synonyms:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="3">Synonyms</span>
+                                    <span class="the-list">
                                     {% for synonym in sense.synonyms %}
                                         {% if synonym.target_slug in published_entries %}
                                              <span class="synonym"><a href="{% url 'entry' synonym.target_slug %}#{{synonym.target_id}}">{{ synonym.xref_word }}</a>{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
@@ -79,11 +84,13 @@
                                              <span class="synonym">{{ synonym.xref_word }}{% if not forloop.last %}<span class="comma">, </span>{% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.antonyms %}
-                                <div class="xref">
-                                    <span class="xrlabel">Antonyms:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="4">Antonyms</span>
+                                    <span class="the-list">
                                     {% for antonym in sense.antonyms %}
                                         {% if antonym.target_slug in published_entries %}
                                             <span class="antonym"><a href="{% url 'entry' antonym.target_slug %}#{{antonym.target_id}}">{{ antonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -91,11 +98,13 @@
                                             <span class="antonym">{{ antonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.meronyms %}
-                                <div class="xref">
-                                    <span class="xrlabel">Meronyms:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="5">Meronyms</span>
+                                    <span class="the-list">
                                     {% for meronym in sense.meronyms %}
                                         {% if meronym.target_slug in published_entries %}
                                             <span class="meronym"><a href="{% url 'entry' meronym.target_slug %}#{{meronym.target_id}}">{{ meronym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -103,11 +112,13 @@
                                             <span class="meronym">{{ meronym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.holonyms %}
-                                <div class="xref">
-                                    <span class="xrlabel">Holonyms:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="6">Holonyms</span>
+                                    <span class="the-list">
                                     {% for holonym in sense.holonyms %}
                                         {% if holonym.target_slug in published_entries %}
                                            <span class="holonym"> <a href="{% url 'entry' holonym.target_slug %}#{{holonym.target_id}}">{{ holonym.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -115,11 +126,13 @@
                                             <span class="holonym">{{ holonym.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.related_concepts %}
-                                <div class="xref">
-                                    <span class="xrlabel">Related concepts:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="7">Related concepts</span>
+                                    <span class="the-list">
                                     {% for related_concept in sense.related_concepts %}
                                         {% if related_concept.target_slug in published_entries %}
                                             <span class="related_concept"><a href="{% url 'entry' related_concept.target_slug %}#{{related_concept.target_id}}">{{ related_concept.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -127,11 +140,13 @@
                                             <span class="related_concept">{{ related_concept.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.related_words %}
-                                <div class="xref">
-                                    <span class="xrlabel">Related words:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="8">Related words</span>
+                                    <span class="the-list">
                                     {% for related_word in sense.related_words %}
                                         {% if related_word.target_slug in published_entries %}
                                             <span class="related_word"><a href="{% url 'entry' related_word.target_slug %}#{{related_word.target_id}}">{{ related_word.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -139,19 +154,23 @@
                                             <span class="related_word">{{ related_word.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.rhymes %}
-                                <div class="xref">
-                                    <span class="xrlabel">Rhymes:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="9">Rhymes</span>
+                                    <span class="the-list">
                                     {% for rhyme in sense.rhymes %}
                                         <span class="rhyme"><a href="{% url 'rhyme' rhyme.rhyme_slug %}">{{ rhyme.rhyme }}</a>{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.collocates %}
-                                <div class="xref">
-                                    <span class="xrlabel">Collocates:</span>
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="10">Collocates</span>
+                                    <span class="the-list">
                                     {% for collocate in sense.collocates %}
                                         {% if related_word.target_slug in published_entries %}
                                             <span class="collocate"><a href="{% url 'entry' collocate.target_slug %}">{{ collocate.collocate_lemma }}</a>{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
@@ -159,12 +178,15 @@
                                             <span class="collocate">{{ collocate.collocate_lemma }}{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
+                            <div class="xref">
+                                <a class="sense_timeline" href="{% url 'sense_timeline' sense.xml_id %}">Timeline</a>
+                            </div>
+                            <div class="placeholder"></div>
 
                             {% if sense.examples %}
-                                <a class="sense_timeline" href="{% url 'sense_timeline' sense.xml_id %}">Visualize as Timeline <i class="material-icons">timeline</i></a>
-
                                 <ul class="examplesHead">
                                 {% for example in sense.examples|slice:":3" %}
                                     <li>
@@ -185,7 +207,7 @@
                             {% endif %}
                             {% if sense.num_examples > 3 %}
                                 <div class="toggle_exx">
-                                    <a href="#" class="toggle">
+                                    <a href="#" class="toggle_more_exx">
                                         Show {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
                                     </a>
                                     <span class="sense_id hidden">{{sense.sense.xml_id}}</span>
