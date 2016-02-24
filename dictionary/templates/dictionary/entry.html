@@ -32,14 +32,17 @@
                                 <div class="note">({{ sense.sense.notes }})</div>
                             {% endif %}
                             {% if sense.sense.etymology %}
-                                <div class="etym">
-                                    <span class="xrlabel">Etymology:</span>
+                                <div class="etym xref toggle">
+                                    <span class="xrlabel" tabindex="11">Etymology</span>
+                                    <span class="the-list">
                                     {{ sense.sense.etymology }}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.ancestors %}
-                                <div class="etym">
-                                    <span class="xrlabel">Derives from:</span>
+                                <div class="etym xref toggle">
+                                    <span class="xrlabel" tabindex="10">Etymology</span>
+                                    <span class="the-list"> derives from:
                                     {% for ancestor in sense.ancestors %}
                                         {% if ancestor.target_slug in published_entries %}
                                             <span class="ancestor"><a href="{% url 'entry' ancestor.target_slug %}#{{ancestor.target_id}}">{{ ancestor.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
@@ -47,6 +50,7 @@
                                             <span class="ancestor">{{ ancestor.xref_word }}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}
                                     {% endfor %}
+                                    </span>
                                 </div>
                             {% endif %}
                             {% if sense.derivatives %}
