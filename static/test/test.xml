@@ -598,7 +598,7 @@
                <example id="41313">
                   <date>1998-08-04</date>
                   <artist origin="Long Beach, California, USA">Snoop Dogg</artist>
-                  <songTitle>D.O.G.&#x92;S Get Lonely 2</songTitle>
+                  <songTitle>D.O.G.'S Get Lonely 2</songTitle>
                   <album>Da Game Is To Be Sold, Not To Be Told</album>
                   <lyric><text>Baby momma full of drama, ain't that right</text> <rf target="e2620_n_1" position="0" lemma="baby mama">Baby momma</rf> <rhyme rhymeTarget="e2620_n_1" position="19" rhymeTargetWord="Baby momma" rhymeTargetPosition="0">drama</rhyme></lyric>
                </example>

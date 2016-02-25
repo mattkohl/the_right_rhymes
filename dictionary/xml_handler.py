@@ -55,7 +55,6 @@ class TRRDict:
         self.entry_count = len(self.entries)
         self.end = int(round(time.time()))
         self.total_time = self.end = self.start
-        self.average_entry_load = self.total_time / self.entry_count
         self.print_stats()
 
     def __str__(self):
@@ -76,9 +75,11 @@ class TRRDict:
             return[TRREntry(entry_dict) for entry_dict in entry_list]
 
     def print_stats(self):
+        m, s = divmod(self.total_time, 60)
+        h, m = divmod(m, 60)
+
         print('Entries processed:', self.entry_count)
-        print('Total time: ', self.total_time)
-        print('Average entry load:', self.average_entry_load)
+        print('Total time: %d:%02d:%02d' % (h, m, s))
 
 class TRREntry:
 
