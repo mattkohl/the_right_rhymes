@@ -48,13 +48,13 @@ class XMLDict:
 class TRRDict:
 
     def __init__(self, xml_dict):
-        self.start = int(round(time.time()))
+        self.start = time.time()
         self.xml_dict = xml_dict
         self.dictionary = self.get_dictionary()
         self.entries = self.get_entries()
         self.entry_count = len(self.entries)
-        self.end = int(round(time.time()))
-        self.total_time = self.end = self.start
+        self.end = time.time()
+        self.total_time = self.end - self.start
         self.print_stats()
 
     def __str__(self):
@@ -187,6 +187,9 @@ class TRRSense:
         return sense_object
 
     def update_sense(self):
+        # wipe out pre-existing exx
+        self.sense_object.examples.all().delete()
+
         self.sense_object.json = self.sense_dict
         self.sense_object.definition = self.definition
         self.sense_object.etymology = self.etymology
