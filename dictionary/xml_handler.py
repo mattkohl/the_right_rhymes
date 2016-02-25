@@ -15,7 +15,7 @@ geolocator = Nominatim()
 geocache = []
 
 
-CHECK_FOR_UPDATES = False
+CHECK_FOR_UPDATES = True
 
 
 class XMLDict:
@@ -113,15 +113,15 @@ class TRREntry:
             return '#'
 
     def add_to_db(self):
-        print('Adding Entry:', self.headword)
+        print("Processing Entry:'" + self.headword + "'")
         entry, created = Entry.objects.get_or_create(headword=self.headword,
                                                      slug=self.slug)
         return entry
 
     def check_if_updated(self):
         if CHECK_FOR_UPDATES:
-            return self.entry_dict == self.entry_object.json
-        return True
+            return self.entry_dict != self.entry_object.json
+        return False
 
     def update_entry(self):
         self.entry_object.publish = self.publish
@@ -135,7 +135,7 @@ class TRREntry:
             for l in lexemes:
                 self.process_lexeme(l)
         else:
-            print("Skipping", self.headword, ", as it hasn't been updated")
+            print("Skipping '" + self.headword + "' -- it hasn't been updated")
 
     def process_lexeme(self, lexeme):
         pos = lexeme['pos']
@@ -180,15 +180,15 @@ class TRRSense:
         return self.headword + ', ' + self.pos
 
     def add_to_db(self):
-        print('Adding Sense:', self.headword, '-', self.pos, '(' + self.xml_id + ')')
+        print("Adding Sense:'" + self.headword + "' -", self.pos, '(' + self.xml_id + ')')
         sense_object, created = Sense.objects.get_or_create(headword=self.headword,
                                                             xml_id=self.xml_id,
                                                             part_of_speech=self.pos)
         return sense_object
 
-    def update_sense(self):
-        # wipe out pre-existing exx
-        self.sense_object.examples.all().delete()
+    def update_sense(self, clear_exx=False):
+        if clear_exx:
+            self.sense_object.examples.all().delete()
 
         self.sense_object.json = self.sense_dict
         self.sense_object.definition = self.definition
@@ -296,7 +296,7 @@ class TRRSong:
         return '"' + self.title + '" '
 
     def add_to_db(self):
-        print('Adding Song: "' + self.title + '"')
+        # print('Adding Song: "' + self.title + '"')
         song_object, created = Song.objects.get_or_create(xml_id=self.xml_id)
         return song_object
 
@@ -398,7 +398,7 @@ class TRRExample:
             return []
 
     def add_to_db(self):
-        print('Adding Example:', self.lyric_text)
+        # print('Adding Example:', self.lyric_text)
         example, created = Example.objects.get_or_create(song_title=self.song_title,
                                                          artist_name=self.artist_name,
                                                          release_date=self.release_date,
@@ -452,7 +452,7 @@ class TRRExample:
         self.example_object.save()
 
     def remove_previous_lyric_links_and_rhymes(self):
-        print('Removing any pre-existing lyric links / rhymes to "' + self.lyric_text + '"')
+        # print('Removing any pre-existing lyric links / rhymes to "' + self.lyric_text + '"')
         self.example_object.lyric_links.all().delete()
         self.example_object.example_rhymes.all().delete()
 
@@ -505,7 +505,7 @@ class TRRArtist:
         return self.name
 
     def add_to_db(self):
-        print('Adding Artist:', self.name, self.slug)
+        # print('Adding Artist:', self.name, self.slug)
         artist_object, created = Artist.objects.get_or_create(slug=self.slug)
         return artist_object
 
@@ -537,7 +537,7 @@ class TRRPlace:
             return self.full_name
 
     def add_to_db(self):
-        print('Adding Place:', self.name)
+        # print('Adding Place:', self.name)
         place_object, created = Place.objects.get_or_create(slug=self.slug)
         return place_object
 
@@ -586,7 +586,7 @@ class TRRDomain:
         return self.name
 
     def add_to_db(self):
-        print('Adding Domain:', self.name)
+        # print('Adding Domain:', self.name)
         domain_object, created = Domain.objects.get_or_create(name=self.name)
         return domain_object
 
@@ -607,7 +607,7 @@ class TRRSynSet:
         return self.synset_id
 
     def add_to_db(self):
-        print('Adding SynSet:', self.synset_id)
+        # print('Adding SynSet:', self.synset_id)
         synset_object, created = SynSet.objects.get_or_create(name=self.synset_id)
         return synset_object
 
@@ -638,7 +638,7 @@ class TRREntity:
             return self.name
 
     def add_to_db(self):
-        print('Adding Entity:', self.name)
+        # print('Adding Entity:', self.name)
         entity_object, created = NamedEntity.objects.get_or_create(name=self.name,
                                                                    entity_type=self.entity_type)
         if self.entity_type == 'place':
@@ -674,7 +674,7 @@ class TRRCollocate:
             return None
 
     def add_to_db(self):
-        print('Adding Collocate:', self.collocate_lemma)
+        # print('Adding Collocate:', self.collocate_lemma)
         collocate_object, created = Collocate.objects.get_or_create(collocate_lemma=self.collocate_lemma,
                                                                     source_sense_xml_id=self.source_sense_xml_id,
                                                                     target_id=self.target_id)
@@ -707,7 +707,7 @@ class TRRSenseRhyme:
             return None
 
     def add_to_db(self):
-        print('Adding Rhyme:', self.rhyme)
+        # print('Adding Rhyme:', self.rhyme)
         rhyme_object, created = SenseRhyme.objects.get_or_create(rhyme=self.rhyme,
                                                                  parent_sense_xml_id=self.source_sense_xml_id)
         return rhyme_object
@@ -737,7 +737,7 @@ class TRRExampleRhyme:
 
     def add_to_db(self):
         if self.word_two_position:
-            print('Adding Example Rhyme:', self.word_one, '-', self.word_two)
+            # print('Adding Example Rhyme:', self.word_one, '-', self.word_two)
             rhyme_object, created = ExampleRhyme.objects.get_or_create(word_one=self.word_one,
                                                                        word_two=self.word_two,
                                                                        word_one_position=self.word_one_position,
@@ -817,7 +817,7 @@ class TRRXref:
             return None
 
     def add_to_db(self):
-        print('Adding Xref:', self.xref_word)
+        # print('Adding Xref:', self.xref_word)
         xref_object, created = Xref.objects.get_or_create(xref_word=self.xref_word,
                                                           xref_type=self.xref_type,
                                                           target_id=self.target_id,
@@ -860,7 +860,7 @@ class TRRLyricLink:
             return self.link_text
 
     def add_to_db(self):
-        print('Adding LyricLink:', self.link_text)
+        # print('Adding LyricLink:', self.link_text)
         link_object, created = LyricLink.objects.get_or_create(link_text=self.link_text,
                                                                link_type=self.link_type,
                                                                target_lemma=self.target_lemma,
