@@ -15,7 +15,7 @@ geolocator = Nominatim()
 geocache = []
 
 
-CHECK_FOR_UPDATES = True
+CHECK_FOR_UPDATES = False
 
 
 class XMLDict:
@@ -130,12 +130,17 @@ class TRREntry:
         self.entry_object.save()
 
     def extract_lexemes(self):
-        if self.updated:
+        if CHECK_FOR_UPDATES:
+            if self.updated:
+                lexemes = self.entry_dict['senses']
+                for l in lexemes:
+                    self.process_lexeme(l)
+            else:
+                print("Skipping '" + self.headword + "' -- it hasn't been updated")
+        else:
             lexemes = self.entry_dict['senses']
             for l in lexemes:
                 self.process_lexeme(l)
-        else:
-            print("Skipping '" + self.headword + "' -- it hasn't been updated")
 
     def process_lexeme(self, lexeme):
         pos = lexeme['pos']
@@ -453,6 +458,8 @@ class TRRExample:
 
     def remove_previous_lyric_links_and_rhymes(self):
         # print('Removing any pre-existing lyric links / rhymes to "' + self.lyric_text + '"')
+        self.example_object.artist.all().delete()
+        self.example_object.feat_artist.all().delete()
         self.example_object.lyric_links.all().delete()
         self.example_object.example_rhymes.all().delete()
 
