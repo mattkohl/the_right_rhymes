@@ -42,7 +42,7 @@
                             {% if sense.ancestors %}
                                 <div class="etym xref toggle">
                                     <span class="xrlabel" tabindex="10">Etymology</span>
-                                    <span class="the-list"> derives from:
+                                    <span class="the-list"> Derives from
                                     {% for ancestor in sense.ancestors %}
                                         {% if ancestor.target_slug in published_entries %}
                                             <span class="ancestor"><a href="{% url 'entry' ancestor.target_slug %}#{{ancestor.target_id}}">{{ ancestor.xref_word }}</a>{% if not forloop.last %}, {% endif %}</span>
