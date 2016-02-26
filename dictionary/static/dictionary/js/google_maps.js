@@ -38,9 +38,8 @@ $(function(){
             $.getJSON(endpoint, { 'csrfmiddlewaretoken': '{{csrf_token}}' }, function(data) {
                     parsed = $.parseJSON(data);
                     $.each(parsed.places, function(index, p) {
-                        if (p != null) {
+                        if (p != null && p.latitude) {
                             tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
-
                             if (p.name) {
                                 markerText = "<b>" + p.name + "</b>" + "<br>" + "<a href='/places/" + p.place_slug + "/'>" + p.place_name + "</a>";
                             } else {

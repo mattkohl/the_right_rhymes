@@ -29,9 +29,13 @@ def artist(request, artist_slug):
     if origin_results:
         origin = origin_results[0].name
         origin_slug = origin_results[0].slug
+        long = origin_results[0].longitude
+        lat = origin_results[0].latitude
     else:
         origin = ''
         origin_slug = ''
+        long = ''
+        lat = ''
     published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     template = loader.get_template('dictionary/artist.html')
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
@@ -52,6 +56,8 @@ def artist(request, artist_slug):
         'slug': artist.slug,
         'origin': origin,
         'origin_slug': origin_slug,
+        'longitude': long,
+        'latitude': lat,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
@@ -302,7 +308,7 @@ def search(request):
             return redirect('artist', artist_slug=query_slug)
         else:
             sense_query = build_query(query_string, ['lyric_text'])
-            example_results = [build_example(example, published=published_entries, rf=True) for example in Example.objects.filter(sense_query).order_by('release_date')]
+            example_results = [build_example(example, published=published_entries, rf=True) for example in Example.objects.filter(sense_query).order_by('-release_date')]
             context['query'] = query_string
             context['examples'] = example_results
 

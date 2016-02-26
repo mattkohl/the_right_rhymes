@@ -130,7 +130,7 @@
                     {% endfor %}
                 {% endif %}
 
-                {% if origin %}
+                {% if longitude and latitude %}
                     <div class="map-canvas">
                         <p class="hidden artist-slug">{{ slug }}</p>
                         <p class="mapLabel">origin: <a href="{% url 'place' origin_slug %}">{{ origin }}</a></p>
