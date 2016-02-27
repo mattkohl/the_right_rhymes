@@ -27,7 +27,7 @@ def artist(request, artist_slug):
     artist = artist_results[0]
     origin_results = artist.origin.all()
     if origin_results:
-        origin = origin_results[0].name
+        origin = origin_results[0].full_name
         origin_slug = origin_results[0].slug
         long = origin_results[0].longitude
         lat = origin_results[0].latitude
@@ -190,8 +190,8 @@ def place(request, place_slug):
 
     contains = [{'name': abbreviate_place_name(c.name), 'slug': c.slug} for c in place.contains.order_by('name')]
     within = {}
-    if ', ' in place.name:
-        w_name = ', '.join(place.name.split(', ')[1:])
+    if ', ' in place.full_name:
+        w_name = ', '.join(place.full_name.split(', ')[1:])
         w_slug = slugify(w_name)
         within = {'name': abbreviate_place_name(w_name), 'slug': w_slug}
 

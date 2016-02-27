@@ -93,7 +93,7 @@
                 {% endif %}
 
                 {% if within %}
-                    <div><strong>{{ place}} is within:</strong>
+                    <div><strong>{{ place }} is within:</strong>
                         <table class="table">
                             <tr><td><a href="{% url 'place' within.slug %}">{{within.name}}</a></td></tr>
                         </table>
@@ -101,7 +101,7 @@
                 {% endif %}
 
                 {% if contains %}
-                    <div><strong>{{ place}} contains:</strong>
+                    <div><strong>{{ place }} contains:</strong>
                         <table class="table">
                         {% for contained in contains %}
                             <tr><td><a href="{% url 'place' contained.slug %}">{{contained.name}}</a></td></tr>
