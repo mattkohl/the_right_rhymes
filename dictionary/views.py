@@ -295,14 +295,9 @@ def search(request):
     template = loader.get_template('dictionary/search_results.html')
     context = dict()
     if ('q' in request.GET) and request.GET['q'].strip():
-        search_param = request.GET['search_param']
-        search_slug = request.GET['search_slug']
         query_string = request.GET['q']
         query_slug = slugify(query_string)
-        context['search_param'] = search_param
-        if search_param == 'headwords':
-            return redirect('entry', headword_slug=search_slug)
-        elif query_slug in published_entry_slugs:
+        if query_slug in published_entry_slugs:
             return redirect('entry', headword_slug=query_slug)
         elif query_slug in artist_slugs:
             return redirect('artist', artist_slug=query_slug)
