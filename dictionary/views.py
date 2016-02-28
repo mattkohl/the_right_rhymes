@@ -151,7 +151,7 @@ def entry(request, headword_slug):
 
     entry = get_object_or_404(Entry, slug=slug, publish=True)
     sense_objects = entry.senses.all()
-    senses = [build_sense(sense) for sense in sense_objects]
+    senses = [build_sense(sense) for sense in sense_objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
     published = [entry.slug for entry in Entry.objects.filter(publish=True)]
     image_exx = [example for example in senses[0]['examples']]
     artist_slug, artist_name, image = assign_artist_image(image_exx)
