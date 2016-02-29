@@ -745,7 +745,7 @@
                   <date>1999-05-11</date>
                   <artist origin="Long Beach, California, USA">Snoop Dogg</artist>
                   <songTitle>Don't Tell</songTitle>
-                  <feat origin="Compton, California, USA">Mausberg</feat>
+                  <feat>Mauseburg</feat>
                   <feat origin="Long Beach, California, USA">Nate Dogg</feat>
                   <feat origin="Long Beach, California, USA">Warren G</feat>
                   <album>No Limit Top Dogg</album>
@@ -2427,7 +2427,7 @@
                   <artist origin="North Philadelphia, Pennsylvania, USA">Freeway &amp; Jake One</artist>
                   <songTitle>Never Gonna Change</songTitle>
                   <album>The Stimulus Package</album>
-                  <lyric><text>Heard it through the wire, his baby mama in Baltimore</text> <rf target="e2620_n_1" position="31" lemma="baby mama">baby mama</rf> <entity type="place" position="44" prefLabel="Baltimore">Baltimore</entity></lyric>
+                  <lyric><text>Heard it through the wire, his baby mama in Baltimore</text> <rf target="e2620_n_1" position="31" lemma="baby mama">baby mama</rf> <entity type="place" prefLabel="Baltimore, Maryland, USA" position="44">Baltimore</entity></lyric>
                </example>
                <example id="20722">
                   <date>2010-03-23</date>
@@ -2503,7 +2503,7 @@
                   <artist origin="Staten Island, New York City, New York, USA">9th Prince</artist>
                   <songTitle>Industry Grave Digga</songTitle>
                   <album>One Man Army</album>
-                  <lyric><text>I'm too live, with ya baby mama getting head across the Harlem River Drive</text> <xref target="e7290_adj_1" position="8" lemma="live">live</xref> <rf target="e2620_n_1" position="22" lemma="baby mama">baby mama</rf> <xref target="e6110_n_2" position="40" lemma="head">head</xref> <entity type="place" position="56" prefLabel="Harlem River Drive">Harlem River Drive</entity></lyric>
+                  <lyric><text>I'm too live, with ya baby mama getting head across the Harlem River Drive</text> <xref target="e7290_adj_1" position="8" lemma="live">live</xref> <rf target="e2620_n_1" position="22" lemma="baby mama">baby mama</rf> <xref target="e6110_n_2" position="40" lemma="head">head</xref> <entity type="place" prefLabel="Harlem River Drive, Harlem, Manhattan, New York City, New York, USA" position="56">Harlem River Drive</entity></lyric>
                </example>
                <example id="52511">
                   <date>2011-03-29</date>
@@ -7394,7 +7394,7 @@
                   <artist origin="Birmingham, Alabama, USA">Gucci Mane</artist>
                   <songTitle>Say Damn</songTitle>
                   <album>Murder Was The Case</album>
-                  <lyric><text>My trap-house floors lookin like a Magic City Monday</text> <rf target="e10893_n_1" position="3" lemma="trap house">trap-house</rf> <entity type="place" position="35" prefLabel="Magic City">Magic City</entity></lyric>
+                  <lyric><text>My trap-house floors lookin like a Magic City Monday</text> <rf target="e10893_n_1" position="3" lemma="trap house">trap-house</rf> <entity type="place" prefLabel="Magic City, 241 Forsyth St SW, Atlanta, Georgia, USA" position="35">Magic City</entity></lyric>
                </example>
                <example id="18342">
                   <date>2009-05-12</date>
@@ -8183,7 +8183,7 @@
                   <artist origin="Flushing, Queens, New York City, New York, USA">Action Bronson</artist>
                   <songTitle>Get Off My P.P.</songTitle>
                   <album>Dr. Lecter</album>
-                  <lyric><text>I'm on a roll, blow trees through east Harlem</text> <xref target="e3140_trV_1" position="15" lemma="blow">blow</xref> <rf target="e10910_n_1" position="20" lemma="tree">trees</rf> <entity type="place" position="39" prefLabel="Harlem">Harlem</entity></lyric>
+                  <lyric><text>I'm on a roll, blow trees through east Harlem</text> <xref target="e3140_trV_1" position="15" lemma="blow">blow</xref> <rf target="e10910_n_1" position="20" lemma="tree">trees</rf> <entity type="place" prefLabel="Harlem, Manhattan, New York City, New York, USA" position="39">Harlem</entity></lyric>
                </example>
                <example id="8931">
                   <date>2011-03-22</date>
@@ -8520,7 +8520,7 @@
                   <feat origin="New Orleans, Louisiana, USA">Curren$y</feat>
                   <feat origin="New Orleans, Louisiana, USA">Mac</feat>
                   <album>The Truest Shit I Ever Said</album>
-                  <lyric><text>The New Orleans Jesus, pack a tre-deuce</text> <entity type="place" position="4" prefLabel="New Orleans">New Orleans</entity> <entity type="religiousFigure" position="16" prefLabel="Jesus">Jesus</entity> <xref target="e8240_trV_1" position="23" lemma="pack">pack</xref> <rf target="e10930_n_1" position="30" lemma="trey deuce">tre-deuce</rf></lyric>
+                  <lyric><text>The New Orleans Jesus, pack a tre-deuce</text> <entity type="place" prefLabel="New Orleans, Louisiana, USA" position="4">New Orleans</entity> <entity type="religiousFigure" position="16" prefLabel="Jesus">Jesus</entity> <xref target="e8240_trV_1" position="23" lemma="pack">pack</xref> <rf target="e10930_n_1" position="30" lemma="trey deuce">tre-deuce</rf></lyric>
                </example>
                <example id="31717">
                   <date>2005-07-26</date>
@@ -9096,7 +9096,7 @@
                   <feat origin="Los Angeles, California, USA">Game, The</feat>
                   <feat>Willy Northpole</feat>
                   <album>Theater of The Mind</album>
-                  <lyric><text>This chrome trey-pound got me feelin Atlanta brave now</text> <rf target="e10950_n_1" position="12" lemma="trey pound">trey-pound</rf> <entity type="place" position="37" prefLabel="Atlanta">Atlanta</entity></lyric>
+                  <lyric><text>This chrome trey-pound got me feelin Atlanta brave now</text> <rf target="e10950_n_1" position="12" lemma="trey pound">trey-pound</rf> <entity type="place" prefLabel="Atlanta, Georgia, USA" position="37">Atlanta</entity></lyric>
                </example>
                <example id="21180">
                   <date>2009-04-07</date>
@@ -9873,7 +9873,7 @@
                   <artist origin="The Bronx, New York City, New York, USA">Chino XL</artist>
                   <songTitle>Thousands</songTitle>
                   <album>Here To Save You All</album>
-                  <lyric><text>Dismal sketches of Jersey trife shit</text> <entity type="place" prefLabel="New Jersey" position="19">Jersey</entity> <rf target="e10970_adj_1" position="26" lemma="trife">trife</rf></lyric>
+                  <lyric><text>Dismal sketches of Jersey trife shit</text> <entity type="place" prefLabel="New Jersey, USA" position="19">Jersey</entity> <rf target="e10970_adj_1" position="26" lemma="trife">trife</rf></lyric>
                </example>
                <example id="40425">
                   <date>1996-05-28</date>
@@ -11337,7 +11337,7 @@
                   <artist origin="The Bronx, New York City, New York, USA">Dr. Dooom</artist>
                   <songTitle>Simon</songTitle>
                   <album>Dr. Dooom 2</album>
-                  <lyric><text>I'm surreal trife, watchin these girls out in Vegas</text> <rf target="e10970_adj_1" position="12" lemma="trife">trife</rf> <entity type="place" prefLabel="Las Vegas" position="46">Vegas</entity></lyric>
+                  <lyric><text>I'm surreal trife, watchin these girls out in Vegas</text> <rf target="e10970_adj_1" position="12" lemma="trife">trife</rf> <entity type="place" prefLabel="Las Vegas, Nevada, USA" position="46">Vegas</entity></lyric>
                </example>
                <example id="19042">
                   <date>2008-09-23</date>
@@ -12653,7 +12653,7 @@
                   <feat>Angel Dust</feat>
                   <feat origin="None">Pitbull</feat>
                   <album>Super Saucy</album>
-                  <lyric><text>Tejas, where the trill players don't play</text> <entity type="place" prefLabel="Texas" position="0">Tejas</entity> <rf target="e10990_adj_1" position="17" lemma="trill">trill</rf> <xref target="e8490_n_2" position="23" lemma="player">players</xref> <xref target="e8470_intrV_1" position="37" lemma="play">play</xref></lyric>
+                  <lyric><text>Tejas, where the trill players don't play</text> <entity type="place" prefLabel="Texas, USA" position="0">Tejas</entity> <rf target="e10990_adj_1" position="17" lemma="trill">trill</rf> <xref target="e8490_n_2" position="23" lemma="player">players</xref> <xref target="e8470_intrV_1" position="37" lemma="play">play</xref></lyric>
                </example>
                <example id="50245">
                   <date>2005-04-26</date>
@@ -12662,7 +12662,7 @@
                   <feat origin="Houston, Texas, USA">Lil' Flip</feat>
                   <feat origin="Houston, Texas, USA">Paul Wall</feat>
                   <album>Let The Truth Be Told</album>
-                  <lyric><text>You embarrassing Texas, nigga, you ain't trill</text> <entity type="place" position="17" prefLabel="Texas">Texas</entity> <rf target="e10990_adj_1" position="41" lemma="trill">trill</rf></lyric>
+                  <lyric><text>You embarrassing Texas, nigga, you ain't trill</text> <entity type="place" prefLabel="Texas, USA" position="17">Texas</entity> <rf target="e10990_adj_1" position="41" lemma="trill">trill</rf></lyric>
                </example>
                <example id="40950">
                   <date>2005-07-12</date>
@@ -12688,7 +12688,7 @@
                   <songTitle>Front Back</songTitle>
                   <feat origin="Port Arthur, Texas, USA">UGK</feat>
                   <album>King</album>
-                  <lyric><text>Keep it trill, this the south, baby, Texas and GA</text> <rf target="e10990_adj_1" position="8" lemma="trill">trill</rf> <entity type="place" position="37" prefLabel="Texas">Texas</entity> <entity type="place" prefLabel="Georgia" position="47">GA</entity></lyric>
+                  <lyric><text>Keep it trill, this the south, baby, Texas and GA</text> <rf target="e10990_adj_1" position="8" lemma="trill">trill</rf> <entity type="place" prefLabel="Texas, USA" position="37">Texas</entity> <entity type="place" prefLabel="Georgia, USA" position="47">GA</entity></lyric>
                </example>
                <example id="41497">
                   <date>2007-02-27</date>
@@ -13054,7 +13054,7 @@
                   <artist origin="Houston, Texas, USA">Slim Thug</artist>
                   <songTitle>Diamonds</songTitle>
                   <album>Already Platinum</album>
-                  <lyric><text>I'm straight up outta Texas, yeah, the land of the trill</text> <entity type="place" position="22" prefLabel="Texas">Texas</entity> <rf target="e10990_n_1" position="51" lemma="trill">trill</rf></lyric>
+                  <lyric><text>I'm straight up outta Texas, yeah, the land of the trill</text> <entity type="place" prefLabel="Texas, USA" position="22">Texas</entity> <rf target="e10990_n_1" position="51" lemma="trill">trill</rf></lyric>
                </example>
                <example id="35119">
                   <date>2005-09-13</date>
@@ -16582,7 +16582,7 @@
                   <songTitle>Ghetto</songTitle>
                   <feat>Thara</feat>
                   <album>Real Talk</album>
-                  <lyric><text>Heading overseas wit a zip of New York City's haze</text> <rf target="e11715_n_1" position="23" lemma="zip">zip</rf> <entity type="place" position="30" prefLabel="New York City">New York City</entity> <xref target="e6107_n_1" position="46" lemma="haze">haze</xref></lyric>
+                  <lyric><text>Heading overseas wit a zip of New York City's haze</text> <rf target="e11715_n_1" position="23" lemma="zip">zip</rf> <entity type="place" prefLabel="New York City, New York, USA" position="30">New York City</entity> <xref target="e6107_n_1" position="46" lemma="haze">haze</xref></lyric>
                </example>
                <example id="3174">
                   <date>2005-03-15</date>
