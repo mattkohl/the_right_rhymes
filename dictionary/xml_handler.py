@@ -1,8 +1,9 @@
 __author__ = 'MBK'
 
-import re
 import time
 from collections import OrderedDict
+from os import listdir
+from os.path import isfile, join
 import xmltodict
 from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
@@ -15,7 +16,7 @@ geolocator = Nominatim()
 geocache = []
 
 
-CHECK_FOR_UPDATES = False
+CHECK_FOR_UPDATES = True
 
 
 class XMLDict:
@@ -36,7 +37,7 @@ class XMLDict:
             return xml_string
 
     def get_json(self):
-        force_list = ('senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
+        force_list = ('entry', 'senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
         try:
             j = xmltodict.parse(self.xml_string, force_list=force_list)
         except:
@@ -80,6 +81,7 @@ class TRRDict:
 
         print('Entries processed:', self.entry_count)
         print('Total time: %d:%02d:%02d' % (h, m, s))
+
 
 class TRREntry:
 
@@ -874,6 +876,25 @@ class TRRLyricLink:
                                                                target_slug=self.target_slug,
                                                                position=self.position)
         return link_object
+
+
+def collect_xml(directory):
+    return [join(directory, f) for f in listdir(directory) if isfile(join(directory, f))]
+
+
+def process_xml(xml_list):
+    for xml in xml_list:
+        print('Processing', xml)
+        x = XMLDict(xml)
+        t = TRRDict(x.xml_dict)
+
+
+def main(directory='../XML/tRR_Django'):
+    xml_files = collect_xml(directory)
+    process_xml(xml_files)
+
+
+
 #
 #
 # if __name__ == '__main__':
