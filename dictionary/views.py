@@ -389,7 +389,7 @@ def stats(request):
 
     LIST_LENGTH = 5
 
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published_headwords = Entry.objects.filter(publish=True).values_list('headword', flat=True)
 
     entry_count = Entry.objects.filter(publish=True).count()
     sense_count = Sense.objects.filter(publish=True).count()
