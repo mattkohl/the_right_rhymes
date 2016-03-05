@@ -36,7 +36,7 @@ def artist(request, artist_slug):
         origin_slug = ''
         long = ''
         lat = ''
-    published = Entry.objects.filter(publish=True).values('headword')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     template = loader.get_template('dictionary/artist.html')
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
 
@@ -80,7 +80,7 @@ def domain(request, domain_slug):
     domain = get_object_or_404(Domain, slug=domain_slug)
     sense_objects = domain.senses.filter(publish=True).order_by('headword')
     senses = [build_sense_preview(sense) for sense in sense_objects]
-    published = Entry.objects.filter(publish=True).values('headword')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     data = [sense.headword for sense in sense_objects]
     context = {
         'domain': domain.name,
@@ -104,7 +104,7 @@ def domain_json(request, domain_slug):
 def entity(request, entity_slug):
     results = get_list_or_404(NamedEntity, pref_label_slug=entity_slug)
     template = loader.get_template('dictionary/named_entity.html')
-    published = Entry.objects.filter(publish=True).values('headword')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
 
     if len(results) > 0:
         entities = []
@@ -151,7 +151,7 @@ def entry(request, headword_slug):
     entry = get_object_or_404(Entry, slug=slug, publish=True)
     sense_objects = entry.senses.all()
     senses = [build_sense(sense) for sense in sense_objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
-    published = Entry.objects.filter(publish=True).values('slug')
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     image_exx = [example for example in senses[0]['examples']]
     artist_slug, artist_name, image = assign_artist_image(image_exx)
 
@@ -178,7 +178,7 @@ def place(request, place_slug):
     place = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
 
-    published = Entry.objects.filter(publish=True).values('headword')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
     entity_senses = []
 
@@ -223,7 +223,7 @@ def place_latlng(request, place_slug):
 
 
 def remaining_examples(request, sense_id):
-    published = Entry.objects.filter(publish=True).values('headword')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     sense_object = Sense.objects.filter(xml_id=sense_id)[0]
     example_results = sense_object.examples.order_by('release_date')
 
@@ -239,8 +239,8 @@ def remaining_examples(request, sense_id):
 
 def rhyme(request, rhyme_slug):
     template = loader.get_template('dictionary/rhyme.html')
-    published = Entry.objects.filter(publish=True).values('headword')
-    published_slugs = Entry.objects.filter(publish=True).values('slug')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     title = rhyme_slug
 
     rhyme_results = ExampleRhyme.objects.filter(Q(word_one_slug=rhyme_slug)|Q(word_two_slug=rhyme_slug))
@@ -287,8 +287,8 @@ def rhyme(request, rhyme_slug):
 
 
 def search(request):
-    published_entries = Entry.objects.filter(publish=True).values('headword')
-    published_entry_slugs = Entry.objects.filter(publish=True).values('slug')
+    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
 
     artist_slugs = [artist.slug for artist in Artist.objects.all()]
 
@@ -348,7 +348,7 @@ def sense_timeline(request, sense_id):
 
 def sense_timeline_json(request, sense_id):
     EXX_THRESHOLD = 30
-    published_entries = Entry.objects.filter(publish=True).values('headword')
+    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
@@ -367,7 +367,7 @@ def sense_timeline_json(request, sense_id):
 
 def song(request, song_slug):
     song = get_object_or_404(Song, slug=song_slug)
-    published_entries = Entry.objects.filter(publish=True).values('headword')
+    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     template = loader.get_template('dictionary/song.html')
     same_dates = [{'title': s.title, 'artist_name': reformat_name(s.artist_name), 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
     context = {
@@ -389,7 +389,7 @@ def stats(request):
 
     LIST_LENGTH = 5
 
-    published_headwords = Entry.objects.filter(publish=True).values('headword')
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
 
     entry_count = Entry.objects.filter(publish=True).count()
     sense_count = Sense.objects.filter(publish=True).count()
