@@ -137,9 +137,8 @@ def entity(request, entity_slug):
 
 
 def random_entry(request):
-    published = [entry.slug for entry in Entry.objects.filter(publish=True)]
-    slug = random.choice(published)
-    return redirect('entry', headword_slug=slug)
+    rand_ent = Entry.objects.filter(publish=True).order_by('?').first()
+    return redirect('entry', headword_slug=rand_ent.slug)
 
 
 def entry(request, headword_slug):
