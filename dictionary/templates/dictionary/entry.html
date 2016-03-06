@@ -176,8 +176,8 @@
                                     <span class="xrlabel" tabindex="10">Collocates</span>
                                     <span class="the-list">
                                     {% for collocate in sense.collocates %}
-                                        {% if related_word.target_slug in published_entries %}
-                                            <span class="collocate"><a href="{% url 'entry' collocate.target_slug %}">{{ collocate.collocate_lemma }}</a>{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                                        {% if collocate.target_slug in published_entries %}
+                                            <span class="collocate"><a href="{% url 'entry' collocate.target_slug %}#{{collocate.target_id}}">{{ collocate.collocate_lemma }}</a>{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                                         {% else %}
                                             <span class="collocate">{{ collocate.collocate_lemma }}{% if collocate.frequency > 1 %}<sup>{{ collocate.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
                                         {% endif %}

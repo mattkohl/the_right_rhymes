@@ -16,7 +16,7 @@ geolocator = Nominatim()
 geocache = []
 
 
-CHECK_FOR_UPDATES = True
+CHECK_FOR_UPDATES = False
 
 
 class XMLDict:
@@ -79,8 +79,7 @@ class TRRDict:
         m, s = divmod(self.total_time, 60)
         h, m = divmod(m, 60)
 
-        print('Entries processed:', self.entry_count)
-        print('Total time: %d:%02d:%02d' % (h, m, s))
+        print('Processed', self.entry_count, 'entry in %d:%02d:%02d' % (h, m, s))
 
 
 class TRREntry:
@@ -115,7 +114,7 @@ class TRREntry:
             return '#'
 
     def add_to_db(self):
-        print("Processing Entry:'" + self.headword + "'")
+        print("------ Processing: '" + self.headword + "' ------")
         entry, created = Entry.objects.get_or_create(headword=self.headword,
                                                      slug=self.slug)
         return entry
@@ -188,9 +187,7 @@ class TRRSense:
 
     def add_to_db(self):
         print("Adding Sense:'" + self.headword + "' -", self.pos, '(' + self.xml_id + ')')
-        sense_object, created = Sense.objects.get_or_create(headword=self.headword,
-                                                            xml_id=self.xml_id,
-                                                            part_of_speech=self.pos)
+        sense_object, created = Sense.objects.get_or_create(xml_id=self.xml_id)
         return sense_object
 
     def update_sense(self, clear_exx=False):
@@ -198,6 +195,8 @@ class TRRSense:
             self.sense_object.examples.all().delete()
 
         self.sense_object.json = self.sense_dict
+        self.sense_object.headword = self.headword
+        self.sense_object.part_of_speech = self.pos
         self.sense_object.definition = self.definition
         self.sense_object.etymology = self.etymology
         self.sense_object.notes = self.notes
@@ -346,12 +345,13 @@ class TRRExample:
         self.example_rhymes = []
         self.extract_rf()
         self.entities = []
-        self.extract_xrefs()
+        self.xrefs = []
         self.extract_entities()
         self.extract_rhymes()
         self.update_example()
         self.primary_artists = self.get_primary_artists()
         self.featured_artists = self.get_featured_artists()
+        self.extract_xrefs()
         self.song = TRRSong(self.xml_id, self.release_date, self.release_date_string,
                                    self.song_title, self.artist_name, self.artist_slug,
                                    self.primary_artists, self.featured_artists, self.album)
@@ -444,11 +444,16 @@ class TRRExample:
             rfs = self.example_dict['lyric']['rf']
             for rf in rfs:
                 self.lyric_links.append(TRRLyricLink(rf, 'rf'))
+                self.lyric_links.append(TRRLyricLink(rf, 'xref'))
 
     def extract_xrefs(self):
         if 'xref' in self.example_dict['lyric']:
             xrefs = self.example_dict['lyric']['xref']
             for xref in xrefs:
+                xref_sense_object, created = Sense.objects.get_or_create(xml_id=xref['@target'])
+                self.example_object.illustrates_senses.add(xref_sense_object)
+                for artist in self.primary_artists:
+                    artist.artist_object.primary_senses.add(xref_sense_object)
                 self.lyric_links.append(TRRLyricLink(xref, 'xref'))
                 if '@rhymeTarget' in xref:
                     self.example_rhymes.append(TRRExampleRhyme(xref))
@@ -884,7 +889,7 @@ def collect_xml(directory):
 
 def process_xml(xml_list):
     for xml in xml_list:
-        print('Processing', xml)
+        print('Reading XML:', xml)
         x = XMLDict(xml)
         t = TRRDict(x.xml_dict)
 
