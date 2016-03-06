@@ -45,7 +45,7 @@ def artist(request, artist_slug):
     entity_examples = []
     for e in entity_results:
         for example in e.examples.all():
-            entity_examples.append(build_example(example, published))
+            entity_examples.append({'name': e.name, 'example': build_example(example, published)})
 
     image = check_for_image(artist.slug, 'artists', 'full')
 
