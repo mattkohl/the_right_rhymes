@@ -325,6 +325,28 @@ def search_headwords(request):
     return JsonResponse(json.dumps(data), safe=False)
 
 
+def sense_artist_json(request, sense_id, artist_slug):
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    sense_results = Sense.objects.filter(xml_id=sense_id)
+    artist_results = Artist.objects.filter(slug=artist_slug)
+    if sense_results and artist_results:
+        sense_object = sense_results[0]
+        artist_object = artist_results[0]
+        example_results = sense_object.examples.filter(artist_name=artist_object.name).order_by('release_date')
+
+        if example_results:
+            data = {
+                'sense_id': sense_id,
+                'artist_slug': artist_slug,
+                'examples': [build_example(example, published) for example in example_results]
+            }
+            return JsonResponse(json.dumps(data), safe=False)
+        else:
+            return JsonResponse(json.dumps({}), safe=False)
+    else:
+        return JsonResponse(json.dumps({}), safe=False)
+
+
 def sense_artists_json(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
