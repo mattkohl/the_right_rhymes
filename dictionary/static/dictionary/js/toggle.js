@@ -17,7 +17,8 @@ $(document).ready(function(){
             if (ul.children().length == 0) {
                 context.hide();
                 breaker.show();
-                addRemainingExamples(sense_id, ul, breaker, context);
+                var endpoint = '/senses/' + sense_id + '/remaining_examples/';
+                addRemainingExamples(ul, breaker, context, endpoint);
 
             }
         }
@@ -25,8 +26,7 @@ $(document).ready(function(){
 	});
 });
 
-function addRemainingExamples(sense_id, ul, breaker, context) {
-    var endpoint = '/senses/' + sense_id + '/remaining_examples/';
+function addRemainingExamples(ul, breaker, context, endpoint) {
     $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}' },
@@ -77,4 +77,19 @@ $(".toggle").click(function(){
     var placeholder = $(this).nextAll('.placeholder:first');
     placeholder.html(copy);
     placeholder.find('.the-list').toggle(100);
+});
+
+$(".toggle-artist-examples").click(function(){
+    var breaker = $(this).parent().find('.loading');
+    var context = $(this);
+    var sense_id = $(this).parent().find('.sense_id').text();
+    var artist_slug = $(this).parent().find('.artist_slug').text();
+    var ul = $(this).parent().next(".artist-examples");
+    if (ul.children().length == 0) {
+        context.hide();
+        breaker.show();
+        var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json';
+        addRemainingExamples(ul, breaker, context, endpoint);
+    }
+
 });

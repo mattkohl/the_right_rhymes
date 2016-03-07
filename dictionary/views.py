@@ -338,9 +338,9 @@ def sense_artist_json(request, sense_id, artist_slug):
             data = {
                 'sense_id': sense_id,
                 'artist_slug': artist_slug,
-                'examples': [build_example(example, published) for example in example_results]
+                'examples': [build_example(example, published, rf=True) for example in example_results]
             }
-            return JsonResponse(json.dumps(data), safe=False)
+            return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
         else:
             return JsonResponse(json.dumps({}), safe=False)
     else:
