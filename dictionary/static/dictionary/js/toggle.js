@@ -81,15 +81,15 @@ $(".toggle").click(function(){
 
 $(".toggle-artist-examples").click(function(){
     var breaker = $(this).parent().find('.loading');
-    var context = $(this);
+    var context = $(this).parent().nextAll(".artist-examples:first");
     var sense_id = $(this).parent().find('.sense_id').text();
     var artist_slug = $(this).parent().find('.artist_slug').text();
-    var ul = $(this).parent().next(".artist-examples");
-    if (ul.children().length == 0) {
-        context.hide();
-        breaker.show();
+    var ul = $(this).parent().nextAll(".artist-examples:first");
+    ul.fadeOut(100, function() {
+        ul.empty();
         var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json';
         addRemainingExamples(ul, breaker, context, endpoint);
-    }
+    });
+
 
 });

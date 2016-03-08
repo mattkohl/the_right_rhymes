@@ -251,13 +251,17 @@ footer {
 	margin-bottom: 1em;
 }
 
-.entry-content .examplesHead {
+.entry-content .examplesHead, .artist-examples {
     position: relative;
     padding-left: 1em;
     list-style: none;
     margin-bottom: 0;
     overflow-x: hidden;
     overflow-y: hidden;
+}
+
+.artist-examples {
+    margin-top: 1em;
 }
 
 .examplesHead li, .examples li {
@@ -601,6 +605,10 @@ a.sense_timeline:hover, .xrlabel:hover {
 
 .toggle_exx a:hover {
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
+}
+
+.toggle-artist-examples {
+    cursor: pointer;
 }
 
 .page-header h1 {
