@@ -20,8 +20,8 @@ $(document).ready(function(){
                 context.hide();
                 breaker.show();
                 if (artist_slug != '') {
-                    var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json?feat=True';
-                    if (feat) {
+                    var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json';
+                    if (feat == 'True') {
                         endpoint = endpoint + '?feat=True'
                     }
                     addRemainingExamples(ul, breaker, context, endpoint);

@@ -344,6 +344,7 @@ def search_headwords(request):
 
 def sense_artist_json(request, sense_id, artist_slug):
     feat = request.GET.get('feat', '')
+    print(request)
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     sense_results = Sense.objects.filter(xml_id=sense_id)
     artist_results = Artist.objects.filter(slug=artist_slug)
