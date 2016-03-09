@@ -13,13 +13,22 @@ $(document).ready(function(){
             $(this).text('Hide more examples');
             $(this).css("background-color","lightgray");
             var sense_id = $(this).parent().find('.sense_id').text();
+            var artist_slug = $(this).parent().find('.artist_slug').text();
+            var feat = $(this).parent().find('.feat').text();
             var ul = $(this).parent().next(".examples");
             if (ul.children().length == 0) {
                 context.hide();
                 breaker.show();
-                var endpoint = '/senses/' + sense_id + '/remaining_examples/';
-                addRemainingExamples(ul, breaker, context, endpoint);
-
+                if (artist_slug != '') {
+                    var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json?feat=True';
+                    if (feat) {
+                        endpoint = endpoint + '?feat=True'
+                    }
+                    addRemainingExamples(ul, breaker, context, endpoint);
+                } else {
+                    var endpoint = '/senses/' + sense_id + '/remaining_examples/';
+                    addRemainingExamples(ul, breaker, context, endpoint);
+                }
             }
         }
 		return false;

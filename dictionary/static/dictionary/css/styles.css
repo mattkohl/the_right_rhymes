@@ -607,8 +607,15 @@ a.sense_timeline:hover, .xrlabel:hover {
     box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
 }
 
+.xref-toggle {
+    text-align: center;
+	font-size: .75em;
+	margin-bottom: .5em;
+}
+
 .toggle-artist-examples {
     cursor: pointer;
+
 }
 
 .page-header h1 {

@@ -443,7 +443,7 @@ class TRRExample:
         if 'rf' in self.example_dict['lyric']:
             rfs = self.example_dict['lyric']['rf']
             for rf in rfs:
-                self.lyric_links.append(TRRLyricLink(rf, 'rf'))
+                # self.lyric_links.append(TRRLyricLink(rf, 'rf'))
                 self.lyric_links.append(TRRLyricLink(rf, 'xref'))
 
     def extract_xrefs(self):

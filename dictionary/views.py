@@ -40,8 +40,25 @@ def artist(request, artist_slug):
     template = loader.get_template('dictionary/artist.html')
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
 
-    primary_senses = [{'headword': sense.headword, 'slug': sense.slug, 'xml_id': sense.xml_id, 'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]} for sense in artist.primary_senses.filter(publish=True).order_by('headword')]
-    featured_senses = [{'headword': sense.headword, 'slug': sense.slug, 'xml_id': sense.xml_id, 'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]} for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
+    primary_senses = [
+        {
+            'headword': sense.headword,
+            'slug': sense.slug,
+            'xml_id': sense.xml_id,
+            'example_count': sense.examples.filter(artist=artist).count(),
+            'examples': [build_example(example, published) for example in sense.examples.filter(artist_name=artist.name).order_by('release_date')[:1]]
+        } for sense in artist.primary_senses.filter(publish=True).order_by('headword')
+    ]
+
+    featured_senses = [
+        {
+            'headword': sense.headword,
+            'slug': sense.slug,
+            'xml_id': sense.xml_id,
+            'example_count': sense.examples.filter(feat_artist=artist).count(),
+            'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
+        } for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
+
     entity_examples = []
     for e in entity_results:
         for example in e.examples.all():
@@ -326,19 +343,24 @@ def search_headwords(request):
 
 
 def sense_artist_json(request, sense_id, artist_slug):
+    feat = request.GET.get('feat', '')
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     sense_results = Sense.objects.filter(xml_id=sense_id)
     artist_results = Artist.objects.filter(slug=artist_slug)
     if sense_results and artist_results:
         sense_object = sense_results[0]
         artist_object = artist_results[0]
-        example_results = sense_object.examples.filter(artist_name=artist_object.name).order_by('release_date')
+        if feat:
+            example_results = sense_object.examples.filter(feat_artist=artist_object).order_by('release_date')[1:]
+        else:
+            example_results = sense_object.examples.filter(artist_name=artist_object.name).order_by('release_date')[1:]
+
 
         if example_results:
             data = {
                 'sense_id': sense_id,
                 'artist_slug': artist_slug,
-                'examples': [build_example(example, published, rf=True) for example in example_results]
+                'examples': [build_example(example, published, rf=False) for example in example_results]
             }
             return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
         else:
