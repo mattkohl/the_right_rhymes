@@ -344,7 +344,6 @@ def search_headwords(request):
 
 def sense_artist_json(request, sense_id, artist_slug):
     feat = request.GET.get('feat', '')
-    print(request)
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     sense_results = Sense.objects.filter(xml_id=sense_id)
     artist_results = Artist.objects.filter(slug=artist_slug)
@@ -470,7 +469,7 @@ def stats(request):
         'num_noughties': noughties,
         'num_twenty_tens': twenty_tens,
         'most_linked_example': {'example': [build_example(linked_exx[:1][0], published_headwords)], 'count': linked_exx[:1][0].num_links},
-        'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:LIST_LENGTH]]
+        'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:LIST_LENGTH+1]]
     }
     return HttpResponse(template.render(context, request))
 
