@@ -197,11 +197,15 @@ def build_example(example_object, published, rf=False):
 def build_timeline_example(example_object, published, rf=False):
     example = build_example(example_object, published, rf)
     url = check_for_image(example['artist_slug'], 'artists', 'full')
+    thumb = check_for_image(example['artist_slug'], 'artists', 'thumb')
     year, month, day = example['release_date'].split('-')
 
     result = {
         "background": {
             "url": url
+        },
+        "media": {
+            "thumbnail": thumb
         },
         "start_date": {
             "month": month,
