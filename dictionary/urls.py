@@ -72,7 +72,7 @@ urlpatterns = [
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/json/$", views.sense_timeline_json, name="sense_timeline_json"),
 
     # /songs/<song-slug>/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\[\]\(\)\+\!ōé½#%]+)/$", views.song, name='song'),
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\[\]\(\)\+\!ōé½#%´]+)/$", views.song, name='song'),
 
 
 ]
