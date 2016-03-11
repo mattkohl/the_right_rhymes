@@ -27,7 +27,7 @@ $(document).ready(function() {
             {'csrfmiddlewaretoken': '{{csrf_token}}'},
             function (data) {
                 var parsed = $.parseJSON(data);
-
+                console.log(parsed);
                 var options = {
                     timenav_mobile_height_percentage: 1,
                     slide_default_fade: "50%"

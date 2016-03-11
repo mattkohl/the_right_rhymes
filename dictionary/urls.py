@@ -56,20 +56,20 @@ urlpatterns = [
     # /rhymes/<rhyme-slug>/
     url(r"^rhymes/(?P<rhyme_slug>[a-zA-Z0-9\-_#’'éō]+)/?$", views.rhyme, name='rhyme'),
 
+    # /senses/<sense_id>/timeline/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name='sense_timeline'),
+
+    # /senses/<sense_id>/timeline/json/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/json/$", views.sense_timeline_json, name="sense_timeline_json"),
+
     # /senses/<sense_id>/artists/json/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/json/$", views.sense_artists_json, name="sense_artists_json"),
-
-    # /senses/<sense_id>/<artist_slug>/json/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/json/$", views.sense_artist_json, name="sense_artist_json"),
 
     # /senses/<sense_id>/remaining_examples/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_examples, name="remaining_examples"),
 
-    # /senses/<sense_id>/timeline/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9\-_’']+)/timeline/$", views.sense_timeline, name='sense_timeline'),
-
-    # /senses/<sense_id>/timeline/json/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/json/$", views.sense_timeline_json, name="sense_timeline_json"),
+    # /senses/<sense_id>/<artist_slug>/json/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/json/$", views.sense_artist_json, name="sense_artist_json"),
 
     # /songs/<song-slug>/
     url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\[\]\(\)\+\!ōé½#%´]+)/$", views.song, name='song'),

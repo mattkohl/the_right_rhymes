@@ -381,7 +381,6 @@ def sense_artists_json(request, sense_id):
 
 def sense_timeline(request, sense_id):
     sense = get_object_or_404(Sense, xml_id=sense_id)
-
     template = loader.get_template('dictionary/_timeline.html')
     context = {
         "sense_id": sense_id,
