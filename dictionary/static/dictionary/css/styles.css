@@ -808,7 +808,7 @@ td {
 .counter-bar {
     display: block;
     background: darkgray;
-    color: white;
+    color: whitesmoke;
     font-weight: bold;
     padding-left: .25em;
 }
