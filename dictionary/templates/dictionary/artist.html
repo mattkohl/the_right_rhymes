@@ -6,16 +6,16 @@
         <div id="content" class="group">
             <div class="entry-content">
                 {% if image %}
-                <figure class="center-block">
-                    <img src="{{ image }}"
-                         alt="{{ artist }}"
-                         property="image"
-                         scale="0"/>
-                </figure>
-                <div class="headword-image">{{ artist }}</div>
-            {% else %}
-                <div class="headword">{{ artist }}</div>
-            {% endif %}
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                             alt="{{ artist }}"
+                             property="image"
+                             scale="0"/>
+                    </figure>
+                    <div class="headword-image">{{ artist }}</div>
+                {% else %}
+                    <div class="headword">{{ artist }}</div>
+                {% endif %}
 
                 {% if primary_senses %}
 

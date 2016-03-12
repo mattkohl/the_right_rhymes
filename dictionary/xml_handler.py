@@ -894,7 +894,7 @@ def process_xml(xml_list):
         t = TRRDict(x.xml_dict)
 
 
-def main(directory='../XML/tRR_Django'):
+def main(directory='../tRR/XML/tRR_Django'):
     xml_files = collect_xml(directory)
     process_xml(xml_files)
 

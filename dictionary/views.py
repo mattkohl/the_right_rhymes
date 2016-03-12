@@ -438,7 +438,9 @@ def stats(request):
     sense_count = Sense.objects.filter(publish=True).count()
     example_count = Example.objects.all().count()
     best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
+    best_attested_sense_count = best_attested_senses[0].num_examples
     most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
+    most_cited_song_count = most_cited_songs[0].num_examples
     examples_date_ascending = Example.objects.order_by('release_date')
     examples_date_descending = Example.objects.order_by('-release_date')
     seventies = Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
@@ -446,8 +448,10 @@ def stats(request):
     nineties = Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
     noughties = Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"]).count()
     twenty_tens = Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
+    decade_max = max([seventies, eighties, nineties, noughties, twenty_tens])
     artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
+    place_count = places[0].num_artists
     linked_exx = Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')
 
     template = loader.get_template('dictionary/stats.html')
@@ -455,18 +459,49 @@ def stats(request):
         'num_entries': entry_count,
         'num_senses': sense_count,
         'num_examples': example_count,
-        'best_attested_senses': [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id, 'definition': sense.definition, 'num_examples': sense.num_examples} for sense in best_attested_senses],
-        'most_cited_songs': [{'title': song.title, 'slug': song.slug, 'artist_name': song.artist_name, 'artist_slug':song.artist_slug, 'num_examples': song.num_examples} for song in most_cited_songs],
+        'best_attested_senses': [
+            {
+                'headword': sense.headword,
+                'slug': sense.slug,
+                'anchor': sense.xml_id,
+                'definition': sense.definition,
+                'num_examples': sense.num_examples,
+                'width': (sense.num_examples / best_attested_sense_count) * 100
+
+            } for sense in best_attested_senses
+            ],
+        'most_cited_songs': [
+            {
+                'title': song.title,
+                'slug': song.slug,
+                'artist_name': song.artist_name,
+                'artist_slug':song.artist_slug,
+                'num_examples': song.num_examples,
+                'width': (song.num_examples / most_cited_song_count) * 100
+            } for song in most_cited_songs
+            ],
         'num_artists': len(artists),
         'num_places': len(places),
-        'best_represented_places': [{'name': place.name.split(', ')[0], 'slug': place.slug, 'num_artists': place.num_artists} for place in places[:LIST_LENGTH]],
+        'best_represented_places': [
+            {
+                'name': place.name.split(', ')[0],
+                'slug': place.slug,
+                'num_artists': place.num_artists,
+                'width': (place.num_artists / place_count) * 100
+            } for place in places[:LIST_LENGTH]
+            ],
         'earliest_date': {'example': [build_example(date, published_headwords) for date in examples_date_ascending[:LIST_LENGTH]]},
         'latest_date': {'example': [build_example(date, published_headwords) for date in examples_date_descending[:LIST_LENGTH]]},
         'num_seventies': seventies,
+        'seventies_width': (seventies / decade_max) * 100,
         'num_eighties': eighties,
+        'eighties_width': (eighties / decade_max) * 100,
         'num_nineties': nineties,
+        'nineties_width': (nineties / decade_max) * 100,
         'num_noughties': noughties,
+        'noughties_width': (noughties / decade_max) * 100,
         'num_twenty_tens': twenty_tens,
+        'twenty_tens_width': (twenty_tens / decade_max) * 100,
         'most_linked_example': {'example': [build_example(linked_exx[:1][0], published_headwords)], 'count': linked_exx[:1][0].num_links},
         'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:LIST_LENGTH+1]]
     }

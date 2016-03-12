@@ -805,6 +805,14 @@ td {
     opacity: 0.3;
 }
 
+.counter-bar {
+    display: block;
+    background: darkgray;
+    color: white;
+    font-weight: bold;
+    padding-left: .25em;
+}
+
 
 /*
 --------------------------------------------------------------
