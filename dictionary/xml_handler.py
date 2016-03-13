@@ -190,7 +190,7 @@ class TRRSense:
         sense_object, created = Sense.objects.get_or_create(xml_id=self.xml_id)
         return sense_object
 
-    def update_sense(self, clear_exx=False):
+    def update_sense(self, clear_exx=True):
         if clear_exx:
             self.sense_object.examples.all().delete()
 
