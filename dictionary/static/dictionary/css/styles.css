@@ -807,10 +807,49 @@ td {
 
 .counter-bar {
     display: block;
-    background: darkgray;
+    background: #909090;
     color: whitesmoke;
     font-weight: bold;
     padding-left: .25em;
+}
+
+.entry-count {
+    background: #404040 ;
+    width: 100%;
+    color: whitesmoke;
+    font-size: 2.5em;
+    text-align: center;
+    text-transform: uppercase;
+    padding-top: .1em;
+    font-weight: bold;
+}
+
+.sense-count {
+    background: #505050;
+    width: 100%;
+    color: whitesmoke;
+    font-size: 1.5em;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .4em;
+    padding-left: .4em;
+    padding-top: .1em;
+    padding-bottom: .1em;
+    font-weight: bold;
+}
+
+.example-count {
+    background: #606060;
+    width: 100%;
+    color: whitesmoke;
+    font-size: .75em;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .9em;
+    padding-left: .9em;
+    padding-bottom: .5em;
+    padding-top: .5em;
+    font-weight: bold;
 }
 
 
@@ -1087,7 +1126,7 @@ and (max-width : 320px) {
     .trr-list-header {
         padding: 10px 15px;
         margin-top: 0.5em;
-        margin-bottom: 0;
+        margin-bottom: .5em;
         font-size: .9em;
     }
 

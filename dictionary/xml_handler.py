@@ -16,7 +16,7 @@ geolocator = Nominatim()
 geocache = []
 
 
-CHECK_FOR_UPDATES = False
+CHECK_FOR_UPDATES = True
 
 
 class XMLDict:

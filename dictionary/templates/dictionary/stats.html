@@ -18,13 +18,9 @@
                     <div class="headword-image">statistics</div>
                 </div>
                 <div class="trr-list-header">Overall Totals</div>
-                <table class="table">
-                    <tr><td class="col-md-1">Entries</td><td class="col-md-1">{{ num_entries }}</td></tr>
-                    <tr><td>Senses</td><td>{{ num_senses }}</td></tr>
-                    <tr><td>Examples</td><td>{{ num_examples }}</td></tr>
-                    <tr><td>Artists</td><td>{{ num_artists }}</td></tr>
-                    <tr><td>Places</td><td>{{ num_places }}</td></tr>
-                </table>
+                <div class="entry-count">{{num_entries}} entries</div>
+                <div class="sense-count">{{num_senses}} senses</div>
+                <div class="example-count">{{num_examples}} examples</div>
                 <div class="trr-list-header">Best attested senses</div>
                 <table class="table">
                     <th colspan="1">Headword</th><th colspan="1"># Examples</th>
