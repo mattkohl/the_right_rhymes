@@ -1,5 +1,5 @@
 import json
-import random
+import logging
 from operator import itemgetter
 
 from django.shortcuts import redirect, get_object_or_404, get_list_or_404
@@ -13,6 +13,8 @@ from dictionary.utils import build_place_latlng, build_artist, assign_artist_ima
 from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
 
+
+logger = logging.getLogger(__name__)
 NUM_QUOTS_TO_SHOW = 3
 
 
