@@ -326,6 +326,7 @@ class TRRSong:
             artist.artist_object.featured_songs.add(self.song_object)
             artist.artist_object.save()
 
+
 class TRRExample:
 
     def __init__(self, sense_object, example_dict):
@@ -895,9 +896,15 @@ def process_xml(xml_list):
 
 
 def main(directory='../tRR/XML/tRR_Django'):
+    start = time.time()
     xml_files = collect_xml(directory)
     process_xml(xml_files)
+    end = time.time()
+    total_time = end - start
+    m, s = divmod(total_time, 60)
+    h, m = divmod(m, 60)
 
+    print('Processed dictionary in %d:%02d:%02d' % (h, m, s))
 
 
 #

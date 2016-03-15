@@ -48,7 +48,7 @@ def artist(request, artist_slug):
             'slug': sense.slug,
             'xml_id': sense.xml_id,
             'example_count': sense.examples.filter(artist=artist).count(),
-            'examples': [build_example(example, published) for example in sense.examples.filter(artist_name=artist.name).order_by('release_date')[:1]]
+            'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')[:1]]
         } for sense in artist.primary_senses.filter(publish=True).order_by('headword')
     ]
 
@@ -411,7 +411,7 @@ def sense_timeline_json(request, sense_id):
 
 
 def song(request, song_slug):
-    song = get_object_or_404(Song, slug=song_slug)
+    song = get_list_or_404(Song, slug=song_slug)[0]
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     template = loader.get_template('dictionary/song.html')
     same_dates = [{'title': s.title, 'artist_name': reformat_name(s.artist_name), 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]

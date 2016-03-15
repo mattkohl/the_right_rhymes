@@ -99,7 +99,10 @@ class Sense(models.Model):
         ordering = ["xml_id"]
 
     def __str__(self):
-        return self.headword + ', ' + self.part_of_speech + ' (' + self.xml_id + ')'
+        if self.headword and self.part_of_speech:
+            return self.headword + ', ' + self.part_of_speech + ' (' + self.xml_id + ')'
+        else:
+            return self.xml_id
 
 
 class Song(models.Model):

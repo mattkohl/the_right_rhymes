@@ -662,6 +662,7 @@ a.sense_timeline:hover, .xrlabel:hover {
     padding: 20px 25px;
 	line-height: 1.3em;
 	word-wrap: break-word;
+    text-align: center;
 }
 
 .rhyme-header {
@@ -813,42 +814,38 @@ td {
     padding-left: .25em;
 }
 
+.counts {
+    font-size: 1.5em;
+    display: flex;
+    color: black;
+    /*text-transform: uppercase;*/
+    /*font-weight: bold;*/
+    list-style: none;
+    padding-left: 0;
+}
+
+.counts li {
+        padding-top: .5em;
+        padding-bottom: .25em;
+    }
+
 .entry-count {
-    background: #404040 ;
-    width: 100%;
-    color: whitesmoke;
-    font-size: 2.5em;
+    /*background: #404040 ;*/
+    width: 33.33%;
     text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
+
 }
 
 .sense-count {
-    background: #505050;
-    width: 100%;
-    color: whitesmoke;
-    font-size: 1.5em;
+    /*background: #505050;*/
+    width: 33.33%;
     text-align: center;
-    text-transform: uppercase;
-    letter-spacing: .4em;
-    padding-left: .4em;
-    padding-top: .1em;
-    padding-bottom: .1em;
-    font-weight: bold;
 }
 
 .example-count {
-    background: #606060;
-    width: 100%;
-    color: whitesmoke;
-    font-size: .75em;
+    /*background: #606060;*/
+    width: 33.33%;
     text-align: center;
-    text-transform: uppercase;
-    letter-spacing: .9em;
-    padding-left: .9em;
-    padding-bottom: .5em;
-    padding-top: .5em;
-    font-weight: bold;
 }
 
 
@@ -998,6 +995,14 @@ and (max-width : 600px) {
     .center-block img {
         width: 100%;
         max-width: 100%;
+    }
+
+    .counts {
+        font-size: 1em;
+    }
+
+    .counts li {
+        padding: .35em;
     }
 
     .headword {
