@@ -229,7 +229,7 @@ def place(request, place_slug):
         'artists_with_image': artists_with_image,
         'artists_without_image': artists_without_image,
         'image': check_for_image(place.slug, 'places', 'full'),
-        'examples': examples
+        'examples': sorted(examples, key=itemgetter('release_date'))
     }
     return HttpResponse(template.render(context, request))
 
