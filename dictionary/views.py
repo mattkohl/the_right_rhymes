@@ -199,7 +199,7 @@ def place(request, place_slug):
 
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
-    entity_senses = []
+    examples = []
 
     artists = collect_place_artists(place, [])
 
@@ -213,9 +213,11 @@ def place(request, place_slug):
         w_slug = slugify(w_name)
         within = {'name': abbreviate_place_name(w_name), 'slug': w_slug}
 
+
+    # TODO: reorder examples by release_date in case of multiple entities
     if len(entity_results) >= 1:
         for entity in entity_results:
-            entity_senses += [{'name': entity.name, 'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
+            examples += [build_example(example, published, rf=True) for example in entity.examples.order_by('release_date')]
 
     context = {
         'place': place.name,
@@ -226,8 +228,8 @@ def place(request, place_slug):
         'num_artists': len(artists),
         'artists_with_image': artists_with_image,
         'artists_without_image': artists_without_image,
-        'entity_senses': entity_senses,
-        'image': check_for_image(place.slug, 'places', 'full')
+        'image': check_for_image(place.slug, 'places', 'full'),
+        'examples': examples
     }
     return HttpResponse(template.render(context, request))
 
