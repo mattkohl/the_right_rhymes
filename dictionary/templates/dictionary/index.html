@@ -18,14 +18,24 @@
                 <div id="logo">
                     <hgroup id="logo-title">
                         <h1 id="site-title"><a title="the Right Rhymes" rel="home" href="{% url 'random_entry' %}">the Right Rhymes</a></h1>
-                        <h2 id="site-description"><a title="Hip-Hop Slang Defined" rel="home" href="/">Hip-Hop Defined</a></h2>
+                        <h2 id="site-description"><a title="Hip-Hop Slang Defined" rel="home" href="/">A Hip-Hop Dictionary</a></h2>
                     </hgroup>
                 </div>
             </div>
             <div id="search-icon-container" class="trr-search-icon">
                 <ul class="list-inline">
-                    <li><a href="#" class="index-menuButton" id="overlay-menu" type="button"><i class="fa fa-search"></i></a></li>
-                    <li><a href="{% url 'random_entry' %}" class="index-menuButton"><i class="fa fa-random"></i></a></li>
+                    <li>
+                        <a href="#" class="index-menuButton" id="overlay-menu" type="button">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <!--<div class="button-label">search</div>-->
+                    </li>
+                    <li>
+                        <a href="{% url 'random_entry' %}" class="index-menuButton">
+                            <img src="static/dictionary/icon/bomb.png" class="bomb"></img>
+                        </a>
+                        <!--<div class="button-label">random</div>-->
+                    </li>
                 </ul>
             </div>
             <div class="overlay overlay-data">

@@ -16,11 +16,14 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li>
-                    <a id="overlay-menu" class="nav-search-icon trr-icon"><span class="glyphicon glyphicon-search"></span><span class="collapse-only"> Search</span></a>
+                    <a href="{% url 'random_entry' %}">
+                        <img src="/static/dictionary/icon/bomb.png" class="bomb"></img><span class="collapse-only"> Random</span>
+                    </a>
                 </li>
                 <li>
-                    <a href="{% url 'random_entry' %}"><i class="fa fa-random"></i><span class="collapse-only"> Random</span></a>
+                    <a id="overlay-menu" class="nav-search-icon trr-icon"><span class="glyphicon glyphicon-search"></span><span class="collapse-only"> Search</span></a>
                 </li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>

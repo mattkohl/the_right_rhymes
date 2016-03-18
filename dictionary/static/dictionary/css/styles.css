@@ -71,7 +71,7 @@ html>body>#navbar-custom {
     left: 0;
     top: 0;
     text-align: center;
-    margin: auto;
+    margin0left: 0;
 }
 
 .navbar-form {
@@ -96,9 +96,11 @@ button.collapsed {
 
 .navbar-left>li {
     padding-left: 29%;
+    float: right;
 }
  .navbar-right>li {
      padding-right: 29%;
+     float: left;
  }
 
 .navbar-default .navbar-nav>.open>a,
@@ -848,6 +850,15 @@ td {
     text-align: center;
 }
 
+.bomb {
+    height: 1.2em;
+    width: 1.2em;
+    margin-bottom: .3em;
+    margin-right: -1em;
+    color: white;
+	filter: invert(100%);
+}
+
 
 /*
 --------------------------------------------------------------
@@ -856,6 +867,10 @@ Media Queries Aplenty
 */
 
 @media (min-width: 1280px) {
+
+    .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand   {
+        margin-left: 0;
+    }
 
     #content-container {
         max-width: 1280px;
@@ -875,12 +890,20 @@ Media Queries Aplenty
 }
 
 @media (min-width: 1024px) and (max-width: 1279px){
+    .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand   {
+        margin-left: 0;
+    }
+
     .single-thumb {
         width: 194px;
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+
+    .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand   {
+        margin-left: 0;
+    }
 
     .single-thumb {
         width: 180px;
@@ -895,13 +918,18 @@ Media Queries Aplenty
     }
 
     .navbar-left, .navbar-right {
-        width: 100%
+        width: 100%;
+
     }
 
     .collapse-only {
         display: inline-block;
         padding-left: 2em;
         position: relative;
+    }
+
+    .bomb {
+        margin-right: 0;
     }
 
     .navbar-right>li>a>i, .navbar-left>li>a>i, .navbar-left>li>a>span {
@@ -916,6 +944,7 @@ Media Queries Aplenty
     .navbar-left>li, .navbar-right>li {
         padding-left: 1em;
         padding-right: 1em;
+        float: none;
     }
 
     .navbar-default .navbar-header .navbar-toggle {
