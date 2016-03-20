@@ -1,69 +1,206 @@
 <!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> {% block title %}{% endblock %} The Right Rhymes </title>
-        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-        {% load staticfiles %}
-        <link rel="shortcut icon" href="{% static 'dictionary/icon/favicon.ico' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/index.css' %}">
-    </head>
-    <body>
-        <div id="bg">
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> {% block title %}{% endblock %} The Right Rhymes </title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'dictionary/icon/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/index.css' %}">
+
+    <!-- HTML5 Shim & Respond.js IE8 support of HTML5 elements & media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
-            <div id="logo-wrapper" class="container">
-                <div id="logo">
-                    <hgroup id="logo-title">
-                        <h1 id="site-title"><a title="the Right Rhymes" rel="home" href="{% url 'random_entry' %}">the Right Rhymes</a></h1>
-                        <h2 id="site-description"><a title="Hip-Hop Slang Defined" rel="home" href="/">A Hip-Hop Dictionary</a></h2>
-                    </hgroup>
-                </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="material-icons">more_vert</i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">The Right Rhymes</a>
             </div>
-            <div id="search-icon-container" class="trr-search-icon">
-                <ul class="list-inline">
-                    <li>
-                        <a href="#" class="index-menuButton" id="overlay-menu" type="button">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <!--<div class="button-label">search</div>-->
+
+            <!-- Collect the nav links, forms, & other content for toggling -->
+            <div class="collapse navbar-collapse navbar-main-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a href="{% url 'random_entry' %}" class="index-menuButton">
+                        <a class="page-scroll" href="#about"><i class="fa fa-info"></i></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#search"><span class="glyphicon glyphicon-search"></span></a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#random">
+                            <img src="/static/dictionary/icon/bomb.png" class="bomb"></img>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#statistics"><i class="fa fa-bar-chart-o"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div id="logo-wrapper">
+                            <div id="logo">
+                                <h1 id="site-title">
+                                    <a title="the Right Rhymes" rel="home" href="{% url 'random_entry' %}">the Right Rhymes</a>
+                                </h1>
+                                <h2 id="site-description">
+                                    <a title="Hip-Hop Slang Defined" rel="home" href="/">A Hip-Hop Dictionary</a>
+                                </h2>
+                            </div>
+                        </div>
+                        <a href="#search" class="btn btn-circle page-scroll">
+                            <i class="fa fa-search animated"></i>
+                        </a>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-info animated"></i>
+                        </a>
+                        <a href="#random" class="btn btn-circle page-scroll">
                             <img src="static/dictionary/icon/bomb.png" class="bomb"></img>
                         </a>
-                        <!--<div class="button-label">random</div>-->
+                        <a href="#statistics" class="btn btn-circle page-scroll">
+                            <i class="fa fa-bar-chart-o"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section id="search" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 overlay">
+                <nav>
+                    <ul>
+                        <li>{% include 'dictionary/_search.html' %}</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <h6 style="letter-spacing: .25em; color: darkgray;"><i>(queries headwords, artists, & lyrics)</i></h6>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>About <span class="logo">The Right Rhymes</span></h2>
+                <p>This is a historical dictionary of hip-hop language.</p>
+                <p>Word meanings (or senses) are defined & illustrated with examples from rap lyrics. These include information about the artist & release date, so the quotations are ordered chronologically, & below them are mapped the artists origins to surface any regional patterns in the usage.</p>
+                <p>Where I've been able to find them, the lyrics also contain links to internal rhymes & named entities.</p>
+                <ul class="list-inline banner-social-buttons">
+                    <li>
+                        <a href="https://twitter.com/theRightRhymes" class="btn btn-circle btn-lg"><i class="fa fa-twitter fa-fw"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/mattkohl/the_right_rhymes" class="btn btn-circle btn-lg"><i class="fa fa-github fa-fw"></i></a>
+                    </li>
+                    <li>
+                        <a href="http://facebook.com/theRightRhymes" class="btn btn-circle btn-lg"><i class="fa fa-facebook fa-fw"></i></a>
                     </li>
                 </ul>
             </div>
-            <div class="overlay overlay-data">
-              <button type="button" class="overlay-close"><i class="material-icons">close</i></button>
-              <nav>
-                <ul>
-                  <li>{% include 'dictionary/_search.html' %}</li>
-                </ul>
-              </nav>
+        </div>
+    </section>
+
+    <!-- Random Section -->
+    <section id="random" class="content-section text-center">
+        <div class="random-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2 style="margin-bottom: -.15em;">Click <strong>the bomb</strong> to go to a random entry</h2>
+                    <a href="{% url 'random_entry' %}" class="btn btn-circle page-scroll">
+                        <img src="static/dictionary/icon/bomb.png" class="bomb"></img>
+                    </a>
+                </div>
             </div>
         </div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-        <script>
-          $( "#overlay-menu" ).click(function() {
-            $( ".overlay" ).addClass
-            ('overlay-open');
-            $('#index-search-box').focus();
-          });
-        </script>
-        <script>
-        $( ".overlay-close" ).click(function() {
-          $( ".overlay" ).removeClass
-          ( 'overlay-open' );
-          });
-        </script>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="statistics" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Dictionary Stats</h2>
+                <h4>{{entry_count}} entries</h4>
+                <h4>{{sense_count}} senses</h4>
+                <h4>{{example_count}} examples</h4>
+                <h4>{{artist_count}} artists</h4>
+                <p>Want more figures? <a href="{% url 'stats' %}">Go here.</a></p>
+            </div>
         </div>
-    </body>
+    </section>
+
+    <!-- Footer -->
+    <footer style="margin-top: 10em;">
+        <div class="container text-center">
+            <p>Copyright &copy; The Right Rhymes 2016</p>
+        </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script>
+      $( "#overlay-menu" ).click(function() {
+        $( ".overlay" ).addClass
+        ('overlay-open');
+        $('#index-search-box').focus();
+      });
+    </script>
+    <script>
+    $( ".overlay-close" ).click(function() {
+      $( ".overlay" ).removeClass
+      ( 'overlay-open' );
+      });
+    </script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'dictionary/js/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'dictionary/js/grayscale.js' %}"></script>
+
+</body>
+
 </html>

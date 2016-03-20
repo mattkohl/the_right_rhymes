@@ -189,7 +189,16 @@ def entry(request, headword_slug):
 
 def index(request):
     template = loader.get_template('dictionary/index.html')
-    context = {}
+    entry_count = Entry.objects.filter(publish=True).count()
+    sense_count = Sense.objects.filter(publish=True).count()
+    example_count = Example.objects.all().count()
+    artist_count = Artist.objects.all().count()
+    context = {
+        "entry_count": entry_count,
+        "sense_count": sense_count,
+        "example_count": example_count,
+        "artist_count": artist_count
+    }
     return HttpResponse(template.render(context, request))
 
 

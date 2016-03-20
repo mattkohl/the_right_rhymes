@@ -71,7 +71,7 @@ html>body>#navbar-custom {
     left: 0;
     top: 0;
     text-align: center;
-    margin0left: 0;
+    margin-left: 0;
 }
 
 .navbar-form {
@@ -92,7 +92,6 @@ button.collapsed {
 .navbar-left, .navbar-right {
     width: 30%
 }
-
 
 .navbar-left>li {
     padding-left: 29%;
