@@ -56,6 +56,15 @@ p {
     font-size: 3em;
 }
 
+.overlay {
+    position: inherit;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: transparent;
+}
+
 .bomb {
     height: 1em;
     width: 1em;
