@@ -319,7 +319,7 @@ a:focus {
 
 @media(min-width:767px) {
     .content-section {
-        padding-top: 250px;
+        padding-top: 280px;
     }
 
     .random-section {
@@ -358,24 +358,6 @@ a:focus {
 
 ul.banner-social-buttons {
     margin-top: 0;
-}
-
-@media(max-width:1199px) {
-    ul.banner-social-buttons {
-        margin-top: 15px;
-    }
-}
-
-@media(max-width:767px) {
-    ul.banner-social-buttons li {
-        display: block;
-        margin-bottom: 20px;
-        padding: 0;
-    }
-
-    ul.banner-social-buttons li:last-child {
-        margin-bottom: 0;
-    }
 }
 
 footer {
@@ -417,6 +399,30 @@ Media Queries Aplenty
 --------------------------------------------------------------
 */
 
+@media(max-width:1199px) {
+    ul.banner-social-buttons {
+        margin-top: 15px;
+    }
+}
+
+@media(max-width:767px) {
+    ul.banner-social-buttons li {
+        display: block;
+        margin-bottom: 20px;
+        padding: 0;
+    }
+
+    ul.banner-social-buttons li:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 767px) {}
+    ul.banner-social-buttons li {
+        display: inline;
+    }
+}
+
 @media only screen
 and (min-width : 720px) and (max-width : 1039px) {
     p {
@@ -446,10 +452,6 @@ and (min-height : 720px) and (max-width : 1024px) {
 @media only screen
 and (max-width : 719px) and (min-height : 558px ) {
 
-    /*body {*/
-        /*background-image: url(../img/header/skyline-mid-width.png);*/
-    /*}*/
-
 
     #logo-wrapper {
         padding-top: 40%;
@@ -477,6 +479,11 @@ and (max-width : 667px) and (max-height : 375px) {
 
 @media only screen
 and (max-width : 600px) {
+
+    .content-section {
+        padding-top: 9em;
+        padding-bottom: 6em;
+    }
 
     .container {
         padding-right: 0;
@@ -527,9 +534,22 @@ and (max-width : 600px) {
 @media only screen
 and (max-width : 375px) and (max-height : 667px) {
 
-    /*body {*/
-        /*background-image: url(../img/header/skyline-short-width.png);*/
-    /*}*/
+    .stats-section {
+        padding: 100px 0;
+    }
+
+    .content-section {
+        padding-top: 15em;
+        padding-bottom: 9em;
+    }
+
+    .random-section {
+        padding-top: 3em;
+    }
+
+    .about-section {
+        margin-top: -8em;
+    }
 
     #logo {
         font-size: 2.25em;
