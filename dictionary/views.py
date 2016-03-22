@@ -72,6 +72,7 @@ def artist(request, artist_slug):
 
     context = {
         'artist': name,
+        'font_size': 30/len(name),
         'slug': artist.slug,
         'origin': origin,
         'origin_slug': origin_slug,

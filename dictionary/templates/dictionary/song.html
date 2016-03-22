@@ -24,8 +24,7 @@
                     <div class="lyrics">
                     {% for example in examples %}
                         <div>
-                            <i class="fa fa-quote-left"></i>
-                            <div class="lyric-list"> {{ example.linked_lyric|safe }}</div>
+                            <div class="lyric-list"> <i class="fa fa-quote-left"></i> {{ example.linked_lyric|safe }}</div>
                         </div>
                     {% endfor %}
                     </div>

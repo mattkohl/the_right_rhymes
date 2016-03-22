@@ -14,9 +14,9 @@
                                   property="image"
                                   scale="0"/>
                             </figure>
-                            <div class="headword-image">{{ headword }}</div>
+                            <h1 class="headword-image">{{ headword }}</h1>
                         {% else %}
-                            <div class="headword">{{ headword }}</div>
+                            <h1 class="headword">{{ headword }}</h1>
                         {% endif %}
                         <div class="name-date">
                             <span>Published on <time>{{ pub_date }}</time></span>
@@ -26,7 +26,7 @@
                         </div>
                         {% for sense in senses %}
                             <div id="{{ sense.sense.xml_id }}" class="anchor"></div>
-                            <div class="pos">{{ headword }} ⋅ {{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</div>
+                            <h2 class="pos">{{ headword }} ⋅ {{ sense.sense.part_of_speech }} ⋅ {{ forloop.counter }}</h2>
                             <div class="definition">{{ sense.sense.definition }}</div>
                             {% if sense.sense.notes %}
                                 <div class="note">({{ sense.sense.notes }})</div>

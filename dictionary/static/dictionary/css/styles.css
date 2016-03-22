@@ -335,6 +335,10 @@ h2.song-artist-header a:focus {
     color: white;
 }
 
+th {
+    text-align: center;
+}
+
 .headword-image {
     margin-top: -1.43em;
     font-size: 2em;
@@ -671,13 +675,20 @@ a.sense_timeline:hover, .xrlabel:hover {
 }
 
 .rhyme-header {
-    padding-top: 2.5em;
+    padding-top: 1.2em;
 }
 
 h1.trr-list-header {
     font-size: 1.25em;
     margin-top: -1em;
+}
 
+h1.headword-image {
+    margin-bottom: .5em;
+}
+
+h2 {
+    margin-top: 0;
 }
 
 .trr-list {
@@ -1227,7 +1238,7 @@ and (max-width : 320px) {
     }
 
     .single-thumb {
-        width: 145px;
+        width: 158px;
     }
 
 }
