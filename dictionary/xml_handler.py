@@ -193,6 +193,7 @@ class TRRSense:
     def update_sense(self, clear_exx=True):
         if clear_exx:
             self.sense_object.examples.all().delete()
+            self.sense_object.cites_artists.all().delete()
 
         self.sense_object.json = self.sense_dict
         self.sense_object.headword = self.headword
