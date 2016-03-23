@@ -322,7 +322,7 @@ h1.song-title-header {
 }
 
 h2.song-artist-header {
-    margin-top: -.5em;
+    margin-top: -.8em;
     font-size: 1.25em;
     padding-left: .5em;
     padding-bottom: .25em;
@@ -520,6 +520,10 @@ a:focus.feat {
 	margin-bottom: .5em;
 	margin-top: .5em;
 	margin-left: 1em;
+}
+
+.lyrics {
+    margin-top: 1em;
 }
 
 .lyrics i {

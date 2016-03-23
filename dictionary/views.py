@@ -49,7 +49,7 @@ def artist(request, artist_slug):
             'xml_id': sense.xml_id,
             'example_count': sense.examples.filter(artist=artist).count(),
             'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')[:1]]
-        } for sense in artist.primary_senses.filter(publish=True).order_by('headword')
+        } for sense in artist.primary_senses.filter(publish=True).order_by('?')[:5]
     ]
 
     featured_senses = [
@@ -59,7 +59,7 @@ def artist(request, artist_slug):
             'xml_id': sense.xml_id,
             'example_count': sense.examples.filter(feat_artist=artist).count(),
             'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
-        } for sense in artist.featured_senses.filter(publish=True).order_by('headword')]
+        } for sense in artist.featured_senses.filter(publish=True).order_by('?')[:5]]
 
     entity_examples = []
     for e in entity_results:
@@ -67,8 +67,9 @@ def artist(request, artist_slug):
             entity_examples.append({'name': e.name, 'example': build_example(example, published)})
 
     image = check_for_image(artist.slug, 'artists', 'full')
-
     name = reformat_name(artist.name)
+    primary_sense_count = artist.primary_senses.all().count()
+    featured_sense_count = artist.featured_senses.all().count()
 
     context = {
         'artist': name,
@@ -78,6 +79,8 @@ def artist(request, artist_slug):
         'origin_slug': origin_slug,
         'longitude': long,
         'latitude': lat,
+        'primary_sense_count': primary_sense_count,
+        'featured_sense_count': primary_sense_count,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,

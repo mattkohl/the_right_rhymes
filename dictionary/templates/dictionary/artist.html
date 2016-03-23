@@ -19,10 +19,10 @@
 
                 {% if primary_senses %}
 
-                    {% if primary_senses|length > 1 %}
-                    <h3 class="trr-list-header">cited at {{ primary_senses|length }} senses as a <strong>primary artist</strong></h3>
+                    {% if primary_sense_count > 1 %}
+                    <h3 class="trr-list-header">cited at {{ primary_sense_count }} senses as a <strong>primary artist</strong> including</h3>
                     {% elif primary_senses|length == 1 %}
-                    <h3 class="trr-list-header">cited at {{ primary_senses|length }} sense as a <strong>primary artist</strong></h3>
+                    <h3 class="trr-list-header">cited at {{ primary_sense_count }} sense as a <strong>primary artist</strong></h3>
                     {% endif %}
 
                     <div class="trr-list">
@@ -76,10 +76,10 @@
                 {% endif %}
 
                 {% if featured_senses %}
-                    {% if featured_senses|length > 1 %}
-                    <h3 class="trr-list-header">cited at {{ featured_senses|length }} senses as a <strong>featured artist</strong></h3>
+                    {% if featured_sense_count > 1 %}
+                    <h3 class="trr-list-header">cited at {{ featured_sense_count }} senses as a <strong>featured artist</strong> including</h3>
                     {% elif featured_senses|length == 1 %}
-                    <h3 class="trr-list-header">cited at {{ featured_senses|length }} sense as a <strong>featured artist</strong></h3>
+                    <h3 class="trr-list-header">cited at {{ featured_sense_count }} sense as a <strong>featured artist</strong></h3>
                     {% endif %}
 
                     <div class="trr-list">
@@ -137,7 +137,7 @@
                         <div class="trr-list-group-item">
                         {% ifchanged example.name %}
                             {% if example.name != artist %}
-                            <div>as <strong><i>{{ example.name }}</i></strong></div>
+                            <div>as "<i>{{ example.name }}</i>"</div>
                             {% endif %}
                         {% endifchanged %}
                             <div>

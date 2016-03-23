@@ -471,6 +471,7 @@ class TRRExample:
         self.example_object.feat_artist.all().delete()
         self.example_object.lyric_links.all().delete()
         self.example_object.example_rhymes.all().delete()
+        self.example_object.from_song.all().delete()
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
