@@ -138,8 +138,8 @@ def assign_artist_image(examples):
     return '', '', ''
 
 
-def build_sense(sense_object, full=False):
-    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+def build_sense(sense_object, published, full=False):
+    # published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     example_results = sense_object.examples.order_by('release_date')
     if full:
         examples = [build_example(example, published) for example in example_results]
@@ -171,7 +171,7 @@ def build_sense(sense_object, full=False):
 
 
 def build_sense_preview(sense_object):
-    published = [entry.headword for entry in Entry.objects.filter(publish=True)]
+    published = [entry.slug for entry in Entry.objects.filter(publish=True)]
     result = {
         "sense": sense_object,
         "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
@@ -234,6 +234,10 @@ def add_links(lyric, links, published, rf=False):
         else:
             start = link.position + buffer
             end = start + len(link.link_text)
+            if '#' in link.target_slug:
+                lem_slug = link.target_slug.split('#')[0]
+            else:
+                lem_slug = link.target_slug
             if link.link_type == 'rf' and rf:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
@@ -242,7 +246,7 @@ def add_links(lyric, links, published, rf=False):
                 a = '<a href="/rhymes/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
-            if link.link_type == 'xref' and link.target_lemma in published:
+            if link.link_type == 'xref' and lem_slug in published:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
