@@ -136,9 +136,7 @@
                     {% for example in entity_examples %}
                         <div class="trr-list-group-item">
                         {% ifchanged example.name %}
-                            {% if example.name != artist %}
-                            <div>as "<i>{{ example.name }}</i>"</div>
-                            {% endif %}
+                            <h4>as "<i>{{ example.name }}</i>"</h4>
                         {% endifchanged %}
                             <div>
                                 <span class="date">{{ example.example.release_date_string }}</span>

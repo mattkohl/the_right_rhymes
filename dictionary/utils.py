@@ -146,8 +146,11 @@ def build_sense(sense_object, full=False):
     else:
         examples = [build_example(example, published) for example in example_results[:NUM_QUOTS_TO_SHOW]]
     result = {
-        "sense": sense_object,
+        "part_of_speech": sense_object.part_of_speech,
         "xml_id": sense_object.xml_id,
+        "definition": sense_object.definition,
+        "notes": sense_object.notes,
+        "etymology": sense_object.etymology,
         "domains": sense_object.domains.order_by('name'),
         "examples": examples,
         "num_examples": len(example_results),
@@ -180,16 +183,15 @@ def build_example(example_object, published, rf=False):
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
     result = {
-        "artist_name": reformat_name(str(example_object.artist_name)),
-        "artist_slug": str(example_object.artist_slug),
-        "song_title": str(example_object.song_title),
+        "artist_name": reformat_name(example_object.artist_name),
+        "artist_slug": example_object.artist_slug,
+        "song_title": example_object.song_title,
         "song_slug": slugify(example_object.artist_name + ' ' + example_object.song_title),
-        "album": str(example_object.album),
+        "album": example_object.album,
         "release_date": str(example_object.release_date),
-        "release_date_string": str(example_object.release_date_string),
+        "release_date_string": example_object.release_date_string,
         "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
-        "linked_lyric": add_links(lyric, lyric_links, published, rf),
-        "cited_at": [{'headword': sense.headword, 'slug': sense.slug, 'anchor': sense.xml_id} for sense in example_object.illustrates_senses.order_by('headword')]
+        "linked_lyric": add_links(lyric, lyric_links, published, rf)
     }
     return result
 
