@@ -431,8 +431,10 @@ def song(request, song_slug):
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     template = loader.get_template('dictionary/song.html')
     same_dates = [{'title': s.title, 'artist_name': reformat_name(s.artist_name), 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
+    image = check_for_image(song.artist_slug, 'artists', 'full')
     context = {
         "title": song.title,
+        "image": image,
         "artist_name": reformat_name(song.artist_name),
         "artist_slug": song.artist_slug,
         "primary_artist": [build_artist(a) for a in song.artist.all()],

@@ -7,7 +7,7 @@
             <div class="entry-content">
                     <div>
                         <figure class="center-block">
-                            <img src="/static/dictionary/img/header/graffiti.jpg"
+                            <img src="{{ image }}"
                               property="image"
                               scale="0"/>
                         </figure>
@@ -24,57 +24,10 @@
                     <div class="lyrics">
                     {% for example in examples %}
                         <div>
-                            <div class="lyric-list"> <i class="fa fa-quote-left"></i> {{ example.linked_lyric|safe }}</div>
+                            <div class="lyric-list">{{ example.linked_lyric|safe }}</div>
                         </div>
                     {% endfor %}
                     </div>
-
-                    <div class="trr-list-header">Primary artist</div>
-                    <div class="artists-block">
-                        {% for artist in primary_artist %}
-                            <a href="{% url 'artist' artist.slug %}">
-                                {% if artist.image %}
-                                    <figure class="single-thumb">
-                                        <img src="{{ artist.image }}"
-                                             alt="{{ artist.name }}"
-                                             property="image"
-                                             scale="0"
-                                             width="200"
-                                             height="200"/>
-                                        <figcaption>{{artist.name}}</figcaption>
-                                    </figure>
-                                {% endif %}
-                            </a>
-                        {% endfor %}
-                        <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
-                    </div>
-
-                    {% if featured_artists %}
-
-                        {% if featured_artists|length == 1 %}
-                        <div class="trr-list-header">Featured artist</div>
-                        {% else %}
-                        <div class="trr-list-header">Featured artists</div>
-                        {% endif %}
-                        <div class="artists-block">
-                            {% for artist in featured_artists %}
-                                <a href="{% url 'artist' artist.slug %}">
-                                    {% if artist.image %}
-                                        <figure class="single-thumb">
-                                            <img src="{{ artist.image }}"
-                                                 alt="{{ artist.name }}"
-                                                 property="image"
-                                                 scale="0"
-                                                 width="200"
-                                                 height="200"/>
-                                            <figcaption>{{artist.name}}</figcaption>
-                                        </figure>
-                                    {% endif %}
-                                </a>
-                            {% endfor %}
-                            <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
-                        </div>
-                    {% endif %}
 
                 {% if same_dates %}
                     {% if same_dates|length == 1 %}
