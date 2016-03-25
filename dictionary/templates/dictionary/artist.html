@@ -20,7 +20,7 @@
                 {% if primary_senses %}
 
                     {% if primary_sense_count > 1 %}
-                    <h3 class="trr-list-header">cited at {{ primary_sense_count }} senses as a <strong>primary artist</strong> including</h3>
+                    <h3 class="trr-list-header">cited at {{ primary_sense_count }} senses as a <strong>primary artist</strong>, including:</h3>
                     {% elif primary_senses|length == 1 %}
                     <h3 class="trr-list-header">cited at {{ primary_sense_count }} sense as a <strong>primary artist</strong></h3>
                     {% endif %}
@@ -77,7 +77,7 @@
 
                 {% if featured_senses %}
                     {% if featured_sense_count > 1 %}
-                    <h3 class="trr-list-header">cited at {{ featured_sense_count }} senses as a <strong>featured artist</strong> including</h3>
+                    <h3 class="trr-list-header">cited at {{ featured_sense_count }} senses as a <strong>featured artist</strong>, including:</h3>
                     {% elif featured_senses|length == 1 %}
                     <h3 class="trr-list-header">cited at {{ featured_sense_count }} sense as a <strong>featured artist</strong></h3>
                     {% endif %}
