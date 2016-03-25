@@ -12,10 +12,11 @@
                 </figure>
                 <div class="headword-image">About</div>
 
-                <div class="trr-list-header">This is a historical dictionary of <strong>hip-hop</strong></div>
-                <div style="margin-bottom: 1em; margin-top: .55em;">
-                    <p>As of today, there are {{ entry_count }} entries. Each of these has a headword, part of speech, & one or more
-                        senses.</p>
+                <div class="trr-list-header"><span class="logo">The Right Rhymes</span> is a historical dictionary of <strong>hip-hop</strong></div>
+                <div style="margin-bottom: 1em; padding-top: 1em;">
+                    <p>There are currently <strong>{{ entry_count }} entries</strong> the dictionary</p>
+                    <p>Any entry consists of a headword, part of speech, & one or more senses.</p>
+                    <hr style="width: 25%">
                     <p>A <strong>sense</strong> is a meaning of a word. <a href="{% url 'entry' 'dope' %}">Dope</a>, for example, has at least two senses:</p>
                     <p style="margin-top: 1.5em;">1. <strong>drugs</strong>, as in:</p>
                     <div class="lyric">All I love's my <a href="{% url 'entry' 'dope' %}#e4890_n_1">dope</a> and dead presidents</div>
@@ -23,189 +24,210 @@
                     <p style="margin-top: 1em;">2. <strong>good</strong>, <strong>exciting</strong>, etc., as in:</p>
                     <div class="lyric">Bear witness to the <a href="{% url 'entry' 'dope' %}#e4890_adj_1">dopest</a> fuckin rhyme I wrote</div>
                 </div>
+                <hr style="width: 25%">
                 <div style="margin-top: 1em;">
-                    <p>Every sense has a definition. I don't always get these right, so please let me know if you see something wrong.</p>
-                    <p>As well, there'll be buttons for information about etymology, synonyms, collocates, etc. They look like this:</p>
-                    	<div class="etym xref toggle">
-                            <span class="xrlabel" tabindex="11">Etymology</span>
-                            <span class="the-list"> pre hip-hop, from the 1890s </span>
-                        </div>
-                        <div class="xref toggle">
-                            <span class="xrlabel" tabindex="2">Domains</span>
-                            <span class="the-list">
-                                <span class="domain"><a href="/domains/drugs/">drugs</a>, </span>
-                                <span class="domain">
-                                    <a href="/domains/marijuana/">marijuana</a>
-                                </span>
+                    <p>Every sense has a definition & buttons for information</p>
+                    <p>about etymology, synonyms, collocates, etc.:</p>
+                    <div class="etym xref toggle">
+                        <span class="xrlabel" tabindex="11">Etymology</span>
+                        <span class="the-list"> pre hip-hop, from the 1890s </span>
+                    </div>
+                    <div class="xref toggle">
+                        <span class="xrlabel" tabindex="2">Domains</span>
+                        <span class="the-list">
+                            <span class="domain"><a href="/domains/drugs/">drugs</a>, </span>
+                            <span class="domain">
+                                <a href="/domains/marijuana/">marijuana</a>
                             </span>
-                        </div>
-                        <div class="xref toggle">
-                            <span class="xrlabel" tabindex="7">Related concepts</span>
-                            <span class="the-list">
-                                <span class="related_concept"><a href="/hustle#e6530_intrV_1">hustle</a>, </span>
-                                <span class="related_concept">product, </span>
-                                <span class="related_concept">push, </span>
-                                <span class="related_concept">serve, </span>
-                                <span class="related_concept"><a href="/slang#e9700_trV_1">slang</a>, </span>
-                                <span class="related_concept">sling, </span>
-                                <span class="related_concept">supply, </span>
-                                <span class="related_concept"><a href="/trap#e10890_intrV_1">trap</a>, </span>
-                                <span class="related_concept"><a href="/trapper#e10900_n_1">trapper</a>, </span>
-                                <span class="related_concept">weight, </span>
-                                <span class="related_concept">work</span>
+                        </span>
+                    </div>
+                    <div class="xref toggle">
+                        <span class="xrlabel" tabindex="7">Related concepts</span>
+                        <span class="the-list">
+                            <span class="related_concept"><a href="/hustle#e6530_intrV_1">hustle</a>, </span>
+                            <span class="related_concept">product, </span>
+                            <span class="related_concept">push, </span>
+                            <span class="related_concept">serve, </span>
+                            <span class="related_concept"><a href="/slang#e9700_trV_1">slang</a>, </span>
+                            <span class="related_concept">sling, </span>
+                            <span class="related_concept">supply, </span>
+                            <span class="related_concept"><a href="/trap#e10890_intrV_1">trap</a>, </span>
+                            <span class="related_concept"><a href="/trapper#e10900_n_1">trapper</a>, </span>
+                            <span class="related_concept">weight, </span>
+                            <span class="related_concept">work</span>
+                        </span>
+                    </div>
+                    <div class="xref toggle">
+                        <span class="xrlabel" tabindex="9">Rhymes</span>
+                        <span class="the-list">
+                            <span class="rhyme"><a href="/rhymes/coke">coke</a><sup>3</sup>, </span>
+                            <span class="rhyme"><a href="/rhymes/hoe">hoe</a>, </span>
+                            <span class="rhyme"><a href="/rhymes/smoke">smoke</a>, </span>
+                            <span class="rhyme"><a href="/rhymes/locd">loc'd</a>, </span>
+                            <span class="rhyme"><a href="/rhymes/po-po">Po-po</a>, </span>
+                            <span class="rhyme"><a href="/rhymes/po-pos">po-pos</a>, </span>
+                            <span class="rhyme"><a href="/rhymes/ropes">ropes</a>, </span>
+                            <span class="rhyme"><a href="/rhymes/broke">broke</a>, </span>
+                            <span class="rhyme">
+                                <a href="/rhymes/xo">XO</a>
                             </span>
-                        </div>
-                        <div class="xref toggle">
-                            <span class="xrlabel" tabindex="9">Rhymes</span>
-                            <span class="the-list">
-                                <span class="rhyme"><a href="/rhymes/coke">coke</a><sup>3</sup>, </span>
-                                <span class="rhyme"><a href="/rhymes/hoe">hoe</a>, </span>
-                                <span class="rhyme"><a href="/rhymes/smoke">smoke</a>, </span>
-                                <span class="rhyme"><a href="/rhymes/locd">loc'd</a>, </span>
-                                <span class="rhyme"><a href="/rhymes/po-po">Po-po</a>, </span>
-                                <span class="rhyme"><a href="/rhymes/po-pos">po-pos</a>, </span>
-                                <span class="rhyme"><a href="/rhymes/ropes">ropes</a>, </span>
-                                <span class="rhyme"><a href="/rhymes/broke">broke</a>, </span>
-                                <span class="rhyme">
-                                    <a href="/rhymes/xo">XO</a>
-                                </span>
+                        </span>
+                    </div>
+                    <div class="xref toggle">
+                        <span class="xrlabel" tabindex="10">Collocates</span>
+                        <span class="the-list">
+                            <span class="collocate"><a href="/slang#e9700_trV_1">slang</a><sup>12</sup>, </span>
+                            <span class="collocate"><a href="/pusher#e8785_n_1">pusher</a><sup>12</sup>, </span>
+                            <span class="collocate">coke<sup>7</sup>, </span>
+                            <span class="collocate"><a href="/ends#e5170_n_1">ends</a><sup>4</sup>, </span>
+                            <span class="collocate"><a href="/game#e5600_n_3">game</a><sup>4</sup>, </span>
+                            <span class="collocate"><a href="/crack#e4370_n_1">crack</a><sup>4</sup>, </span>
+                            <span class="collocate"><a href="/po-po#e8530_n_1">po-po</a><sup>4</sup>, </span>
+                            <span class="collocate"><a href="/hood#e6390_n_2">hood</a><sup>4</sup>, </span>
+                            <span class="collocate"><a href="/lean#e7180_n_1">lean</a><sup>3</sup>, </span>
+                            <span class="collocate">sling<sup>3</sup>, </span>
+                            <span class="collocate"><a href="/ecstasy#e5140_n_1">ecstasy</a><sup>3</sup>, </span>
+                            <span class="collocate">fiend<sup>3</sup>, </span>
+                            <span class="collocate"><a href="/gangsta#e5640_n_1">gangsta</a><sup>3</sup>, </span>
+                            <span class="collocate"><a href="/slanger#e9703_n_1">slanger</a><sup>3</sup>, </span>
+                            <span class="collocate"><a href="/weed#e11290_n_1">weed</a><sup>2</sup>, </span>
+                            <span class="collocate">uncut<sup>2</sup>, </span>
+                            <span class="collocate"><a href="/on-the-cut#e8085_prepPhr_2">on the cut</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/on-the-daily#e8090_prepPhr_1">on the daily</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/rapper#e8825_n_1">rapper</a><sup>2</sup>, </span>
+                            <span class="collocate">ride<sup>2</sup>, </span>
+                            <span class="collocate"><a href="/triple-beam#e11020_n_1">triple beam</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/baby-mama#e2620_n_1">baby mama</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/biatch#e3041_n_1">biatch</a><sup>2</sup>, </span>
+                            <span class="collocate">blow<sup>2</sup>, </span>
+                            <span class="collocate">chronic<sup>2</sup>, </span>
+                            <span class="collocate">corner<sup>2</sup>, </span>
+                            <span class="collocate">fiend<sup>2</sup>, </span>
+                            <span class="collocate"><a href="/four-finger-ring#e5450_n_1">four finger ring</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/fuck-with#e5540_trPhrV_3">fuck with</a><sup>2</sup>, </span>
+                            <span class="collocate">gangbanger<sup>2</sup>, </span>
+                            <span class="collocate"><a href="/gank#e5670_trV_1">gank</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/h-town#e5970_n_1">H-town</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/indo#e6650_n_1">indo</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/o-g#e7990_n_1">O.G.</a><sup>2</sup>, </span>
+                            <span class="collocate"><a href="/hoe#e6250_n_1">hoe</a><sup>2</sup>, </span>
+                            <span class="collocate">smoke<sup>2</sup>, </span>
+                            <span class="collocate">cook<sup>2</sup>, </span>
+                            <span class="collocate"><a href="/block#e3110_n_1">block</a><sup>2</sup>, </span>
+                            <span class="collocate">gangbang, </span>
+                            <span class="collocate"><a href="/ghost#e5760_trV_1">ghost</a>, </span>
+                            <span class="collocate"><a href="/go-hard#e5802_phr_1">go hard</a>, </span>
+                            <span class="collocate"><a href="/guap#e5930_n_1">guap</a>, </span>
+                            <span class="collocate">Hen, </span>
+                            <span class="collocate">hit, </span>
+                            <span class="collocate">ill, </span>
+                            <span class="collocate"><a href="/in-the-cut#e6680_prepPhr_1">in the cut</a>, </span>
+                            <span class="collocate"><a href="/keep-it-real#e6950_phr_1">keep it real</a>, </span>
+                            <span class="collocate"><a href="/locd#e7315_adj_1">loc'd</a>, </span>
+                            <span class="collocate"><a href="/manteca#e7560_n_1">manteca</a>, </span>
+                            <span class="collocate"><a href="/nathan#e7833_n_1">nathan</a>, </span>
+                            <span class="collocate"><a href="/paid#e8260_adj_1">paid</a>, </span>
+                            <span class="collocate"><a href="/piff#e8425_n_1">piff</a>, </span>
+                            <span class="collocate"><a href="/powder#e8610_n_1">powder</a>, </span>
+                            <span class="collocate"><a href="/projects#e8670_n_1">projects</a>, </span>
+                            <span class="collocate"><a href="/proper#e8680_adv_1">proper</a>, </span>
+                            <span class="collocate"><a href="/purp#e8755_n_1">purp</a>, </span>
+                            <span class="collocate">raw, </span>
+                            <span class="collocate">rhyme, </span>
+                            <span class="collocate"><a href="/rocked-up#e9065_adj_1">rocked up</a>, </span>
+                            <span class="collocate">rope, </span>
+                            <span class="collocate"><a href="/sawed-off#e9270_n_1">sawed-off</a>, </span>
+                            <span class="collocate">serve, </span>
+                            <span class="collocate"><a href="/sherm#e9450_n_1">sherm</a>, </span>
+                            <span class="collocate"><a href="/show-out#e9565_intrPhrV_1">show out</a>, </span>
+                            <span class="collocate"><a href="/sizzurp#e9590_n_1">sizzurp</a>, </span>
+                            <span class="collocate"><a href="/iggity#e6605_comb_1">-iggity</a>, </span>
+                            <span class="collocate">smoke, </span>
+                            <span class="collocate"><a href="/spark-up#e9910_trPhrV_2">spark up</a>, </span>
+                            <span class="collocate"><a href="/straight#e10220_adj_4">straight</a>, </span>
+                            <span class="collocate"><a href="/swag#e10400_n_2">swag</a>, </span>
+                            <span class="collocate"><a href="/swanga#e10420_n_1">swanga</a>, </span>
+                            <span class="collocate">talk shit, </span>
+                            <span class="collocate"><a href="/3-wheel#e2020_intrV_1">3-wheel</a>, </span>
+                            <span class="collocate"><a href="/toast#e10820_n_1">toast</a>, </span>
+                            <span class="collocate"><a href="/trey-deuce#e10930_n_1">trey deuce</a>, </span>
+                            <span class="collocate"><a href="/u-p-t#e11130_n_1">U.P.T.</a>, </span>
+                            <span class="collocate"><a href="/wet#e11310_n_1">wet</a>, </span>
+                            <span class="collocate"><a href="/whip#e11350_trV_2">whip</a>, </span>
+                            <span class="collocate"><a href="/wool#e11533_n_1">wool</a>, </span>
+                            <span class="collocate"><a href="/x#e11610_n_1">X</a>, </span>
+                            <span class="collocate"><a href="/x-o#e11615_n_1">X.O.</a>, </span>
+                            <span class="collocate">brah, </span>
+                            <span class="collocate"><a href="/ghetto#e5750_adj_1">ghetto</a>, </span>
+                            <span class="collocate"><a href="/ki#e6960_n_1">ki</a>, </span>
+                            <span class="collocate"><a href="/one-time#e8120_n_1">one-time</a>, </span>
+                            <span class="collocate">raw, </span>
+                            <span class="collocate"><a href="/rhyme-sayer#e8993_n_1">rhyme sayer</a>, </span>
+                            <span class="collocate"><a href="/sess#e9370_n_1">sess</a>, </span>
+                            <span class="collocate"><a href="/spliff#e9940_n_1">spliff</a>, </span>
+                            <span class="collocate">twisted, </span>
+                            <span class="collocate">chop, </span>
+                            <span class="collocate"><a href="/5th-ward#e2033_n_1">5th Ward</a>, </span>
+                            <span class="collocate">all about, </span>
+                            <span class="collocate"><a href="/babysit#e2623_intrV_1">babysit</a>, </span>
+                            <span class="collocate"><a href="/back-in-the-day#e2630_phr_1">back in the day</a>, </span>
+                            <span class="collocate"><a href="/backwoods#e2660_n_1">Backwoods</a>, </span>
+                            <span class="collocate">bang, </span>
+                            <span class="collocate">banger, </span>
+                            <span class="collocate">bank, </span>
+                            <span class="collocate">bird, </span>
+                            <span class="collocate"><a href="/bitch#e3040_n_1">bitch</a>, </span>
+                            <span class="collocate"><a href="/bread#e3390_n_1">bread</a>, </span>
+                            <span class="collocate">brick, </span>
+                            <span class="collocate">bug, </span>
+                            <span class="collocate">Calliope, </span>
+                            <span class="collocate"><a href="/cane#e3800_n_1">cane</a>, </span>
+                            <span class="collocate"><a href="/charge-it-to-the-game#e3907_phr_1">charge it to the game</a>, </span>
+                            <span class="collocate"><a href="/chief#e3990_intrV_1">chief</a>, </span>
+                            <span class="collocate"><a href="/chill#e4000_adj_1">chill</a>, </span>
+                            <span class="collocate"><a href="/cluck#e4175_n_1">cluck</a>, </span>
+                            <span class="collocate">come up, </span>
+                            <span class="collocate">cop, </span>
+                            <span class="collocate"><a href="/crackhead#e4385_n_1">crackhead</a>, </span>
+                            <span class="collocate"><a href="/d-game#e4577_n_1">d-game</a>, </span>
+                            <span class="collocate"><a href="/dead-president#e4640_n_1">dead president</a>, </span>
+                            <span class="collocate">dog food, </span>
+                            <span class="collocate"><a href="/doja#e4863_n_1">doja</a>, </span>
+                            <span class="collocate"><a href="/drop#e4980_n_1">drop</a>, </span>
+                            <span class="collocate">
+                                <a href="/ese#e5190_n_1">ese</a>
                             </span>
-                        </div>
-                        <div class="xref toggle">
-                            <span class="xrlabel" tabindex="10">Collocates</span>
-                            <span class="the-list">
-                                <span class="collocate"><a href="/slang#e9700_trV_1">slang</a><sup>12</sup>, </span>
-                                <span class="collocate"><a href="/pusher#e8785_n_1">pusher</a><sup>12</sup>, </span>
-                                <span class="collocate">coke<sup>7</sup>, </span>
-                                <span class="collocate"><a href="/ends#e5170_n_1">ends</a><sup>4</sup>, </span>
-                                <span class="collocate"><a href="/game#e5600_n_3">game</a><sup>4</sup>, </span>
-                                <span class="collocate"><a href="/crack#e4370_n_1">crack</a><sup>4</sup>, </span>
-                                <span class="collocate"><a href="/po-po#e8530_n_1">po-po</a><sup>4</sup>, </span>
-                                <span class="collocate"><a href="/hood#e6390_n_2">hood</a><sup>4</sup>, </span>
-                                <span class="collocate"><a href="/lean#e7180_n_1">lean</a><sup>3</sup>, </span>
-                                <span class="collocate">sling<sup>3</sup>, </span>
-                                <span class="collocate"><a href="/ecstasy#e5140_n_1">ecstasy</a><sup>3</sup>, </span>
-                                <span class="collocate">fiend<sup>3</sup>, </span>
-                                <span class="collocate"><a href="/gangsta#e5640_n_1">gangsta</a><sup>3</sup>, </span>
-                                <span class="collocate"><a href="/slanger#e9703_n_1">slanger</a><sup>3</sup>, </span>
-                                <span class="collocate"><a href="/weed#e11290_n_1">weed</a><sup>2</sup>, </span>
-                                <span class="collocate">uncut<sup>2</sup>, </span>
-                                <span class="collocate"><a href="/on-the-cut#e8085_prepPhr_2">on the cut</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/on-the-daily#e8090_prepPhr_1">on the daily</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/rapper#e8825_n_1">rapper</a><sup>2</sup>, </span>
-                                <span class="collocate">ride<sup>2</sup>, </span>
-                                <span class="collocate"><a href="/triple-beam#e11020_n_1">triple beam</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/baby-mama#e2620_n_1">baby mama</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/biatch#e3041_n_1">biatch</a><sup>2</sup>, </span>
-                                <span class="collocate">blow<sup>2</sup>, </span>
-                                <span class="collocate">chronic<sup>2</sup>, </span>
-                                <span class="collocate">corner<sup>2</sup>, </span>
-                                <span class="collocate">fiend<sup>2</sup>, </span>
-                                <span class="collocate"><a href="/four-finger-ring#e5450_n_1">four finger ring</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/fuck-with#e5540_trPhrV_3">fuck with</a><sup>2</sup>, </span>
-                                <span class="collocate">gangbanger<sup>2</sup>, </span>
-                                <span class="collocate"><a href="/gank#e5670_trV_1">gank</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/h-town#e5970_n_1">H-town</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/indo#e6650_n_1">indo</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/o-g#e7990_n_1">O.G.</a><sup>2</sup>, </span>
-                                <span class="collocate"><a href="/hoe#e6250_n_1">hoe</a><sup>2</sup>, </span>
-                                <span class="collocate">smoke<sup>2</sup>, </span>
-                                <span class="collocate">cook<sup>2</sup>, </span>
-                                <span class="collocate"><a href="/block#e3110_n_1">block</a><sup>2</sup>, </span>
-                                <span class="collocate">gangbang, </span>
-                                <span class="collocate"><a href="/ghost#e5760_trV_1">ghost</a>, </span>
-                                <span class="collocate"><a href="/go-hard#e5802_phr_1">go hard</a>, </span>
-                                <span class="collocate"><a href="/guap#e5930_n_1">guap</a>, </span>
-                                <span class="collocate">Hen, </span>
-                                <span class="collocate">hit, </span>
-                                <span class="collocate">ill, </span>
-                                <span class="collocate"><a href="/in-the-cut#e6680_prepPhr_1">in the cut</a>, </span>
-                                <span class="collocate"><a href="/keep-it-real#e6950_phr_1">keep it real</a>, </span>
-                                <span class="collocate"><a href="/locd#e7315_adj_1">loc'd</a>, </span>
-                                <span class="collocate"><a href="/manteca#e7560_n_1">manteca</a>, </span>
-                                <span class="collocate"><a href="/nathan#e7833_n_1">nathan</a>, </span>
-                                <span class="collocate"><a href="/paid#e8260_adj_1">paid</a>, </span>
-                                <span class="collocate"><a href="/piff#e8425_n_1">piff</a>, </span>
-                                <span class="collocate"><a href="/powder#e8610_n_1">powder</a>, </span>
-                                <span class="collocate"><a href="/projects#e8670_n_1">projects</a>, </span>
-                                <span class="collocate"><a href="/proper#e8680_adv_1">proper</a>, </span>
-                                <span class="collocate"><a href="/purp#e8755_n_1">purp</a>, </span>
-                                <span class="collocate">raw, </span>
-                                <span class="collocate">rhyme, </span>
-                                <span class="collocate"><a href="/rocked-up#e9065_adj_1">rocked up</a>, </span>
-                                <span class="collocate">rope, </span>
-                                <span class="collocate"><a href="/sawed-off#e9270_n_1">sawed-off</a>, </span>
-                                <span class="collocate">serve, </span>
-                                <span class="collocate"><a href="/sherm#e9450_n_1">sherm</a>, </span>
-                                <span class="collocate"><a href="/show-out#e9565_intrPhrV_1">show out</a>, </span>
-                                <span class="collocate"><a href="/sizzurp#e9590_n_1">sizzurp</a>, </span>
-                                <span class="collocate"><a href="/iggity#e6605_comb_1">-iggity</a>, </span>
-                                <span class="collocate">smoke, </span>
-                                <span class="collocate"><a href="/spark-up#e9910_trPhrV_2">spark up</a>, </span>
-                                <span class="collocate"><a href="/straight#e10220_adj_4">straight</a>, </span>
-                                <span class="collocate"><a href="/swag#e10400_n_2">swag</a>, </span>
-                                <span class="collocate"><a href="/swanga#e10420_n_1">swanga</a>, </span>
-                                <span class="collocate">talk shit, </span>
-                                <span class="collocate"><a href="/3-wheel#e2020_intrV_1">3-wheel</a>, </span>
-                                <span class="collocate"><a href="/toast#e10820_n_1">toast</a>, </span>
-                                <span class="collocate"><a href="/trey-deuce#e10930_n_1">trey deuce</a>, </span>
-                                <span class="collocate"><a href="/u-p-t#e11130_n_1">U.P.T.</a>, </span>
-                                <span class="collocate"><a href="/wet#e11310_n_1">wet</a>, </span>
-                                <span class="collocate"><a href="/whip#e11350_trV_2">whip</a>, </span>
-                                <span class="collocate"><a href="/wool#e11533_n_1">wool</a>, </span>
-                                <span class="collocate"><a href="/x#e11610_n_1">X</a>, </span>
-                                <span class="collocate"><a href="/x-o#e11615_n_1">X.O.</a>, </span>
-                                <span class="collocate">brah, </span>
-                                <span class="collocate"><a href="/ghetto#e5750_adj_1">ghetto</a>, </span>
-                                <span class="collocate"><a href="/ki#e6960_n_1">ki</a>, </span>
-                                <span class="collocate"><a href="/one-time#e8120_n_1">one-time</a>, </span>
-                                <span class="collocate">raw, </span>
-                                <span class="collocate"><a href="/rhyme-sayer#e8993_n_1">rhyme sayer</a>, </span>
-                                <span class="collocate"><a href="/sess#e9370_n_1">sess</a>, </span>
-                                <span class="collocate"><a href="/spliff#e9940_n_1">spliff</a>, </span>
-                                <span class="collocate">twisted, </span>
-                                <span class="collocate">chop, </span>
-                                <span class="collocate"><a href="/5th-ward#e2033_n_1">5th Ward</a>, </span>
-                                <span class="collocate">all about, </span>
-                                <span class="collocate"><a href="/babysit#e2623_intrV_1">babysit</a>, </span>
-                                <span class="collocate"><a href="/back-in-the-day#e2630_phr_1">back in the day</a>, </span>
-                                <span class="collocate"><a href="/backwoods#e2660_n_1">Backwoods</a>, </span>
-                                <span class="collocate">bang, </span>
-                                <span class="collocate">banger, </span>
-                                <span class="collocate">bank, </span>
-                                <span class="collocate">bird, </span>
-                                <span class="collocate"><a href="/bitch#e3040_n_1">bitch</a>, </span>
-                                <span class="collocate"><a href="/bread#e3390_n_1">bread</a>, </span>
-                                <span class="collocate">brick, </span>
-                                <span class="collocate">bug, </span>
-                                <span class="collocate">Calliope, </span>
-                                <span class="collocate"><a href="/cane#e3800_n_1">cane</a>, </span>
-                                <span class="collocate"><a href="/charge-it-to-the-game#e3907_phr_1">charge it to the game</a>, </span>
-                                <span class="collocate"><a href="/chief#e3990_intrV_1">chief</a>, </span>
-                                <span class="collocate"><a href="/chill#e4000_adj_1">chill</a>, </span>
-                                <span class="collocate"><a href="/cluck#e4175_n_1">cluck</a>, </span>
-                                <span class="collocate">come up, </span>
-                                <span class="collocate">cop, </span>
-                                <span class="collocate"><a href="/crackhead#e4385_n_1">crackhead</a>, </span>
-                                <span class="collocate"><a href="/d-game#e4577_n_1">d-game</a>, </span>
-                                <span class="collocate"><a href="/dead-president#e4640_n_1">dead president</a>, </span>
-                                <span class="collocate">dog food, </span>
-                                <span class="collocate"><a href="/doja#e4863_n_1">doja</a>, </span>
-                                <span class="collocate"><a href="/drop#e4980_n_1">drop</a>, </span>
-                                <span class="collocate">
-                                    <a href="/ese#e5190_n_1">ese</a>
-                                </span>
-                            </span>
-                        </div>
-                        <div class="xref">
-                            <a class="sense_timeline" href="/senses/e4890_n_1/timeline/">Timeline</a>
-                        </div>
-                        <div class="placeholder"></div>
+                        </span>
+                    </div>
+                    <div class="xref">
+                        <a class="sense_timeline" href="/senses/e4890_n_1/timeline/">Timeline</a>
+                    </div>
+                    <div class="placeholder"></div>
+                    <p style="margin-top: 1em;"><strong>Collocates</strong> & <strong>Rhymes</strong> may be followed by a superscript number, e.g.</p>
+                    <p><span class="collocate"><a href="/slang#e9700_trV_1">slang</a><sup>12</sup></span></p>
+                    <p>This means I have 12 examples of the headword & <a href="/slang#e9700_trV_1">slang</a> used together</p>
+                    <hr style="width: 25%">
+
                 </div>
                 <div style="margin-top: 1em;">
-                    <p>Senses are supported with examples from hip-hop songs.</p>
-                    <p>These include a lyric as well as as well as information about the release date, artists, song title, & album name.</p>
-                    <p>Below the examples is a map with details about the artists' origins.</p>
+                    <p>Every sense is supported with <strong>examples</strong> from hip-hop songs, e.g.</p>
+                    <ul class="examplesHead">
+                        <li>
+                            <span class="date">1983</span>
+                            <span class="artist"><a href="/artists/too-short/">Too $hort</a></span>
+                            <span class="songTitle">"<a href="/songs/too-short-girl/">Girl</a>"</span>
+                            <span class="album">[Don't Stop Rappin']</span>
+                            <div class="lyric">I come from the city of <a href="/dope#e4890_n_1">dope</a></div>
+                        </li>
+                    </ul>
+                    <p style="margin-top: 1em;">These are listed in chronological order.</p>
+                    <hr style="width: 25%">
+                    <p>Below the examples is a <strong>map</strong> with details about the artists' origins.</p>
+                    <div class="map-canvas about-map">
+                        <span class="sense_id hidden">e4890_n_1</span>
+                        <p class="mapLabel">Origins of Cited Artists</p>
+                        <div id="map1" class="map"></div>
+                    </div>
                 </div>
             </div>
         </div>
