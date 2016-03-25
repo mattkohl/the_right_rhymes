@@ -20,7 +20,10 @@ NUM_QUOTS_TO_SHOW = 3
 
 def about(request):
     template = loader.get_template('dictionary/about.html')
-    context = {}
+    entry_count = Entry.objects.filter(publish=True).count()
+    context = {
+        'entry_count': entry_count
+    }
     return HttpResponse(template.render(context, request))
 
 
