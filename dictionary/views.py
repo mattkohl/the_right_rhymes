@@ -9,7 +9,7 @@ from django.db.models import Q, Count
 
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
-    collect_place_artists
+    collect_place_artists, build_entry_preview
 from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
 
@@ -105,8 +105,8 @@ def domain(request, domain_slug):
     template = loader.get_template('dictionary/domain.html')
     domain = get_object_or_404(Domain, slug=domain_slug)
     sense_objects = domain.senses.filter(publish=True).order_by('headword')
-    senses = [build_sense_preview(sense) for sense in sense_objects]
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
+    senses = [build_sense_preview(sense, published) for sense in sense_objects]
     data = [sense.headword for sense in sense_objects]
     context = {
         'domain': domain.name,
@@ -200,11 +200,15 @@ def index(request):
     sense_count = Sense.objects.filter(publish=True).count()
     example_count = Example.objects.all().count()
     artist_count = Artist.objects.all().count()
+    recently_updated = [build_entry_preview(e) for e in Entry.objects.filter(publish=True).order_by('last_updated')[:5]]
+    recently_published = [build_entry_preview(e) for e in Entry.objects.filter(publish=True).order_by('pub_date')[:5]]
     context = {
         "entry_count": entry_count,
         "sense_count": sense_count,
         "example_count": example_count,
-        "artist_count": artist_count
+        "artist_count": artist_count,
+        "recently_updated": recently_updated,
+        "recently_published": recently_published
     }
     return HttpResponse(template.render(context, request))
 

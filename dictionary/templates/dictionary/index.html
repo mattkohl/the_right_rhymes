@@ -49,7 +49,9 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about"><i class="fa fa-info"></i><span class="collapse-only"> About</span></a>
+                        <a class="page-scroll" href="#about">
+                            <i class="fa fa-info"></i><span class="collapse-only"> About</span>
+                        </a>
                     </li>
                     <li>
                         <a class="page-scroll srch" href="#search"><span class="glyphicon glyphicon-search"></span><span class="collapse-only"> Search</span></a>
@@ -62,7 +64,9 @@
                         </a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#statistics"><i class="fa fa-bar-chart-o"></i><span class="collapse-only"> Stats</span></a>
+                        <a class="page-scroll" href="#statistics">
+                            <i class="fa fa-bar-chart-o"></i><span class="collapse-only"> Stats</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -94,10 +98,10 @@
                             <i class="fa fa-info animated"></i>
                         </a>
                         <a href="#random" class="btn btn-circle page-scroll">
-                            <img src="static/dictionary/icon/bomb.png" class="bomb"></img>
+                            <img src="static/dictionary/icon/bomb.png" class="bomb animated"></img>
                         </a>
                         <a href="#statistics" class="btn btn-circle page-scroll">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-bar-chart-o animated"></i>
                         </a>
                     </div>
                 </div>
@@ -124,17 +128,17 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>About <span class="logo">The Right Rhymes</span></h2>
                 <p>This is a dictionary of hip-hop language.</p>
-                <p>Word meanings (or senses) are defined & illustrated with examples from rap lyrics. These include information about the artist & release date, so the quotations are ordered chronologically, & below them are mapped the artists origins to surface any regional patterns in the usage.</p>
-                <p>Artist names, song titles, & map locations are linked. Where I've been able to find them, the lyrics also contain links to internal rhymes & named entities.</p>
+                <p>Word meanings (or senses) are defined & illustrated with examples from rap lyrics. These are ordered chronologically, & below them are maps of the artists' origins.</p>
+                <p>Artist names, song titles, & map locations are linked. Where I've been able to find them, the lyrics also link to internal rhymes & named entities.</p>
                 <ul class="list-inline banner-social-buttons">
                     <li>
-                        <a href="https://twitter.com/theRightRhymes" class="btn btn-circle btn-lg"><i class="fa fa-twitter fa-fw"></i></a>
+                        <a href="https://twitter.com/theRightRhymes" class="btn btn-circle btn-lg" target="_blank"><i class="fa fa-twitter fa-fw"></i></a>
                     </li>
                     <li>
-                        <a href="https://github.com/mattkohl/the_right_rhymes" class="btn btn-circle btn-lg"><i class="fa fa-github fa-fw"></i></a>
+                        <a href="https://github.com/mattkohl/the_right_rhymes" class="btn btn-circle btn-lg" target="_blank"><i class="fa fa-github fa-fw"></i></a>
                     </li>
                     <li>
-                        <a href="http://facebook.com/theRightRhymes" class="btn btn-circle btn-lg"><i class="fa fa-facebook fa-fw"></i></a>
+                        <a href="http://facebook.com/theRightRhymes" class="btn btn-circle btn-lg" target="_blank"><i class="fa fa-facebook fa-fw"></i></a>
                     </li>
                 </ul>
             </div>
@@ -159,12 +163,27 @@
     <section id="statistics" class="container content-section text-center">
         <div class="stats-section">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Dictionary Stats</h2>
-                <h4>{{entry_count}} entries</h4>
-                <h4>{{sense_count}} senses</h4>
-                <h4>{{example_count}} examples</h4>
-                <h4>{{artist_count}} artists</h4>
-                <p>Want more figures? <a href="{% url 'stats' %}">Go here.</a></p>
+                <h3 style="text-transform: uppercase">Current Stats</h3>
+                <ul class="list-inline" style="font-size: 1.5em;">
+                    <li>{{entry_count}} entries</li>
+                    <li>{{sense_count}} senses</li>
+                    <li>{{example_count}} examples</li>
+                    <li>{{artist_count}} artists</li>
+                </ul>
+                <h4 style="margin-top: 2.5em; margin-bottom: .5em;">Most recently published:</h4>
+                <ul class="list-inline">
+                {% for e in recently_published %}
+                    <li><strong><a href="{% url 'entry' e.slug %}">{{e.headword}}</a></strong></li>
+                {% endfor %}
+                </ul>
+                <h4 style="margin-top: 2.5em; margin-bottom: .5em;">Most recently updated:</h4>
+                <ul class="list-inline">
+                {% for e in recently_updated %}
+                    <li><strong><a href="{% url 'entry' e.slug %}">{{e.headword}}</a></strong></li>
+                {% endfor %}
+                </ul>
+                <p style="margin-top: 2.5em; margin-bottom: 0;">Want more figures?</p>
+                <p><a href="{% url 'stats' %}">Go here.</a></p>
             </div>
         </div>
     </section>
@@ -172,7 +191,9 @@
     <!-- Footer -->
     <footer style="margin-top: 10em;">
         <div class="container text-center">
-            <p>Copyright &copy; The Right Rhymes 2016</p>
+            <p>Copyright &copy; </p>
+            <p><span class="logo">The Right Rhymes</span></p>
+            <p>2016</p>
         </div>
     </footer>
 

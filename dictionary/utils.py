@@ -170,11 +170,20 @@ def build_sense(sense_object, published, full=False):
     return result
 
 
-def build_sense_preview(sense_object):
-    published = [entry.slug for entry in Entry.objects.filter(publish=True)]
+def build_sense_preview(sense_object, published):
     result = {
         "sense": sense_object,
         "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
+    }
+    return result
+
+
+def build_entry_preview(entry_object):
+    result = {
+        "headword": entry_object.headword,
+        "slug": entry_object.slug,
+        "pub_date": entry_object.pub_date,
+        "last_updated": entry_object.last_updated,
     }
     return result
 

@@ -232,9 +232,11 @@ a:focus {
     transition: background .3s ease-in-out;
 }
 
-.btn-circle a:visited, a:link {
+a.btn-circle:visited, a.btn-circle:link {
     color: #fff;
 }
+
+
 
 .btn-circle:hover,
 .btn-circle:focus {

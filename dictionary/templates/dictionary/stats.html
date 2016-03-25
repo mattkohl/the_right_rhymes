@@ -107,7 +107,7 @@
                 </table>
                 <div>
                     <div class="trr-list-header">Most cited example</div>
-                    <ul class="examplesHead">
+                    <ul class="examplesHead" style="margin-bottom: 1.5em;">
                         {% for example in most_linked_example.example %}
                             <li>
                                 <span class="date">{{ example.release_date_string }}</span>
@@ -121,7 +121,7 @@
                                 {% endif %}
                                 <span class="album">[{{example.album }}]</span>
                                 <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                                <div>(Cited at {{ most_linked_example.count }} senses)</div>
+                                <div style="margin-top: .75em; font-size: .85em;">(Cited at {{ most_linked_example.count }} senses)</div>
                             </li>
                         {% endfor %}
                     </ul>
