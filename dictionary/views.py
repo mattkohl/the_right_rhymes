@@ -83,7 +83,7 @@ def artist(request, artist_slug):
         'longitude': long,
         'latitude': lat,
         'primary_sense_count': primary_sense_count,
-        'featured_sense_count': primary_sense_count,
+        'featured_sense_count': featured_sense_count,
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
