@@ -692,7 +692,7 @@ a.sense_timeline:hover, .xrlabel:hover {
 
 h1.trr-list-header {
     font-size: 1.25em;
-    margin-top: -1em;
+    /*margin-top: -1em;*/
 }
 
 h1.headword-image {
