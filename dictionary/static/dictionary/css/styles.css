@@ -737,20 +737,6 @@ h2 {
     color: black;
 }
 
-/*.trr-list-group-item strong:before {*/
-    /*content: "";*/
-    /*vertical-align: top;*/
-    /*display: inline-block;*/
-    /*width: 50%;*/
-    /*height: 0.65em;*/
-    /*border-bottom: 1px solid #ccc;*/
-    /*!*margin: 0 2% 0 -55%;*!*/
-/*}*/
-
-/*.trr-list-group-item strong:before {*/
-    /*margin:0 -70% 0 2%;*/
-/*}*/
-
 .trr-list-group-item strong:after {
     content: "";
     vertical-align: top;
@@ -796,6 +782,11 @@ h2 {
 	text-transform: uppercase;
 	margin-bottom: .75em;
 	margin-top: 1em;
+}
+
+.search-results {
+    padding-bottom: 0;
+    margin: 30px 0 20px;
 }
 
 .name-date {
