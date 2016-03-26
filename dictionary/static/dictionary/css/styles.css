@@ -306,7 +306,7 @@ figcaption a.artist {
 
 .anchor {
     position:relative;
-    top:-75px;
+    top:-225px;
 }
 
 .headword {
@@ -346,9 +346,10 @@ th {
 }
 
 .headword-image {
-    margin-top: -1.43em;
+    /*margin-top: -1.43em;*/
+    margin-top: -2.7em;
     font-size: 2em;
-    padding-left: .25em
+    /*padding-left: .25em*/
 }
 
 .headword-image, h1.song-title-header, h2.song-artist-header {
@@ -387,9 +388,11 @@ th {
 }
 
 .pos {
-	font-size: 0.6em;
-	padding: 2px 10px;
-	background: #9b9b9b;
+	/*font-size: 0.6em;*/
+	/*padding: 2px 10px;*/
+    font-size: 0.7em;
+    padding: 0px 8px 4px 8px;
+	/*background: #9b9b9b;*/
 	text-decoration: none;
 	line-height: 17px;
 	color: #fff;
@@ -678,7 +681,35 @@ a.sense_timeline:hover, .xrlabel:hover {
 	font-size: 1em;
 	font-weight: 100;
 	text-transform: uppercase;
-    margin-top: 0em;
+    margin-top: 2.5em;
+    margin-bottom: .5em;
+    padding: 20px 25px;
+	line-height: 1.3em;
+	word-wrap: break-word;
+    text-align: center;
+}
+
+.song-list-header {
+    background: #EAEAEA;
+    display: block;
+	font-size: 1em;
+	font-weight: 100;
+	text-transform: uppercase;
+    margin-top: .5em;
+    margin-bottom: 1.5em;
+    padding: 20px 25px;
+	line-height: 1.3em;
+	word-wrap: break-word;
+    text-align: center;
+}
+
+.rhyme-list-header {
+    background: #EAEAEA;
+    display: block;
+	font-weight: 100;
+	text-transform: uppercase;
+    margin-top: 2em;
+    font-size: 1.25em;
     margin-bottom: .5em;
     padding: 20px 25px;
 	line-height: 1.3em;
@@ -792,9 +823,15 @@ h2 {
 .name-date {
     text-align: center;
     font-size: 0.5em;
-    text-transform: uppercase;
-    margin: .75em;
-    color: #9B9B9B;
+    background: #9b9b9b;
+	text-transform: uppercase;
+    /*margin: .75em;*/
+    /*color: #9B9B9B;*/
+    margin-top: 2.02em;
+    margin-bottom: 1.5em;
+    color: #fff;
+    padding-top: .5em;
+    padding-bottom: .5em;
 }
 
 .more-link {
@@ -1082,6 +1119,10 @@ and (max-width : 600px) {
         font-size: 1.5em;
     }
 
+    .headword-image {
+        margin-top: -3.13em;
+    }
+
     h1.song-title-header {
         padding-bottom: .1em;
     }
@@ -1160,6 +1201,21 @@ and (min-width : 375px) and (max-width : 480px) {
         padding-left: .35em;
     }
 
+    .song-list-header {
+        padding: 10px 15px;
+        margin-top: -.3em;
+    }
+
+    .rhyme-list-header {
+        padding: 10px 15px;
+        margin-top: 2.1em;
+    }
+
+    .trr-list-header {
+        padding: 10px 15px;
+        margin-top: 2.65em;
+    }
+
    .about-map {
         width: 100%;
         margin-left: 0;
@@ -1180,7 +1236,9 @@ and (max-width : 320px) {
     .headword-image {
         font-size: 1.3em;
         padding-bottom: 0;
+        margin-top: -3.45em;
     }
+
 
     h1.song-title-header {
         font-size: 1em;
@@ -1210,6 +1268,19 @@ and (max-width : 320px) {
         padding: 10px 15px;
         margin-bottom: .5em;
         font-size: .9em;
+        margin-top: 2.95em;
+    }
+
+    .song-list-header {
+        padding: 10px 15px;
+        margin-bottom: .5em;
+        margin-top: -.5em;
+        font-size: .9em;
+    }
+
+    .rhyme-list-header {
+        padding: 10px 15px;
+        margin-top: 2.1em;
     }
 
     .artists-block, figure {

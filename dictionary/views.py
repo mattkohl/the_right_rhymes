@@ -178,18 +178,13 @@ def entry(request, headword_slug):
     sense_objects = entry.senses.all()
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     senses = [build_sense(sense, published) for sense in sense_objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
-    image_exx = [example for example in senses[0]['examples']]
-    artist_slug, artist_name, image = assign_artist_image(image_exx)
 
     context = {
         'headword': entry.headword,
         'pub_date': entry.pub_date,
         'last_updated': entry.last_updated,
         'senses': senses,
-        'published_entries': published,
-        'image': image,
-        'artist_slug': artist_slug,
-        'artist_name': artist_name
+        'published_entries': published
     }
     return HttpResponse(template.render(context, request))
 

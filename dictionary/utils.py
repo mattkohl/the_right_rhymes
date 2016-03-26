@@ -145,6 +145,7 @@ def build_sense(sense_object, published, full=False):
         examples = [build_example(example, published) for example in example_results]
     else:
         examples = [build_example(example, published) for example in example_results[:NUM_QUOTS_TO_SHOW]]
+    artist_slug, artist_name, image = assign_artist_image(examples)
     result = {
         "part_of_speech": sense_object.part_of_speech,
         "xml_id": sense_object.xml_id,
@@ -165,7 +166,10 @@ def build_sense(sense_object, published, full=False):
         "related_concepts": sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word'),
         "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
         "rhymes": sense_object.sense_rhymes.order_by('-frequency'),
-        "collocates": sense_object.collocates.order_by('-frequency')
+        "collocates": sense_object.collocates.order_by('-frequency'),
+        "artist_slug": artist_slug,
+        "artist_name": artist_name,
+        "image": image
     }
     return result
 

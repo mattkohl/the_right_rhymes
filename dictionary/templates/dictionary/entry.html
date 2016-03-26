@@ -7,26 +7,26 @@
             <article id="{{ headword }}" class="group">
                 {% if headword %}
                     <div class="entry-content">
-                        {% if image %}
-                            <figure class="center-block">
-                                <img src="{{ image }}"
-                                  alt="{{ artist_name }}"
-                                  property="image"
-                                  scale="0"/>
-                            </figure>
-                            <h1 class="headword-image">{{ headword }}</h1>
-                        {% else %}
-                            <h1 class="headword">{{ headword }}</h1>
-                        {% endif %}
-                        <div class="name-date">
-                            <span>Published on <time>{{ pub_date }}</time></span>
-                            {% if last_updated %}
-                                <span> ⋅ Last updated <time>{{ last_updated }}</time></span>
-                            {% endif %}
-                        </div>
                         {% for sense in senses %}
+                            {% if sense.image %}
+                                <figure class="center-block">
+                                    <img src="{{ sense.image }}"
+                                      alt="{{ sense.artist_name }}"
+                                      property="image"
+                                      scale="0"/>
+                                </figure>
+                                <h1 class="headword-image">{{ headword }}</h1>
+                            {% else %}
+                                <h1 class="headword">{{ headword }}</h1>
+                            {% endif %}
+                            <div class="pos">{{ sense.part_of_speech }}</div>
+                            <div class="name-date">
+                                <span>Published on <time>{{ pub_date }}</time></span>
+                                {% if last_updated %}
+                                    <span> ⋅ Last updated <time>{{ last_updated }}</time></span>
+                                {% endif %}
+                            </div>
                             <div id="{{ sense.xml_id }}" class="anchor"></div>
-                            <h2 class="pos">{{ headword }} ⋅ {{ sense.part_of_speech }} ⋅ {{ forloop.counter }}</h2>
                             <div class="definition">{{ sense.definition }}</div>
                             {% if sense.notes %}
                                 <div class="note">({{ sense.notes }})</div>
