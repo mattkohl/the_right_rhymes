@@ -72,7 +72,7 @@
                                     <span class="xrlabel" tabindex="2">Domains</span>
                                     <span class="the-list">
                                     {% for domain in sense.domains %}
-                                        <span class="domain"><a href="{% url 'domain' domain.slug %}">{{ domain.name }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        <span class="domain">{{ domain.name }}{% if not forloop.last %}, {% endif %}</span>
                                     {% endfor %}
                                     </span>
                                 </div>
