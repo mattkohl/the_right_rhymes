@@ -232,7 +232,7 @@ footer {
 }
 
 .entry-content {
-    padding-top: .5em;
+    padding-top: .58em;
 }
 
 .entry-content figure, .page-header figure {
@@ -246,7 +246,7 @@ footer {
 }
 
 .entry-content li {
-	font-size: 0.9em;
+	font-size: .95em;
 	margin: 0 0 1em 0;
 	line-height: 1.3em;
 }
@@ -528,9 +528,10 @@ a:focus.feat {
 	/*color: #3399FF;*/
 	color: #888;
 	font-style: italic;
-	margin-bottom: .5em;
-	margin-top: .5em;
-	margin-left: 1em;
+	/*margin-bottom: .5em;*/
+	/*margin-top: .5em;*/
+	/*margin-left: 1em;*/
+    margin: .5em;
 }
 
 .lyrics {
