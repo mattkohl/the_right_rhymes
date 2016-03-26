@@ -33,10 +33,10 @@ urlpatterns = [
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 
     # /artists/<artist-slug>/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@á]+)/$", views.artist, name='artist'),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/$", views.artist, name='artist'),
 
     # /artists/<artist_slug>/json/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@á]+)/json/$", views.artist_json, name="artist_json"),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/json/$", views.artist_json, name="artist_json"),
 
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
@@ -72,7 +72,7 @@ urlpatterns = [
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/json/$", views.sense_artist_json, name="sense_artist_json"),
 
     # /songs/<song-slug>/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\[\]\(\)\+\!ōéáñ½#%´=@]+)/$", views.song, name='song'),
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\[\]\(\)\+\!ōóéáñ½#%´=@]+)/$", views.song, name='song'),
 
 
 ]
