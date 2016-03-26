@@ -1221,6 +1221,10 @@ and (min-width : 375px) and (max-width : 480px) {
         margin-left: 0;
         margin-right: 0;
     }
+
+   .name-date {
+       margin-top: 1.92em;
+   }
 }
 
 @media only screen
