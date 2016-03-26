@@ -8,12 +8,13 @@
             <div class="entry-content">
                 {% if examples %}
                 <header class="page-header search-results">
-                    <h1 class="page-title trr-list-header">No entry found for <strong>{{query}}</strong></h1>
-
+                    <h1 class="page-title trr-list-header">
+                        There's no entry for <strong>{{query}}</strong>.
+                        <a href="https://github.com/mattkohl/the_right_rhymes/issues" target="_blank">Suggest one?</a></h1>
                     {% if examples|length == 1 %}
-                    <h4>{{ examples|length }} matching example</h4>
+                    <h4>Found {{ examples|length }} matching example</h4>
                     {% else %}
-                    <h4>{{ examples|length }} matching examples</h4>
+                    <h4>Found {{ examples|length }} matching examples</h4>
                     {% endif %}
                 </header>
                 <div class="trr-list">
