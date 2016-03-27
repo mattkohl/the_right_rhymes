@@ -4,7 +4,18 @@
 <div id="wrapper">
     <div id="content-container">
         <div id="content" class="group">
-            <div class="container">
+            <div class="entry-content">
+                {% if image %}
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                          alt="{{ domain }}"
+                          property="image"
+                          scale="0"/>
+                    </figure>
+                    <div class="headword-image">{{ domain }}</div>
+                {% else %}
+                    <div class="headword">{{ domain }}</div>
+                {% endif %}
                 {% if senses %}
                     {% if senses|length > 1 %}
                     <h3 class="trr-list-header">{{ senses|length }} senses in the domain of <strong>{{ domain }}</strong></h3>
@@ -14,32 +25,29 @@
                     <div class="trr-list">
                     {% for sense in senses %}
                         <div class="trr-list-group-item">
-                           <div>
-                              <strong>
-                                 <a href="{% url 'entry' sense.sense.slug %}">{{ sense.sense.headword }}</a>
-                              </strong>
-                           </div>
-                            <div class="trr-list-pos">{{ sense.sense.part_of_speech}} ⋅ {{ sense.sense.definition }}</div>
-                            <div class="trr-list-example">
-                            {% with example=sense.examples.0 %}
+                            <div>
+                                <strong>
+                                    <a href="{% url 'entry' sense.slug %}#{{sense.xml_id}}">{{ sense.headword }}</a>
+                                </strong>
+                            </div>
+
+                                {% for example in sense.examples %}
                                 <div>
                                     <span class="date">{{ example.release_date_string }}</span>
-                                    <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
+                                    <!--<span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>-->
                                     <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
-                                     {% if example.featured_artists %}
-                                        <span> feat. </span>
-                                        {% for feat in example.featured_artists %}
-                                            <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                                        {% endfor %}
+                                    {% if example.featured_artists %}
+                                    <span> feat. </span>
+                                    {% for feat in example.featured_artists %}
+                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
                                     {% endif %}
                                     <span class="album">[{{example.album }}]</span>
+
                                     <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                                    <div class="more-link">
-                                        <a href="{% url 'entry' sense.sense.slug %}">See Full Entry...</a>
-                                    </div>
                                 </div>
-                            {% endwith %}
-                            </div>
+                                {% endfor %}
+
                         </div>
                     {% endfor %}
                     </div>

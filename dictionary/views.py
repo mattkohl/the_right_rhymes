@@ -10,7 +10,7 @@ from django.db.models import Q, Count
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
     collect_place_artists, build_entry_preview
-from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list
+from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
 
 
@@ -109,9 +109,10 @@ def domain(request, domain_slug):
     senses = [build_sense_preview(sense, published) for sense in sense_objects]
     data = [sense.headword for sense in sense_objects]
     context = {
-        'domain': domain.name,
+        'domain': un_camel_case(domain.name),
         'senses': senses,
         'published_entries': published,
+        'image': check_for_image(domain.slug, 'domains', 'full'),
         'data': json.dumps(data)
     }
     return HttpResponse(template.render(context, request))

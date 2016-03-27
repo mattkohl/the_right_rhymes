@@ -70,6 +70,14 @@ def reformat_name(name):
     return name
 
 
+def un_camel_case(name):
+    n = name
+    if n[0].islower():
+        n = n[0].upper() + n[1:]
+    tokens = re.findall('[A-Z][^A-Z]*', n)
+    return ' '.join(tokens)
+
+
 def build_place_latlng(place_object):
     if place_object.longitude and place_object.latitude:
         result = {
@@ -176,8 +184,12 @@ def build_sense(sense_object, published, full=False):
 
 def build_sense_preview(sense_object, published):
     result = {
-        "sense": sense_object,
-        "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
+        "headword": sense_object.headword,
+        "slug": sense_object.slug,
+        "part_of_speech": sense_object.part_of_speech,
+        "definition": sense_object.definition,
+        "xml_id": sense_object.xml_id,
+        # "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
     }
     return result
 
