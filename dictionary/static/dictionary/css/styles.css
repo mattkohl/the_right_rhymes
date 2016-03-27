@@ -306,7 +306,7 @@ figcaption a.artist {
 
 .anchor {
     position:relative;
-    top:-225px;
+    top:-375px;
 }
 
 .headword {
@@ -1217,6 +1217,10 @@ and (min-width : 375px) and (max-width : 480px) {
         margin-top: 2.65em;
     }
 
+    .anchor {
+        top:-232px;
+    }
+
    .about-map {
         width: 100%;
         margin-left: 0;
@@ -1232,6 +1236,10 @@ and (min-width : 375px) and (max-width : 480px) {
 and (min-width : 321px) and (max-width : 374px) {
     .single-thumb {
         width: 146px;
+    }
+
+    .anchor {
+        top:-232px;
     }
 }
 
@@ -1253,6 +1261,10 @@ and (max-width : 320px) {
     h2.song-artist-header {
         font-size: .8em;
         margin-top: -.75em;
+    }
+
+    .anchor {
+        top:-232px;
     }
 
     .center-block {
