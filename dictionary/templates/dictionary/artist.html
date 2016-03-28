@@ -37,7 +37,7 @@
                                     {% for example in sense.examples %}
                                     <div>
                                         <span class="date">{{ example.release_date_string }}</span>
-                                        <!--<span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>-->
+                                        <span class="artist">{{example.artist_name}}</span>
                                         <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                         {% if example.featured_artists %}
                                         <span> feat. </span>
@@ -81,7 +81,11 @@
                                         {% if example.featured_artists %}
                                         <span> feat. </span>
                                         {% for feat in example.featured_artists %}
-                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                            {% if feat.name == artist %}
+                                            <span class="artist">{{feat.name}}{% if not forloop.last %}, {% endif %}</span>
+                                            {% else %}
+                                            <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                            {% endif %}
                                         {% endfor %}
                                         {% endif %}
                                         <span class="album">[{{example.album }}]</span>
