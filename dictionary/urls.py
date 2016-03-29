@@ -53,6 +53,9 @@ urlpatterns = [
     # /places/<place-name-slug>/latlng/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/latlng/$", views.place_latlng, name='place_latlng'),
 
+    # /places/<place-name-slug>/artists/json
+    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/artists/json/$", views.place_artist_json, name='place_artist_json'),
+
     # /rhymes/<rhyme-slug>/
     url(r"^rhymes/(?P<rhyme_slug>[a-zA-Z0-9\-_#’'éō]+)/?$", views.rhyme, name='rhyme'),
 

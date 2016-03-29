@@ -287,6 +287,16 @@ footer {
     list-style: none;
 }
 
+ul.artists-block {
+    margin: .25em auto;
+    display: inline;
+}
+
+ul.artists-block li {
+    float: left;
+    margin: .1em;
+}
+
 .loading {
     display: none;
 }

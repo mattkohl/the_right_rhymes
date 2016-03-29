@@ -9,13 +9,14 @@ from django.db.models import Q, Count
 
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
-    collect_place_artists, build_entry_preview
+    collect_place_artists, build_entry_preview, count_place_artists
 from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
 
 
 logger = logging.getLogger(__name__)
 NUM_QUOTS_TO_SHOW = 3
+NUM_ARTISTS_TO_SHOW = 6
 
 
 def about(request):
@@ -76,7 +77,6 @@ def artist(request, artist_slug):
 
     context = {
         'artist': name,
-        'font_size': 30/len(name),
         'slug': artist.slug,
         'origin': origin,
         'origin_slug': origin_slug,
@@ -248,6 +248,22 @@ def place(request, place_slug):
         'examples': sorted(examples, key=itemgetter('release_date'))
     }
     return HttpResponse(template.render(context, request))
+
+
+def place_artist_json(request, place_slug):
+    place = get_object_or_404(Place, slug=place_slug)
+    artists = collect_place_artists(place, [])
+    artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
+    artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
+
+    if artists_with_image or artists_without_image:
+        data = {
+            'artists_with_image': artists_with_image,
+            'artists_without_image': artists_without_image,
+        }
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
 
 
 def place_latlng(request, place_slug):

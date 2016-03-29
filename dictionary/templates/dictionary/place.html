@@ -39,8 +39,27 @@
                                 {% endif %}
                             </a>
                         {% endfor %}
+
                         <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
                     </div>
+                    {% if remaining_count > 0 %}
+                        <div class="toggle_exx">
+                            <a href="#" class="toggle_more_exx">
+                                Show {{ remaining_count }} more
+                            </a>
+                            <span class="place_slug hidden">{{slug}}</span>
+                            <div class="loading">
+                                <img src="/static/dictionary/img/loading/breakdance.gif" width="5%" height="5%"></img>
+                            </div>
+                        </div>
+                        <ul class="artists-block examples">
+
+
+                        </ul>
+                    {% endif %}
+                    {% csrf_token %}
+
+
                 {% endif %}
                 {% if artists_without_image %}
                     <div class="not-pictured"><strong>Not pictured:</strong>
@@ -48,6 +67,10 @@
                            <span><a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>{% if not forloop.last %}, {% endif %}</span>
                         {% endfor %}
                     </div>
+                {% endif %}
+
+                {% if num_artists < 1 %}
+                    <h3 class="trr-list-header">No artists from <strong>{{ place }}</strong></h3>
                 {% endif %}
 
                 {% if examples %}

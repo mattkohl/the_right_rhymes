@@ -14,6 +14,7 @@ $(document).ready(function(){
             $(this).css("background-color","lightgray");
             var sense_id = $(this).parent().find('.sense_id').text();
             var artist_slug = $(this).parent().find('.artist_slug').text();
+            var place_slug = $(this).parent().find('.place_slug').text();
             var feat = $(this).parent().find('.feat').text();
             var ul = $(this).parent().next(".examples");
             if (ul.children().length == 0) {
@@ -25,6 +26,9 @@ $(document).ready(function(){
                         endpoint = endpoint + '?feat=True'
                     }
                     addRemainingExamples(ul, breaker, context, endpoint);
+                } else if (place_slug != '') {
+                    var endpoint = '/places/' + place_slug + '/artists/json';
+                    addRemainingArtists(ul, breaker, context, endpoint);
                 } else {
                     var endpoint = '/senses/' + sense_id + '/remaining_examples/';
                     addRemainingExamples(ul, breaker, context, endpoint);
@@ -34,6 +38,28 @@ $(document).ready(function(){
 		return false;
 	});
 });
+
+function addRemainingArtists(ul, breaker, context, endpoint) {
+    $.getJSON(
+        endpoint,
+        {'csrfmiddlewaretoken': '{{csrf_token'},
+        function(data) {
+            var parsed = $.parseJSON(data);
+            var artists = parsed.artists_with_image;
+            $.each(artists, function(i, artist) {
+                var ar = $("<li></li>").append(
+                    $("<a></a>", {"href": '/artists/' + artist.slug}).append(
+                    $("<figure></figure>", {"class": "single-thumb"}).append(
+                        $("<img></img>", {"src": artist.image, "height": 200, "width": 200}),
+                        $("<figcaption></figcaption>", {"text": artist.name})
+                    )));
+                ar.appendTo(ul);
+            });
+            breaker.hide();
+            context.show();
+        }
+    )
+}
 
 function addRemainingExamples(ul, breaker, context, endpoint) {
     $.getJSON(
@@ -50,29 +76,27 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
                     $('<span></span>', {"class": 'songTitle'}).append(
                         $('<a></a>', {"href": '/songs/' + example.song_slug, "text": '"' + example.song_title + '"'}))
                 );
-                    if (example.featured_artists.length > 0) {
-                        ex.append('<span class="comma"> feat. </span>');
-                        var featured = [];
-                        var last = example.featured_artists.pop();
-                        $.each(example.featured_artists, function(i, feat) {
-                            featured.push(
-                                $('<span></span>', {"class": 'artist'}).append(
-                                    $('<a></a>', {"href": '/artists/' + feat.slug, "text": feat.name}),
-                                    $('<span></span>', {"class": 'comma', "text": ","}))
-                            );
-                        });
+                if (example.featured_artists.length > 0) {
+                    ex.append('<span class="comma"> feat. </span>');
+                    var featured = [];
+                    var last = example.featured_artists.pop();
+                    $.each(example.featured_artists, function(i, feat) {
                         featured.push(
                             $('<span></span>', {"class": 'artist'}).append(
-                                    $('<a></a>', {"href": '/artists/' + last.slug, "text": last.name})
-                            ));
-                        ex.append(featured);
-
-
-                    }
-                    ex.append(
-                        $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
-                        $('<div class="lyric">' + example.linked_lyric + '</div>')
-                    )
+                                $('<a></a>', {"href": '/artists/' + feat.slug, "text": feat.name}),
+                                $('<span></span>', {"class": 'comma', "text": ","}))
+                        );
+                    });
+                    featured.push(
+                        $('<span></span>', {"class": 'artist'}).append(
+                                $('<a></a>', {"href": '/artists/' + last.slug, "text": last.name})
+                        ));
+                    ex.append(featured);
+                }
+                ex.append(
+                    $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
+                    $('<div class="lyric">' + example.linked_lyric + '</div>')
+                );
                 ex.appendTo(ul);
             });
             breaker.hide();

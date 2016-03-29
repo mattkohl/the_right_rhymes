@@ -340,3 +340,12 @@ def collect_place_artists(place_object, artists):
         for contained in contains:
             collect_place_artists(contained, artists)
     return sorted(artists, key=itemgetter('name'))
+
+
+def count_place_artists(place_object, count):
+    count += place_object.artists.count()
+    contains = place_object.contains.all()
+    if contains:
+        for contained in contains:
+            count_place_artists(contained, count)
+    return count
