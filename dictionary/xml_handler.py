@@ -467,8 +467,6 @@ class TRRExample:
 
     def remove_previous_lyric_links_and_rhymes(self):
         # print('Removing any pre-existing lyric links / rhymes to "' + self.lyric_text + '"')
-        self.example_object.artist.all().delete()
-        self.example_object.feat_artist.all().delete()
         self.example_object.lyric_links.all().delete()
         self.example_object.example_rhymes.all().delete()
         self.example_object.from_song.all().delete()
