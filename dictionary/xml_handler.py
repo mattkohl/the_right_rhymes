@@ -897,7 +897,7 @@ def process_xml(xml_list):
 
 def main(directory='../tRR/XML/tRR_Django'):
     start = time.time()
-    xml_files = sorted(collect_xml(directory))
+    xml_files = sorted(collect_xml(directory), key=lambda f: f.lower())
     process_xml(xml_files)
     end = time.time()
     total_time = end - start
