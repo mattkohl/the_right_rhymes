@@ -226,7 +226,6 @@ def build_timeline_example(example_object, published, rf=False):
     url = check_for_image(example['artist_slug'], 'artists', 'full')
     thumb = check_for_image(example['artist_slug'], 'artists', 'thumb')
     year, month, day = example['release_date'].split('-')
-
     result = {
         "background": {
             "url": url
@@ -259,10 +258,6 @@ def add_links(lyric, links, published, rf=False):
         else:
             start = link.position + buffer
             end = start + len(link.link_text)
-            if '#' in link.target_slug:
-                lem_slug = link.target_slug.split('#')[0]
-            else:
-                lem_slug = link.target_slug
             if link.link_type == 'rf' and rf:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
@@ -271,7 +266,7 @@ def add_links(lyric, links, published, rf=False):
                 a = '<a href="/rhymes/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
-            if link.link_type == 'xref' and lem_slug in published:
+            if link.link_type == 'xref' and link.target_lemma in published:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
