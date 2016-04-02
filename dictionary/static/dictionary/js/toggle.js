@@ -15,6 +15,7 @@ $(document).ready(function(){
             var sense_id = $(this).parent().find('.sense_id').text();
             var artist_slug = $(this).parent().find('.artist_slug').text();
             var place_slug = $(this).parent().find('.place_slug').text();
+            var place_example_slug = $(this).parent().find('.place_example_slug').text();
             var feat = $(this).parent().find('.feat').text();
             var ul = $(this).parent().next(".examples");
             if (ul.children().length == 0) {
@@ -29,6 +30,9 @@ $(document).ready(function(){
                 } else if (place_slug != '') {
                     var endpoint = '/places/' + place_slug + '/artists/json';
                     addRemainingArtists(ul, breaker, context, endpoint);
+                } else if (place_example_slug != '') {
+                    var endpoint = '/places/' + place_example_slug + '/remaining_examples/';
+                    addRemainingExamples(ul, breaker, context, endpoint);
                 } else {
                     var endpoint = '/senses/' + sense_id + '/remaining_examples/';
                     addRemainingExamples(ul, breaker, context, endpoint);

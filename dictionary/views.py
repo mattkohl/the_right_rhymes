@@ -245,7 +245,8 @@ def place(request, place_slug):
         'artists_with_image': artists_with_image,
         'artists_without_image': artists_without_image,
         'image': check_for_image(place.slug, 'places', 'full'),
-        'examples': sorted(examples, key=itemgetter('release_date'))
+        'examples': sorted(examples, key=itemgetter('release_date'))[:NUM_QUOTS_TO_SHOW],
+        'num_examples': len(examples)
     }
     return HttpResponse(template.render(context, request))
 
@@ -275,7 +276,25 @@ def place_latlng(request, place_slug):
         return JsonResponse(json.dumps({}))
 
 
-def remaining_examples(request, sense_id):
+def remaining_place_examples(request, place_slug):
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
+    examples = []
+    if len(entity_results) >= 1:
+        for entity in entity_results:
+            examples += [build_example(example, published) for example in entity.examples.order_by('release_date')]
+
+    if examples:
+        data = {
+            'place': place_slug,
+            'examples': sorted(examples, key=itemgetter('release_date'))[NUM_QUOTS_TO_SHOW:]
+        }
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
+def remaining_sense_examples(request, sense_id):
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     sense_object = Sense.objects.filter(xml_id=sense_id)[0]
     example_results = sense_object.examples.order_by('release_date')
