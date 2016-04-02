@@ -203,7 +203,7 @@
                                                 <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
                                             {% endfor %}
                                         {% endif %}
-                                        <span class="album">[{{example.album }}]</span>
+                                        <span class="album">[{{ example.album }}]</span>
                                         <div class="lyric">{{ example.linked_lyric|safe }}</div>
                                     </li>
                                 {% endfor %}

@@ -43,6 +43,9 @@ def decimal_default(obj):
     raise TypeError
 
 
+# ō½@áóé
+
+
 def slugify(text):
     slug = text.strip().lower()
     if slug[0] == "'" or slug[0] == "-":
@@ -53,6 +56,14 @@ def slugify(text):
     slug = re.sub("\$", "s", slug)
     slug = re.sub("&amp;", "and", slug)
     slug = re.sub("&", "and", slug)
+
+    slug = re.sub("é", "e", slug)
+    slug = re.sub("ó", "o", slug)
+    slug = re.sub("á", "a", slug)
+    slug = re.sub("@", "at", slug)
+    slug = re.sub("½", "half", slug)
+    slug = re.sub("ō", "o", slug)
+
     slug = re.sub("'", "", slug)
     slug = re.sub(",", "", slug)
     slug = re.sub("-$", "", slug)

@@ -163,11 +163,6 @@ def entity(request, entity_slug):
         return HttpResponse("Whoa, what is {}?".format(entity_slug))
 
 
-def random_entry(request):
-    rand_ent = Entry.objects.filter(publish=True).order_by('?').first()
-    return redirect('entry', headword_slug=rand_ent.slug)
-
-
 def entry(request, headword_slug):
     if '#' in headword_slug:
         slug = headword_slug.split('#')[0]
@@ -274,6 +269,11 @@ def place_latlng(request, place_slug):
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
+
+
+def random_entry(request):
+    rand_ent = Entry.objects.filter(publish=True).order_by('?').first()
+    return redirect('entry', headword_slug=rand_ent.slug)
 
 
 def remaining_place_examples(request, place_slug):
@@ -496,7 +496,8 @@ def stats(request):
     best_attested_sense_count = best_attested_senses[0].num_examples
     most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_cited_song_count = most_cited_songs[0].num_examples
-    most_mentioned_entities = [e for e in NamedEntity.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
+    most_mentioned_places = [e for e in NamedEntity.objects.filter(entity_type='place').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
+    most_mentioned_artists = [e for e in NamedEntity.objects.filter(entity_type='artist').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     examples_date_ascending = Example.objects.order_by('release_date')
     examples_date_descending = Example.objects.order_by('-release_date')
     seventies = Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
@@ -508,7 +509,8 @@ def stats(request):
     artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
     place_count = places[0].num_artists
-    entity_count = most_mentioned_entities[0].num_examples
+    place_mention_count = most_mentioned_places[0].num_examples
+    artist_mention_count = most_mentioned_artists[0].num_examples
     linked_exx = Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')
 
     template = loader.get_template('dictionary/stats.html')
@@ -537,15 +539,25 @@ def stats(request):
                 'width': (song.num_examples / most_cited_song_count) * 100
             } for song in most_cited_songs
             ],
-        'most_mentioned_entities': [
+        'most_mentioned_places': [
             {
                 'name': e.name,
                 'slug': e.pref_label_slug,
                 'pref_label': e.pref_label,
                 'entity_type': e.entity_type,
                 'num_examples': e.num_examples,
-                'width': (e.num_examples / entity_count) * 100
-            } for e in most_mentioned_entities
+                'width': (e.num_examples / place_mention_count) * 100
+            } for e in most_mentioned_places
+            ],
+        'most_mentioned_artists': [
+            {
+                'name': e.name,
+                'slug': e.pref_label_slug,
+                'pref_label': e.pref_label,
+                'entity_type': e.entity_type,
+                'num_examples': e.num_examples,
+                'width': (e.num_examples / artist_mention_count) * 100
+            } for e in most_mentioned_artists
             ],
         'num_artists': len(artists),
         'num_places': len(places),

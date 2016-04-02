@@ -55,16 +55,12 @@
                     </tr>
                     {% endfor %}
                 </table>
-                <div class="trr-list-header">Most mentioned entities</div>
+                <div class="trr-list-header">Most mentioned places</div>
                 <table class="table">
                     <th colspan="1">Name</th><th colspan="1"># Mentions</th>
-                    {% for e in most_mentioned_entities %}
+                    {% for e in most_mentioned_places %}
                     <tr>
-                        {% if e.entity_type == 'place' %}
                         <td class="col-md-1"><a href="{%url 'place' e.slug %}">{{e.name}}</a></td>
-                        {% else %}
-                        <td class="col-md-1"><a href="{%url 'entity' e.slug %}">{{e.name}}</a></td>
-                        {% endif %}
                         <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
                     </tr>
                     {% endfor %}
@@ -158,6 +154,16 @@
                         {% endfor %}
                         <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
                     </div>
+                <div class="trr-list-header">Artist shout-outs</div>
+                <table class="table">
+                    <th colspan="1">Name</th><th colspan="1"># Shout-outs</th>
+                    {% for e in most_mentioned_artists %}
+                    <tr>
+                        <td class="col-md-1"><a href="{%url 'artist' e.slug %}">{{e.pref_label}} as "{{e.name}}"</a></td>
+                        <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 </div>
             </div>
         </div>

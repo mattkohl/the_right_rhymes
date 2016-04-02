@@ -190,7 +190,7 @@ class TRRSense:
         sense_object, created = Sense.objects.get_or_create(xml_id=self.xml_id)
         return sense_object
 
-    def update_sense(self, clear_exx=True):
+    def update_sense(self, clear_exx=False):
         if clear_exx:
             self.sense_object.examples.all().delete()
             self.sense_object.cites_artists.all().delete()
@@ -342,7 +342,7 @@ class TRRExample:
         self.artist_slug = slugify(self.artist_name)
         self.lyric_text = self.example_dict['lyric']['text']
         self.example_object = self.add_to_db()
-        self.remove_previous_lyric_links_and_rhymes()
+        # self.remove_previous_lyric_links_and_rhymes()
         self.lyric_links = []
         self.example_rhymes = []
         self.extract_rf()
