@@ -942,7 +942,7 @@ td {
     margin-bottom: .3em;
     margin-right: -1em;
     color: white;
-	filter: invert(100%);
+	/*filter: invert(100%);*/
 }
 
 
