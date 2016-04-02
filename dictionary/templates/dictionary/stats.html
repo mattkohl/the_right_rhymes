@@ -55,7 +55,20 @@
                     </tr>
                     {% endfor %}
                 </table>
-
+                <div class="trr-list-header">Most mentioned entities</div>
+                <table class="table">
+                    <th colspan="1">Name</th><th colspan="1"># Mentions</th>
+                    {% for e in most_mentioned_entities %}
+                    <tr>
+                        {% if e.entity_type == 'place' %}
+                        <td class="col-md-1"><a href="{%url 'place' e.slug %}">{{e.name}}</a></td>
+                        {% else %}
+                        <td class="col-md-1"><a href="{%url 'entity' e.slug %}">{{e.name}}</a></td>
+                        {% endif %}
+                        <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 <div class="trr-list-header">Number of examples by decade</div>
                 <table class="table">
                     <tr><td class="col-md-1">1970's</td><td class="col-md-1"><span class="counter-bar" style="width:{{seventies_width}}%">{{ num_seventies }}</span></td></tr>
