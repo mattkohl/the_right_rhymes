@@ -654,7 +654,7 @@ class TRREntity:
 
     def add_to_db(self):
         # print('Adding Entity:', self.name)
-        entity_object, created = NamedEntity.objects.get_or_create(name=self.name,
+        entity_object, created = NamedEntity.objects.get_or_create(pref_label_slug=self.pref_label_slug,
                                                                    entity_type=self.entity_type)
         if self.entity_type == 'place':
             TRRPlace(self.pref_label)
@@ -663,7 +663,7 @@ class TRREntity:
     def update_entity_object(self):
         self.entity_object.pref_label = self.pref_label
         self.entity_object.slug = self.slug
-        self.entity_object.pref_label_slug = self.pref_label_slug
+        self.entity_object.name = self.name
         self.entity_object.save()
 
 
