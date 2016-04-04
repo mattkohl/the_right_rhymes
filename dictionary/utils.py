@@ -197,6 +197,7 @@ def build_sense_preview(sense_object, published):
         "part_of_speech": sense_object.part_of_speech,
         "definition": sense_object.definition,
         "xml_id": sense_object.xml_id,
+        "example_count": sense_object.examples.count()
         # "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
     }
     return result

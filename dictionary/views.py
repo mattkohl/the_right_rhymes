@@ -107,10 +107,13 @@ def domain(request, domain_slug):
     sense_objects = domain.senses.filter(publish=True).order_by('headword')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     senses = [build_sense_preview(sense, published) for sense in sense_objects]
+    senses_data = [{"word": sense.headword, "weight": sense.examples.count()} for sense in sense_objects]
     data = [sense.headword for sense in sense_objects]
     context = {
         'domain': un_camel_case(domain.name),
+        'slug': domain_slug,
         'senses': senses,
+        'senses_data': json.dumps(senses_data),
         'published_entries': published,
         'image': check_for_image(domain.slug, 'domains', 'full'),
         'data': json.dumps(data)
@@ -122,7 +125,7 @@ def domain_json(request, domain_slug):
     results = Domain.objects.filter(slug=domain_slug)
     if results:
         domain_object = results[0]
-        data = {'name': domain_object.name, 'children': [ {'name': sense.headword } for sense in domain_object.senses.all()]}
+        data = {'name': domain_object.name, 'children': [{'name': sense.headword, 'example_count': sense.examples.count()} for sense in domain_object.senses.all()]}
         return JsonResponse(json.dumps(data), safe=False)
     else:
         return JsonResponse(json.dumps({}))
