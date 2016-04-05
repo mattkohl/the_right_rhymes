@@ -65,7 +65,9 @@ def artist(request, artist_slug):
             'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
         } for sense in artist.featured_senses.filter(publish=True).order_by('?')[:5]]
 
-    entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
+    entity_examples = []
+    if entity_results:
+        entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
 
     # entity_examples = []
     # for e in entity_results:
