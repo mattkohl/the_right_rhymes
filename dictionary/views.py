@@ -65,10 +65,12 @@ def artist(request, artist_slug):
             'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
         } for sense in artist.featured_senses.filter(publish=True).order_by('?')[:5]]
 
-    entity_examples = []
-    for e in entity_results:
-        for example in e.examples.all():
-            entity_examples.append({'name': e.name, 'example': build_example(example, published)})
+    entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
+
+    # entity_examples = []
+    # for e in entity_results:
+    #     for example in e.examples.all():
+    #         entity_examples.append({'name': e.name, 'example': build_example(example, published)})
 
     image = check_for_image(artist.slug, 'artists', 'full')
     name = reformat_name(artist.name)
@@ -87,7 +89,8 @@ def artist(request, artist_slug):
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
-        'image': image
+        'image': image,
+        'name': entity_results[0].name
     }
     return HttpResponse(template.render(context, request))
 

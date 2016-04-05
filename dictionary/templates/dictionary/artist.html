@@ -98,27 +98,25 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-
+                {{ name }}
                 {% if entity_examples %}
+
                     <h3 class="trr-list-header">Mentioned by <strong>name</strong> in these lyrics</h3>
                     <div class="trr-list">
                     {% for example in entity_examples %}
                         <div class="trr-list-group-item">
-                        {% ifchanged example.name %}
-                            <h4>as "<i>{{ example.name }}</i>"</h4>
-                        {% endifchanged %}
                             <div>
-                                <span class="date">{{ example.example.release_date_string }}</span>
-                                <span class="artist"><a href="{% url 'artist' example.example.artist_slug %}">{{ example.example.artist_name }}</a></span>
-                                <span class="songTitle">"<a href="{% url 'song' example.example.song_slug %}">{{example.example.song_title}}</a>"</span>
-                                 {% if example.example.featured_artists %}
+                                <span class="date">{{ example.release_date_string }}</span>
+                                <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
+                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                 {% if example.featured_artists %}
                                     <span> feat. </span>
-                                    {% for feat in example.example.featured_artists %}
+                                    {% for feat in example.featured_artists %}
                                         <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
                                     {% endfor %}
                                 {% endif %}
-                                <span class="album">[{{ example.example.album }}]</span>
-                                <div class="lyric">{{ example.example.linked_lyric|safe }}</div>
+                                <span class="album">[{{ example.album }}]</span>
+                                <div class="lyric">{{ example.linked_lyric|safe }}</div>
                             </div>
                             </div>
                     {% endfor %}
