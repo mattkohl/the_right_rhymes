@@ -91,8 +91,7 @@ def artist(request, artist_slug):
         'primary_senses': primary_senses,
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
-        'image': image,
-        'name': entity_results[0].name
+        'image': image
     }
     return HttpResponse(template.render(context, request))
 
