@@ -10,14 +10,14 @@
         <div id="content" class="group">
             <div class="entry-content">
                     <figure class="center-block">
-                        <img src="/static/dictionary/img/header/statistics.png"
+                        <img src="/static/dictionary/img/header/statistics.jpg"
                           property="image"
                           scale="0"/>
                     </figure>
                     <div class="headword-image">statistics</div>
 
                 <div class="trr-list-header">Overall Totals</div>
-                <ul class="counts" style="margin-bottom: -2em;">
+                <ul class="counts">
                     <li class="entry-count"><strong>{{num_entries}}</strong> entries</li>
                     <li class="sense-count"><strong>{{num_senses}}</strong> senses</li>
                     <li class="example-count"><strong>{{num_examples}}</strong> examples</li>
@@ -47,7 +47,7 @@
                 </table>
                 <div class="trr-list-header">Best represented places</div>
                 <table class="table">
-                    <th colspan="1">Location</th><th colspan="1"># Artists</th>
+                    <th colspan="1">Location</th><th colspan="1"># Artists from there</th>
                     {% for place in best_represented_places %}
                     <tr>
                         <td class="col-md-1"><a href="{%url 'place' place.slug %}">{{place.name}}</a></td>
@@ -55,12 +55,22 @@
                     </tr>
                     {% endfor %}
                 </table>
-                <div class="trr-list-header">Most mentioned places</div>
+                <div class="trr-list-header">Most shouted-out places</div>
                 <table class="table">
-                    <th colspan="1">Name</th><th colspan="1"># Mentions</th>
+                    <th colspan="1">Name</th><th colspan="1"># Shout-outs</th>
                     {% for e in most_mentioned_places %}
                     <tr>
                         <td class="col-md-1"><a href="{%url 'place' e.slug %}">{{e.name}}</a></td>
+                        <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="trr-list-header">Most shouted-out artists</div>
+                <table class="table">
+                    <th colspan="1">Name</th><th colspan="1"># Shout-outs</th>
+                    {% for e in most_mentioned_artists %}
+                    <tr>
+                        <td class="col-md-1"><a href="{%url 'artist' e.slug %}">{{e.pref_label}}</a></td>
                         <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
                     </tr>
                     {% endfor %}
@@ -154,16 +164,6 @@
                         {% endfor %}
                         <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
                     </div>
-                <div class="trr-list-header">Artist shout-outs</div>
-                <table class="table">
-                    <th colspan="1">Name</th><th colspan="1"># Shout-outs</th>
-                    {% for e in most_mentioned_artists %}
-                    <tr>
-                        <td class="col-md-1"><a href="{%url 'artist' e.slug %}">{{e.pref_label}}</a></td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
-                    </tr>
-                    {% endfor %}
-                </table>
                 </div>
             </div>
         </div>

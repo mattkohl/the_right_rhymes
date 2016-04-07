@@ -521,6 +521,9 @@ def stats(request):
     linked_exx = Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')
 
     template = loader.get_template('dictionary/stats.html')
+
+    WIDTH_ADJUSTMENT = 5
+
     context = {
         'num_entries': entry_count,
         'num_senses': sense_count,
@@ -532,7 +535,7 @@ def stats(request):
                 'anchor': sense.xml_id,
                 'definition': sense.definition,
                 'num_examples': sense.num_examples,
-                'width': (sense.num_examples / best_attested_sense_count) * 100
+                'width': (sense.num_examples / best_attested_sense_count) * 100 - WIDTH_ADJUSTMENT
 
             } for sense in best_attested_senses
             ],
@@ -543,7 +546,7 @@ def stats(request):
                 'artist_name': song.artist_name,
                 'artist_slug':song.artist_slug,
                 'num_examples': song.num_examples,
-                'width': (song.num_examples / most_cited_song_count) * 100
+                'width': (song.num_examples / most_cited_song_count) * 100 - WIDTH_ADJUSTMENT
             } for song in most_cited_songs
             ],
         'most_mentioned_places': [
@@ -553,7 +556,7 @@ def stats(request):
                 'pref_label': e.pref_label,
                 'entity_type': e.entity_type,
                 'num_examples': e.num_examples,
-                'width': (e.num_examples / place_mention_count) * 100
+                'width': (e.num_examples / place_mention_count) * 100 - WIDTH_ADJUSTMENT
             } for e in most_mentioned_places
             ],
         'most_mentioned_artists': [
@@ -563,7 +566,7 @@ def stats(request):
                 'pref_label': e.pref_label,
                 'entity_type': e.entity_type,
                 'num_examples': e.num_examples,
-                'width': (e.num_examples / artist_mention_count) * 100
+                'width': (e.num_examples / artist_mention_count) * 100 - WIDTH_ADJUSTMENT
             } for e in most_mentioned_artists
             ],
         'num_artists': len(artists),
@@ -573,7 +576,7 @@ def stats(request):
                 'name': place.name.split(', ')[0],
                 'slug': place.slug,
                 'num_artists': place.num_artists,
-                'width': (place.num_artists / place_count) * 100
+                'width': (place.num_artists / place_count) * 100 - WIDTH_ADJUSTMENT
             } for place in places[:LIST_LENGTH]
             ],
         'earliest_date': {'example': [build_example(date, published_headwords) for date in examples_date_ascending[:LIST_LENGTH]]},
@@ -581,13 +584,13 @@ def stats(request):
         'num_seventies': seventies,
         'seventies_width': (seventies / decade_max) * 100,
         'num_eighties': eighties,
-        'eighties_width': (eighties / decade_max) * 100,
+        'eighties_width': (eighties / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'num_nineties': nineties,
-        'nineties_width': (nineties / decade_max) * 100,
+        'nineties_width': (nineties / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'num_noughties': noughties,
-        'noughties_width': (noughties / decade_max) * 100,
+        'noughties_width': (noughties / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'num_twenty_tens': twenty_tens,
-        'twenty_tens_width': (twenty_tens / decade_max) * 100,
+        'twenty_tens_width': (twenty_tens / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'most_linked_example': {'example': [build_example(linked_exx[:1][0], published_headwords)], 'count': linked_exx[:1][0].num_links},
         'most_cited_artists': [{'artist': build_artist(artist), 'count': artist.num_cites} for artist in artists[:LIST_LENGTH+1]]
     }

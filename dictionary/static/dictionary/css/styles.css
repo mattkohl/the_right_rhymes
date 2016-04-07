@@ -945,6 +945,9 @@ td {
 	/*filter: invert(100%);*/
 }
 
+.counts {
+    margin-bottom: -2em;
+}
 
 /*
 --------------------------------------------------------------
@@ -1173,6 +1176,10 @@ and (max-width : 600px) {
     .trr-list-header {
          padding: 10px 15px;
      }
+
+    .counts {
+        margin-bottom: -3em;
+    }
 
    .lyrics i {
         font-size: .5em;
@@ -1434,6 +1441,10 @@ and (max-width : 240px) and (max-height : 240px) {
     .trr-list-header {
         padding: 8px;
         font-size: .7em;
+    }
+
+    .counts {
+        margin-bottom: -2.5em;
     }
 
     .single-thumb {
