@@ -22,35 +22,6 @@
                     {% elif senses|length == 1 %}
                     <h3 class="trr-list-header">{{ senses|length }} sense in the domain of <strong>{{ domain }}</strong></h3>
                     {% endif %}
-                    <div class="trr-list">
-                    {% for sense in senses %}
-                        <div class="trr-list-group-item">
-                            <div>
-                                <strong>
-                                    <a href="{% url 'entry' sense.slug %}#{{sense.xml_id}}">{{ sense.headword }}</a>
-                                </strong>
-                            </div>
-
-                                {% for example in sense.examples %}
-                                <div>
-                                    <span class="date">{{ example.release_date_string }}</span>
-                                    <!--<span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>-->
-                                    <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
-                                    {% if example.featured_artists %}
-                                    <span> feat. </span>
-                                    {% for feat in example.featured_artists %}
-                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                                    {% endfor %}
-                                    {% endif %}
-                                    <span class="album">[{{example.album }}]</span>
-
-                                    <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                                </div>
-                                {% endfor %}
-
-                        </div>
-                    {% endfor %}
-                    </div>
                 {% endif %}
             </div>
             {% csrf_token %}
@@ -67,29 +38,69 @@
 var fill = d3.scale.category20();
 
 var endpoint = '/domains/{{slug}}/json';
-function getData(callback) {
-    return $.getJSON(
-            endpoint,
-            {'csrfmiddlewaretoken': '{{csrf_token'},
-            function(data) {
-                var parsed = $.parseJSON(data);
-                var children = parsed.children;
-                $.each(children, function(i, child) {
-                    return {
-                        word: child.name,
-                        weight: child.example_count
-                    };
-                });
-            }
-        );
+$.getJSON(
+        endpoint,
+        {'csrfmiddlewaretoken': '{{csrf_token'},
+        function(data) {
+            var parsed = $.parseJSON(data);
+            var children = parsed.children;
+            d3.layout.cloud().size([500, 500])
+                    .words(children.map(function (d) {
+                        return {
+                            url: d.url,
+                            text: d.word,
+                            size: d.weight
+                        };
+                    }))
+                    .padding(5)
+                    .rotate(function () {
+                        return ~~(Math.random() * 2) * 90;
+                    })
+                    .font("Impact")
+                    .fontSize(function (d) {
+                        return d.size;
+                    })
+                    .on("end", draw)
+                    .start();
+                }
+);
+
+function draw(words) {
+    console.log(words);
+    d3.select("#cloud").append("svg")
+            .attr("width", 500)
+            .attr("height", 500)
+            .append("g")
+            .attr("transform", "translate(250,250)")
+            .selectAll("text")
+            .data(words)
+            .enter().append("a")
+            .attr("xlink:href", function(d) {
+                return d.url
+            })
+            .append("text")
+            .style("font-size", function (d) {
+                console.log(d);
+                return d.size + "px";
+            })
+            .style("font-family", "Impact")
+            .style("cursor", "pointer")
+            .style("fill", function (d, i) {
+                return fill(i);
+            })
+            .attr("text-anchor", "middle")
+            .attr("transform", function (d) {
+
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function (d) {
+                return d.text;
+            });
 }
 
-getData(function(data) {
-    console.log(data);
+function drawUpdate(words) {
     d3.layout.cloud().size([500, 500])
-            .words(data.map(function (d) {
-                return {text: d.word, size: d.weight};
-            }))
+            .words(words)
             .padding(5)
             .rotate(function () {
                 return ~~(Math.random() * 2) * 90;
@@ -98,74 +109,34 @@ getData(function(data) {
             .fontSize(function (d) {
                 return d.size;
             })
-            .on("end", draw)
             .start();
 
-    function draw(words) {
-        d3.select("#cloud").append("svg")
-                .attr("width", 300)
-                .attr("height", 300)
-                .append("g")
-                .attr("transform", "translate(150,150)")
-                .selectAll("text")
-                .data(words)
-                .enter().append("text")
-                .style("font-size", function (d) {
-                    return d.size + "px";
-                })
-                .style("font-family", "Impact")
-                .style("fill", function (d, i) {
-                    return fill(i);
-                })
-                .attr("text-anchor", "middle")
-                .attr("transform", function (d) {
 
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                })
-                .text(function (d) {
-                    return d.text;
-                });
-    }
+    d3.select("svg")
+            .selectAll("g")
+            .attr("transform", "translate(150,150)")
+            .selectAll("text")
+            .data(words).enter().append("text")
+            .style("font-size", function (d) {
+                return d.size + "px";
+            })
+            .style("font-family", "Impact")
+            .style("fill", function (d, i) {
+                return fill(i);
+            })
 
-    function drawUpdate(words) {
-        d3.layout.cloud().size([500, 500])
-                .words(words)
-                .padding(5)
-                .rotate(function () {
-                    return ~~(Math.random() * 2) * 90;
-                })
-                .font("Impact")
-                .fontSize(function (d) {
-                    return d.size;
-                })
-                .start();
+            .attr("transform", function (d) {
+
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function (d) {
+                return d.text;
+            });
 
 
-        d3.select("svg")
-                .selectAll("g")
-                .attr("transform", "translate(150,150)")
-                .selectAll("text")
-                .data(words).enter().append("text")
-                .style("font-size", function (d) {
-                    return d.size + "px";
-                })
-                .style("font-family", "Impact")
-                .style("fill", function (d, i) {
-                    return fill(i);
-                })
-
-                .attr("transform", function (d) {
-
-                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                })
-                .text(function (d) {
-                    return d.text;
-                });
+}
 
 
-    }
-
-});
 
 </script>
 {% endblock %}

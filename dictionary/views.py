@@ -129,7 +129,16 @@ def domain_json(request, domain_slug):
     results = Domain.objects.filter(slug=domain_slug)
     if results:
         domain_object = results[0]
-        data = {'name': domain_object.name, 'children': [{'name': sense.headword, 'example_count': sense.examples.count()} for sense in domain_object.senses.all()]}
+        data = {
+            'name': domain_object.name,
+            'children': [
+                {
+                    'word': sense.headword,
+                    'weight': sense.examples.count(),
+                    'url': '/' + sense.slug + '#' + sense.xml_id
+                } for sense in domain_object.senses.all()
+                ]
+            }
         return JsonResponse(json.dumps(data), safe=False)
     else:
         return JsonResponse(json.dumps({}))

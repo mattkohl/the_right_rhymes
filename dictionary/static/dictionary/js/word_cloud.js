@@ -4,6 +4,7 @@
   function cloud() {
     var size = [256, 256],
         text = cloudText,
+        url = cloudUrl,
         font = cloudFont,
         fontSize = cloudFontSize,
         rotate = cloudRotate,
@@ -24,6 +25,7 @@
           data = words.map(function(d, i) {
         return {
           text: text.call(this, d, i),
+          url: url.call(this, d, i),
           font: font.call(this, d, i),
           rotate: rotate.call(this, d, i),
           size: ~~fontSize.call(this, d, i),
@@ -187,6 +189,10 @@
 
   function cloudFontSize(d) {
     return Math.sqrt(d.value);
+  }
+
+  function cloudUrl(d) {
+    return d.url;
   }
 
   function cloudRotate() {
