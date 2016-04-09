@@ -166,7 +166,11 @@
                                     <span class="xrlabel" tabindex="9">Rhymes</span>
                                     <span class="the-list">
                                     {% for rhyme in sense.rhymes %}
+                                        {% if rhyme.rhyme_slug in published_entries %}
+                                        <span class="rhyme"><a href="{% url 'entry' rhyme.rhyme_slug %}">{{ rhyme.rhyme }}</a>{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                                        {% else %}
                                         <span class="rhyme"><a href="{% url 'rhyme' rhyme.rhyme_slug %}">{{ rhyme.rhyme }}</a>{% if rhyme.frequency > 1 %}<sup>{{ rhyme.frequency }}</sup>{% endif %}{% if not forloop.last %}, {% endif %}</span>
+                                        {% endif %}
                                     {% endfor %}
                                     </span>
                                 </div>
