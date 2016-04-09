@@ -166,8 +166,8 @@ class SynSet(models.Model):
 
 
 class SemanticClass(models.Model):
-    name = models.CharField(primary_key=True, max_length=1000)
-    slug = models.SlugField(max_length=1000, blank=True, null=True)
+    name = models.CharField(max_length=1000)
+    slug = models.SlugField(primary_key=True, max_length=1000)
     senses = models.ManyToManyField('Sense', through=Sense.semantic_classes.through, related_name='+', blank=True)
     broader = models.ManyToManyField("self", blank=True, symmetrical=False)
 
@@ -180,8 +180,8 @@ class SemanticClass(models.Model):
 
 
 class Domain(models.Model):
-    name = models.CharField(primary_key=True, max_length=1000)
-    slug = models.SlugField('Domain Slug', max_length=1000, blank=True, null=True)
+    name = models.CharField(max_length=1000)
+    slug = models.SlugField(primary_key=True, max_length=1000)
     senses = models.ManyToManyField('Sense', through=Sense.domains.through, related_name='+', blank=True)
     broader = models.ManyToManyField("self", blank=True, symmetrical=False)
 
