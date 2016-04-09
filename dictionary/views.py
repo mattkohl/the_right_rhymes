@@ -510,6 +510,7 @@ def stats(request):
     example_count = Example.objects.all().count()
     best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     best_attested_sense_count = best_attested_senses[0].num_examples
+    best_attested_domains = [domain for domain in Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')[:LIST_LENGTH]]
     most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_cited_song_count = most_cited_songs[0].num_examples
     most_mentioned_places = [e for e in NamedEntity.objects.filter(entity_type='place').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
@@ -524,6 +525,7 @@ def stats(request):
     decade_max = max([seventies, eighties, nineties, noughties, twenty_tens])
     artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
+    domain_count = best_attested_domains[0].num_senses
     place_count = places[0].num_artists
     place_mention_count = most_mentioned_places[0].num_examples
     artist_mention_count = most_mentioned_artists[0].num_examples
@@ -547,6 +549,15 @@ def stats(request):
                 'width': (sense.num_examples / best_attested_sense_count) * 100 - WIDTH_ADJUSTMENT
 
             } for sense in best_attested_senses
+            ],
+        'best_attested_domains': [
+            {
+                'name': domain.name,
+                'slug': domain.slug,
+                'num_senses': domain.num_senses,
+                'width': (domain.num_senses / domain_count) * 100 - WIDTH_ADJUSTMENT
+
+            } for domain in best_attested_domains
             ],
         'most_cited_songs': [
             {

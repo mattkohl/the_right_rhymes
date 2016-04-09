@@ -32,6 +32,16 @@
                     </tr>
                     {% endfor %}
                 </table>
+                <div class="trr-list-header">Best attested domains</div>
+                <table class="table">
+                    <th colspan="1">Domain</th><th colspan="1"># Senses</th>
+                    {% for domain in best_attested_domains %}
+                    <tr>
+                        <td class="col-md-1"><a href="{% url 'domain' domain.slug %}">{{domain.name}}</a></td>
+                        <td class="col-md-1"><span class="counter-bar" style="width:{{domain.width}}%">{{domain.num_senses}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 <div class="trr-list-header">Most cited songs</div>
                 <table class="table">
                     <th colspan="1">Song</th><th colspan="1"># Examples</th>
