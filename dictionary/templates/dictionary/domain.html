@@ -36,6 +36,8 @@
 <script>
 
 var fill = d3.scale.category20();
+var w = window.innerWidth,
+    h = window.innerHeight;
 
 var endpoint = '/domains/{{slug}}/json';
 $.getJSON(
@@ -44,7 +46,7 @@ $.getJSON(
         function(data) {
             var parsed = $.parseJSON(data);
             var children = parsed.children;
-            d3.layout.cloud().size([500, 500])
+            d3.layout.cloud().size([w, h])
                     .words(children.map(function (d) {
                         return {
                             url: d.url,
@@ -68,10 +70,10 @@ $.getJSON(
 function draw(words) {
     console.log(words);
     d3.select("#cloud").append("svg")
-            .attr("width", 500)
-            .attr("height", 500)
+            .attr("width", w)
+            .attr("height", h)
             .append("g")
-            .attr("transform", "translate(250,250)")
+            .attr("transform", "translate(" + [w >> 1, h >> 1] + ")")
             .selectAll("text")
             .data(words)
             .enter().append("a")
@@ -90,7 +92,6 @@ function draw(words) {
             })
             .attr("text-anchor", "middle")
             .attr("transform", function (d) {
-
                 return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
             })
             .text(function (d) {
@@ -99,7 +100,7 @@ function draw(words) {
 }
 
 function drawUpdate(words) {
-    d3.layout.cloud().size([500, 500])
+    d3.layout.cloud().size([w, h])
             .words(words)
             .padding(5)
             .rotate(function () {
@@ -114,7 +115,7 @@ function drawUpdate(words) {
 
     d3.select("svg")
             .selectAll("g")
-            .attr("transform", "translate(150,150)")
+            .attr("transform", "translate(" + [w >> 1, h >> 1] + ")")
             .selectAll("text")
             .data(words).enter().append("text")
             .style("font-size", function (d) {
