@@ -43,9 +43,6 @@ def decimal_default(obj):
     raise TypeError
 
 
-# ō½@áóé
-
-
 def slugify(text):
     slug = text.strip().lower()
     if slug[0] == "'" or slug[0] == "-":
@@ -357,3 +354,10 @@ def count_place_artists(place_object, count):
         for contained in contains:
             count_place_artists(contained, count)
     return count
+
+
+def make_label_from_camel_case(text):
+    if text[0].lower():
+        text = text[0].upper() + text[1:]
+    tokens = re.findall('[A-Z][^A-Z]*', text)
+    return ' '.join(tokens)

@@ -8,8 +8,8 @@ import xmltodict
 from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
-    Place, Song
-from .utils import slugify
+    Place, Song, SemanticClass
+from .utils import slugify, make_label_from_camel_case
 
 
 geolocator = Nominatim()
@@ -170,6 +170,8 @@ class TRRSense:
         self.update_sense()
         self.domains = []
         self.extract_domains()
+        self.semantic_classes = []
+        self.extract_semantic_classes()
         self.collocates = []
         self.extract_collocates()
         self.rhymes = []
@@ -233,6 +235,15 @@ class TRRSense:
             if type(domain_list) is OrderedDict:
                 self.domains.append(TRRDomain(domain_list['@type']))
 
+    def extract_semantic_classes(self):
+        if 'semanticClass' in self.sense_dict:
+            semantic_class_list = self.sense_dict['semanticClass']
+            if type(semantic_class_list) is list:
+                for semantic_class_name in semantic_class_list:
+                    self.semantic_classes.append(TRRSemanticClass(semantic_class_name['@type']))
+            if type(semantic_class_list) is OrderedDict:
+                self.semantic_classes.append(TRRSemanticClass(semantic_class_list['@type']))
+
     def extract_synset(self):
         if 'synSetRef' in self.sense_dict:
             synset = self.sense_dict['synSetRef']
@@ -272,6 +283,8 @@ class TRRSense:
         self.parent_entry.senses.add(self.sense_object)
         for d in self.domains:
             d.domain_object.senses.add(self.sense_object)
+        for sc in self.semantic_classes:
+            sc.semantic_class_object.senses.add(self.sense_object)
         for s in self.synset:
             s.synset_object.senses.add(self.sense_object)
         for x in self.xrefs:
@@ -588,11 +601,31 @@ class TRRPlace:
         self.place_object.save()
 
 
+class TRRSemanticClass:
+
+    def __init__(self, name):
+        self.name = make_label_from_camel_case(name)
+        self.slug = slugify(self.name)
+        self.semantic_class_object = self.add_to_db()
+        self.update_semantic_class_object()
+
+    def __str__(self):
+        return self.name
+
+    def add_to_db(self):
+        # print('Adding semantic_class:', self.name)
+        semantic_class_object, created = SemanticClass.objects.get_or_create(slug=self.slug)
+        return semantic_class_object
+
+    def update_semantic_class_object(self):
+        self.semantic_class_object.name = self.name
+        self.semantic_class_object.save()
+
 
 class TRRDomain:
 
     def __init__(self, name):
-        self.name = name
+        self.name = make_label_from_camel_case(name)
         self.slug = slugify(self.name)
         self.domain_object = self.add_to_db()
         self.update_domain_object()
@@ -602,11 +635,11 @@ class TRRDomain:
 
     def add_to_db(self):
         # print('Adding Domain:', self.name)
-        domain_object, created = Domain.objects.get_or_create(name=self.name)
+        domain_object, created = Domain.objects.get_or_create(slug=self.slug)
         return domain_object
 
     def update_domain_object(self):
-        self.domain_object.slug = self.slug
+        self.domain_object.name = self.name
         self.domain_object.save()
 
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import Entry, Editor, Artist, Sense, \
     Example, Domain, SynSet, NamedEntity, Xref, Collocate, \
-    SenseRhyme, ExampleRhyme, LyricLink, Place, Song
+    SenseRhyme, ExampleRhyme, LyricLink, Place, Song, SemanticClass
 
 
 class EntryAdmin(admin.ModelAdmin):
@@ -35,6 +35,7 @@ admin.site.register(Artist, ArtistAdmin)
 admin.site.register(Sense, SenseAdmin)
 admin.site.register(Example, ExampleAdmin)
 admin.site.register(Domain)
+admin.site.register(SemanticClass)
 admin.site.register(SynSet)
 admin.site.register(Song)
 admin.site.register(NamedEntity, NamedEntityAdmin)

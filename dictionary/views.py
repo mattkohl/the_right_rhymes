@@ -9,9 +9,9 @@ from django.db.models import Q, Count
 
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
-    collect_place_artists, build_entry_preview, count_place_artists
+    collect_place_artists, build_entry_preview
 from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
 
 
 logger = logging.getLogger(__name__)
