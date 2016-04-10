@@ -77,6 +77,16 @@
                                     </span>
                                 </div>
                             {% endif %}
+                            {% if sense.semantic_classes %}
+                                <div class="xref toggle">
+                                    <span class="xrlabel" tabindex="2">Categories</span>
+                                    <span class="the-list">
+                                    {% for semantic_class in sense.semantic_classes %}
+                                        <span class="semantic_class"><a href="{% url 'semantic_class' semantic_class.slug %}">{{ semantic_class.name }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                    </span>
+                                </div>
+                            {% endif %}
                             {% if sense.synonyms %}
                                 <div class="xref toggle">
                                     <span class="xrlabel" tabindex="3">Synonyms</span>

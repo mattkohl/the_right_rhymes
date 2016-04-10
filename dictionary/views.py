@@ -69,11 +69,6 @@ def artist(request, artist_slug):
     if entity_results:
         entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
 
-    # entity_examples = []
-    # for e in entity_results:
-    #     for example in e.examples.all():
-    #         entity_examples.append({'name': e.name, 'example': build_example(example, published)})
-
     image = check_for_image(artist.slug, 'artists', 'full')
     name = reformat_name(artist.name)
     primary_sense_count = artist.primary_senses.all().count()
@@ -410,6 +405,45 @@ def search_headwords(request):
 
     data = {'headwords': results}
     return JsonResponse(json.dumps(data), safe=False)
+
+
+def semantic_class(request, semantic_class_slug):
+    template = loader.get_template('dictionary/semantic_class.html')
+    semantic_class = get_object_or_404(SemanticClass, slug=semantic_class_slug)
+    sense_objects = semantic_class.senses.filter(publish=True).order_by('headword')
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
+    senses = [build_sense_preview(sense, published) for sense in sense_objects]
+    senses_data = [{"word": sense.headword, "weight": sense.examples.count()} for sense in sense_objects]
+    data = [sense.headword for sense in sense_objects]
+    context = {
+        'semantic_class': un_camel_case(semantic_class.name),
+        'slug': semantic_class_slug,
+        'senses': senses,
+        'senses_data': json.dumps(senses_data),
+        'published_entries': published,
+        'image': check_for_image(semantic_class.slug, 'semantic_classes', 'full'),
+        'data': json.dumps(data)
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def semantic_class_json(request, semantic_class_slug):
+    results = SemanticClass.objects.filter(slug=semantic_class_slug)
+    if results:
+        semantic_class_object = results[0]
+        data = {
+            'name': semantic_class_object.name,
+            'children': [
+                {
+                    'word': sense.headword,
+                    'weight': sense.examples.count(),
+                    'url': '/' + sense.slug + '#' + sense.xml_id
+                } for sense in semantic_class_object.senses.all()
+                ]
+            }
+        return JsonResponse(json.dumps(data), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
 
 
 def sense_artist_json(request, sense_id, artist_slug):

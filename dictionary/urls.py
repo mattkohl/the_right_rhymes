@@ -44,6 +44,12 @@ urlpatterns = [
     # /domains/<domain-slug>/json/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/json/$", views.domain_json, name='domain_json'),
 
+    # /semantic-classes/<semantic-class-slug>/
+    url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/$", views.semantic_class, name='semantic_class'),
+
+    # /semantic-classes/<semantic-class-slug>/json/
+    url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/json/$", views.semantic_class_json, name='semantic_class_json'),
+
     # /entities/<named-entity-slug>/
     url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),
 
