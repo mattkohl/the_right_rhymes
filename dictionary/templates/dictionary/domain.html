@@ -39,7 +39,7 @@ var fill = d3.scale.category20();
 var w = window.innerWidth,
     h = window.innerHeight;
 
-var endpoint = '/domains/{{slug}}/json';
+var endpoint = '/domains/{{slug}}/json/';
 $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token'},
