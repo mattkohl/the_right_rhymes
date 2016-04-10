@@ -124,14 +124,15 @@ def domain_json(request, domain_slug):
     results = Domain.objects.filter(slug=domain_slug)
     if results:
         domain_object = results[0]
+        senses = domain_object.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
         data = {
             'name': domain_object.name,
             'children': [
                 {
                     'word': sense.headword,
-                    'weight': sense.examples.count(),
+                    'weight': sense.num_examples,
                     'url': '/' + sense.slug + '#' + sense.xml_id
-                } for sense in domain_object.senses.all()
+                } for sense in senses
                 ]
             }
         return JsonResponse(json.dumps(data), safe=False)

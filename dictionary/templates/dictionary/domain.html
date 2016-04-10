@@ -68,7 +68,6 @@ $.getJSON(
 );
 
 function draw(words) {
-    console.log(words);
     d3.select("#cloud").append("svg")
             .attr("width", w)
             .attr("height", h)
@@ -82,7 +81,6 @@ function draw(words) {
             })
             .append("text")
             .style("font-size", function (d) {
-                console.log(d);
                 return d.size + "px";
             })
             .style("font-family", "Impact")
