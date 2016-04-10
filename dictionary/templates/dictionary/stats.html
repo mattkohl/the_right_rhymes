@@ -42,6 +42,16 @@
                     </tr>
                     {% endfor %}
                 </table>
+                <div class="trr-list-header">Best attested categories</div>
+                <table class="table">
+                    <th colspan="1">Category</th><th colspan="1"># Senses</th>
+                    {% for semantic_class in best_attested_semantic_classes %}
+                    <tr>
+                        <td class="col-md-1"><a href="{% url 'semantic_class' semantic_class.slug %}">{{semantic_class.name}}</a></td>
+                        <td class="col-md-1"><span class="counter-bar" style="width:{{semantic_class.width}}%">{{semantic_class.num_senses}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 <div class="trr-list-header">Most cited songs</div>
                 <table class="table">
                     <th colspan="1">Song</th><th colspan="1"># Examples</th>
