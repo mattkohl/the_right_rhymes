@@ -186,7 +186,6 @@ def entry(request, headword_slug):
     sense_objects = entry.senses.all()
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     senses = [build_sense(sense, published) for sense in sense_objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
-
     context = {
         'headword': entry.headword,
         'pub_date': entry.pub_date,
