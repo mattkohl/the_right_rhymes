@@ -38,6 +38,9 @@ urlpatterns = [
     # /artists/<artist_slug>/json/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/json/$", views.artist_json, name="artist_json"),
 
+    # /artists/<artist_slug>/sense_examples_json/
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/sense_examples_json/$", views.artist_sense_examples_json, name="artist_sense_examples_json"),
+
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
 

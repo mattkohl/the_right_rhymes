@@ -53,7 +53,7 @@ def artist(request, artist_slug):
             'xml_id': sense.xml_id,
             'example_count': sense.examples.filter(artist=artist).count(),
             'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')[:1]]
-        } for sense in artist.primary_senses.filter(publish=True).order_by('?')[:5]
+        } for sense in artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[:5]
     ]
 
     featured_senses = [
@@ -63,7 +63,8 @@ def artist(request, artist_slug):
             'xml_id': sense.xml_id,
             'example_count': sense.examples.filter(feat_artist=artist).count(),
             'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
-        } for sense in artist.featured_senses.filter(publish=True).order_by('?')[:5]]
+        } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[:5]
+        ]
 
     entity_examples = []
     if entity_results:
@@ -89,6 +90,40 @@ def artist(request, artist_slug):
         'image': image
     }
     return HttpResponse(template.render(context, request))
+
+
+def artist_sense_examples_json(request, artist_slug):
+    artist_results = get_list_or_404(Artist, slug=artist_slug)
+    artist = artist_results[0]
+    feat = request.GET.get('feat', '')
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
+    if not feat:
+        senses = [
+            {
+                'headword': sense.headword,
+                'slug': sense.slug,
+                'xml_id': sense.xml_id,
+                'example_count': sense.examples.filter(artist=artist).count(),
+                'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')[:1]]
+            } for sense in artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[5:]
+        ]
+    else:
+        senses = [
+            {
+                'headword': sense.headword,
+                'slug': sense.slug,
+                'xml_id': sense.xml_id,
+                'example_count': sense.examples.filter(feat_artist=artist).count(),
+                'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
+            } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[5:]
+        ]
+    if senses:
+        data = {
+            'senses': senses
+        }
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}), safe=False)
 
 
 def artist_json(request, artist_slug):

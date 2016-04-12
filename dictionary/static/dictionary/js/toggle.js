@@ -22,11 +22,11 @@ $(document).ready(function(){
                 context.hide();
                 breaker.show();
                 if (artist_slug != '') {
-                    var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json';
+                    var endpoint = '/artists/' + artist_slug + '/sense_examples_json';
                     if (feat == 'True') {
                         endpoint = endpoint + '?feat=True'
                     }
-                    addRemainingExamples(ul, breaker, context, endpoint);
+                    addRemainingArtistSenseExamples(ul, breaker, context, endpoint);
                 } else if (place_slug != '') {
                     var endpoint = '/places/' + place_slug + '/artists/json';
                     addRemainingArtists(ul, breaker, context, endpoint);
@@ -63,6 +63,60 @@ function addRemainingArtists(ul, breaker, context, endpoint) {
             context.show();
         }
     )
+}
+
+function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
+    $.getJSON(
+        endpoint,
+        {'csrfmiddlewaretoken': '{{csrf_token}}' },
+        function(data) {
+            var parsed = $.parseJSON(data);
+            var senses = parsed.senses;
+            $.each(senses, function(i, sense) {
+                var ex = $("<li></li>", {"class": 'trr-list-group-item'}).append(
+                    $('<div></div>').append(
+                        $('<strong></strong>').append(
+                            $('<a></a>', {"href": '/' + sense.slug + '#' + sense.xml_id, "text": sense.headword})
+                        )
+                    ));
+                $.each(sense.examples, function(i, example) {
+                    ex.append('<div></div>').append(
+                        $('<span></span>', {"class": 'date', "text": example.release_date}),
+                        $('<span></span>', {"class": 'artist'}).append(
+                            $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
+                        $('<span></span>', {"class": 'songTitle'}).append(
+                            $('<a></a>', {
+                                "href": '/songs/' + example.song_slug,
+                                "text": '"' + example.song_title + '"'
+                            }))
+                    );
+                    if (example.featured_artists.length > 0) {
+                        ex.append('<span class="comma"> feat. </span>');
+                        var featured = [];
+                        var last = example.featured_artists.pop();
+                        $.each(example.featured_artists, function (i, feat) {
+                            featured.push(
+                                $('<span></span>', {"class": 'artist'}).append(
+                                    $('<a></a>', {"href": '/artists/' + feat.slug, "text": feat.name}),
+                                    $('<span></span>', {"class": 'comma', "text": ","}))
+                            );
+                        });
+                        featured.push(
+                            $('<span></span>', {"class": 'artist'}).append(
+                                $('<a></a>', {"href": '/artists/' + last.slug, "text": last.name})
+                            ));
+                        ex.append(featured);
+                    }
+                    ex.append(
+                        $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
+                        $('<div class="lyric">' + example.linked_lyric + '</div>')
+                    );
+                });
+                ex.appendTo(ul);
+            });
+            breaker.hide();
+            context.show();
+        });
 }
 
 function addRemainingExamples(ul, breaker, context, endpoint) {

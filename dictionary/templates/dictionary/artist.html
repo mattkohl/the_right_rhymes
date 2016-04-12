@@ -53,6 +53,20 @@
 
                             </div>
                         {% endfor %}
+                       {% if primary_sense_count > 5 %}
+                            <div class="toggle_exx">
+                                <a href="#" class="toggle_more_exx">
+                                    Show {{ primary_sense_count|add:"-5" }} more {% if primary_sense_count == 5 %} sense {% else %} senses {% endif %}
+                                </a>
+                                <span class="artist_slug hidden">{{slug}}</span>
+                                <div class="loading">
+                                    <img src="/static/dictionary/img/loading/breakdance.gif" width="5%" height="5%"></img>
+                                </div>
+                            </div>
+                            <ul class="examples trr-list">
+
+                            </ul>
+                        {% endif %}
                     </div>
 
                 {% endif %}
@@ -96,6 +110,22 @@
 
                             </div>
                         {% endfor %}
+                        {% csrf_token %}
+                       {% if featured_sense_count > 5 %}
+                            <div class="toggle_exx">
+                                <a href="#" class="toggle_more_exx">
+                                    Show {{ featured_sense_count|add:"-5" }} more {% if featured_sense_count == 5 %} sense {% else %} senses {% endif %}
+                                </a>
+                                <span class="artist_slug hidden">{{slug}}</span>
+                                <span class="feat hidden">True</span>
+                                <div class="loading">
+                                    <img src="/static/dictionary/img/loading/breakdance.gif" width="5%" height="5%"></img>
+                                </div>
+                            </div>
+                            <ul class="examples trr-list">
+
+                            </ul>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% if entity_examples %}
