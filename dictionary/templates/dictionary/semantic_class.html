@@ -18,9 +18,9 @@
                 {% endif %}
                 {% if senses %}
                     {% if senses|length > 1 %}
-                    <h3 class="trr-list-header">{{ senses|length }} senses in the semantic class of <strong>{{ semantic_class }}</strong></h3>
+                    <h3 class="trr-list-header">{{ senses|length }} senses in the category <strong>{{ semantic_class }}</strong></h3>
                     {% elif senses|length == 1 %}
-                    <h3 class="trr-list-header">{{ senses|length }} sense in the semantic class of <strong>{{ semantic_class }}</strong></h3>
+                    <h3 class="trr-list-header">{{ senses|length }} sense in the category <strong>{{ semantic_class }}</strong></h3>
                     {% endif %}
                 {% endif %}
             </div>

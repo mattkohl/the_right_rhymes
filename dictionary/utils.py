@@ -265,15 +265,11 @@ def add_links(lyric, links, published, rf=False):
         else:
             start = link.position + buffer
             end = start + len(link.link_text)
-            if link.link_type == 'rf' and rf:
+            if link.link_type == 'rhyme' and link.target_lemma in published:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
-            if link.link_type == 'rhyme' and link.target_lemma in published:
-                a = '<a href="/xref/{}">{}</a>'.format(link.target_slug, link.link_text)
-                linked_lyric = inject_link(linked_lyric, start, end, a)
-                buffer += (len(a) - len(link.link_text))
-            if link.link_type == 'rhyme':
+            elif link.link_type == 'rhyme':
                 a = '<a href="/rhymes/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
