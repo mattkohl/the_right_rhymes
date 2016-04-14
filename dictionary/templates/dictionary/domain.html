@@ -35,7 +35,20 @@
 <script src="/static/dictionary/js/word_cloud.js"></script>
 <script>
 
-var fill = d3.scale.category20();
+var r = ["#3399ff",
+        "#47a3ff",
+        "#5badff",
+        "#70b7ff",
+        "#84c1ff",
+        "#99ccff",
+        "#add6ff",
+        "#2d89e5",
+        "#287acc",
+        "#236bb2",
+        "#1e5b99",
+        "#194c7f"];
+
+var fill = d3.scale.ordinal().range(r);
 var w = window.innerWidth,
     h = window.innerHeight;
 
