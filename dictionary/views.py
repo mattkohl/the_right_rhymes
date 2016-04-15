@@ -105,7 +105,7 @@ def artist_sense_examples_json(request, artist_slug):
                 'slug': sense.slug,
                 'xml_id': sense.xml_id,
                 'example_count': sense.examples.filter(artist=artist).count(),
-                'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')[:1]]
+                'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]
             } for sense in artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[5:]
         ]
     else:
@@ -115,7 +115,7 @@ def artist_sense_examples_json(request, artist_slug):
                 'slug': sense.slug,
                 'xml_id': sense.xml_id,
                 'example_count': sense.examples.filter(feat_artist=artist).count(),
-                'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')[:1]]
+                'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]
             } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[5:]
         ]
     if senses:
