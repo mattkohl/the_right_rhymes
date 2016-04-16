@@ -90,7 +90,9 @@
                     <th colspan="1">Name</th><th colspan="1"># Shout-outs</th>
                     {% for e in most_mentioned_artists %}
                     <tr>
-                        <td class="col-md-1"><a href="{%url 'artist' e.slug %}">{{e.pref_label}}</a></td>
+                        <td class="col-md-1">
+                            <a href="{%url 'artist' e.slug %}">{{e.pref_label}}</a>
+                        </td>
                         <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
                     </tr>
                     {% endfor %}

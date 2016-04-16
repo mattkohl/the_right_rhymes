@@ -662,8 +662,9 @@ def stats(request):
             ],
         'most_mentioned_artists': [
             {
-                'name': e.name,
+                'name': e.pref_label,
                 'slug': e.pref_label_slug,
+                'image': check_for_image(e.pref_label_slug, 'artists', 'thumb'),
                 'pref_label': e.pref_label,
                 'entity_type': e.entity_type,
                 'num_examples': e.num_examples,
