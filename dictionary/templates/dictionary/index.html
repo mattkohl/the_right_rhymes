@@ -176,7 +176,12 @@
                 {% endfor %}
                 </ul>
                 <p style="margin-top: 2.5em; margin-bottom: 0;">Want more figures?</p>
-                <p><a href="{% url 'stats' %}">Go here.</a></p>
+                <p>
+                    <a href="{% url 'stats' %}">Click the bar chart.</a>
+                    <a href="{% url 'stats' %}" class="btn btn-circle page-scroll" style="margin-top: -.05em;">
+                        <i class="fa fa-bar-chart-o animated"></i>
+                    </a>
+                </p>
             </div>
         </div>
     </section>
