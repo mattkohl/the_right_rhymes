@@ -669,6 +669,25 @@ a.sense_timeline:hover, .xrlabel:hover {
 	height: auto;
 }
 
+.stats-image {
+    position: absolute;
+    margin-left: 19%;
+    margin-top: 26px;
+}
+
+.stats-image img {
+    height: 45px;
+    width: 45px;
+    clip: rect(0px,200px,42px,0px);
+    margin-top: -34px;
+    position: absolute;
+}
+
+.stats-label {
+    position: absolute;
+    margin-left: 24%;
+}
+
 .center-block {
     max-height: 320px;
     overflow: hidden;
@@ -997,6 +1016,14 @@ Media Queries Aplenty
     .single-thumb {
         width: 180px;
     }
+
+    .stats-image {
+        margin-left: 15%;
+    }
+
+    .stats-label {
+        margin-left: 24%;
+    }
 }
 
 @media only screen and (max-width : 767px) {
@@ -1172,6 +1199,20 @@ and (max-width : 600px) {
         text-align: left;
     }
 
+    .stats-image {
+        margin-left: 10%;
+    }
+
+    .stats-image img {
+        height: 40px;
+        width: 40px;
+        clip: rect(0px,200px,38px,0px);
+    }
+
+    .stats-label {
+        margin-left: 20%;
+    }
+
     .trr-list-header {
          padding: 10px 15px;
      }
@@ -1200,12 +1241,20 @@ and (min-width : 481px) and (max-width : 568px) {
         width: 176px;
     }
 
+    .stats-image {
+        margin-left: 5%;
+    }
+
 }
 
 @media only screen
 and (min-width : 375px) and (max-width : 480px) {
     .single-thumb {
         width: 172px;
+    }
+
+    .stats-image {
+        margin-left: 2%;
     }
 
     h1.song-title-header {
@@ -1252,6 +1301,10 @@ and (min-width : 375px) and (max-width : 480px) {
 and (min-width : 321px) and (max-width : 374px) {
     .single-thumb {
         width: 146px;
+    }
+
+    .stats-image {
+        margin-left: 2%;
     }
 
     .anchor {
@@ -1355,6 +1408,14 @@ and (max-width : 320px) {
 
     .single-thumb {
         width: 158px;
+    }
+
+    .stats-image {
+        margin-left: -5%;
+    }
+
+    .stats-label {
+        margin-left: 15%;
     }
 
    .about-map {
