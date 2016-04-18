@@ -19,9 +19,9 @@
 
                 {% if examples %}
                     {% if num_examples > 1 %}
-                    <h3 class="trr-list-header">mentioned in {{ num_examples }} examples</h3>
+                    <h3 class="trr-list-header">{{ num_examples }} <strong>shout-outs</strong> in these examples</h3>
                     {% elif num_examples == 1 %}
-                    <h3 class="trr-list-header">mentioned in {{ num_examples }} example</h3>
+                    <h3 class="trr-list-header">{{ num_examples }} <strong>shout-out</strong> in this example</h3>
                     {% endif %}
                     <ul class="examplesHead">
                         {% for example in examples %}
