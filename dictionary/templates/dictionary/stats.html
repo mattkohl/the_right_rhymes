@@ -28,7 +28,7 @@
                     {% for sense in best_attested_senses %}
                     <tr>
                         <td class="col-md-1"><a href="{% url 'entry' sense.slug %}#{{sense.anchor}}">{{sense.headword}}</a></td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{sense.width}}%">{{sense.num_examples}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{sense.width}}%">{{sense.num_examples}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -38,7 +38,7 @@
                     {% for domain in best_attested_domains %}
                     <tr>
                         <td class="col-md-1"><a href="{% url 'domain' domain.slug %}">{{domain.name}}</a></td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{domain.width}}%">{{domain.num_senses}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{domain.width}}%">{{domain.num_senses}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -48,7 +48,7 @@
                     {% for semantic_class in best_attested_semantic_classes %}
                     <tr>
                         <td class="col-md-1"><a href="{% url 'semantic_class' semantic_class.slug %}">{{semantic_class.name}}</a></td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{semantic_class.width}}%">{{semantic_class.num_senses}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{semantic_class.width}}%">{{semantic_class.num_senses}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -61,7 +61,7 @@
                             <span class="artist"><a href="{% url 'artist' song.artist_slug %}">{{song.artist_name}}</a></span>
                             <span class="songTitle"> "<a href="{% url 'song' song.slug %}">{{song.title}}</a>"</span>
                         </td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{song.width}}%">{{song.num_examples}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{song.width}}%">{{song.num_examples}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -71,7 +71,7 @@
                     {% for place in best_represented_places %}
                     <tr>
                         <td class="col-md-1"><a href="{%url 'place' place.slug %}">{{place.name}}</a></td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{place.width}}%">{{place.num_artists}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{place.width}}%">{{place.num_artists}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -81,7 +81,7 @@
                     {% for e in most_mentioned_places %}
                     <tr>
                         <td class="col-md-1"><a href="{%url 'place' e.slug %}">{{e.name}}</a></td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -103,17 +103,17 @@
                             </a>
 
                         </td>
-                        <td class="col-md-1"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
+                        <td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{e.width}}%">{{e.num_examples}}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
                 <div class="trr-list-header">Number of examples by decade</div>
                 <table class="table">
-                    <tr><td class="col-md-1">1970's</td><td class="col-md-1"><span class="counter-bar" style="width:{{seventies_width}}%">{{ num_seventies }}</span></td></tr>
-                    <tr><td>1980's</td><td><span class="counter-bar" style="width:{{eighties_width}}%">{{ num_eighties }}</span></td></tr>
-                    <tr><td>1990's</td><td><span class="counter-bar" style="width:{{nineties_width}}%">{{ num_nineties }}</span></td></tr>
-                    <tr><td>2000's</td><td><span class="counter-bar" style="width:{{noughties_width}}%">{{ num_noughties }}</span></td></tr>
-                    <tr><td>2010's</td><td><span class="counter-bar" style="width:{{twenty_tens_width}}%">{{ num_twenty_tens }}</span></td></tr>
+                    <tr><td class="col-md-1">1970's</td><td class="col-md-1 counter-bar"><span class="counter-bar" style="width:{{seventies_width}}%">{{ num_seventies }}</span></td></tr>
+                    <tr><td>1980's</td><td class="counter-bar"><span class="counter-bar" style="width:{{eighties_width}}%">{{ num_eighties }}</span></td></tr>
+                    <tr><td>1990's</td><td class="counter-bar"><span class="counter-bar" style="width:{{nineties_width}}%">{{ num_nineties }}</span></td></tr>
+                    <tr><td>2000's</td><td class="counter-bar"><span class="counter-bar" style="width:{{noughties_width}}%">{{ num_noughties }}</span></td></tr>
+                    <tr><td>2010's</td><td class="counter-bar"><span class="counter-bar" style="width:{{twenty_tens_width}}%">{{ num_twenty_tens }}</span></td></tr>
                 </table>
 
                 <div class="trr-list-header">Earliest examples</div>

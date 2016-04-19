@@ -912,12 +912,19 @@ td {
     opacity: 0.3;
 }
 
-.counter-bar {
+.table>tbody>tr>td.counter-bar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+span.counter-bar {
     display: block;
     background: #909090;
     color: whitesmoke;
     font-weight: bold;
     padding-left: .25em;
+    padding-top: .4em;
+    padding-bottom: .4em;
 }
 
 .counts {
