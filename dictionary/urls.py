@@ -32,6 +32,9 @@ urlpatterns = [
     # /<headword-slug>/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 
+    # /artists/no_image_json/
+    url(r"^artists/no_image_json/$", views.artists_no_image_json, name='artists_no_image_json'),
+
     # /artists/<artist-slug>/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/$", views.artist, name='artist'),
 

@@ -94,6 +94,15 @@ def artist(request, artist_slug):
     return HttpResponse(template.render(context, request))
 
 
+def artist_json(request, artist_slug):
+    results = Artist.objects.filter(slug=artist_slug)
+    if results:
+        data = {'places': [build_artist(artist) for artist in results]}
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def artist_sense_examples_json(request, artist_slug):
     artist_results = get_list_or_404(Artist, slug=artist_slug)
     artist = artist_results[0]
@@ -128,10 +137,11 @@ def artist_sense_examples_json(request, artist_slug):
         return JsonResponse(json.dumps({}), safe=False)
 
 
-def artist_json(request, artist_slug):
-    results = Artist.objects.filter(slug=artist_slug)
+def artists_no_image_json(request):
+    results = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+
     if results:
-        data = {'places': [build_artist(artist) for artist in results]}
+        data = {'artists': [{'name': artist.name, 'count': artist.num_cites} for artist in results if '__none' in check_for_image(artist.slug)][:50]}
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
