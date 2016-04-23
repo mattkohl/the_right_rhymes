@@ -138,10 +138,22 @@ def artist_sense_examples_json(request, artist_slug):
 
 
 def artists_no_image_json(request):
-    results = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    primary_results = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
 
-    if results:
-        data = {'artists': [{'name': artist.name, 'count': artist.num_cites} for artist in results if '__none' in check_for_image(artist.slug)][:50]}
+    if primary_results or feat_results:
+        data = {
+            'primary_artists': [
+                                   {
+                                       'name': artist.name,
+                                       'count': artist.num_cites
+                                   } for artist in primary_results if '__none' in check_for_image(artist.slug)][:10],
+            'feat_artists': [
+                                   {
+                                       'name': artist.name,
+                                       'count': artist.num_cites
+                                   } for artist in feat_results if '__none' in check_for_image(artist.slug)][:10]
+        }
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
         return JsonResponse(json.dumps({}))
