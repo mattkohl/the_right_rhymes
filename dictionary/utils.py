@@ -16,9 +16,12 @@ def normalize_query(query_string,
     return [norm_space(' ', (t[0] or t[1]).strip()) for t in find_terms(query_string)]
 
 
-def build_query(query_string, search_fields):
+def build_query(query_string, search_fields, normalize=False):
     query = None
-    terms = normalize_query(query_string)
+    if normalize:
+        terms = normalize_query(query_string)
+    else:
+        terms = [query_string]
     for term in terms:
         escaped = re.escape(term)
         term = r'\y{}s?\y'.format(escaped)
