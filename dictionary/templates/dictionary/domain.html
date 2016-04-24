@@ -59,12 +59,17 @@ $.getJSON(
         function(data) {
             var parsed = $.parseJSON(data);
             var children = parsed.children;
+            var scaleMin = d3.min(children, function(d) { return d.weight });
+            var scaleMax = d3.max(children, function(d) { return d.weight });
+            var weightScale = d3.scale.linear()
+                .domain([scaleMin, scaleMax])
+                .range([30, 200]);
             d3.layout.cloud().size([w, h])
                     .words(children.map(function (d) {
                         return {
                             url: d.url,
                             text: d.word,
-                            size: d.weight
+                            size: weightScale(d.weight)
                         };
                     }))
                     .padding(5)

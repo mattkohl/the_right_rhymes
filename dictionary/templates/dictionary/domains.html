@@ -1,5 +1,5 @@
 {% extends "dictionary/base.html" %}
-{% block title %}{{ semantic_class }} ⋅ {% endblock %}
+{% block title %}Domains ⋅ {% endblock %}
 {% block content %}
 <div id="wrapper">
     <div id="content-container">
@@ -12,15 +12,15 @@
                           property="image"
                           scale="0"/>
                     </figure>
-                    <div class="headword-image">{{ semantic_class }}</div>
+                    <div class="headword-image">Domains</div>
                 {% else %}
-                    <div class="headword">{{ semantic_class }}</div>
+                    <div class="headword">Domains</div>
                 {% endif %}
-                {% if sense_count %}
-                    {% if sense_count > 1 %}
-                    <h3 class="trr-list-header">{{ sense_count }} senses in the category <strong>{{ semantic_class }}</strong></h3>
-                    {% elif sense_count == 1 %}
-                    <h3 class="trr-list-header">{{ sense_count }} sense in the category <strong>{{ semantic_class }}</strong></h3>
+                {% if domain_count %}
+                    {% if domain_count > 1 %}
+                    <h3 class="trr-list-header">{{ domain_count }} domains found</h3>
+                    {% elif domain_count == 1 %}
+                    <h3 class="trr-list-header">{{ semantic_class_count }} domain found</h3>
                     {% endif %}
                 {% endif %}
             </div>
@@ -52,7 +52,7 @@ var fill = d3.scale.ordinal().range(r);
 var w = window.innerWidth,
     h = window.innerHeight;
 
-var endpoint = '/semantic-classes/{{slug}}/json/';
+var endpoint = '/domains/json/';
 $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token'},

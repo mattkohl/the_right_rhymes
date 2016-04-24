@@ -29,6 +29,18 @@ urlpatterns = [
     # /random/
     url(r'^random/$', views.random_entry, name='random_entry'),
 
+    # /semantic-classes/
+    url(r"^semantic\-classes/$", views.semantic_classes, name='semantic_classes'),
+
+    # /semantic-classes/json/
+    url(r"^semantic\-classes/json/$", views.semantic_classes_json, name='semantic_classes_json'),
+
+    # /domains/
+    url(r"^domains/$", views.domains, name='domains'),
+
+    # /domains/json/
+    url(r"^domains/json/$", views.domains_json, name='domains_json'),
+
     # /<headword-slug>/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 

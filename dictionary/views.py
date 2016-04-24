@@ -199,6 +199,35 @@ def domain_json(request, domain_slug):
         return JsonResponse(json.dumps({}))
 
 
+def domains(request):
+    template = loader.get_template('dictionary/domains.html')
+    results = Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
+    domain_count = results.count()
+    context = {
+        'domain_count': domain_count,
+        'image': check_for_image('domains', 'domains', 'full')
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def domains_json(request):
+    results = Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
+    if results:
+        data = {
+            'name': "Domains",
+            'children': [
+                    {
+                        'word': domain.name,
+                        'weight': domain.num_senses,
+                        'url': '/domains/' + domain.slug
+                    } for domain in results
+                ]
+            }
+        return JsonResponse(json.dumps(data), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def entity(request, entity_slug):
     results = get_list_or_404(NamedEntity, pref_label_slug=entity_slug)
     template = loader.get_template('dictionary/named_entity.html')
@@ -469,19 +498,23 @@ def search_headwords(request):
 def semantic_class(request, semantic_class_slug):
     template = loader.get_template('dictionary/semantic_class.html')
     semantic_class = get_object_or_404(SemanticClass, slug=semantic_class_slug)
-    sense_objects = semantic_class.senses.filter(publish=True).order_by('headword')
-    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    senses = [build_sense_preview(sense, published) for sense in sense_objects]
-    senses_data = [{"word": sense.headword, "weight": sense.examples.count()} for sense in sense_objects]
-    data = [sense.headword for sense in sense_objects]
+    sense_count = semantic_class.senses.filter(publish=True).order_by('headword').count()
     context = {
         'semantic_class': un_camel_case(semantic_class.name),
         'slug': semantic_class_slug,
-        'senses': senses,
-        'senses_data': json.dumps(senses_data),
-        'published_entries': published,
-        'image': check_for_image(semantic_class.slug, 'semantic_classes', 'full'),
-        'data': json.dumps(data)
+        'sense_count': sense_count,
+        'image': check_for_image(semantic_class.slug, 'semantic_classes', 'full')
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def semantic_classes(request):
+    template = loader.get_template('dictionary/semantic_classes.html')
+    results = SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
+    semantic_class_count = results.count()
+    context = {
+        'semantic_class_count': semantic_class_count,
+        'image': check_for_image('semantic-classes', 'semantic_classes', 'full')
     }
     return HttpResponse(template.render(context, request))
 
@@ -493,11 +526,29 @@ def semantic_class_json(request, semantic_class_slug):
         data = {
             'name': semantic_class_object.name,
             'children': [
-                {
-                    'word': sense.headword,
-                    'weight': sense.examples.count(),
-                    'url': '/' + sense.slug + '#' + sense.xml_id
-                } for sense in semantic_class_object.senses.all()
+                    {
+                        'word': sense.headword,
+                        'weight': sense.examples.count(),
+                        'url': '/' + sense.slug + '#' + sense.xml_id
+                    } for sense in semantic_class_object.senses.all()
+                ]
+            }
+        return JsonResponse(json.dumps(data), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
+def semantic_classes_json(request):
+    results = SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
+    if results:
+        data = {
+            'name': "Semantic Classes",
+            'children': [
+                    {
+                        'word': semantic_class.name,
+                        'weight': semantic_class.num_senses,
+                        'url': '/semantic-classes/' + semantic_class.slug
+                    } for semantic_class in results
                 ]
             }
         return JsonResponse(json.dumps(data), safe=False)
