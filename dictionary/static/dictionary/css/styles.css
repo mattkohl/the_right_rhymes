@@ -919,12 +919,32 @@ td {
 
 span.counter-bar {
     display: block;
-    background: #909090;
+    /*background: #909090;*/
     color: whitesmoke;
     font-weight: bold;
     padding-left: .25em;
     padding-top: .4em;
-    padding-bottom: .4em;
+    padding-bottom: .54em;
+}
+
+.counter-bar1 {
+    background: #909090;
+}
+
+.counter-bar2 {
+    background: #818181;
+}
+
+.counter-bar3 {
+    background: #737373;
+}
+
+.counter-bar4 {
+    background: #646464;
+}
+
+.counter-bar5 {
+    background: #565656;
 }
 
 .counts {
