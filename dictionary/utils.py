@@ -347,13 +347,13 @@ def collect_place_artists(place_object, artists):
     return sorted(artists, key=itemgetter('name'))
 
 
-def count_place_artists(place_object, count):
-    count += place_object.artists.count()
+def count_place_artists(place_object, counts):
+    counts.extend([place_object.artists.all().count()])
     contains = place_object.contains.all()
     if contains:
         for contained in contains:
-            count_place_artists(contained, count)
-    return count
+            count_place_artists(contained, counts)
+    return sum(counts)
 
 
 def make_label_from_camel_case(text):

@@ -10,7 +10,7 @@ from django.db.models import Q, Count
 
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
-    collect_place_artists, build_entry_preview
+    collect_place_artists, build_entry_preview, count_place_artists
 from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
 
@@ -669,15 +669,18 @@ def stats(request):
     twenty_tens = Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
     decade_max = max([seventies, eighties, nineties, noughties, twenty_tens])
     artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
-    places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')]
+    places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')[:LIST_LENGTH]]
     domain_count = best_attested_domains[0].num_senses
     semantic_class_count = best_attested_semantic_classes[0].num_senses
-    place_count = places[0].num_artists
+    place_count = count_place_artists(places[0], [0])
     place_mention_count = most_mentioned_places[0].num_examples
     artist_mention_count = most_mentioned_artists[0].num_examples
     linked_exx = Example.objects.annotate(num_links=Count('lyric_links')).order_by('-num_links')
 
     template = loader.get_template('dictionary/stats.html')
+
+    print(place_count)
+
 
     WIDTH_ADJUSTMENT = 5
 
@@ -749,11 +752,11 @@ def stats(request):
         'num_places': len(places),
         'best_represented_places': [
             {
-                'name': place.name.split(', ')[0],
-                'slug': place.slug,
-                'num_artists': place.num_artists,
-                'width': (place.num_artists / place_count) * 100 - WIDTH_ADJUSTMENT
-            } for place in places[:LIST_LENGTH]
+                'name': p.name.split(', ')[0],
+                'slug': p.slug,
+                'num_artists': count_place_artists(p, [0]),
+                'width': (count_place_artists(p, [0]) / place_count) * 100 - WIDTH_ADJUSTMENT
+            } for p in places
             ],
         'earliest_date': {'example': [build_example(date, published_headwords) for date in examples_date_ascending[:LIST_LENGTH]]},
         'latest_date': {'example': [build_example(date, published_headwords) for date in examples_date_descending[:LIST_LENGTH]]},
