@@ -78,6 +78,12 @@ def reformat_name(name):
     return name
 
 
+def move_definite_article_to_end(name):
+    if name.lower().startswith('the ') and len(name) > 4:
+        return name[4:] + ' the'
+    return name
+
+
 def un_camel_case(name):
     n = name
     if n[0].islower():
@@ -155,7 +161,6 @@ def assign_artist_image(examples):
 
 
 def build_sense(sense_object, published, full=False):
-    # published = [entry.headword for entry in Entry.objects.filter(publish=True)]
     example_results = sense_object.examples.order_by('release_date')
     if full:
         examples = [build_example(example, published) for example in example_results]
@@ -299,10 +304,6 @@ def check_for_image(slug, image_type='artists', folder='thumb'):
     jpg = 'dictionary/static/dictionary/img/{}/{}/{}.jpg'.format(image_type, folder, slug)
     png = 'dictionary/static/dictionary/img/{}/{}/{}.png'.format(image_type, folder, slug)
     images = []
-
-    if image_type == 'places':
-        print(jpg)
-        print(png)
 
     if os.path.isfile(jpg.encode('utf-8').strip()):
         images.append(jpg.replace('dictionary/static/dictionary/', '/static/dictionary/'))

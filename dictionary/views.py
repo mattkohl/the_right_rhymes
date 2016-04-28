@@ -11,7 +11,7 @@ from django.db.models import Q, Count
 from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
     collect_place_artists, build_entry_preview, count_place_artists
-from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case
+from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case, move_definite_article_to_end
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
 
 
@@ -459,7 +459,6 @@ def rhyme(request, rhyme_slug):
 def search(request):
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-
     artist_slugs = [artist.slug for artist in Artist.objects.all()]
 
     template = loader.get_template('dictionary/search_results.html')
@@ -467,15 +466,29 @@ def search(request):
     if ('q' in request.GET) and request.GET['q'].strip():
         query_string = request.GET['q']
         query_slug = slugify(query_string)
+
+        if query_string.lower().startswith("the "):
+                alt_query_string = move_definite_article_to_end(query_string)
+                alt_query_slug = slugify(alt_query_string)
+        else:
+            alt_query_slug = ''
+
         if query_slug in published_entry_slugs:
             return redirect('entry', headword_slug=query_slug)
         elif query_slug in artist_slugs:
             return redirect('artist', artist_slug=query_slug)
+        elif alt_query_slug and alt_query_slug in published_entry_slugs:
+            return redirect('entry', headword_slug=alt_query_slug)
+        elif alt_query_slug and alt_query_slug in artist_slugs:
+            return redirect('artist', artist_slug=alt_query_slug)
         else:
             sense_query = build_query(query_string, ['lyric_text'])
-            example_results = [build_example(example, published=published_entries, rf=True) for example in Example.objects.filter(sense_query).order_by('-release_date')]
+            result_count = Example.objects.filter(sense_query).order_by('-release_date').count()
+            example_results = [build_example(example, published=published_entries, rf=True) for example in Example.objects.filter(sense_query).order_by('-release_date')[:100]]
             context['query'] = query_string
             context['examples'] = example_results
+            context['result_count'] = result_count
+            context['the_rest'] = (result_count - 100) if (result_count > 100) else 0
 
     return HttpResponse(template.render(context, request))
 

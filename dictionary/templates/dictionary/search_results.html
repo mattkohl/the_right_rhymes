@@ -11,10 +11,10 @@
                     <h1 class="page-title trr-list-header">
                         There's no entry for <strong>{{query}}</strong>.
                         <a href="https://github.com/mattkohl/the_right_rhymes/issues" target="_blank">Suggest one?</a></h1>
-                    {% if examples|length == 1 %}
-                    <h4>Found {{ examples|length }} matching example</h4>
+                    {% if result_count == 1 %}
+                    <h4>Found {{result_count }} matching example</h4>
                     {% else %}
-                    <h4>Found {{ examples|length }} matching examples</h4>
+                    <h4>Found {{ result_count }} matching examples</h4>
                     {% endif %}
                 </header>
                 <div class="trr-list">
@@ -35,27 +35,9 @@
                             </div>
                         </div>
                     {% endfor %}
-                </div>
-                {% elif artists %}
-                <header class="page-header">
-                    <h1 class="page-title">{{ artists|length }} search results for <strong>{{ query }}</strong> in Artists</h1>
-                </header>
-                <div class="trr-list">
-                    {% for artist in artists %}
-                        <div class="trr-list-group-item">
-                           <div>
-                              <strong>
-                                 <a href="{% url 'artist' artist.slug %}">{{ artist.name }}</a>
-                              </strong>
-                           </div>
-                            <div>({{artist.slug}})</div>
-                            {% if artist.image %}
-                                <a href="{% url 'artist' artist.slug %}">
-                                    <div class="artist-image" style="background-image: url({{ artist.image }})"></div>
-                                </a>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
+                    {% if the_rest %}
+                        <div><i>and <strong>{{the_rest}}</strong> more ...</i></div>
+                    {% endif %}
                 </div>
                 {% elif query == '' %}
                     <h3 class="trr-list-header"><strong>empty</strong> query string -- Your search game is <strong>weak</strong>, yo</h3>
