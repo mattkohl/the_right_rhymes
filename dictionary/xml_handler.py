@@ -4,6 +4,7 @@ import time
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
+import concurrent.futures
 import xmltodict
 from geopy.geocoders import Nominatim
 from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
@@ -921,11 +922,21 @@ def collect_xml(directory):
     return [join(directory, f) for f in listdir(directory) if isfile(join(directory, f))]
 
 
+def launch_trr_dict(x):
+    return TRRDict(x.xml_dict)
+
+
 def process_xml(xml_list):
-    for xml in xml_list:
-        print('Reading XML:', xml)
-        x = XMLDict(xml)
-        t = TRRDict(x.xml_dict)
+    with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
+        processed_xml = {executor.submit(launch_trr_dict(XMLDict(xml)), xml): xml for xml in xml_list}
+        for future in concurrent.futures.as_completed(processed_xml):
+            done = processed_xml[future]
+            try:
+                data = future.result()
+            except Exception as exc:
+                print('%r generated an exception: %s' % (done, exc))
+            else:
+                print('{} is done, yo'.format(data))
 
 
 def main(directory='../tRR/XML/tRR_Django'):
