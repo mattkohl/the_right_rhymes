@@ -137,22 +137,35 @@ def artist_sense_examples_json(request, artist_slug):
         return JsonResponse(json.dumps({}), safe=False)
 
 
-def artists_no_image_json(request):
-    primary_results = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
-    feat_results = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
+def artists_missing_metadata(request):
+    primary_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
 
-    if primary_results or feat_results:
+    primary_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
+
+    if primary_results_no_image or feat_results_no_image:
         data = {
-            'primary_artists': [
+            'primary_artists_no_image': [
                                    {
                                        'name': artist.name,
                                        'count': artist.num_cites
-                                   } for artist in primary_results if '__none' in check_for_image(artist.slug)][:10],
-            'feat_artists': [
+                                   } for artist in primary_results_no_image if '__none' in check_for_image(artist.slug)][:3],
+            'feat_artists_no_image': [
                                    {
                                        'name': artist.name,
                                        'count': artist.num_cites
-                                   } for artist in feat_results if '__none' in check_for_image(artist.slug)][:10]
+                                   } for artist in feat_results_no_image if '__none' in check_for_image(artist.slug)][:3],
+            'primary_artists_no_origin': [
+                                   {
+                                       'name': artist.name,
+                                       'count': artist.num_cites
+                                   } for artist in primary_results_no_origin][:30],
+            'feat_artists_no_origin': [
+                                   {
+                                       'name': artist.name,
+                                       'count': artist.num_cites
+                                   } for artist in feat_results_no_origin][:30]
         }
         return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
     else:
