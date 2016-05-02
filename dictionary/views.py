@@ -172,6 +172,72 @@ def artists_missing_metadata(request):
         return JsonResponse(json.dumps({}))
 
 
+def artist_network(request, artist_slug):
+    template = loader.get_template('dictionary/artist_network.html')
+    artist = get_object_or_404(Artist, slug=artist_slug)
+
+    context = {
+        'artist': artist.name,
+        'slug': artist.slug,
+        'image': check_for_image(artist.slug, 'artists', 'full')
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def artist_network_json(request, artist_slug):
+    a = get_object_or_404(Artist, slug=artist_slug)
+    primary_examples = a.primary_examples.all()
+    featured_examples = a.featured_examples.all()
+
+    network = []
+    artist_cache = dict()
+
+    for example in primary_examples:
+        for ar in example.feat_artist.all():
+            if ar not in artist_cache:
+                artist_cache[ar] = 1
+            else:
+                artist_cache[ar] += 1
+
+
+    for example in featured_examples:
+        for ar in example.feat_artist.exclude(slug=a.slug):
+            if ar is not a:
+                if ar not in artist_cache:
+                    artist_cache[ar] = 1
+                else:
+                    artist_cache[ar] += 1
+
+    for example in featured_examples:
+        for ar in example.artist.all():
+            if ar not in artist_cache:
+                artist_cache[ar] = 1
+            else:
+                artist_cache[ar] += 1
+
+    for artist in artist_cache:
+        img = check_for_image(artist.slug)
+        if 'none' not in img:
+            artist_object = {
+              "name": artist.name,
+              "link": "/artists/" + artist.slug,
+              "img":  img,
+              "size": artist_cache[artist]
+            }
+            network.append(artist_object)
+
+    if network:
+        data = {
+            'name': a.name,
+            'img': check_for_image(a.slug),
+            'size': 5,
+            'children': network
+        }
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def domain(request, domain_slug):
     template = loader.get_template('dictionary/domain.html')
     domain = get_object_or_404(Domain, slug=domain_slug)

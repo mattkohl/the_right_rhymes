@@ -928,7 +928,7 @@ def launch_trr_dict(x):
 
 def process_xml(xml_list):
     with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
-        processed_xml = {executor.submit(launch_trr_dict(XMLDict(xml)), xml): xml for xml in xml_list}
+        processed_xml = {executor.submit(launch_trr_dict, XMLDict(xml)): xml for xml in xml_list}
         for future in concurrent.futures.as_completed(processed_xml):
             done = processed_xml[future]
             try:
