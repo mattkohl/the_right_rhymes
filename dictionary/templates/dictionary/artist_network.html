@@ -30,9 +30,9 @@
     var tcBlack = "#130C0E";
 
     var w = window.innerWidth,
-            h = window.innerHeight,
-            maxNodeSize = 50,
-            root;
+        h = window.innerHeight,
+        maxNodeSize = 50,
+        root;
 
     var vis;
     var force = d3.layout.force();
@@ -50,16 +50,14 @@
                 root.fixed = true;
                 root.x = w / 2;
                 root.y = h / 2;
-                console.log(root.name);
                 graph();
 
             }
     );
 
     function graph() {
-      var nodes = flatten(root),
-          links = d3.layout.tree().links(nodes);
-            console.log(links);
+        var nodes = flatten(root),
+            links = d3.layout.tree().links(nodes);
         var defs = vis.insert("svg:defs")
                 .attr("id", "mdefs");
 
@@ -86,12 +84,12 @@
                     .attr("width", function(d){
                         if (d.name === root.name) {
                             return 100
-                        } else return Math.sqrt(d.size) * 30;
+                        } else return Math.sqrt(Math.sqrt(d.size)) * 40;
                     })
                     .attr("height", function(d) {
                         if (d.name === root.name) {
                             return 100
-                        } else return Math.sqrt(d.size) * 30;
+                        } else return Math.sqrt(Math.sqrt(d.size)) * 40;
                     })
                     .attr("x", 0)
                     .attr("y", 0);
@@ -152,7 +150,7 @@
                     .attr("r", function (d) {
                         if (d.name === root.name) {
                             return 50
-                        } else return Math.sqrt(d.size) * 15;;
+                        } else return Math.sqrt(Math.sqrt(d.size)) * 20;
                     })
                     .style("stroke", "black")     // displays small black dot
                     .style("stroke-width", 1)
@@ -193,30 +191,25 @@
                                 .style("stroke-width", 1)
                                 .style("opacity", 1);
 
+                    })
+                    .on("mouseover", function(d){
+                        tooltip.text(d.name);
+                        return tooltip.style("visibility", "visible");
+                    })
+                    .on("mousemove", function(d){
+                        return tooltip.style("top",
+                            (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+                    })
+                    .on("mouseout", function(d){
+                        return tooltip.style("visibility", "hidden");
                     });
 
-            nodeEnter.append("text")
-                    .attr("class", "nodetext")
-                    .attr("x", 60)
-                    .attr("y", 0)
-                    .attr("fill", "#black")
-                    .text(function (d) {
-                        return d.name;
-                    })
-                    .style("font-size", 10)
-                    .style("visibility", "hidden")
-                    .on('mouseover', function () {
-                        d3.select(this)
-                        .transition()
-                        .style("visibility", "visible");
-                    })
-                    .on('mouseoout', function () {
-                        d3.select(this)
-                        .transition()
-                        .style("visibility", "hidden");
-                    });
-
-
+            var tooltip = d3.select("body")
+                .append("div")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden")
+                .text("a simple tooltip");
 
             // Exit any old nodes.
             node.exit().remove();

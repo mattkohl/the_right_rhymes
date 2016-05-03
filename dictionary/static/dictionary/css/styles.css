@@ -994,6 +994,18 @@ span.counter-bar {
     margin-bottom: -2em;
 }
 
+
+.node text {
+  display: none;
+  font: 10px sans-serif;
+}
+
+.node text.nodetext:hover {
+    display: inline; !important;
+}
+
+
+
 /*
 --------------------------------------------------------------
 Media Queries Aplenty

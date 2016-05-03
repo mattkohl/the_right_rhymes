@@ -219,7 +219,7 @@ def artist_network_json(request, artist_slug):
         img = check_for_image(artist.slug)
         if 'none' not in img:
             artist_object = {
-              "name": artist.name,
+              "name": reformat_name(artist.name),
               "link": "/artists/" + artist.slug,
               "img":  img,
               "size": artist_cache[artist]
@@ -228,7 +228,7 @@ def artist_network_json(request, artist_slug):
 
     if network:
         data = {
-            'name': a.name,
+            'name': reformat_name(a.name),
             'img': check_for_image(a.slug),
             'size': 5,
             'children': network
