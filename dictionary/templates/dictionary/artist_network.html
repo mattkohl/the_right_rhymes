@@ -96,7 +96,7 @@
 
 
 
-        function update() {
+        var update = function() {
 
             // Restart the force layout.
             force.nodes(nodes)
@@ -142,7 +142,12 @@
                     .attr("transform", function (d) {
                         return "translate(" + d.x + "," + d.y + ")";
                     })
-                    .on("click", click)
+                    .on("click",function(d){
+                        var href = d.link + '/network/';
+                        console.log(href);
+                        location.href = href;
+
+                    })
                     .call(force.drag);
 
             // Append a circle
@@ -205,11 +210,14 @@
                     });
 
             var tooltip = d3.select("body")
-                .append("div")
-                .style("position", "absolute")
-                .style("z-index", "10")
-                .style("visibility", "hidden")
-                .text("a simple tooltip");
+                    .append("div")
+                    .attr("id", "tooltip")
+                    .style("position", "absolute")
+                    .style("z-index", "10")
+                    .style("visibility", "hidden")
+                    .style("color", "white")
+                    .style("text-shadow", "1px 1px 10px black")
+                    .text("a simple tooltip");
 
             // Exit any old nodes.
             node.exit().remove();
@@ -237,7 +245,20 @@
     //            node.attr("transform", nodeTransform);
                 node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
             }
+        };
+
+        function click(d) {
+            if (d.children) {
+                d._children = d.children;
+                d.children = null;
+            } else {
+                d.children = d._children;
+                d._children = null;
+            }
+
+            update();
         }
+
         update();
     }
 
@@ -250,22 +271,6 @@
         d.y = Math.max(maxNodeSize, Math.min(h - (d.imgheight / 2 || 16), d.y));
         return "translate(" + d.x + "," + d.y + ")";
     }
-
-    /**
-     * Toggle children on click.
-     */
-    function click(d) {
-        if (d.children) {
-            d._children = d.children;
-            d.children = null;
-        } else {
-            d.children = d._children;
-            d._children = null;
-        }
-
-        update();
-    }
-
 
     /**
      * Returns a list of all nodes under the root.
