@@ -26,7 +26,7 @@ $.getJSON(
             var maxCollabs = Math.max.apply(Math,n.map(function(d){return d.size;}));
             var nLen = n.length;
 
-            d3.select("#numCollabs").text(nLen);
+            d3.select("#numCollabs").text(nLen - 1);
 
             var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
             console.log(h);
