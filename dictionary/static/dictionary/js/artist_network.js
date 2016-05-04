@@ -31,7 +31,11 @@ $.getJSON(
             var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
             console.log(h);
 
+            if (h < 600) {
+                adjustment = adjustment + (nLen * .01) ;
+            }
             h = h * adjustment;
+
             vis.attr("width", w).attr("height", h);
 
             console.log(h, maxCollabs, nLen, adjustment);
