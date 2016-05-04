@@ -230,6 +230,7 @@ def artist_network_json(request, artist_slug):
         data = {
             'name': reformat_name(a.name),
             'img': check_for_image(a.slug),
+            'link': "/artists/" + a.slug,
             'size': 5,
             'children': network
         }
