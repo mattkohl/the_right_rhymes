@@ -277,8 +277,8 @@ function graph() {
  * http://bl.ocks.org/mbostock/1129492
  */
 function nodeTransform(d) {
-    d.x = Math.max(maxNodeSize, Math.min(w - (d.imgwidth / 2 || 16), d.x));
-    d.y = Math.max(maxNodeSize, Math.min(h - (d.imgheight / 2 || 16), d.y));
+    d.x = Math.max(maxNodeSize, Math.min(w - (Math.sqrt(Math.sqrt(d.size)) * 40), d.x));
+    d.y = Math.max(maxNodeSize, Math.min(h - (Math.sqrt(Math.sqrt(d.size)) * 40), d.y));
     return "translate(" + d.x + "," + d.y + ")";
 };
 
