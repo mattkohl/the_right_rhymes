@@ -56,9 +56,6 @@ urlpatterns = [
     # /artists/<artist_slug>/network_json/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/network_json/$", views.artist_network_json, name="artist_network_json"),
 
-    # /artists/<artist_slug>/network/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/network/$", views.artist_network, name="artist_network"),
-
     # /artists/<artist_slug>/sense_examples_json/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/sense_examples_json/$", views.artist_sense_examples_json, name="artist_sense_examples_json"),
 
