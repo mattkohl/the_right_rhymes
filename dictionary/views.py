@@ -172,18 +172,6 @@ def artists_missing_metadata(request):
         return JsonResponse(json.dumps({}))
 
 
-def artist_network(request, artist_slug):
-    template = loader.get_template('dictionary/artist_network.html')
-    artist = get_object_or_404(Artist, slug=artist_slug)
-
-    context = {
-        'artist': artist.name,
-        'slug': artist.slug,
-        'image': check_for_image(artist.slug, 'artists', 'full')
-    }
-    return HttpResponse(template.render(context, request))
-
-
 def artist_network_json(request, artist_slug):
     a = get_object_or_404(Artist, slug=artist_slug)
     primary_examples = a.primary_examples.all()
@@ -198,7 +186,6 @@ def artist_network_json(request, artist_slug):
                 artist_cache[ar] = 1
             else:
                 artist_cache[ar] += 1
-
 
     for example in featured_examples:
         for ar in example.feat_artist.exclude(slug=a.slug):
@@ -722,6 +709,7 @@ def song(request, song_slug):
     image = check_for_image(song.artist_slug, 'artists', 'full')
     context = {
         "title": song.title,
+        "slug": song.slug,
         "image": image,
         "artist_name": reformat_name(song.artist_name),
         "artist_slug": song.artist_slug,
@@ -734,6 +722,44 @@ def song(request, song_slug):
         "same_dates": same_dates
     }
     return HttpResponse(template.render(context, request))
+
+
+def song_network_json(request, song_slug):
+    song = get_list_or_404(Song, slug=song_slug)[0]
+
+    network = []
+    artist_cache = dict()
+
+    a = song.artist.first()
+
+    for ar in song.feat_artist.all():
+        if ar not in artist_cache:
+            artist_cache[ar] = 5
+        else:
+            artist_cache[ar] += 1
+
+    for artist in artist_cache:
+        img = check_for_image(artist.slug)
+        if 'none' not in img:
+            artist_object = {
+              "name": reformat_name(artist.name),
+              "link": "/artists/" + artist.slug,
+              "img":  img,
+              "size": artist_cache[artist]
+            }
+            network.append(artist_object)
+
+    if a:
+        data = {
+            'name': reformat_name(a.name),
+            'img': check_for_image(a.slug),
+            'link': "/artists/" + a.slug,
+            'size': 5,
+            'children': network
+        }
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
 
 
 def stats(request):

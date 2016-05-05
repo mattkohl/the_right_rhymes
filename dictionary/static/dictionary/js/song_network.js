@@ -3,17 +3,17 @@
 */
 
 var w = window.innerWidth,
-    h = window.innerHeight,
+    h = 120,
     maxNodeSize = 50,
     root;
 
 var vis;
 var force = d3.layout.force();
 
-vis = d3.select("#vis").append("svg");
+vis = d3.select("#songVis").append("svg");
 
-var slug = d3.select(".artist_slug").text();
-var endpoint = '/artists/' + slug + '/network_json/';
+var slug = d3.select(".song_slug").text();
+var endpoint = '/songs/' + slug + '/network_json/';
 
 $.getJSON(
         endpoint,
@@ -23,22 +23,15 @@ $.getJSON(
             root = json;
 
             var n = flatten(root);
-            var maxCollabs = Math.max.apply(Math,n.map(function(d){return d.size;}));
             var nLen = n.length;
 
-            d3.select("#numCollabs").text(nLen - 1);
+            d3.select("#numCollabs").text(nLen);
 
-            var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
             console.log(h);
-
-            if (h < 600) {
-                adjustment = adjustment + (nLen * .01) ;
-            }
-            h = h * adjustment;
 
             vis.attr("width", w).attr("height", h);
 
-            console.log(h, maxCollabs, nLen, adjustment);
+            console.log(h, nLen);
             root.fixed = true;
             root.x = w / 2;
             root.y = h / 2;
@@ -94,7 +87,7 @@ function graph() {
                 .gravity(0.05)
                 .charge(-1500)
                 .linkDistance(function(d){
-                    return (Math.sqrt(d.target.size) * 35) + 25;
+                    return (Math.sqrt(d.target.size) * 35) + 40;
                 })
                 .friction(0.5)
                 .linkStrength(function (l, i) {
@@ -133,11 +126,8 @@ function graph() {
                     return "translate(" + d.x + "," + d.y + ")";
                 })
                 .on("click",function(d){
-                    if (d != root) {
-                        var href = d.link;
-                        console.log(href);
-                        location.href = href;
-                    }
+                    var href = d.link;
+                    location.href = href;
                 })
                 .call(force.drag);
 
@@ -191,15 +181,6 @@ function graph() {
                 .on("mouseover", function(d){
                     tooltip.text(d.name);
                     tooltip.style("visibility", "visible");
-
-                    if (d.name != root.name) {
-                        if (d.size === 1) {
-                            tooltipSubtext.text("(" + d.size + " collaboration)");
-                        } else {
-                            tooltipSubtext.text("(" + d.size + " collaborations)");
-                        }
-                        tooltipSubtext.style("visibility", "visible");
-                    }
                 })
                 .on("mousemove", function(d){
                     tooltip.style("top",

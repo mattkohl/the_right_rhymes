@@ -5,29 +5,32 @@
     <div id="content-container">
         <div id="content" class="group">
             <div class="entry-content">
+                <div>
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                          property="image"
+                          scale="0"/>
+                    </figure>
+                    <h1 class="song-title-header">"{{ title }}"</h1>
+                    <h2 class="song-artist-header">{{ release_date_string }}</h2>
+                </div>
+
+                <span class="song_slug hidden">{{slug}}</span>
+                <div id="songVis"></div>
+
+                {% if examples|length == 1 %}
+                <div class="song-list-header">{{examples|length}} example found</div>
+                {% else %}
+                <div class="song-list-header">{{examples|length}} examples found</div>
+                {% endif %}
+
+                <div class="lyrics">
+                {% for example in examples %}
                     <div>
-                        <figure class="center-block">
-                            <img src="{{ image }}"
-                              property="image"
-                              scale="0"/>
-                        </figure>
-                        <h1 class="song-title-header">"{{ title }}"</h1>
-                        <h2 class="song-artist-header"><a href="{% url 'artist' artist_slug %}">{{ artist_name }}</a> ⋅ {{ release_date_string }}</h2>
+                        <div class="lyric-list">{{ example.linked_lyric|safe }}</div>
                     </div>
-
-                    {% if examples|length == 1 %}
-                    <div class="song-list-header">{{examples|length}} example found</div>
-                    {% else %}
-                    <div class="song-list-header">{{examples|length}} examples found</div>
-                    {% endif %}
-
-                    <div class="lyrics">
-                    {% for example in examples %}
-                        <div>
-                            <div class="lyric-list">{{ example.linked_lyric|safe }}</div>
-                        </div>
-                    {% endfor %}
-                    </div>
+                {% endfor %}
+                </div>
 
                 {% if same_dates %}
                     {% if same_dates|length == 1 %}
@@ -53,5 +56,7 @@
 </div>
 
 
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+<script src="/static/dictionary/js/song_network.js"></script>
 {% endblock %}

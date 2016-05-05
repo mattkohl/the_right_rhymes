@@ -1007,6 +1007,11 @@ span.counter-bar {
 #vis {
     margin-top: -0.5em;
     margin-bottom: -2.5em;
+    background: #fff;
+}
+
+#songVis {
+    margin-bottom: -.75em;
 }
 
 #tooltipSubtext {
