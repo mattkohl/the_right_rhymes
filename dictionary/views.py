@@ -213,17 +213,15 @@ def artist_network_json(request, artist_slug):
             }
             network.append(artist_object)
 
-    if network:
-        data = {
-            'name': reformat_name(a.name),
-            'img': check_for_image(a.slug),
-            'link': "/artists/" + a.slug,
-            'size': 5,
-            'children': network
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
+
+    data = {
+        'name': reformat_name(a.name),
+        'img': check_for_image(a.slug),
+        'link': "/artists/" + a.slug,
+        'size': 5,
+        'children': network
+    }
+    return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
 
 
 def domain(request, domain_slug):
@@ -740,14 +738,13 @@ def song_network_json(request, song_slug):
 
     for artist in artist_cache:
         img = check_for_image(artist.slug)
-        if 'none' not in img:
-            artist_object = {
-              "name": reformat_name(artist.name),
-              "link": "/artists/" + artist.slug,
-              "img":  img,
-              "size": artist_cache[artist]
-            }
-            network.append(artist_object)
+        artist_object = {
+          "name": reformat_name(artist.name),
+          "link": "/artists/" + artist.slug,
+          "img":  img,
+          "size": artist_cache[artist]
+        }
+        network.append(artist_object)
 
     if a:
         data = {
