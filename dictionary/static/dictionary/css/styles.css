@@ -1018,6 +1018,23 @@ span.counter-bar {
     font-size: 12px;
 }
 
+.treeNode circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.treeNode {
+    font: 10px sans-serif;
+}
+
+.treeLink {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+
 /*
 --------------------------------------------------------------
 Media Queries Aplenty

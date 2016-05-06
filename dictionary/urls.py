@@ -110,6 +110,9 @@ urlpatterns = [
     # /songs/<song-slug>/network_json/
     url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/network_json/$", views.song_network_json, name='song_network_json'),
 
+    # /songs/<song-slug>/song_tree/
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/song_tree/$", views.song_tree, name='song_tree'),
+
 
 ]
 

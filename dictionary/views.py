@@ -759,6 +759,33 @@ def song_network_json(request, song_slug):
         return JsonResponse(json.dumps({}))
 
 
+def song_tree(request, song_slug):
+    song = get_list_or_404(Song, slug=song_slug)[0]
+
+    network = dict()
+    for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name'):
+        if s != song:
+            artist_name = reformat_name(s.artist_name)
+            if artist_name not in network:
+                network[artist_name] = [s.title]
+            else:
+                network[artist_name].extend([s.title])
+
+    if network:
+        data = {
+            'name': song.release_date_string,
+            'children': [
+                {
+                    'name': reformat_name(s),
+                    'children': [{'name': t} for t in network[s]]
+                 } for s in network
+            ]
+        }
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def stats(request):
 
     LIST_LENGTH = 5
