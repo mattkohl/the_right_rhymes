@@ -1315,6 +1315,11 @@ and (max-width : 600px) {
         width: 90%;
     }
 
+    .treeRoot {
+        font: 10px sans-serif;
+    }
+
+
 }
 
 @media only screen

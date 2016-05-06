@@ -1,10 +1,4 @@
-var windowWidth = window.innerWidth,
-    windowHeight = window.innerHeight;
-
-console.log(windowWidth, windowHeight);
-
-
-var diameter = windowWidth > windowHeight? windowWidth * .9 : windowHeight * .9;
+var diameter = window.innerWidth * .9;
 
 var tree = d3.layout.tree()
     .size([360, diameter / 2 - 120])
