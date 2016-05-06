@@ -45,7 +45,6 @@ $.getJSON(
                 .on("click",function(d){
                     if (d != treeRoot) {
                         var href = d.link;
-                        console.log(href);
                         location.href = href;
                     }
                 });

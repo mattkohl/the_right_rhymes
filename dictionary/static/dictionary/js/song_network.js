@@ -27,11 +27,8 @@ $.getJSON(
 
             d3.select("#numCollabs").text(nLen);
 
-            console.log(h);
-
             vis.attr("width", w).attr("height", h);
 
-            console.log(h, nLen);
             root.fixed = true;
             root.x = w / 2;
             root.y = h / 2;

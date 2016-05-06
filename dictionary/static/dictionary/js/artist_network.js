@@ -30,7 +30,6 @@ $.getJSON(
 
             var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
             if (adjustment < 0.175) adjustment = 0.175;
-            console.log(h);
 
             if (h < 600) {
                 adjustment = adjustment + (nLen * .01) ;
@@ -39,7 +38,6 @@ $.getJSON(
 
             vis.attr("width", w).attr("height", h);
 
-            console.log(h, maxCollabs, nLen, adjustment);
             root.fixed = true;
             root.x = w / 2;
             root.y = h / 2;
@@ -136,7 +134,6 @@ function graph() {
                 .on("click",function(d){
                     if (d != root) {
                         var href = d.link;
-                        console.log(href);
                         location.href = href;
                     }
                 })
