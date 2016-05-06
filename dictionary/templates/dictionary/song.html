@@ -34,20 +34,10 @@
 
                 {% if same_dates %}
                     {% if same_dates|length == 1 %}
-                    <div class="trr-list-header">Currently citing {{same_dates|length}} other song released on <strong>{{release_date}}</strong></div>
+                    <div class="trr-list-header">Currently citing {{same_dates|length}} other song with the release date: <strong>{{release_date_string}}</strong></div>
                     {% else %}
-                    <div class="trr-list-header">Currently citing {{same_dates|length}} other songs released on <strong>{{release_date}}</strong></div>
+                    <div class="trr-list-header">Currently citing {{same_dates|length}} other songs with the release date: <strong>{{release_date_string}}</strong></div>
                     {% endif %}
-                    <table class="table">
-                    {% for s in same_dates %}
-                        <tr>
-                            <td>
-                            <span class="artist"><a href="{% url 'artist' s.artist_slug %}">{{s.artist_name}}</a></span>
-                            <span class="songTitle"> "<a href="{% url 'song' s.slug %}">{{s.title}}</a>"</span>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </table>
                 {% endif %}
 
                 <div id="songTreeVis"></div>

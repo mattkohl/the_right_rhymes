@@ -1018,7 +1018,7 @@ span.counter-bar {
     font-size: 12px;
 }
 
-.treeNode circle {
+.treeNode circle, .treeRoot circle {
     fill: #fff;
     stroke: steelblue;
     stroke-width: 1.5px;
@@ -1026,6 +1026,12 @@ span.counter-bar {
 
 .treeNode {
     font: 10px sans-serif;
+    cursor: pointer;
+}
+
+.treeRoot {
+    font: 20px sans-serif;
+    cursor: default;
 }
 
 .treeLink {

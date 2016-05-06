@@ -22,14 +22,14 @@ $.getJSON(
             var json = $.parseJSON(data);
             root = json;
 
-            var n = flatten(root);
-            var maxCollabs = Math.max.apply(Math,n.map(function(d){return d.size;}));
-            var nLen = n.length;
+            var n = flatten(root),
+                maxCollabs = Math.max.apply(Math,n.map(function(d){return d.size;})),
+                nLen = n.length;
 
             d3.select("#numCollabs").text(nLen - 1);
 
             var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
-            if (adjustment < 0.1) adjustment = 0.175;
+            if (adjustment < 0.175) adjustment = 0.175;
             console.log(h);
 
             if (h < 600) {

@@ -765,7 +765,7 @@ def song_tree(request, song_slug):
     network = dict()
     for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name'):
         if s != song:
-            artist_name = reformat_name(s.artist_name)
+            artist_name = s.artist_name
             if artist_name not in network:
                 network[artist_name] = [(s.title, s.slug)]
             else:

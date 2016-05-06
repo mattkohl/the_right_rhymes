@@ -1,4 +1,10 @@
-var diameter = 960;
+var windowWidth = window.innerWidth,
+    windowHeight = window.innerHeight;
+
+console.log(windowWidth, windowHeight);
+
+
+var diameter = windowWidth > windowHeight? windowWidth * .9 : windowHeight * .9;
 
 var tree = d3.layout.tree()
     .size([360, diameter / 2 - 120])
@@ -9,7 +15,7 @@ var diagonal = d3.svg.diagonal.radial()
 
 var svgTree = d3.select("#songTreeVis").append("svg")
     .attr("width", diameter)
-    .attr("height", diameter - 150)
+    .attr("height", diameter + 50)
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
@@ -20,10 +26,9 @@ $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function (data) {
-            var treeJson = $.parseJSON(data);
-            treeRoot = treeJson;
-
-            var treeNodes = tree.nodes(treeRoot),
+            var treeJson = $.parseJSON(data),
+                treeRoot = treeJson,
+                treeNodes = tree.nodes(treeRoot),
                 treeLinks = tree.links(treeNodes);
 
             var treeLink = svgTree.selectAll(".treeLink")
@@ -35,10 +40,16 @@ $.getJSON(
             var node = svgTree.selectAll(".treeNode")
                 .data(treeNodes)
                 .enter().append("g")
-                .attr("class", "treeNode")
+                .attr("class", function(d) {
+                    if (d != treeRoot){
+                        return "treeNode"
+                    } else {
+                        return "treeRoot"
+                    }
+                })
                 .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
                 .on("click",function(d){
-                    if (d != root) {
+                    if (d != treeRoot) {
                         var href = d.link;
                         console.log(href);
                         location.href = href;
@@ -51,7 +62,10 @@ $.getJSON(
             node.append("text")
                 .attr("dy", ".31em")
                 .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-                .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+                .attr("transform", function(d) {
+                        return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)";
+
+                })
                 .text(function(d) { return d.name; });
 
 

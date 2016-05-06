@@ -20,10 +20,10 @@ $.getJSON(
         {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function (data) {
             var json = $.parseJSON(data);
-            root = json;
+                root = json;
 
-            var n = flatten(root);
-            var nLen = n.length;
+            var n = flatten(root),
+                nLen = n.length;
 
             d3.select("#numCollabs").text(nLen);
 
