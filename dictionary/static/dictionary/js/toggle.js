@@ -81,7 +81,7 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
                     ));
                 $.each(sense.examples, function(i, example) {
                     ex.append('<div></div>').append(
-                        $('<span></span>', {"class": 'date', "text": example.release_date}),
+                        $('<span></span>', {"class": 'date', "text": example.release_date_string}),
                         $('<span></span>', {"class": 'artist'}).append(
                             $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
                         $('<span></span>', {"class": 'songTitle'}).append(
@@ -128,7 +128,7 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
             var examples = parsed.examples;
             $.each(examples, function(i, example) {
                 var ex = $("<li></li>").append(
-                    $('<span></span>', {"class": 'date', "text": example.release_date}),
+                    $('<span></span>', {"class": 'date', "text": example.release_date_string}),
                     $('<span></span>', {"class": 'artist'}).append(
                         $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
                     $('<span></span>', {"class": 'songTitle'}).append(
