@@ -29,7 +29,7 @@ $.getJSON(
             d3.select("#numCollabs").text(nLen - 1);
 
             var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
-            if (adjustment < 0.175) adjustment = 0.175;
+            if (adjustment < 0.1) adjustment = 0.175;
             console.log(h);
 
             if (h < 600) {

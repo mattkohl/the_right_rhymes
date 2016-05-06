@@ -767,9 +767,9 @@ def song_tree(request, song_slug):
         if s != song:
             artist_name = reformat_name(s.artist_name)
             if artist_name not in network:
-                network[artist_name] = [s.title]
+                network[artist_name] = [(s.title, s.slug)]
             else:
-                network[artist_name].extend([s.title])
+                network[artist_name].extend([(s.title, s.slug)])
 
     if network:
         data = {
@@ -777,7 +777,12 @@ def song_tree(request, song_slug):
             'children': [
                 {
                     'name': reformat_name(s),
-                    'children': [{'name': t} for t in network[s]]
+                    "link": "/artists/" + slugify(s),
+                    'children': [
+                        {
+                            'name': t[0],
+                            'link': "/songs/" + t[1]
+                        } for t in network[s]]
                  } for s in network
             ]
         }

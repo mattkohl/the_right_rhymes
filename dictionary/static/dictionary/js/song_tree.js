@@ -36,7 +36,14 @@ $.getJSON(
                 .data(treeNodes)
                 .enter().append("g")
                 .attr("class", "treeNode")
-                .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
+                .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+                .on("click",function(d){
+                    if (d != root) {
+                        var href = d.link;
+                        console.log(href);
+                        location.href = href;
+                    }
+                });
 
             node.append("circle")
                 .attr("r", 4.5);
@@ -46,6 +53,8 @@ $.getJSON(
                 .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
                 .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
                 .text(function(d) { return d.name; });
+
+
 });
 
 d3.select(self.frameElement).style("height", diameter - 150 + "px");
