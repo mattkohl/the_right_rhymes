@@ -231,6 +231,7 @@ def build_example(example_object, published, rf=False):
         "release_date": str(example_object.release_date),
         "release_date_string": example_object.release_date_string,
         "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
+        "lyric": lyric,
         "linked_lyric": add_links(lyric, lyric_links, published, rf)
     }
     return result

@@ -440,6 +440,19 @@ def random_entry(request):
     return redirect('entry', headword_slug=rand_ent.slug)
 
 
+def random_example(request):
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    result = Example.objects.order_by('?').first()
+    if result:
+        data = {
+            'example': build_example(result, published)
+        }
+        data['example']['linked_lyric'] = data['example']['linked_lyric'].replace('href="/', 'href="http://www.therightrhymes.com/')
+        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
+    else:
+        return JsonResponse(json.dumps({}))
+
+
 def remaining_place_examples(request, place_slug):
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
