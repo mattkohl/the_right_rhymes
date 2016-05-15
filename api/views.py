@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -8,7 +9,7 @@ import api.serializers as serializers
 
 
 class SemanticClassesAPI(generics.ListCreateAPIView):
-    queryset = SemanticClass.objects.all()
+    queryset = SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
     serializer_class = serializers.SemanticClassSerializer
 
 

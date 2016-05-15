@@ -6,15 +6,19 @@ class SenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sense
-        fields = ('slug', 'xml_id')
+        fields = ('slug', 'headword', 'xml_id')
 
 
 class SemanticClassSerializer(serializers.ModelSerializer):
     senses = SenseSerializer(many=True, read_only=True)
+    num_senses = serializers.IntegerField()
+
 
     class Meta:
         model = SemanticClass
-        fields = ('name', 'slug', 'senses')
+        fields = ('name', 'slug', 'senses', 'num_senses')
+
+
 
 
 
