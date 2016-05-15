@@ -1,5 +1,19 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
+from rest_framework import generics
+from dictionary.models import SemanticClass
+import api.serializers as serializers
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the API index.")
+
+class SemanticClassesAPI(generics.ListCreateAPIView):
+    queryset = SemanticClass.objects.all()
+    serializer_class = serializers.SemanticClassSerializer
+
+
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'semantic_classes_api': reverse('semantic_classes_api', request=request, format=format),
+    })
