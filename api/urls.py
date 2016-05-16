@@ -25,7 +25,21 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 
+    # /data/domains/
+    url(r"^domains/$", views.domains, name='domains'),
+
+    # /domains/<domain-slug>/
+    url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
+
+    # /data/places/<place-name-slug>/artists/
+    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/artists/$", views.place_artists, name='place_artists'),
+
     # /data/semantic-classes/
-    url(r"^semantic\-classes/$", views.SemanticClassesAPI.as_view(), name='semantic_classes_api'),
+    url(r"^semantic\-classes/$", views.semantic_classes, name='semantic_classes'),
+
+    # /data/semantic-classes/<semantic-class-slug>/
+    url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/$", views.semantic_class, name='semantic_class'),
+
+
 
 ]

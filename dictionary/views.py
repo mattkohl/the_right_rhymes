@@ -244,26 +244,6 @@ def domain(request, domain_slug):
     return HttpResponse(template.render(context, request))
 
 
-def domain_json(request, domain_slug):
-    results = Domain.objects.filter(slug=domain_slug)
-    if results:
-        domain_object = results[0]
-        senses = domain_object.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
-        data = {
-            'name': domain_object.name,
-            'children': [
-                {
-                    'word': sense.headword,
-                    'weight': sense.num_examples,
-                    'url': '/' + sense.slug + '#' + sense.xml_id
-                } for sense in senses
-                ]
-            }
-        return JsonResponse(json.dumps(data), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
 def domains(request):
     template = loader.get_template('dictionary/domains.html')
     results = Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
