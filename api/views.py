@@ -224,7 +224,6 @@ def sense_artist(request, sense_id, artist_slug):
 @api_view(('GET',))
 def sense_artists(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
-    print(results)
     if results:
         sense_object = results[0]
         data = {'places': [build_artist(artist, require_origin=True) for artist in sense_object.cites_artists.all()]}
