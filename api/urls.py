@@ -25,8 +25,14 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 
+    # /data/artists/missing_metadata/
+    url(r"^artists/missing_metadata/$", views.artists_missing_metadata, name='artists_missing_metadata'),
+
     # /data/artists/<artist_slug>/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/$", views.artist, name="artist"),
+
+    # /data/artists/<artist_slug>/network/
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/network/$", views.artist_network, name="artist_network"),
 
     # /data/artists/<artist_slug>/sense_examples/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/sense_examples/$", views.artist_sense_examples, name="artist_sense_examples"),
@@ -37,17 +43,32 @@ urlpatterns = [
     # /data/domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
 
+    # /data/examples/random/
+    url(r"^examples/random/$", views.random_example, name='random_example'),
+
+    # /data/headword_search/
+    url(r'^headword_search/$', views.headword_search, name='headword_search'),
+
     # /data/places/<place-name-slug>/artists/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/artists/$", views.place_artists, name='place_artists'),
 
     # /data/places/<place-name-slug>/latlng/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/latlng/$", views.place_latlng, name='place_latlng'),
 
+    # /data/places/<place-name-slug>/remaining_examples/
+    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)–]+)/remaining_examples/$", views.remaining_place_examples, name='remaining_place_examples'),
+
     # /data/semantic-classes/
     url(r"^semantic\-classes/$", views.semantic_classes, name='semantic_classes'),
 
     # /data/semantic-classes/<semantic-class-slug>/
     url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/$", views.semantic_class, name='semantic_class'),
+
+    # /data/senses/
+    url(r"^senses/$", views.senses, name="senses"),
+
+    # /data/senses/<sense_id>/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/$", views.sense, name="sense"),
 
     # /data/senses/<sense_id>/artists/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/$", views.sense_artists, name="sense_artists"),
@@ -57,6 +78,15 @@ urlpatterns = [
 
     # /data/senses/<sense_id>/remaining_examples/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_sense_examples, name="remaining_sense_examples"),
+
+    # /data/senses/<sense_id>/timeline/
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name="sense_timeline"),
+
+    # /data/songs/<song-slug>/network/
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/artist_network/$", views.song_artist_network, name='song_artist_network'),
+
+    # /data/songs/<song-slug>/release_date_tree/
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/release_date_tree/$", views.song_release_date_tree, name='song_release_date_tree'),
 
 
 

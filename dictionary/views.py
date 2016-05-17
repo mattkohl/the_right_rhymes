@@ -5,13 +5,13 @@ from operator import itemgetter
 
 from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.db.models import Q, Count
 
-from dictionary.utils import build_place_latlng, build_artist, assign_artist_image, build_sense, build_sense_preview, \
-    build_example, check_for_image, abbreviate_place_name, build_timeline_example, \
+from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
+    build_example, check_for_image, abbreviate_place_name, \
     collect_place_artists, build_entry_preview, count_place_artists
-from .utils import build_query, decimal_default, slugify, reformat_name, reduce_ordered_list, un_camel_case, move_definite_article_to_end
+from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
 
 
@@ -92,135 +92,6 @@ def artist(request, artist_slug):
         'image': image
     }
     return HttpResponse(template.render(context, request))
-
-
-def artist_json(request, artist_slug):
-    results = Artist.objects.filter(slug=artist_slug)
-    if results:
-        data = {'places': [build_artist(artist) for artist in results]}
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def artist_sense_examples_json(request, artist_slug):
-    artist_results = get_list_or_404(Artist, slug=artist_slug)
-    artist = artist_results[0]
-    feat = request.GET.get('feat', '')
-    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    if not feat:
-        senses = [
-            {
-                'headword': sense.headword,
-                'slug': sense.slug,
-                'xml_id': sense.xml_id,
-                'example_count': sense.examples.filter(artist=artist).count(),
-                'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]
-            } for sense in artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[5:]
-        ]
-    else:
-        senses = [
-            {
-                'headword': sense.headword,
-                'slug': sense.slug,
-                'xml_id': sense.xml_id,
-                'example_count': sense.examples.filter(feat_artist=artist).count(),
-                'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]
-            } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[5:]
-        ]
-    if senses:
-        data = {
-            'senses': senses
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}), safe=False)
-
-
-def artists_missing_metadata(request):
-    primary_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
-    feat_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
-
-    primary_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
-    feat_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
-
-    if primary_results_no_image or feat_results_no_image:
-        data = {
-            'primary_artists_no_image': [
-                                   {
-                                       'name': artist.name,
-                                       'count': artist.num_cites
-                                   } for artist in primary_results_no_image if '__none' in check_for_image(artist.slug)][:3],
-            'feat_artists_no_image': [
-                                   {
-                                       'name': artist.name,
-                                       'count': artist.num_cites
-                                   } for artist in feat_results_no_image if '__none' in check_for_image(artist.slug)][:3],
-            'primary_artists_no_origin': [
-                                   {
-                                       'name': artist.name,
-                                       'count': artist.num_cites
-                                   } for artist in primary_results_no_origin][:30],
-            'feat_artists_no_origin': [
-                                   {
-                                       'name': artist.name,
-                                       'count': artist.num_cites
-                                   } for artist in feat_results_no_origin][:30]
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def artist_network_json(request, artist_slug):
-    a = get_object_or_404(Artist, slug=artist_slug)
-    primary_examples = a.primary_examples.all()
-    featured_examples = a.featured_examples.all()
-
-    network = []
-    artist_cache = dict()
-
-    for example in primary_examples:
-        for ar in example.feat_artist.all():
-            if ar not in artist_cache:
-                artist_cache[ar] = 1
-            else:
-                artist_cache[ar] += 1
-
-    for example in featured_examples:
-        for ar in example.feat_artist.exclude(slug=a.slug):
-            if ar is not a:
-                if ar not in artist_cache:
-                    artist_cache[ar] = 1
-                else:
-                    artist_cache[ar] += 1
-
-    for example in featured_examples:
-        for ar in example.artist.all():
-            if ar not in artist_cache:
-                artist_cache[ar] = 1
-            else:
-                artist_cache[ar] += 1
-
-    for artist in artist_cache:
-        img = check_for_image(artist.slug)
-        if 'none' not in img:
-            artist_object = {
-              "name": reformat_name(artist.name),
-              "link": "/artists/" + artist.slug,
-              "img":  img,
-              "size": artist_cache[artist]
-            }
-            network.append(artist_object)
-
-    data = {
-        'name': reformat_name(a.name),
-        'img': check_for_image(a.slug),
-        'link': "/artists/" + a.slug,
-        'size': 5,
-        'children': network
-    }
-    return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
 
 
 def domain(request, domain_slug):
@@ -371,80 +242,9 @@ def place(request, place_slug):
     return HttpResponse(template.render(context, request))
 
 
-def place_artist_json(request, place_slug):
-    place = get_object_or_404(Place, slug=place_slug)
-    artists = collect_place_artists(place, [])
-    artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
-    artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
-
-    if artists_with_image or artists_without_image:
-        data = {
-            'artists_with_image': artists_with_image,
-            'artists_without_image': artists_without_image,
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def place_latlng(request, place_slug):
-    results = Place.objects.filter(slug=place_slug)
-    if results:
-        data = {'places': [build_place_latlng(place) for place in results]}
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
 def random_entry(request):
-    rand_ent = Entry.objects.filter(publish=True).order_by('?').first()
-    return redirect('entry', headword_slug=rand_ent.slug)
-
-
-def random_example(request):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
-    result = Example.objects.order_by('?').first()
-    if result:
-        data = {
-            'example': build_example(result, published)
-        }
-        data['example']['linked_lyric'] = data['example']['linked_lyric'].replace('href="/', 'href="http://www.therightrhymes.com/')
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def remaining_place_examples(request, place_slug):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
-    entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
-    examples = []
-    if len(entity_results) >= 1:
-        for entity in entity_results:
-            examples += [build_example(example, published) for example in entity.examples.order_by('release_date')]
-
-    if examples:
-        data = {
-            'place': place_slug,
-            'examples': sorted(examples, key=itemgetter('release_date'))[NUM_QUOTS_TO_SHOW:]
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def remaining_sense_examples(request, sense_id):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
-    sense_object = Sense.objects.filter(xml_id=sense_id)[0]
-    example_results = sense_object.examples.order_by('release_date')
-
-    if example_results:
-        data = {
-            'sense_id': sense_id,
-            'examples': [build_example(example, published) for example in example_results[NUM_QUOTS_TO_SHOW:]]
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
+    rand_entry = Entry.objects.filter(publish=True).order_by('?').first()
+    return redirect('entry', headword_slug=rand_entry.slug)
 
 
 def rhyme(request, rhyme_slug):
@@ -532,21 +332,6 @@ def search(request):
     return HttpResponse(template.render(context, request))
 
 
-def search_headwords(request):
-    q = request.GET.get('term', '')
-    entries = Entry.objects.filter(publish=True).filter(headword__istartswith=q)[:20]
-    results = []
-    for entry in entries:
-        result = dict()
-        result['id'] = entry.slug
-        result['label'] = entry.headword
-        result['value'] = entry.headword
-        results.append(result)
-
-    data = {'headwords': results}
-    return JsonResponse(json.dumps(data), safe=False)
-
-
 def semantic_class(request, semantic_class_slug):
     template = loader.get_template('dictionary/semantic_class.html')
     semantic_class = get_object_or_404(SemanticClass, slug=semantic_class_slug)
@@ -571,42 +356,6 @@ def semantic_classes(request):
     return HttpResponse(template.render(context, request))
 
 
-def sense_artist_json(request, sense_id, artist_slug):
-    feat = request.GET.get('feat', '')
-    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    sense_results = Sense.objects.filter(xml_id=sense_id)
-    artist_results = Artist.objects.filter(slug=artist_slug)
-    if sense_results and artist_results:
-        sense_object = sense_results[0]
-        artist_object = artist_results[0]
-        if feat:
-            example_results = sense_object.examples.filter(feat_artist=artist_object).order_by('release_date')[1:]
-        else:
-            example_results = sense_object.examples.filter(artist_name=artist_object.name).order_by('release_date')[1:]
-
-        if example_results:
-            data = {
-                'sense_id': sense_id,
-                'artist_slug': artist_slug,
-                'examples': [build_example(example, published, rf=False) for example in example_results]
-            }
-            return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-        else:
-            return JsonResponse(json.dumps({}), safe=False)
-    else:
-        return JsonResponse(json.dumps({}), safe=False)
-
-
-def sense_artists_json(request, sense_id):
-    results = Sense.objects.filter(xml_id=sense_id)
-    if results:
-        sense_object = results[0]
-        data = {'places': [build_artist(artist, require_origin=True) for artist in sense_object.cites_artists.all()]}
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
 def sense_timeline(request, sense_id):
     sense = get_object_or_404(Sense, xml_id=sense_id)
     template = loader.get_template('dictionary/_timeline.html')
@@ -615,25 +364,6 @@ def sense_timeline(request, sense_id):
         "headword": sense.headword
     }
     return HttpResponse(template.render(context, request))
-
-
-def sense_timeline_json(request, sense_id):
-    EXX_THRESHOLD = 30
-    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
-    results = Sense.objects.filter(xml_id=sense_id)
-    if results:
-        sense_object = results[0]
-        exx = sense_object.examples.order_by('release_date')
-        exx_count = exx.count()
-        if exx_count > 30:
-            exx = [ex for ex in reduce_ordered_list(exx, EXX_THRESHOLD)]
-        events = [build_timeline_example(example, published_entries) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
-        data = {
-            "events": events
-        }
-        return JsonResponse(json.dumps(data), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
 
 
 def song(request, song_slug):
@@ -657,75 +387,6 @@ def song(request, song_slug):
         "same_dates": same_dates
     }
     return HttpResponse(template.render(context, request))
-
-
-def song_network_json(request, song_slug):
-    song = get_list_or_404(Song, slug=song_slug)[0]
-
-    network = []
-    artist_cache = dict()
-
-    a = song.artist.first()
-
-    for ar in song.feat_artist.all():
-        if ar not in artist_cache:
-            artist_cache[ar] = 5
-        else:
-            artist_cache[ar] += 1
-
-    for artist in artist_cache:
-        img = check_for_image(artist.slug)
-        artist_object = {
-          "name": reformat_name(artist.name),
-          "link": "/artists/" + artist.slug,
-          "img":  img,
-          "size": artist_cache[artist]
-        }
-        network.append(artist_object)
-
-    if a:
-        data = {
-            'name': reformat_name(a.name),
-            'img': check_for_image(a.slug),
-            'link': "/artists/" + a.slug,
-            'size': 5,
-            'children': network
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def song_tree(request, song_slug):
-    song = get_list_or_404(Song, slug=song_slug)[0]
-
-    network = dict()
-    for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name'):
-        if s != song:
-            artist_name = s.artist_name
-            if artist_name not in network:
-                network[artist_name] = [(s.title, s.slug)]
-            else:
-                network[artist_name].extend([(s.title, s.slug)])
-
-    if network:
-        data = {
-            'name': song.release_date_string,
-            'children': [
-                {
-                    'name': reformat_name(s),
-                    "link": "/artists/" + slugify(s),
-                    'children': [
-                        {
-                            'name': t[0],
-                            'link': "/songs/" + t[1]
-                        } for t in network[s]]
-                 } for s in network
-            ]
-        }
-        return JsonResponse(json.dumps(data, default=decimal_default), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
 
 
 def stats(request):

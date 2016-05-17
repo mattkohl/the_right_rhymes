@@ -28,11 +28,10 @@ $(function() {
   $("#index-search-box").autocomplete({
     source: function(request, response) {
         $.getJSON(
-            '/search_headwords/',
+            '/data/headword_search/',
             { 'term': request.term },
             function(data) {
-                parsed = $.parseJSON(data);
-                response(parsed.headwords);
+                response(data.entries);
             }
         )
     },

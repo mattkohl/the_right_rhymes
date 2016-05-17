@@ -14,13 +14,13 @@ var svgTree = d3.select("#songTreeVis").append("svg")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
 var slug = d3.select(".song_slug").text();
-var endpoint = '/songs/' + slug + '/song_tree/';
+var endpoint = '/data/songs/' + slug + '/release_date_tree/';
 
 $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function (data) {
-            var treeJson = $.parseJSON(data),
+            var treeJson = data,
                 treeRoot = treeJson,
                 treeNodes = tree.nodes(treeRoot),
                 treeLinks = tree.links(treeNodes);

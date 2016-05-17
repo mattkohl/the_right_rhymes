@@ -21,18 +21,16 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var sense_id = "{{ sense_id }}";
-    var endpoint = '/senses/' + sense_id + '/timeline/json/';
+    var endpoint = '/data/senses/' + sense_id + '/timeline/';
     $.getJSON(
             endpoint,
             {'csrfmiddlewaretoken': '{{csrf_token}}'},
             function (data) {
-                var parsed = $.parseJSON(data);
                 var options = {
                     timenav_mobile_height_percentage: 1,
                     slide_default_fade: "50%"
                 };
-
-                window.timeline = new TL.Timeline('timeline-embed', parsed, options);
+                window.timeline = new TL.Timeline('timeline-embed', data, options);
                 $('.tl-slide').css('height', '150%');
                 $('.tl-slide-background').css('opacity', .25);
                 $('h2.tl-headline a:link').attr('style', 'color: #9b9b9b !important');

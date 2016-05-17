@@ -22,19 +22,19 @@ $(document).ready(function(){
                 context.hide();
                 breaker.show();
                 if (artist_slug != '') {
-                    var endpoint = '/artists/' + artist_slug + '/sense_examples_json';
+                    var endpoint = '/data/artists/' + artist_slug + '/sense_examples';
                     if (feat == 'True') {
                         endpoint = endpoint + '?feat=True'
                     }
                     addRemainingArtistSenseExamples(ul, breaker, context, endpoint);
                 } else if (place_slug != '') {
-                    var endpoint = '/places/' + place_slug + '/artists/json';
+                    var endpoint = '/data/places/' + place_slug + '/artists/';
                     addRemainingArtists(ul, breaker, context, endpoint);
                 } else if (place_example_slug != '') {
-                    var endpoint = '/places/' + place_example_slug + '/remaining_examples/';
+                    var endpoint = '/data/places/' + place_example_slug + '/remaining_examples/';
                     addRemainingExamples(ul, breaker, context, endpoint);
                 } else {
-                    var endpoint = '/senses/' + sense_id + '/remaining_examples/';
+                    var endpoint = '/data/senses/' + sense_id + '/remaining_examples/';
                     addRemainingExamples(ul, breaker, context, endpoint);
                 }
             }
@@ -48,8 +48,7 @@ function addRemainingArtists(ul, breaker, context, endpoint) {
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token'},
         function(data) {
-            var parsed = $.parseJSON(data);
-            var artists = parsed.artists_with_image;
+            var artists = data.artists_with_image;
             $.each(artists, function(i, artist) {
                 var ar = $("<li></li>").append(
                     $("<a></a>", {"href": '/artists/' + artist.slug}).append(
@@ -70,8 +69,7 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}' },
         function(data) {
-            var parsed = $.parseJSON(data);
-            var senses = parsed.senses;
+            var senses = data.senses;
             $.each(senses, function(i, sense) {
                 var ex = $("<li></li>", {"class": 'trr-list-group-item'}).append(
                     $('<div></div>').append(
@@ -124,8 +122,7 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}' },
         function(data) {
-            var parsed = $.parseJSON(data);
-            var examples = parsed.examples;
+            var examples = data.examples;
             $.each(examples, function(i, example) {
                 var ex = $("<li></li>").append(
                     $('<span></span>', {"class": 'date', "text": example.release_date_string}),

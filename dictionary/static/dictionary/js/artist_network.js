@@ -13,14 +13,13 @@ var force = d3.layout.force();
 vis = d3.select("#vis").append("svg");
 
 var slug = d3.select(".artist_slug").text();
-var endpoint = '/artists/' + slug + '/network_json/';
+var endpoint = '/data/artists/' + slug + '/network/';
 
 $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function (data) {
-            var json = $.parseJSON(data);
-            root = json;
+            root = data;
 
             var n = flatten(root),
                 maxCollabs = Math.max.apply(Math,n.map(function(d){return d.size;})),

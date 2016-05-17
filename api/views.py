@@ -2,9 +2,12 @@ from operator import itemgetter
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from dictionary.models import Artist, Domain, Entry, NamedEntity, Place, SemanticClass, Sense
-from dictionary.utils import build_artist, build_example, build_place_latlng, \
-    collect_place_artists
+from dictionary.models import Artist, Domain, Entry, Example, \
+    NamedEntity, Place, SemanticClass, Sense, Song
+from dictionary.utils import build_artist, build_example, \
+    build_place_latlng, build_sense, build_timeline_example, \
+    check_for_image, collect_place_artists, reduce_ordered_list, \
+    reformat_name, slugify
 from dictionary.views import NUM_ARTISTS_TO_SHOW, NUM_QUOTS_TO_SHOW
 
 
@@ -13,6 +16,62 @@ def artist(request, artist_slug):
     results = Artist.objects.filter(slug=artist_slug)
     if results:
         data = {'places': [build_artist(artist) for artist in results]}
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def artist_network(request, artist_slug):
+    results = Artist.objects.filter(slug=artist_slug)
+    if results:
+        a = results[0]
+        primary_examples = a.primary_examples.all()
+        featured_examples = a.featured_examples.all()
+
+        network = []
+        artist_cache = dict()
+
+        for example in primary_examples:
+            for ar in example.feat_artist.all():
+                if ar not in artist_cache:
+                    artist_cache[ar] = 1
+                else:
+                    artist_cache[ar] += 1
+
+        for example in featured_examples:
+            for ar in example.feat_artist.exclude(slug=a.slug):
+                if ar is not a:
+                    if ar not in artist_cache:
+                        artist_cache[ar] = 1
+                    else:
+                        artist_cache[ar] += 1
+
+        for example in featured_examples:
+            for ar in example.artist.all():
+                if ar not in artist_cache:
+                    artist_cache[ar] = 1
+                else:
+                    artist_cache[ar] += 1
+
+        for artist in artist_cache:
+            img = check_for_image(artist.slug)
+            if 'none' not in img:
+                artist_object = {
+                  "name": reformat_name(artist.name),
+                  "link": "/artists/" + artist.slug,
+                  "img":  img,
+                  "size": artist_cache[artist]
+                }
+                network.append(artist_object)
+
+        data = {
+            'name': reformat_name(a.name),
+            'img': check_for_image(a.slug),
+            'link': "/artists/" + a.slug,
+            'size': 5,
+            'children': network
+        }
         return Response(data)
     else:
         return Response({})
@@ -47,6 +106,50 @@ def artist_sense_examples(request, artist_slug):
     if senses:
         data = {
             'senses': senses
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def artists_missing_metadata(request):
+    primary_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
+
+    primary_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
+
+    if primary_results_no_image or feat_results_no_image:
+        data = {
+            'primary_artists_no_image': [
+                                   {
+                                       'name': artist.name,
+                                       'slug': artist.slug,
+                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'num_cites': artist.num_cites
+                                   } for artist in primary_results_no_image if '__none' in check_for_image(artist.slug)][:3],
+            'feat_artists_no_image': [
+                                   {
+                                       'name': artist.name,
+                                       'slug': artist.slug,
+                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'num_cites': artist.num_cites
+                                   } for artist in feat_results_no_image if '__none' in check_for_image(artist.slug)][:3],
+            'primary_artists_no_origin': [
+                                   {
+                                       'name': artist.name,
+                                       'slug': artist.slug,
+                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'num_cites': artist.num_cites
+                                   } for artist in primary_results_no_origin][:30],
+            'feat_artists_no_origin': [
+                                   {
+                                       'name': artist.name,
+                                       'slug': artist.slug,
+                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'num_cites': artist.num_cites
+                                   } for artist in feat_results_no_origin][:30]
         }
         return Response(data)
     else:
@@ -94,18 +197,40 @@ def domains(request):
 
 
 @api_view(('GET',))
-def place_artists(request, place_slug):
-    place = Place.objects.filter(slug=place_slug)[0]
-    artists = collect_place_artists(place, [])
-    artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
-    artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
-
-    if artists_with_image or artists_without_image:
+def headword_search(request):
+    q = request.GET.get('term', '')
+    results = Entry.objects.filter(publish=True).filter(headword__istartswith=q)[:20]
+    if results:
         data = {
-            'artists_with_image': artists_with_image,
-            'artists_without_image': artists_without_image,
+            "entries": [
+                {
+                    'id': entry.slug,
+                    'label': entry.headword,
+                    'value': entry.headword
+                } for entry in results]
         }
         return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def place_artists(request, place_slug):
+    results = Place.objects.filter(slug=place_slug)
+    if results:
+        place = results[0]
+        artists = collect_place_artists(place, [])
+        artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
+        artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
+
+        if artists_with_image or artists_without_image:
+            data = {
+                'artists_with_image': artists_with_image,
+                'artists_without_image': artists_without_image,
+            }
+            return Response(data)
+        else:
+            return Response({})
     else:
         return Response({})
 
@@ -115,6 +240,20 @@ def place_latlng(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
     if results:
         data = {'places': [build_place_latlng(place) for place in results]}
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def random_example(request):
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    result = Example.objects.order_by('?').first()
+    if result:
+        data = {
+            'example': build_example(result, published)
+        }
+        data['example']['linked_lyric'] = data['example']['linked_lyric'].replace('href="/', 'href="http://www.therightrhymes.com/')
         return Response(data)
     else:
         return Response({})
@@ -195,6 +334,18 @@ def semantic_classes(request):
 
 
 @api_view(('GET',))
+def sense(request, sense_id):
+    results = Sense.objects.filter(xml_id=sense_id)
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
+    if results:
+        sense_object = results[0]
+        data = {'senses': [build_sense(sense_object, published)]}
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
 def sense_artist(request, sense_id, artist_slug):
     feat = request.GET.get('feat', '')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
@@ -204,9 +355,9 @@ def sense_artist(request, sense_id, artist_slug):
         sense_object = sense_results[0]
         artist_object = artist_results[0]
         if feat:
-            example_results = sense_object.examples.filter(feat_artist=artist_object).order_by('release_date')[1:]
+            example_results = sense_object.examples.filter(feat_artist=artist_object).order_by('release_date')
         else:
-            example_results = sense_object.examples.filter(artist_name=artist_object.name).order_by('release_date')[1:]
+            example_results = sense_object.examples.filter(artist_name=artist_object.name).order_by('release_date')
 
         if example_results:
             data = {
@@ -228,5 +379,122 @@ def sense_artists(request, sense_id):
         sense_object = results[0]
         data = {'places': [build_artist(artist, require_origin=True) for artist in sense_object.cites_artists.all()]}
         return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def sense_timeline(request, sense_id):
+    EXX_THRESHOLD = 30
+    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    results = Sense.objects.filter(xml_id=sense_id)
+    if results:
+        sense_object = results[0]
+        exx = sense_object.examples.order_by('release_date')
+        exx_count = exx.count()
+        if exx_count > 30:
+            exx = [ex for ex in reduce_ordered_list(exx, EXX_THRESHOLD)]
+        events = [build_timeline_example(example, published_entries) for example in exx if check_for_image(example.artist_slug, 'artists', 'full')]
+        data = {
+            "events": events
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def senses(request):
+    results = Sense.objects.filter(publish=True).order_by('headword')
+    if results:
+        data = {
+            'senses': [
+                {
+                    "headword": sense_object.headword,
+                    "part_of_speech": sense_object.part_of_speech,
+                    "xml_id": sense_object.xml_id,
+                    "definition": sense_object.definition
+                } for sense_object in results
+            ]
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def song_artist_network(request, song_slug):
+    results = Song.objects.filter(slug=song_slug)
+    if results:
+        song = results[0]
+        network = []
+        artist_cache = dict()
+
+        a = song.artist.first()
+
+        for ar in song.feat_artist.all():
+            if ar not in artist_cache:
+                artist_cache[ar] = 5
+            else:
+                artist_cache[ar] += 1
+
+        for artist in artist_cache:
+            img = check_for_image(artist.slug)
+            artist_object = {
+              "name": reformat_name(artist.name),
+              "link": "/artists/" + artist.slug,
+              "img":  img,
+              "size": artist_cache[artist]
+            }
+            network.append(artist_object)
+
+        if a:
+            data = {
+                'name': reformat_name(a.name),
+                'img': check_for_image(a.slug),
+                'link': "/artists/" + a.slug,
+                'size': 5,
+                'children': network
+            }
+            return Response(data)
+        else:
+            return Response({})
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def song_release_date_tree(request, song_slug):
+    results = Song.objects.filter(slug=song_slug)
+    if results:
+        song = results[0]
+
+        network = dict()
+        for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name'):
+            if s != song:
+                artist_name = s.artist_name
+                if artist_name not in network:
+                    network[artist_name] = [(s.title, s.slug)]
+                else:
+                    network[artist_name].extend([(s.title, s.slug)])
+
+        if network:
+            data = {
+                'name': song.release_date_string,
+                'children': [
+                    {
+                        'name': reformat_name(s),
+                        "link": "/artists/" + slugify(s),
+                        'children': [
+                            {
+                                'name': t[0],
+                                'link': "/songs/" + t[1]
+                            } for t in network[s]]
+                     } for s in network
+                ]
+            }
+            return Response(data)
+        else:
+            return Response({})
     else:
         return Response({})
