@@ -114,6 +114,8 @@ def artist_sense_examples(request, artist_slug):
 
 @api_view(('GET',))
 def artists_missing_metadata(request):
+    BASE_URL = "http://" + request.META['HTTP_HOST']
+
     primary_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     feat_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
 
@@ -126,28 +128,28 @@ def artists_missing_metadata(request):
                                    {
                                        'name': artist.name,
                                        'slug': artist.slug,
-                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
                                    } for artist in primary_results_no_image if '__none' in check_for_image(artist.slug)][:3],
             'feat_artists_no_image': [
                                    {
                                        'name': artist.name,
                                        'slug': artist.slug,
-                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
                                    } for artist in feat_results_no_image if '__none' in check_for_image(artist.slug)][:3],
             'primary_artists_no_origin': [
                                    {
                                        'name': artist.name,
                                        'slug': artist.slug,
-                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
                                    } for artist in primary_results_no_origin][:30],
             'feat_artists_no_origin': [
                                    {
                                        'name': artist.name,
                                        'slug': artist.slug,
-                                       'link': request.META['HTTP_HOST'] + '/artists/' + artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
                                    } for artist in feat_results_no_origin][:30]
         }
