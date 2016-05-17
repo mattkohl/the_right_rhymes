@@ -32,14 +32,8 @@ urlpatterns = [
     # /semantic-classes/
     url(r"^semantic\-classes/$", views.semantic_classes, name='semantic_classes'),
 
-    # /semantic-classes/json/
-    url(r"^semantic\-classes/json/$", views.semantic_classes_json, name='semantic_classes_json'),
-
     # /domains/
     url(r"^domains/$", views.domains, name='domains'),
-
-    # /domains/json/
-    url(r"^domains/json/$", views.domains_json, name='domains_json'),
 
     # /<headword-slug>/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
@@ -50,14 +44,8 @@ urlpatterns = [
     # /artists/<artist-slug>/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/$", views.artist, name='artist'),
 
-    # /artists/<artist_slug>/json/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/json/$", views.artist_json, name="artist_json"),
-
     # /artists/<artist_slug>/network_json/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/network_json/$", views.artist_network_json, name="artist_network_json"),
-
-    # /artists/<artist_slug>/sense_examples_json/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/sense_examples_json/$", views.artist_sense_examples_json, name="artist_sense_examples_json"),
 
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
@@ -71,9 +59,6 @@ urlpatterns = [
     # /places/<place-name-slug>/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)–]+)/$", views.place, name='place'),
 
-    # /places/<place-name-slug>/latlng/
-    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/latlng/$", views.place_latlng, name='place_latlng'),
-
     # /places/<place-name-slug>/artists/json
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/artists/json/$", views.place_artist_json, name='place_artist_json'),
 
@@ -85,9 +70,6 @@ urlpatterns = [
 
     # /semantic-classes/<semantic-class-slug>/
     url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/$", views.semantic_class, name='semantic_class'),
-
-    # /semantic-classes/<semantic-class-slug>/json/
-    url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/json/$", views.semantic_class_json, name='semantic_class_json'),
 
     # /senses/<sense_id>/timeline/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name='sense_timeline'),

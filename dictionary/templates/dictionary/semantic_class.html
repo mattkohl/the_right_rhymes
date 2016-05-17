@@ -52,13 +52,12 @@ var fill = d3.scale.ordinal().range(r);
 var w = window.innerWidth,
     h = window.innerHeight;
 
-var endpoint = '/semantic-classes/{{slug}}/json/';
+var endpoint = '/data/semantic-classes/{{slug}}/';
 $.getJSON(
         endpoint,
-        {'csrfmiddlewaretoken': '{{csrf_token'},
+        {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function(data) {
-            var parsed = $.parseJSON(data);
-            var children = parsed.children;
+            var children = data.children;
             var scaleMin = d3.min(children, function(d) { return d.weight });
             var scaleMax = d3.max(children, function(d) { return d.weight });
             var weightScale = d3.scale.linear()

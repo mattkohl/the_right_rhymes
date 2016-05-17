@@ -28,17 +28,16 @@ $(document).ready(function() {
                 var artist_slug = $(this).find('.artist-slug').text();
                 var place_slug = $(this).find('.place-slug').text();
                 if (artist_slug) {
-                    endpoint = '/artists/' + artist_slug + '/json/';
+                    endpoint = '/data/artists/' + artist_slug + '/';
                     is_entry = false;
                 } else if (place_slug) {
-                    endpoint = '/places/' + place_slug + '/latlng/';
+                    endpoint = '/data/places/' + place_slug + '/latlng/';
                     is_entry = false;
                 } else {
-                    endpoint = '/senses/' + sense_id + '/artists/json/';
+                    endpoint = '/data/senses/' + sense_id + '/artists/';
                 }
                 $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
-                    parsed = $.parseJSON(data);
-                    $.each(parsed.places, function (index, p) {
+                    $.each(data.places, function (index, p) {
                         if (p != null && p.latitude) {
                             tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
                             if (p.name) {

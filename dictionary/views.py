@@ -213,7 +213,6 @@ def artist_network_json(request, artist_slug):
             }
             network.append(artist_object)
 
-
     data = {
         'name': reformat_name(a.name),
         'img': check_for_image(a.slug),
@@ -253,24 +252,6 @@ def domains(request):
         'image': check_for_image('domains', 'domains', 'full')
     }
     return HttpResponse(template.render(context, request))
-
-
-def domains_json(request):
-    results = Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
-    if results:
-        data = {
-            'name': "Domains",
-            'children': [
-                    {
-                        'word': domain.name,
-                        'weight': domain.num_senses,
-                        'url': '/domains/' + domain.slug
-                    } for domain in results
-                ]
-            }
-        return JsonResponse(json.dumps(data), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
 
 
 def entity(request, entity_slug):
@@ -588,43 +569,6 @@ def semantic_classes(request):
         'image': check_for_image('semantic-classes', 'semantic_classes', 'full')
     }
     return HttpResponse(template.render(context, request))
-
-
-def semantic_class_json(request, semantic_class_slug):
-    results = SemanticClass.objects.filter(slug=semantic_class_slug)
-    if results:
-        semantic_class_object = results[0]
-        data = {
-            'name': semantic_class_object.name,
-            'children': [
-                    {
-                        'word': sense.headword,
-                        'weight': sense.examples.count(),
-                        'url': '/' + sense.slug + '#' + sense.xml_id
-                    } for sense in semantic_class_object.senses.all()
-                ]
-            }
-        return JsonResponse(json.dumps(data), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
-
-
-def semantic_classes_json(request):
-    results = SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
-    if results:
-        data = {
-            'name': "Semantic Classes",
-            'children': [
-                    {
-                        'word': semantic_class.name,
-                        'weight': semantic_class.num_senses,
-                        'url': '/semantic-classes/' + semantic_class.slug
-                    } for semantic_class in results
-                ]
-            }
-        return JsonResponse(json.dumps(data), safe=False)
-    else:
-        return JsonResponse(json.dumps({}))
 
 
 def sense_artist_json(request, sense_id, artist_slug):
