@@ -49,11 +49,11 @@ urlpatterns = [
     # /data/headword_search/
     url(r'^headword_search/$', views.headword_search, name='headword_search'),
 
+    # /data/places/<place-name-slug>/
+    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),
+
     # /data/places/<place-name-slug>/artists/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/artists/$", views.place_artists, name='place_artists'),
-
-    # /data/places/<place-name-slug>/latlng/
-    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/latlng/$", views.place_latlng, name='place_latlng'),
 
     # /data/places/<place-name-slug>/remaining_examples/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)–]+)/remaining_examples/$", views.remaining_place_examples, name='remaining_place_examples'),

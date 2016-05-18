@@ -92,17 +92,21 @@ def un_camel_case(name):
     return ' '.join(tokens)
 
 
-def build_place_latlng(place_object):
+def build_place(place_object, include_artists=False):
+    result = {
+        "name": place_object.name,
+        "slug": place_object.slug,
+    }
+    if include_artists:
+        artists = collect_place_artists(place_object, [])
+        result['artists_with_image'] = [artist for artist in artists if '__none.png' not in artist['image']]
+        result['artists_without_image'] = [artist for artist in artists if '__none.png' in artist['image']]
+
     if place_object.longitude and place_object.latitude:
-        result = {
-            "name": place_object.name,
-            "slug": place_object.slug,
-            "longitude": place_object.longitude,
-            "latitude": place_object.latitude
-        }
-        return result
-    else:
-        return None
+        result["longitude"] = place_object.longitude
+        result["latitude"] = place_object.latitude
+
+    return result
 
 
 def build_artist(artist_object, require_origin=False):

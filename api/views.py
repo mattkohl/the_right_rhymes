@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from dictionary.models import Artist, Domain, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, \
-    build_place_latlng, build_sense, build_timeline_example, \
+    build_place, build_sense, build_timeline_example, \
     check_for_image, collect_place_artists, reduce_ordered_list, \
     reformat_name, slugify
 from dictionary.views import NUM_ARTISTS_TO_SHOW, NUM_QUOTS_TO_SHOW
@@ -217,31 +217,20 @@ def headword_search(request):
 
 
 @api_view(('GET',))
-def place_artists(request, place_slug):
+def place(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
     if results:
-        place = results[0]
-        artists = collect_place_artists(place, [])
-        artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
-        artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
-
-        if artists_with_image or artists_without_image:
-            data = {
-                'artists_with_image': artists_with_image,
-                'artists_without_image': artists_without_image,
-            }
-            return Response(data)
-        else:
-            return Response({})
+        data = {'places': [build_place(place) for place in results]}
+        return Response(data)
     else:
         return Response({})
 
 
 @api_view(('GET',))
-def place_latlng(request, place_slug):
+def place_artists(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
     if results:
-        data = {'places': [build_place_latlng(place) for place in results]}
+        data = {'places': [build_place(place, include_artists=True) for place in results]}
         return Response(data)
     else:
         return Response({})

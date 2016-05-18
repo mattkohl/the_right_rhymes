@@ -31,7 +31,7 @@ $(document).ready(function() {
                     endpoint = '/data/artists/' + artist_slug + '/';
                     is_entry = false;
                 } else if (place_slug) {
-                    endpoint = '/data/places/' + place_slug + '/latlng/';
+                    endpoint = '/data/places/' + place_slug + '/';
                     is_entry = false;
                 } else {
                     endpoint = '/data/senses/' + sense_id + '/artists/';
