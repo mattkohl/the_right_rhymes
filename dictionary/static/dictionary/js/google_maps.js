@@ -21,33 +21,30 @@ $(document).ready(function() {
                 var map = new google.maps.Map(document.getElementById('map' + index), options);
                 var markers = [];
                 var mc = new MarkerClusterer(map);
-                var is_entry = true;
-                var infowindow = new google.maps.InfoWindow({content: ''});
+                var isEntry = true;
+                var infoWindow = new google.maps.InfoWindow({content: ''});
                 var markerBounds = new google.maps.LatLngBounds();
-                var sense_id = $(this).find('.sense_id').text();
-                var artist_slug = $(this).find('.artist-slug').text();
-                var place_slug = $(this).find('.place-slug').text();
-                if (artist_slug) {
-                    endpoint = '/data/artists/' + artist_slug + '/';
-                    is_entry = false;
-                } else if (place_slug) {
-                    endpoint = '/data/places/' + place_slug + '/';
-                    is_entry = false;
+                var senseId = $(this).find('.sense_id').text();
+                var artistSlug = $(this).find('.artist-slug').text();
+                var placeSlug = $(this).find('.place-slug').text();
+                if (artistSlug) {
+                    endpoint = '/data/artists/' + artistSlug + '/';
+                    isEntry = false;
+                } else if (placeSlug) {
+                    endpoint = '/data/places/' + placeSlug + '/';
+                    isEntry = false;
                 } else {
-                    endpoint = '/data/senses/' + sense_id + '/artists/';
+                    endpoint = '/data/senses/' + senseId + '/artists/';
                 }
                 $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
-                    var children;
-                    if (artist_slug) {
+                    if (artistSlug) {
                         processArtists(data.artists);
-                    } else if (place_slug) {
+                    } else if (placeSlug) {
                         processPlaces(data.places);
                     } else {
                         processArtists(data.senses);
                     }
-
                 });
-
                 function processArtists(children) {
                     $.each(children, function (index, p) {
                         if (p != null && p.origin) {
@@ -65,15 +62,13 @@ $(document).ready(function() {
                                 url: "/places/" + p.origin.slug + "/"
                             });
                             markerBounds.extend(tmpLatLng);
-                            bindInfoWindow(marker, map, infowindow, markerText);
+                            bindInfoWindow(marker, map, infoWindow, markerText);
                             markers.push(marker);
                             mc.addMarker(marker);
                             map.fitBounds(markerBounds);
                         }
                     });
-
                 }
-
                 function processPlaces(children) {
                     $.each(children, function (index, p) {
                         if (p != null && p.latitude) {
@@ -91,16 +86,14 @@ $(document).ready(function() {
                                 url: "/places/" + p.slug + "/"
                             });
                             markerBounds.extend(tmpLatLng);
-                            bindInfoWindow(marker, map, infowindow, markerText);
+                            bindInfoWindow(marker, map, infoWindow, markerText);
                             markers.push(marker);
                             mc.addMarker(marker);
                             map.fitBounds(markerBounds);
                         }
                     });
-
                 }
-
-                if (!is_entry) {
+                if (!isEntry) {
                     zoomChangeBoundsListener = google.maps.event.addListener(map, 'bounds_changed', function (event) {
                         this.setZoom(10)
                     });
@@ -112,11 +105,8 @@ $(document).ready(function() {
                         infowindow.open(map, marker);
                     });
                 };
-
-
             })
         }
-
         google.maps.event.addDomListener(window, "load", initialize);
     });
 });
