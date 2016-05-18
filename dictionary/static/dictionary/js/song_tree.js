@@ -44,8 +44,7 @@ $.getJSON(
                 .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
                 .on("click",function(d){
                     if (d != treeRoot) {
-                        var href = d.link;
-                        location.href = href;
+                        location.href = d.link;
                     }
                 });
 
@@ -57,7 +56,6 @@ $.getJSON(
                 .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
                 .attr("transform", function(d) {
                         return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)";
-
                 })
                 .text(function(d) { return d.name; });
 

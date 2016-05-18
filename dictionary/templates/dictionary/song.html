@@ -34,9 +34,9 @@
 
                 {% if same_dates %}
                     {% if same_dates|length == 1 %}
-                    <div class="trr-list-header">Currently citing {{same_dates|length}} other song with the release date: <strong>{{release_date_string}}</strong></div>
+                    <div class="trr-list-header">Currently citing <strong>{{same_dates|length}}</strong> other song with the same release date</div>
                     {% else %}
-                    <div class="trr-list-header">Currently citing {{same_dates|length}} other songs with the release date: <strong>{{release_date_string}}</strong></div>
+                    <div class="trr-list-header">Currently citing <strong>{{same_dates|length}}</strong> other songs with the same release date</div>
                     {% endif %}
                 {% endif %}
 
@@ -50,5 +50,5 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
 <script src="/static/dictionary/js/song_network.js"></script>
-<script src="/static/dictionary/js/song_tree.js"></script>
+<script src="/static/dictionary/js/song_cluster.js"></script>
 {% endblock %}
