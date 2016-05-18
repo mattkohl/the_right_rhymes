@@ -37,20 +37,32 @@ $(document).ready(function() {
                     endpoint = '/data/senses/' + sense_id + '/artists/';
                 }
                 $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
-                    $.each(data.places, function (index, p) {
-                        if (p != null && p.latitude) {
-                            tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
+                    var children;
+                    if (artist_slug) {
+                        processArtists(data.artists);
+                    } else if (place_slug) {
+                        processPlaces(data.places);
+                    } else {
+                        processArtists(data.senses);
+                    }
+
+                });
+
+                function processArtists(children) {
+                    $.each(children, function (index, p) {
+                        if (p != null && p.origin) {
+                            tmpLatLng = new google.maps.LatLng(p.origin.latitude, p.origin.longitude);
                             if (p.name) {
-                                markerText = "<b>" + p.name + "</b>" + "<br>" + "<a href='/places/" + p.place_slug + "/'>" + p.place_name + "</a>";
+                                markerText = "<b>" + p.name + "</b>" + "<br>" + "<a href='/places/" + p.origin.slug + "/'>" + p.origin.name + "</a>";
                             } else {
-                                markerText = p.place_name;
+                                markerText = p.origin.name;
                             }
                             var marker = new google.maps.Marker({
                                 map: map,
                                 position: tmpLatLng,
                                 title: markerText,
                                 animation: google.maps.Animation.DROP,
-                                url: "/places/" + p.place_slug + "/"
+                                url: "/places/" + p.origin.slug + "/"
                             });
                             markerBounds.extend(tmpLatLng);
                             bindInfoWindow(marker, map, infowindow, markerText);
@@ -60,7 +72,34 @@ $(document).ready(function() {
                         }
                     });
 
-                });
+                }
+
+                function processPlaces(children) {
+                    $.each(children, function (index, p) {
+                        if (p != null && p.latitude) {
+                            tmpLatLng = new google.maps.LatLng(p.latitude, p.longitude);
+                            if (p.name) {
+                                markerText = "<b>" + p.name + "</b>" + "<br>" + "<a href='/places/" + p.slug + "/'>" + p.name + "</a>";
+                            } else {
+                                markerText = p.name;
+                            }
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                position: tmpLatLng,
+                                title: markerText,
+                                animation: google.maps.Animation.DROP,
+                                url: "/places/" + p.slug + "/"
+                            });
+                            markerBounds.extend(tmpLatLng);
+                            bindInfoWindow(marker, map, infowindow, markerText);
+                            markers.push(marker);
+                            mc.addMarker(marker);
+                            map.fitBounds(markerBounds);
+                        }
+                    });
+
+                }
+
                 if (!is_entry) {
                     zoomChangeBoundsListener = google.maps.event.addListener(map, 'bounds_changed', function (event) {
                         this.setZoom(10)

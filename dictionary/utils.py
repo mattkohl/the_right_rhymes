@@ -95,8 +95,8 @@ def un_camel_case(name):
 def build_place_latlng(place_object):
     if place_object.longitude and place_object.latitude:
         result = {
-            "place_name": place_object.name,
-            "place_slug": place_object.slug,
+            "name": place_object.name,
+            "slug": place_object.slug,
             "longitude": place_object.longitude,
             "latitude": place_object.latitude
         }
@@ -115,13 +115,15 @@ def build_artist(artist_object, require_origin=False):
     if origin_results:
         origin_object = origin_results[0]
         if origin_object.longitude and origin_object.latitude:
-            result["place_name"] = origin_object.name
-            result["place_slug"] = origin_object.slug
-            result["longitude"] = origin_object.longitude
-            result["latitude"] = origin_object.latitude
+            result['origin'] = {
+                "name": origin_object.name,
+                 "slug": origin_object.slug,
+                 "longitude": origin_object.longitude,
+                 "latitude": origin_object.latitude
+            }
 
     if require_origin:
-        if 'place_name' in result:
+        if 'origin' in result:
             return result
         return None
     else:

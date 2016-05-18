@@ -15,7 +15,7 @@ from dictionary.views import NUM_ARTISTS_TO_SHOW, NUM_QUOTS_TO_SHOW
 def artist(request, artist_slug):
     results = Artist.objects.filter(slug=artist_slug)
     if results:
-        data = {'places': [build_artist(artist) for artist in results]}
+        data = {'artists': [build_artist(artist) for artist in results]}
         return Response(data)
     else:
         return Response({})
@@ -379,7 +379,7 @@ def sense_artists(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        data = {'places': [build_artist(artist, require_origin=True) for artist in sense_object.cites_artists.all()]}
+        data = {'senses': [build_artist(artist, require_origin=True) for artist in sense_object.cites_artists.all()]}
         return Response(data)
     else:
         return Response({})
