@@ -3,21 +3,25 @@
  */
 
 var width = window.innerWidth,
-    height = window.innerHeight + 50;
+    height = window.innerHeight;
 
 var cluster = d3.layout.cluster()
-    .size([height, width]);
+    .size([width, height]);
 
 var diagonal = d3.svg.diagonal()
     .projection(function (d) {
         return [d.x, d.y/3];
     });
 
+var initPos = 0;
+
+console.log(width, height, initPos);
+
 var svg = d3.select("#songTreeVis").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
-    .attr("transform", "translate(" + window.innerWidth / 4.5 + ", 50)");
+    .attr("transform", "translate(" + initPos + ", 50)");
 
 var slug = d3.select(".song_slug").text();
 var endpoint = '/data/songs/' + slug + '/release_date_tree/';
