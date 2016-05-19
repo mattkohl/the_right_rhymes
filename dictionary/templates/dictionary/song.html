@@ -12,7 +12,10 @@
                           scale="0"/>
                     </figure>
                     <h1 class="song-title-header">"{{ title }}"</h1>
-                    <h2 class="song-artist-header">{{ release_date_string }}</h2>
+                </div>
+                <div class="pos">{{ artist_name }}</div>
+                <div class="name-date">
+                    <span>Released: <time>{{ release_date_string }}</time></span>
                 </div>
 
                 <span class="song_slug hidden">{{slug}}</span>

@@ -10,18 +10,14 @@ var cluster = d3.layout.cluster()
 
 var diagonal = d3.svg.diagonal()
     .projection(function (d) {
-        return [d.x, d.y/3];
+        return [d.x, d.y/2];
     });
-
-var initPos = 0;
-
-console.log(width, height, initPos);
 
 var svg = d3.select("#songTreeVis").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
-    .attr("transform", "translate(" + initPos + ", 50)");
+    .attr("transform", "translate(0, 50)");
 
 var slug = d3.select(".song_slug").text();
 var endpoint = '/data/songs/' + slug + '/release_date_tree/';
@@ -52,7 +48,7 @@ $.getJSON(
                     }
                 })
                 .attr("transform", function (d) {
-                    return "translate(" + d.x + "," + d.y/3 + ")";
+                    return "translate(" + d.x + "," + d.y/2 + ")";
                 })
                 .on("click",function(d){
                     if (d != treeRoot) {

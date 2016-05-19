@@ -16,9 +16,6 @@
                 {% else %}
                     <div class="headword">{{ artist }}</div>
                 {% endif %}
-                <h3 class="trr-list-header"><span id="numCollabs"></span> <strong>collaborators</strong> in <span class="logo">The Right Rhymes</span> database</h3>
-                <span class="artist_slug hidden">{{slug}}</span>
-                <div id="vis"></div>
 
                 {% if primary_senses %}
 
@@ -153,7 +150,9 @@
                     {% endfor %}
                     </div>
                 {% endif %}
-
+                <h3 class="trr-list-header"><span id="numCollabs"></span> <strong>collaborators</strong> in <span class="logo">The Right Rhymes</span> database</h3>
+                <span class="artist_slug hidden">{{slug}}</span>
+                <div id="vis" style="margin-bottom: 0em;"></div>
                 {% if longitude and latitude %}
                     <div class="map-canvas">
                         <p class="hidden artist-slug">{{ slug }}</p>
