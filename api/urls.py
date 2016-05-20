@@ -2,28 +2,35 @@ __author__ = 'MBK'
 
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 from rest_framework import routers, serializers, viewsets
+from rest_framework.authtoken import views as rf_views
 from . import views
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+for user in User.objects.all():
+    Token.objects.get_or_create(user=user)
 
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+#
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('url', 'username', 'email', 'is_staff')
+#
+#
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+# router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', rf_views.obtain_auth_token),
 
     # /data/artists/missing_metadata/
     url(r"^artists/missing_metadata/$", views.artists_missing_metadata, name='artists_missing_metadata'),
@@ -87,8 +94,5 @@ urlpatterns = [
 
     # /data/songs/<song-slug>/release_date_tree/
     url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/release_date_tree/$", views.song_release_date_tree, name='song_release_date_tree'),
-
-
-
 
 ]

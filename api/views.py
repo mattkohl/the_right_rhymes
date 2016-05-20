@@ -1,21 +1,27 @@
 from operator import itemgetter
 from django.db.models import Count
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 from dictionary.models import Artist, Domain, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, \
     build_place, build_sense, build_timeline_example, \
-    check_for_image, collect_place_artists, reduce_ordered_list, \
-    reformat_name, slugify
-from dictionary.views import NUM_ARTISTS_TO_SHOW, NUM_QUOTS_TO_SHOW
+    check_for_image, reduce_ordered_list, reformat_name, slugify
+from dictionary.views import NUM_QUOTS_TO_SHOW
 
 
 @api_view(('GET',))
 def artist(request, artist_slug):
     results = Artist.objects.filter(slug=artist_slug)
     if results:
-        data = {'artists': [build_artist(artist) for artist in results]}
+        data = {
+            'user': str(request.user),
+            'auth': str(request.auth),
+            'artists': [build_artist(artist) for artist in results]
+        }
         return Response(data)
     else:
         return Response({})
@@ -144,14 +150,14 @@ def artists_missing_metadata(request):
                                        'slug': artist.slug,
                                        'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
-                                   } for artist in primary_results_no_origin][:30],
+                                   } for artist in primary_results_no_origin][:3],
             'feat_artists_no_origin': [
                                    {
                                        'name': artist.name,
                                        'slug': artist.slug,
                                        'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
-                                   } for artist in feat_results_no_origin][:30]
+                                   } for artist in feat_results_no_origin][:3]
         }
         return Response(data)
     else:
