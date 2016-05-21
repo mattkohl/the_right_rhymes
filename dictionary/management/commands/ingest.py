@@ -1,5 +1,6 @@
 from ._xml_handler import main
 from django.core.management.base import BaseCommand, CommandError
+import django.conf.global_settings as settings
 
 
 class Command(BaseCommand):
@@ -15,7 +16,7 @@ class Command(BaseCommand):
         if 'directory' in options:
             d = options['directory']
         else:
-            d = '../tRR/XML/tRR_Django'
+            d = settings.SOURCE_XML_PATH
 
         main(d)
 

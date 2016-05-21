@@ -136,11 +136,11 @@
                             <div>
                                 <span class="date">{{ example.release_date_string }}</span>
                                 <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
-                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{ example.song_title }}</a>"</span>
                                  {% if example.featured_artists %}
                                     <span> feat. </span>
                                     {% for feat in example.featured_artists %}
-                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{ feat.name }}</a>{% if not forloop.last %}, {% endif %}</span>
                                     {% endfor %}
                                 {% endif %}
                                 <span class="album">[{{ example.album }}]</span>
@@ -151,7 +151,7 @@
                     </div>
                 {% endif %}
                 <h3 class="trr-list-header"><strong><span id="numCollabs"></span></strong> pictured from <span class="logo">The Right Rhymes</span> database</h3>
-                <span class="artist_slug hidden">{{slug}}</span>
+                <span class="artist_slug hidden">{{ slug }}</span>
                 <div id="vis" style="margin-bottom: 0em;"></div>
                 {% if longitude and latitude %}
                     <div class="map-canvas">
