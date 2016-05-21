@@ -7,10 +7,10 @@ from os.path import isfile, join
 import concurrent.futures
 import xmltodict
 from geopy.geocoders import Nominatim
-from .models import Entry, Sense, Example, Artist, Domain, SynSet, \
+from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
     Place, Song, SemanticClass
-from .utils import slugify, make_label_from_camel_case
+from dictionary.utils import slugify, make_label_from_camel_case
 
 
 geolocator = Nominatim()
@@ -927,16 +927,20 @@ def launch_trr_dict(x):
 
 
 def process_xml(xml_list):
-    with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
-        processed_xml = {executor.submit(launch_trr_dict, XMLDict(xml)): xml for xml in xml_list}
-        for future in concurrent.futures.as_completed(processed_xml):
-            done = processed_xml[future]
-            try:
-                data = future.result()
-            except Exception as exc:
-                print('%r generated an exception: %s' % (done, exc))
-            else:
-                print('{} is done, yo'.format(data))
+    # with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
+    #     processed_xml = {executor.submit(launch_trr_dict, XMLDict(xml)): xml for xml in xml_list}
+    #     for future in concurrent.futures.as_completed(processed_xml):
+    #         done = processed_xml[future]
+    #         try:
+    #             data = future.result()
+    #         except Exception as exc:
+    #             print('%r generated an exception: %s' % (done, exc))
+    #         else:
+    #             print('{} is done, yo'.format(data))
+
+    for xml in xml_list:
+        x = XMLDict(xml)
+        launch_trr_dict(x)
 
 
 def main(directory='../tRR/XML/tRR_Django'):

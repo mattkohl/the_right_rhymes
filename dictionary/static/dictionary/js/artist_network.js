@@ -23,9 +23,13 @@ $.getJSON(
 
             var n = flatten(root),
                 maxCollabs = Math.max.apply(Math,n.map(function(d){return d.size;})),
-                nLen = n.length;
+                nLen = n.length,
+                numCollabs = nLen - 1,
+                collabText;
 
-            d3.select("#numCollabs").text(nLen - 1);
+            collabText = numCollabs > 1 ? " collaborators" : " collaborator";
+
+            d3.select("#numCollabs").text(numCollabs + collabText);
 
             var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
             if (adjustment < 0.175) adjustment = 0.175;

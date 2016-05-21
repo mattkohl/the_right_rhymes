@@ -1,9 +1,12 @@
 from operator import itemgetter
 from django.db.models import Count
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
+
 
 from dictionary.models import Artist, Domain, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
@@ -11,6 +14,15 @@ from dictionary.utils import build_artist, build_example, \
     build_place, build_sense, build_timeline_example, \
     check_for_image, reduce_ordered_list, reformat_name, slugify
 from dictionary.views import NUM_QUOTS_TO_SHOW
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'artists': reverse('artists', request=request, format=format),
+        'senses': reverse('senses', request=request, format=format)
+    })
+
 
 
 @api_view(('GET',))
@@ -112,6 +124,20 @@ def artist_sense_examples(request, artist_slug):
     if senses:
         data = {
             'senses': senses
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def artists(request):
+    results = Artist.objects.order_by("slug")
+    if results:
+        data = {
+            'user': str(request.user),
+            'auth': str(request.auth),
+            'artists': [build_artist(artist) for artist in results]
         }
         return Response(data)
     else:
