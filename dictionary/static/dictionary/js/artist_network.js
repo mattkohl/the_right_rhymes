@@ -27,7 +27,7 @@ $.getJSON(
                 numCollabs = nLen - 1,
                 collabText;
 
-            collabText = numCollabs > 1 ? " collaborators" : " collaborator";
+            collabText = numCollabs == 1 ? " collaborator" : " collaborators";
 
             d3.select("#numCollabs").text(numCollabs + collabText);
 

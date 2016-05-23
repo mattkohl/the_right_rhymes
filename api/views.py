@@ -49,28 +49,31 @@ def artist_network(request, artist_slug):
 
         network = []
         artist_cache = dict()
+        example_cache = dict()
 
         for example in primary_examples:
-            for ar in example.feat_artist.all():
-                if ar not in artist_cache:
-                    artist_cache[ar] = 1
-                else:
-                    artist_cache[ar] += 1
-
-        for example in featured_examples:
-            for ar in example.feat_artist.exclude(slug=a.slug):
-                if ar is not a:
+            if example.song_title not in example_cache:
+                example_cache[example.song_title] = 1
+                for ar in example.feat_artist.all():
                     if ar not in artist_cache:
                         artist_cache[ar] = 1
                     else:
                         artist_cache[ar] += 1
 
         for example in featured_examples:
-            for ar in example.artist.all():
-                if ar not in artist_cache:
-                    artist_cache[ar] = 1
-                else:
-                    artist_cache[ar] += 1
+            if example.song_title not in example_cache:
+                example_cache[example.song_title] = 1
+                for ar in example.artist.all():
+                    if ar not in artist_cache:
+                        artist_cache[ar] = 1
+                    else:
+                        artist_cache[ar] += 1
+                for ar in example.feat_artist.exclude(slug=a.slug):
+                    if ar is not a:
+                        if ar not in artist_cache:
+                            artist_cache[ar] = 1
+                        else:
+                            artist_cache[ar] += 1
 
         for artist in artist_cache:
             img = check_for_image(artist.slug)

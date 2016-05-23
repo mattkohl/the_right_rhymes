@@ -10,7 +10,7 @@ var cluster = d3.layout.cluster()
 
 var diagonal = d3.svg.diagonal()
     .projection(function (d) {
-        return [d.x, d.y/2];
+        return [d.x, d.y/1.5];
     });
 
 var svg = d3.select("#songTreeVis").append("svg")
@@ -48,7 +48,7 @@ $.getJSON(
                     }
                 })
                 .attr("transform", function (d) {
-                    return "translate(" + d.x + "," + d.y/2 + ")";
+                    return "translate(" + d.x + "," + d.y/1.5 + ")";
                 })
                 .on("click",function(d){
                     if (d != treeRoot) {

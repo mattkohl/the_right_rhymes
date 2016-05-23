@@ -1078,7 +1078,7 @@ Media Queries Aplenty
     }
 
     .single-thumb {
-        width: 194px;
+        width: 200px;
     }
 }
 
@@ -1089,7 +1089,7 @@ Media Queries Aplenty
     }
 
     .single-thumb {
-        width: 180px;
+        width: 186px;
     }
 
     .stats-image {
@@ -1160,6 +1160,13 @@ Media Queries Aplenty
 }
 
 @media only screen
+and (min-width : 720px) and (max-width : 736px) {
+    .single-thumb {
+        width: 178px;
+    }
+}
+
+@media only screen
 and (min-width : 720px) and (max-width : 1039px) {
     .navbar>.container-fluid .navbar-brand {
         margin-left: 0;
@@ -1174,6 +1181,21 @@ and (min-width : 720px) and (max-width : 1039px) {
     }
 
 }
+
+@media only screen
+and (min-width : 667px) and (max-width : 719px) {
+    .single-thumb {
+        width: 162px;
+    }
+}
+
+@media only screen
+and (min-width : 640px) and (max-width : 666px) {
+    .single-thumb {
+        width: 154px;
+    }
+}
+
 
 @media only screen
 and (max-width : 600px) {
@@ -1328,7 +1350,7 @@ and (max-width : 600px) {
 @media only screen
 and (min-width : 481px) and (max-width : 568px) {
     .single-thumb {
-        width: 176px;
+        width: 136px;
     }
 
     .stats-image {
@@ -1338,9 +1360,29 @@ and (min-width : 481px) and (max-width : 568px) {
 }
 
 @media only screen
-and (min-width : 375px) and (max-width : 480px) {
+and (min-width : 435px) and (max-width : 480px) {
     .single-thumb {
-        width: 172px;
+        width: 141px;
+    }
+}
+@media only screen
+and (min-width : 414px) and (max-width : 434px) {
+    .single-thumb {
+        width: 134px;
+    }
+}
+
+@media only screen
+and (min-width : 411px) and (max-width : 414px) {
+    .single-thumb {
+        width: 133px;
+    }
+}
+
+@media only screen
+and (min-width : 375px) and (max-width : 410px) {
+    .single-thumb {
+        width: 121px;
     }
 
     .stats-image {
@@ -1385,10 +1427,23 @@ and (min-width : 375px) and (max-width : 480px) {
    .name-date {
        margin-top: 1.92em;
    }
+
+   .song-release-date {
+       margin-top: -.8em;
+
+   }
+
 }
 
 @media only screen
-and (min-width : 321px) and (max-width : 374px) {
+and (min-width : 360px) and (max-width : 374px) {
+    .single-thumb {
+        width: 116px;
+    }
+}
+
+@media only screen
+and (min-width : 321px) and (max-width : 359px) {
     .single-thumb {
         width: 146px;
     }
@@ -1400,6 +1455,12 @@ and (min-width : 321px) and (max-width : 374px) {
     .anchor {
         top:-232px;
     }
+
+   .song-release-date {
+       margin-top: 0;
+
+   }
+
 }
 
 @media only screen
@@ -1497,7 +1558,7 @@ and (max-width : 320px) {
     }
 
     .single-thumb {
-        width: 158px;
+        width: 103px;
     }
 
     .stats-image {
@@ -1513,6 +1574,11 @@ and (max-width : 320px) {
         margin-left: 0;
         margin-right: 0;
     }
+
+   .song-release-date {
+       margin-top: -1.3em;
+
+   }
 
 }
 
