@@ -96,7 +96,8 @@ function graph() {
                 .gravity(0.05)
                 .charge(-1500)
                 .linkDistance(function(d){
-                    return (Math.sqrt(d.target.size) * 35) + 25;
+                    var adjustment = w > h ? 1 : 0.15;
+                    return (Math.sqrt(d.target.size) * (d.target.name.length * adjustment)) + 35;
                 })
                 .friction(0.5)
                 .linkStrength(function (l, i) {
