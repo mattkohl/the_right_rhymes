@@ -55,31 +55,6 @@ class Entry(models.Model):
         return [sense for sense in self.senses.annotate(num_examples=Count('examples')).order_by('-num_examples')]
 
 
-class Example(models.Model):
-    id = models.AutoField(primary_key=True)
-    artist = models.ManyToManyField(Artist, through=Artist.primary_examples.through, related_name="+")
-    artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
-    artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
-    song_title = models.CharField('Song Title', max_length=200)
-    from_song = models.ManyToManyField(Song, through=Song.examples.through, related_name="+")
-    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+", blank=True)
-    release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
-    release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
-    album = models.CharField('Album', max_length=200)
-    lyric_text = models.CharField('Lyric Text', max_length=1000)
-    json = JSONField(null=True, blank=True)
-    example_rhymes = models.ManyToManyField('ExampleRhyme', related_name="+")
-    illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
-    features_entities = models.ManyToManyField('NamedEntity', db_index=True, related_name="+", blank=True)
-    lyric_links = models.ManyToManyField('LyricLink', related_name="+")
-
-    class Meta:
-        ordering = ["release_date", "artist_name"]
-
-    def __str__(self):
-        return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
-
-
 class Form(models.Model):
     slug = models.SlugField('Form Slug', primary_key=True, db_index=True)
     label = models.CharField(max_length=1000)
@@ -100,20 +75,6 @@ class Place(models.Model):
 
     class Meta:
         ordering = ["name"]
-
-    def __str__(self):
-        return self.name
-
-
-class SemanticClass(models.Model):
-    name = models.CharField(max_length=1000)
-    slug = models.SlugField(primary_key=True, max_length=1000)
-    senses = models.ManyToManyField('Sense', through=Sense.semantic_classes.through, related_name='+', blank=True)
-    broader = models.ManyToManyField("self", blank=True, symmetrical=False)
-
-    class Meta:
-        ordering = ["name"]
-        verbose_name_plural = "Semantic Classes"
 
     def __str__(self):
         return self.name
@@ -185,6 +146,19 @@ class SynSet(models.Model):
         return self.name
 
 
+class SemanticClass(models.Model):
+    name = models.CharField(max_length=1000)
+    slug = models.SlugField(primary_key=True, max_length=1000)
+    senses = models.ManyToManyField('Sense', through=Sense.semantic_classes.through, related_name='+', blank=True)
+    broader = models.ManyToManyField("self", blank=True, symmetrical=False)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Semantic Classes"
+
+    def __str__(self):
+        return self.name
+
 
 class Domain(models.Model):
     name = models.CharField(max_length=1000)
@@ -194,24 +168,6 @@ class Domain(models.Model):
 
     class Meta:
         ordering = ["name"]
-
-    def __str__(self):
-        return self.name
-
-
-class NamedEntity(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=1000, blank=True, null=True)
-    slug = models.SlugField('Entity Slug', max_length=1000, blank=True, null=True)
-    pref_label = models.CharField(max_length=1000, blank=True, null=True)
-    pref_label_slug = models.SlugField('Entity PrefLabel Slug', max_length=1000, db_index=True, blank=True, null=True)
-    entity_type = models.CharField(max_length=1000, blank=True, null=True)
-    mentioned_at_senses = models.ManyToManyField(Sense, through=Sense.features_entities.through, related_name="+", blank=True)
-    examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)
-
-    class Meta:
-        ordering = ["name"]
-        verbose_name_plural = "Named Entities"
 
     def __str__(self):
         return self.name
@@ -266,6 +222,32 @@ class SenseRhyme(models.Model):
         return self.rhyme + ' - ' + self.parent_sense_xml_id
 
 
+class Example(models.Model):
+    id = models.AutoField(primary_key=True)
+    artist = models.ManyToManyField(Artist, through=Artist.primary_examples.through, related_name="+")
+    artist_name = models.CharField('Artist Name', max_length=200, null=True, blank=True)
+    artist_slug = models.SlugField('Artist Slug', blank=True, null=True)
+    song_title = models.CharField('Song Title', max_length=200)
+    from_song = models.ManyToManyField(Song, through=Song.examples.through, related_name="+")
+    feat_artist = models.ManyToManyField(Artist, through=Artist.featured_examples.through, related_name="+", blank=True)
+    release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
+    release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
+    album = models.CharField('Album', max_length=200)
+    lyric_text = models.CharField('Lyric Text', max_length=1000)
+    json = JSONField(null=True, blank=True)
+    example_rhymes = models.ManyToManyField('ExampleRhyme', related_name="+")
+    illustrates_senses = models.ManyToManyField(Sense, through=Sense.examples.through, related_name="+")
+    features_entities = models.ManyToManyField('NamedEntity', db_index=True, related_name="+", blank=True)
+    lyric_links = models.ManyToManyField('LyricLink', related_name="+")
+
+    class Meta:
+        ordering = ["release_date", "artist_name"]
+
+    def __str__(self):
+        return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
+
+
+
 class ExampleRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     word_one = models.CharField(max_length=1000, blank=True, null=True)
@@ -299,3 +281,21 @@ class LyricLink(models.Model):
 
     def __str__(self):
         return self.link_text
+
+
+class NamedEntity(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=1000, blank=True, null=True)
+    slug = models.SlugField('Entity Slug', max_length=1000, blank=True, null=True)
+    pref_label = models.CharField(max_length=1000, blank=True, null=True)
+    pref_label_slug = models.SlugField('Entity PrefLabel Slug', max_length=1000, db_index=True, blank=True, null=True)
+    entity_type = models.CharField(max_length=1000, blank=True, null=True)
+    mentioned_at_senses = models.ManyToManyField(Sense, through=Sense.features_entities.through, related_name="+", blank=True)
+    examples = models.ManyToManyField(Example, through=Example.features_entities.through, related_name='+', blank=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Named Entities"
+
+    def __str__(self):
+        return self.name
