@@ -91,9 +91,11 @@ class TRREntry:
         self.slug = slugify(self.headword)
         self.letter = self.get_letter()
         self.xml_id = self.entry_dict['@eid']
+        self.forms = []
         self.publish = False if self.entry_dict['@publish'] == 'no' else True
         self.entry_object = self.add_to_db()
         self.updated = self.check_if_updated()
+        self.extract_forms()
         self.update_entry()
         self.extract_lexemes()
         self.sense_count = 0
@@ -131,6 +133,12 @@ class TRREntry:
         self.entry_object.letter = self.letter
         self.entry_object.save()
 
+    def extract_forms(self):
+        for form in self.entry_dict['senses']['forms']['form']:
+            label = form['#text']
+            frequency = form["freq"]
+            self.append(TRRForm(self.entry_object, label, frequency))
+
     def extract_lexemes(self):
         if CHECK_FOR_UPDATES:
             if self.updated:
@@ -153,6 +161,18 @@ class TRREntry:
         TRRSense(self.entry_object, self.headword, pos, sense, self.publish)
 
 
+class TRRForm:
+
+    def __init__(self, entry_object, label, frequency):
+        self.parent_entry = entry_object
+        self.label = label
+        self.frequency = frequency
+        self.slug = slugify(self.label)
+
+    def add_to_db(self):
+        print("Adding Form:'" + self.label)
+        form_object, created = Form.objects.get_or_create(slug=self.slug)
+        return form_object
 
 class TRRSense:
 

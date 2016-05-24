@@ -10,6 +10,7 @@ class Entry(models.Model):
     letter = models.CharField(max_length=1, null=True, blank=True)
     slug = models.SlugField('Headword Slug', db_index=True)
     publish = models.BooleanField(default=False, db_index=True)
+    forms = models.ManyToManyField('Form', related_name='+', blank=True)
     pub_date = models.DateTimeField('Date Published', auto_now_add=True, blank=True)
     last_updated = models.DateField('Last Updated', auto_now=True, null=True, blank=True)
     json = JSONField(null=True, blank=True)
@@ -24,6 +25,13 @@ class Entry(models.Model):
 
     def published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+
+class Form(models.Model):
+    slug = models.SlugField('Form Slug', primary_key=True, db_index=True)
+    label = models.CharField(max_length=1000)
+    parent_entry = models.ManyToManyField(Entry, through=Entry.forms.through, related_name="+")
+    frequency = models.IntegerField(blank=True, null=True)
 
 
 class Editor(models.Model):
