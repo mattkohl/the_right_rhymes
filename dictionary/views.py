@@ -65,7 +65,7 @@ def artist(request, artist_slug):
             'example_count': sense.examples.filter(feat_artist=artist).count(),
             'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]
         } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[:5]
-        ]
+    ]
 
     entity_examples = []
     if entity_results:
@@ -168,9 +168,8 @@ def entry(request, headword_slug):
     template = loader.get_template('dictionary/entry.html')
 
     entry = get_object_or_404(Entry, slug=slug, publish=True)
-    sense_objects = entry.senses.all()
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    senses = [build_sense(sense, published) for sense in sense_objects.annotate(num_examples=Count('examples')).order_by('-num_examples')]
+    senses = [build_sense(sense, published) for sense in entry.get_senses_ordered_by_example_count()]
     context = {
         'headword': entry.headword,
         'pub_date': entry.pub_date,

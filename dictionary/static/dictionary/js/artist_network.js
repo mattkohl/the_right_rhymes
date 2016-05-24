@@ -2,7 +2,7 @@
 * Created by MBK on 03/05/2016.
 */
 
-var w = window.innerWidth,
+var w = window.innerWidth - 15,
     h = window.innerHeight,
     maxNodeSize = 50,
     root;
@@ -97,7 +97,7 @@ function graph() {
                 .charge(-1500)
                 .linkDistance(function(d){
                     var adjustment = w > h ? 1 : 0.15;
-                    return (Math.sqrt(d.target.size) * (d.target.name.length * adjustment)) + 35;
+                    return (Math.sqrt(d.target.size) * ((d.target.name.length + 10) * adjustment)) + 35;
                 })
                 .friction(0.5)
                 .linkStrength(function (l, i) {

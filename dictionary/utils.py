@@ -4,7 +4,6 @@ import re
 import decimal
 from operator import itemgetter
 from django.db.models import Q
-from dictionary.models import Entry
 
 
 NUM_QUOTS_TO_SHOW = 3
