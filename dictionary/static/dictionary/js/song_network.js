@@ -3,7 +3,7 @@
 */
 
 var w = window.innerWidth,
-    h = 120,
+    h = 100,
     maxNodeSize = 50,
     root;
 
@@ -24,6 +24,7 @@ $.getJSON(
             var n = flatten(root),
                 nLen = n.length;
 
+            h = h + nLen * 12;
             d3.select("#numCollabs").text(nLen);
 
             vis.attr("width", w).attr("height", h);
@@ -83,7 +84,8 @@ function graph() {
                 .gravity(0.05)
                 .charge(-1500)
                 .linkDistance(function(d){
-                    return (Math.sqrt(d.target.size) * 35) + 40;
+                    var adjustment = w > h ? 1 : 0.15;
+                    return (Math.sqrt(d.target.size) * ((d.target.name.length * 4) * adjustment)) + 35;
                 })
                 .friction(0.5)
                 .linkStrength(function (l, i) {

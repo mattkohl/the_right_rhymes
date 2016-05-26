@@ -111,6 +111,9 @@ class Sense(models.Model):
         else:
             return self.xml_id
 
+    def update_definition(self, new_definition):
+        self.definition = new_definition
+
 
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
