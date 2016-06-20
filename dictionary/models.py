@@ -128,6 +128,7 @@ class Song(models.Model):
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)
     examples = models.ManyToManyField('Example', db_index=True, related_name="+")
+    lyrics = models.TextField('Lyrics', null=True, blank=True)
 
     class Meta:
         ordering = ["title", "artist_name"]
@@ -248,7 +249,6 @@ class Example(models.Model):
 
     def __str__(self):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
-
 
 
 class ExampleRhyme(models.Model):
