@@ -53,8 +53,10 @@ def slugify(text):
     slug = re.sub("[\s\.]", "-", slug)
     slug = re.sub("[:/]", "", slug)
     slug = re.sub("\$", "s", slug)
+    slug = re.sub("\*", "", slug)
     slug = re.sub("&amp;", "and", slug)
     slug = re.sub("&", "and", slug)
+    slug = re.sub("\+", "and", slug)
 
     slug = re.sub("é", "e", slug)
     slug = re.sub("ó", "o", slug)
