@@ -1562,7 +1562,7 @@ and (max-width : 320px) {
     }
 
     .stats-image {
-        margin-left: -5%;
+        margin-left: 0%;
     }
 
     .stats-label {
