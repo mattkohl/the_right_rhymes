@@ -163,8 +163,10 @@ $(".toggle").click(function(){
     var content = $(this).find(".the-list");
     var copy = content.clone( true );
     var placeholder = $(this).nextAll('.placeholder:first');
+    placeholder.addClass('placeholder-background');
     placeholder.html(copy);
     placeholder.find('.the-list').toggle(100);
+
 });
 
 $(".toggle-artist-examples").click(function(){
