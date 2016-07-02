@@ -39,3 +39,4 @@ Thumbs.db
 settings.py
 *.pyc
 .idea/*
+.idea/

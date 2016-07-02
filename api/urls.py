@@ -1,20 +1,20 @@
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
+# from rest_framework.authtoken.models import Token
 from rest_framework import routers
-from rest_framework.authtoken import views as rf_views
+# from rest_framework.authtoken import views as rf_views
 from . import views
 
 
-for user in User.objects.all():
-    Token.objects.get_or_create(user=user)
+# for user in User.objects.all():
+#     Token.objects.get_or_create(user=user)
 
 router = routers.DefaultRouter()
 
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api-token-auth/', rf_views.obtain_auth_token),
+    # url(r'^api-token-auth/', rf_views.obtain_auth_token),
 
     # /data/artists/
     url(r"^artists/$", views.artists, name='artists'),

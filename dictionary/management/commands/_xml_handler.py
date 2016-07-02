@@ -134,10 +134,11 @@ class TRREntry:
         self.entry_object.save()
 
     def extract_forms(self):
-        for form in self.entry_dict['senses']['forms']['form']:
-            label = form['#text']
-            frequency = form["freq"]
-            self.append(TRRForm(self.entry_object, label, frequency))
+        if 'forms' in self.entry_dict['senses']:
+            for form in self.entry_dict['senses']['forms']['form']:
+                label = form['#text']
+                frequency = form["freq"]
+                self.append(TRRForm(self.entry_object, label, frequency))
 
     def extract_lexemes(self):
         if CHECK_FOR_UPDATES:
