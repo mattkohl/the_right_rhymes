@@ -273,13 +273,32 @@ footer {
     padding-bottom: .5em;
 }
 
-.letter-container {
+.letter-container-wrapper {
+    background-image: url('../img/header/5_Pointz.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     text-align: center;
+}
+
+.letter-container {
+    padding: 1em;
     margin-top: 3em;
     margin-bottom: 2em;
 }
 
+#abc {
+    list-style-type: none;
+	right: 4px;
+	padding-left: .5em;
+	top: 9%;
+	position: fixed;
+	height:80%;
+}
+
+
 .index-links-heading {
+    color: #555;
     padding-top: 1em;
     padding-right: .25em;
 }

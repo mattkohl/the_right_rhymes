@@ -1,13 +1,14 @@
 {% extends "dictionary/base.html" %}
 {% block title %}Index ⋅ {% endblock %}
 {% block content %}
-<div class="container letter-container">
-    {% for entry in entries %}
-    {% ifchanged entry.letter %}
-        <h2 class="index-links-heading">{{ entry.letter | upper }}</h2>
-    {% endifchanged %}
-    <div class="index-links"><a href="{% url 'entry' entry.slug %}">{{ entry.headword }}</a> {% if not forloop.last %}<span> ⋅ </span>{% endif %}</div>
-
-    {% endfor %}
+<div class="letter-container-wrapper">
+    <div class="letter-container">
+        {% for entry in entries %}
+        {% ifchanged entry.letter %}
+            <h2 id="{{ entry.letter }}" class="index-links-heading">{{ entry.letter | upper }}</h2>
+        {% endifchanged %}
+        <div class="index-links"><a href="{% url 'entry' entry.slug %}">{{ entry.headword }}</a> {% if not forloop.last %}<span> ⋅ </span>{% endif %}</div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
