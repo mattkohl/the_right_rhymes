@@ -23,6 +23,9 @@ urlpatterns = [
     # /about/
     url(r'^about/$', views.about, name='about'),
 
+    # /index/
+    url(r'^index/$', views.a_to_z, name='a_to_z'),
+
     # /random/
     url(r'^random/$', views.random_entry, name='random_entry'),
 

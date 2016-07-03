@@ -7,6 +7,7 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.http import HttpResponse
 from django.db.models import Q, Count
+from django.db.models.functions import Lower
 
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
@@ -25,6 +26,15 @@ def about(request):
     entry_count = Entry.objects.filter(publish=True).count()
     context = {
         'entry_count': entry_count
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def a_to_z(request):
+    template = loader.get_template('dictionary/a_to_z.html')
+    published = Entry.objects.filter(publish=True).order_by(Lower('headword'))
+    context = {
+        'entries': published
     }
     return HttpResponse(template.render(context, request))
 

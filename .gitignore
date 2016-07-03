@@ -40,3 +40,13 @@ settings.py
 *.pyc
 .idea/*
 .idea/
+
+/dictionary/migrations
+api/__pycache__/
+api/migrations/__pycache__/
+dictionary/__pycache__/
+dictionary/management/__pycache__/
+dictionary/management/commands/__pycache__/
+dictionary/migrations/0001_initial.py
+dictionary/migrations/__pycache__/
+the_right_rhymes/__pycache__/

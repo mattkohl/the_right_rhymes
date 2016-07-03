@@ -273,6 +273,26 @@ footer {
     padding-bottom: .5em;
 }
 
+.letter-container {
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 2em;
+}
+
+.index-links-heading {
+    padding-top: 1em;
+}
+
+.index-link-search {
+    text-align: center;
+    position: relative;
+    top: 30%;
+}
+
+.index-links {
+    display: inline;
+}
+
 .artist-examples {
     margin-top: 1em;
 }
