@@ -35,7 +35,7 @@ def a_to_z(request):
     published = cache.get('a_to_z')
     if published is None:
         published = Entry.objects.filter(publish=True).order_by('letter', Lower('headword'))
-        cache.set('a_to_z', published)
+        cache.set('a_to_z', published, 86400)
 
     context = {
         'entries': published
