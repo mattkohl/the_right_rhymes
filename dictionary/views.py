@@ -32,7 +32,8 @@ def about(request):
 
 def a_to_z(request):
     template = loader.get_template('dictionary/a_to_z.html')
-    published = Entry.objects.filter(publish=True).order_by(Lower('headword'))
+    published = Entry.objects.filter(publish=True).order_by('letter', Lower('headword'))
+
     context = {
         'entries': published
     }
