@@ -34,7 +34,7 @@ def a_to_z(request):
     template = loader.get_template('dictionary/a_to_z.html')
     published = cache.get('a_to_z')
     if published is None:
-        published = Entry.objects.filter(publish=True).order_by('letter', Lower('headword'))
+        published = Entry.objects.values_list('headword', 'slug', 'letter').filter(publish=True).order_by(Lower('headword'))
         cache.set('a_to_z', published, 86400)
 
     context = {
