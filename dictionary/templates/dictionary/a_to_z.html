@@ -7,7 +7,7 @@
         {% ifchanged entry.letter %}
             <h2 id="{{ entry.letter }}" class="index-links-heading">{{ entry.letter | upper }}</h2>
         {% endifchanged %}
-        <div class="index-links"><a href="{% url 'entry' entry.slug %}">{{ entry.headword }}</a> {% if not forloop.last %}<span> ⋅ </span>{% endif %}</div>
+        <div class="index-links"><a href="">{{ entry.headword }}</a> {% if not forloop.last %}<span> ⋅ </span>{% endif %}</div>
         {% endfor %}
     </div>
 </div>
