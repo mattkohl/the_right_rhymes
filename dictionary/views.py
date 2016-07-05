@@ -35,7 +35,6 @@ def a_to_z(request):
     # published = cache.get('a_to_z')
     # if published is None:
     published = [{'headword': e[0], 'slug': e[1], 'letter': e[2]} for e in Entry.objects.values_list('headword', 'slug', 'letter').filter(publish=True).order_by(Lower('headword'))]
-    print(published)
     cache.set('a_to_z', published, 86400)
 
     context = {
