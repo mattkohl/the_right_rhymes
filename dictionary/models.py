@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q, Count
 from django.contrib.postgres.fields import JSONField
+from django.core.urlresolvers import reverse
 
 
 class Artist(models.Model):
@@ -19,6 +20,9 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('artist', args=[str(self.slug)])
 
 
 class Editor(models.Model):
@@ -53,6 +57,9 @@ class Entry(models.Model):
 
     def get_senses_ordered_by_example_count(self):
         return [sense for sense in self.senses.annotate(num_examples=Count('examples')).order_by('-num_examples')]
+
+    def get_absolute_url(self):
+        return reverse('entry', args=[str(self.slug)])
 
 
 class Form(models.Model):

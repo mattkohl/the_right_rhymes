@@ -2,8 +2,38 @@ __author__ = 'MBK'
 
 from django.conf.urls import url
 from django.contrib import admin
-
+from django.views.generic import TemplateView
+from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps.views import sitemap
 from . import views
+
+
+from dictionary.models import Entry, Artist
+
+
+class EntrySitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+
+    def items(self):
+        return Entry.objects.filter(publish=True)
+
+    def lastmod(self, obj):
+        return obj.pub_date
+
+
+class ArtistSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+
+    def items(self):
+        return Artist.objects.all()
+
+
+sitemaps = {
+    'entries': EntrySitemap,
+    'artists': ArtistSitemap
+}
 
 
 urlpatterns = [
@@ -29,6 +59,10 @@ urlpatterns = [
     # /random/
     url(r'^random/$', views.random_entry, name='random_entry'),
 
+    # /sitemap.xml
+    # url(r'^sitemap\.xml$', TemplateView.as_view(template_name='sitemap.xml', content_type='text/xml')),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
     # /semantic-classes/
     url(r"^semantic\-classes/$", views.semantic_classes, name='semantic_classes'),
 
@@ -39,7 +73,7 @@ urlpatterns = [
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 
     # /artists/<artist-slug>/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/$", views.artist, name='artist'),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/$", views.artist, name='artist'),
 
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
@@ -60,7 +94,7 @@ urlpatterns = [
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name='sense_timeline'),
 
     # /songs/<song-slug>/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/$", views.song, name='song')
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@]+)/$", views.song, name='song')
 
 ]
 
