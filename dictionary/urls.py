@@ -1,38 +1,13 @@
-__author__ = 'MBK'
-
 from django.conf.urls import url
 from django.contrib import admin
-from django.views.generic import TemplateView
-from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 from . import views
-
-
-from dictionary.models import Entry, Artist
-
-
-class EntrySitemap(Sitemap):
-    changefreq = "monthly"
-    priority = 0.5
-
-    def items(self):
-        return Entry.objects.filter(publish=True)
-
-    def lastmod(self, obj):
-        return obj.pub_date
-
-
-class ArtistSitemap(Sitemap):
-    changefreq = "monthly"
-    priority = 0.5
-
-    def items(self):
-        return Artist.objects.all()
-
+from dictionary.sitemaps import EntrySitemap, ArtistSitemap, SongSitemap
 
 sitemaps = {
     'entries': EntrySitemap,
-    'artists': ArtistSitemap
+    'artists': ArtistSitemap,
+    'songs': SongSitemap
 }
 
 
@@ -94,7 +69,7 @@ urlpatterns = [
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name='sense_timeline'),
 
     # /songs/<song-slug>/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@]+)/$", views.song, name='song')
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@\^]+)/$", views.song, name='song')
 
 ]
 

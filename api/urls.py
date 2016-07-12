@@ -23,13 +23,13 @@ urlpatterns = [
     url(r"^artists/missing_metadata/$", views.artists_missing_metadata, name='artists_missing_metadata'),
 
     # /data/artists/<artist_slug>/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/$", views.artist, name="artist"),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/$", views.artist, name="artist"),
 
     # /data/artists/<artist_slug>/network/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/network/$", views.artist_network, name="artist_network"),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/network/$", views.artist_network, name="artist_network"),
 
     # /data/artists/<artist_slug>/sense_examples/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!ōé½@áó]+)/sense_examples/$", views.artist_sense_examples, name="artist_sense_examples"),
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/sense_examples/$", views.artist_sense_examples, name="artist_sense_examples"),
 
     # /data/domains/
     url(r"^domains/$", views.domains, name='domains'),
@@ -77,9 +77,9 @@ urlpatterns = [
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name="sense_timeline"),
 
     # /data/songs/<song-slug>/network/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/artist_network/$", views.song_artist_network, name='song_artist_network'),
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@\^]+)/artist_network/$", views.song_artist_network, name='song_artist_network'),
 
     # /data/songs/<song-slug>/release_date_tree/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!ōóéáñ½#%´=@]+)/release_date_tree/$", views.song_release_date_tree, name='song_release_date_tree'),
+    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@\^]+)/release_date_tree/$", views.song_release_date_tree, name='song_release_date_tree'),
 
 ]

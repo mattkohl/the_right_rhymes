@@ -19,8 +19,8 @@ $.getJSON(
         endpoint,
         {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function (data) {
-                root = data;
-
+            root = data;
+            console.log(endpoint);
             var n = flatten(root),
                 nLen = n.length;
 

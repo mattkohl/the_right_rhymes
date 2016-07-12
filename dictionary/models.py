@@ -86,6 +86,9 @@ class Place(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('place', args=[str(self.slug)])
+
 
 class Sense(models.Model):
     id = models.AutoField(primary_key=True)
@@ -142,6 +145,9 @@ class Song(models.Model):
 
     def __str__(self):
         return '"' + str(self.title) + '" (' + str(self.artist_name) + ') '
+
+    def get_absolute_url(self):
+        return reverse('song', args=[str(self.slug)])
 
 
 class SynSet(models.Model):
