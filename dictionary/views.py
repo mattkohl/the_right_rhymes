@@ -103,7 +103,11 @@ def artist(request, artist_slug):
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
         'entity_example_count': len(entity_examples),
-        'image': image
+        'image': image,
+        'also_known_as': [{
+            'artist': aka.name,
+            'slug': aka.slug
+        } for aka in artist.also_known_as.all()]
     }
     return HttpResponse(template.render(context, request))
 

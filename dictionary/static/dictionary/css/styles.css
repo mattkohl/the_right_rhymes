@@ -451,7 +451,17 @@ th {
 	margin-bottom: 1em;
 }
 
-.pos a {
+.aka {
+    font-size: 0.7em;
+    padding: 0px 8px 4px 8px;
+	text-decoration: none;
+	line-height: 17px;
+	color: #fff;
+	text-transform: uppercase;
+    margin-bottom: -1.5em;
+}
+
+.pos, .aka a {
     color: #fff;
 }
 

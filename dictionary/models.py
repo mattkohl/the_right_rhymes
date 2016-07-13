@@ -14,6 +14,7 @@ class Artist(models.Model):
     featured_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
     primary_songs = models.ManyToManyField('Song', related_name="+", blank=True)
     featured_songs = models.ManyToManyField('Song', related_name="+", blank=True)
+    also_known_as = models.ManyToManyField("self", blank=True, symmetrical=True)
 
     class Meta:
         ordering = ["name"]
