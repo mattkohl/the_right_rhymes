@@ -227,18 +227,36 @@
     "description": "{{ artist }} lyrics cited as examples in The Right Rhymes Hip-Hop Dictionary",
     "datePublished": "2016-04-10",
     "headline": "{{ artist }} in The Right Rhymes",
-    "image" : "http://www.therightrhymes.com{{thumb}}",
+    "image" : {
+       "@type": "ImageObject",
+        "url": "http://www.therightrhymes.com{{thumb}}",
+        "caption": "{{ artist }}",
+        "height": 200,
+        "width": 200
+    }
     "publisher": {
         "@type": "Organization",
         "url": "http://www.therightrhymes.com",
         "name": "The Right Rhymes",
-        "logo": "http://www.therightrhymes.com/static/dictionary/img/header/trr-sm.png"
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://www.therightrhymes.com/static/dictionary/img/header/trr-sm.png",
+            "caption": "The Right Rhymes",
+            "height": 200,
+            "width": 200
+        }
     },
     "about": {
         "@type": "Person",
         "name": "{{ name }}",
         "url": "http://www.therightrhymes.com/{{slug}}",
-        "image": "http://www.therightrhymes.com{{thumb}}"
+        "image" : {
+           "@type": "ImageObject",
+            "url": "http://www.therightrhymes.com{{thumb}}",
+            "caption": "{{ artist }}",
+            "height": 200,
+            "width": 200
+        }
     },
     "mainEntityOfPage": {
         "@type": "WebPage",

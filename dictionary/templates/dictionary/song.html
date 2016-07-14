@@ -117,7 +117,13 @@
         "@type": "Organization",
         "name": "The Right Rhymes",
         "url": "http://www.therightrhymes.com",
-        "logo": "http://www.therightrhymes.com/static/dictionary/img/header/trr-sm.png"
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://www.therightrhymes.com/static/dictionary/img/header/trr-sm.png",
+            "caption": "The Right Rhymes",
+            "height": 200,
+            "width": 200
+        }
     },
     "about": {
         "@type": "MusicComposition",
@@ -127,7 +133,13 @@
             "@type": "Person",
             "name": "{{artist_name}}",
             "url": "http://www.therightrhymes.com/artists/{{artist_slug}}",
-            "image": "http://www.therightrhymes.com{{thumb}}"
+            "image": {
+                "@type": "ImageObject",
+                "url": "http://www.therightrhymes.com{{thumb}}",
+                "caption": "{{ artist_name }}",
+                "height": 200,
+                "width": 200
+            }
         }
     },
     "mainEntityOfPage": {
