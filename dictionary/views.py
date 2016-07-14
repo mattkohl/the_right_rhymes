@@ -86,6 +86,7 @@ def artist(request, artist_slug):
         entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
 
     image = check_for_image(artist.slug, 'artists', 'full')
+    thumb = check_for_image(artist.slug, 'artists', 'thumb')
     name = reformat_name(artist.name)
     primary_sense_count = artist.primary_senses.all().count()
     featured_sense_count = artist.featured_senses.all().count()
@@ -104,6 +105,7 @@ def artist(request, artist_slug):
         'entity_examples': entity_examples,
         'entity_example_count': len(entity_examples),
         'image': image,
+        'thumb': thumb,
         'also_known_as': [{
             'artist': aka.name,
             'slug': aka.slug
@@ -190,6 +192,9 @@ def entry(request, headword_slug):
     senses = [build_sense(sense, published) for sense in entry.get_senses_ordered_by_example_count()]
     context = {
         'headword': entry.headword,
+        'slug': slug,
+        'title': entry.headword[0].upper() + entry.headword[1:],
+        'image': senses[0]['image'],
         'pub_date': entry.pub_date,
         'last_updated': entry.last_updated,
         'senses': senses,
@@ -389,10 +394,12 @@ def song(request, song_slug):
     template = loader.get_template('dictionary/song.html')
     same_dates = [{'title': s.title, 'artist_name': reformat_name(s.artist_name), 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
     image = check_for_image(song.artist_slug, 'artists', 'full')
+    thumb = check_for_image(song.artist_slug, 'artists', 'thumb')
     context = {
         "title": song.title,
         "slug": song.slug,
         "image": image,
+        "thumb": thumb,
         "artist_name": reformat_name(song.artist_name),
         "artist_slug": song.artist_slug,
         "primary_artist": [build_artist(a) for a in song.artist.all()],
