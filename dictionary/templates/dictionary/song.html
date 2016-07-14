@@ -112,7 +112,13 @@
     "description": "How '{{ title }}' by {{ artist_name }} is cited in The Right Rhymes Hip-Hop Dictionary",
     "datePublished": "2016-04-10",
     "headline": "{{ artist_name }} - '{{ title }}' in The Right Rhymes",
-    "image": "http://www.therightrhymes.com{{thumb}}",
+    "image" : {
+       "@type": "ImageObject",
+        "url": "http://www.therightrhymes.com{{thumb}}",
+        "caption": "{{ artist_name }}",
+        "height": 200,
+        "width": 200
+    },
     "publisher": {
         "@type": "Organization",
         "name": "The Right Rhymes",
