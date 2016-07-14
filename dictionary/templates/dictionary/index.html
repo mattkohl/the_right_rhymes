@@ -249,8 +249,11 @@
         "potentialAction": {
             "@type": "SearchAction",
             "target": "http://www.therightrhymes.com/search/?q={query}",
-            "query-input": "required",
-            "valueName": "q"
+            "query-input": {
+                "@type": "PropertyValueSpecification",
+                "valueName": "q",
+                "valueRequired": true
+            }
         },
         "headline": "The Right Rhymes",
         "description": "The Right Rhymes is a Hip-Hop Dictionary featuring definitions, etymologies, synonyms, antonyms, collocates, & chronological examples from rap lyrics.",
