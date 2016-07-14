@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="A Hip-Hop Dictionary">
+    <meta name="author" content="@theRightRhymes">
 
-    <title> {% block title %}{% endblock %} The Right Rhymes </title>
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Right Rhymes" />
+    <meta property="og:description" content="A Hip-Hop Dictionary" />
+    <meta property="og:url" content="http://www.therightrhymes.com" />
+    <meta property="og:site_name" content="The Right Rhymes" />
+    <meta property="og:image" content="{% static 'dictionary/img/header/trr-lg.png' %}" />
+
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:description" content="A Hip-Hop Dictionary"/>
+    <meta name="twitter:title" content="The Right Rhymes"/>
+    <meta name="twitter:site" content="@theRightRhymes"/>
+    <meta name="twitter:domain" content="The Right Rhymes"/>
+    <meta name="twitter:image" content="{% static 'dictionary/img/header/trr-sm.png' %}" />
+
+    <title>The Right Rhymes - A Hip-Hop Dictionary</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
