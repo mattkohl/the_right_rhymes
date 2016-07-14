@@ -110,6 +110,10 @@
   "@type": "Article",
   "author": "The Right Rhymes",
   "description": "How '{{ title }}' by {{ artist_name }} is cited in The Right Rhymes Hip-Hop Dictionary",
+  "datePublished": "2016-04-10",
+  "headline": "{{ artist_name }} - '{{ title }}' in The Right Rhymes",
+  "image": "http://www.therightrhymes.com{{thumb}}",
+  "publisher": "The Right Rhymes",
   "about": {
       "@type": "MusicComposition",
       "name": "{{ title }}",
@@ -118,8 +122,14 @@
             "@type": "Person",
             "name": "{{artist_name}}",
             "url": "http://www.therightrhymes.com/artists/{{artist_slug}}",
-            "thumbnailUrl": "http://www.therightrhymes.com{{thumb}}"
+            "image": "http://www.therightrhymes.com{{thumb}}"
       }
+  },
+  "mainEntityOfPage": {
+        "@type": "Person",
+        "name": "{{artist_name}}",
+        "url": "http://www.therightrhymes.com/artists/{{artist_slug}}",
+        "image": "http://www.therightrhymes.com{{thumb}}"
   }
 }
 </script>
