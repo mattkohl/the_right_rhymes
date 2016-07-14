@@ -104,4 +104,22 @@
   }]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": "The Right Rhymes",
+  "about": {
+      "@type": "MusicComposition",
+      "name": "{{ title }}",
+      "url": "http://www.therightrhymes.com/songs/{{slug}}",
+      "lyricist": {
+            "@type": "Person",
+            "name": "{{artist_name}}",
+            "url": "http://www.therightrhymes.com/artists/{{artist_slug}}",
+            "thumbnailUrl": "http://www.therightrhymes.com{{thumb}}"
+      }
+  }
+}
+</script>
 {% endblock %}

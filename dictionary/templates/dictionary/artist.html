@@ -219,4 +219,17 @@
   }]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": "The Right Rhymes",
+  "about": {
+      "@type": "Person",
+      "name": "{{ name }}",
+      "url": "http://www.therightrhymes.com/{{slug}}",
+      "thumbnailUrl": "http://www.therightrhymes.com{{thumb}}"
+  }
+}
+</script>
 {% endblock %}
