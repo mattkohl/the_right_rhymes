@@ -296,20 +296,31 @@
 </script>
 <script type="application/ld+json">
 {
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "author": "The Right Rhymes",
-  "description": "How the word '{{headword}}' is used in rap lyrics",
-  "datePublished": "{{ pub_date }}",
-  "dateModified": "{{ last_updated }}"
-  "headline": "'{{ title }}' in The Right Rhymes",
-  "image": "http://www.therightrhymes.com/static/dictionary/img/header/trr-md.png",
-  "publisher": "The Right Rhymes",
-  "about": {
-      "@type": "Thing",
-      "name": "{{ headword }}",
-      "url": "http://www.therightrhymes.com/{{slug}}"
-  }
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "author": "The Right Rhymes",
+    "description": "How the word '{{headword}}' is used in rap lyrics",
+    "datePublished": "{{ pub_date }}",
+    "dateModified": "{{ last_updated }}"
+    "headline": "'{{ title }}' in The Right Rhymes",
+    "image": {
+        "@type": "URL",
+        "url": "http://www.therightrhymes.com/static/dictionary/img/header/trr-md.png",
+    },
+    "publisher": {
+        "@type": "Thing",
+        "name": "The Right Rhymes",
+        "url": "http://www.therightrhymes.com",
+        "logo": {
+            "@type": "URL",
+            "url": "http://www.therightrhymes.com/static/dictionary/img/header/trr-sm.png"
+        }
+    },
+    "about": {
+        "@type": "Thing",
+        "name": "{{ headword }}",
+        "url": "http://www.therightrhymes.com/{{slug}}"
+    }
 }
 </script>
 {% endblock %}

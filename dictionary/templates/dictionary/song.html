@@ -106,31 +106,43 @@
 </script>
 <script type="application/ld+json">
 {
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "author": "The Right Rhymes",
-  "description": "How '{{ title }}' by {{ artist_name }} is cited in The Right Rhymes Hip-Hop Dictionary",
-  "datePublished": "2016-04-10",
-  "headline": "{{ artist_name }} - '{{ title }}' in The Right Rhymes",
-  "image": "http://www.therightrhymes.com{{thumb}}",
-  "publisher": "The Right Rhymes",
-  "about": {
-      "@type": "MusicComposition",
-      "name": "{{ title }}",
-      "url": "http://www.therightrhymes.com/songs/{{slug}}",
-      "lyricist": {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "author": "The Right Rhymes",
+    "description": "How '{{ title }}' by {{ artist_name }} is cited in The Right Rhymes Hip-Hop Dictionary",
+    "datePublished": "2016-04-10",
+    "headline": "{{ artist_name }} - '{{ title }}' in The Right Rhymes",
+    "image": {
+        "@type": "URL",
+        "url": "http://www.therightrhymes.com{{thumb}}"
+    },
+    "publisher": {
+        "@type": "Thing",
+        "name": "The Right Rhymes",
+        "url": "http://www.therightrhymes.com",
+        "logo": {
+            "@type": "URL",
+            "http://www.therightrhymes.com/static/dictionary/img/header/trr-sm.png"
+        }
+    },
+    "about": {
+        "@type": "MusicComposition",
+        "name": "{{ title }}",
+        "url": "http://www.therightrhymes.com/songs/{{slug}}",
+        "lyricist": {
             "@type": "Person",
             "name": "{{artist_name}}",
             "url": "http://www.therightrhymes.com/artists/{{artist_slug}}",
-            "image": "http://www.therightrhymes.com{{thumb}}"
-      }
-  },
-  "mainEntityOfPage": {
-        "@type": "Person",
-        "name": "{{artist_name}}",
-        "url": "http://www.therightrhymes.com/artists/{{artist_slug}}",
-        "image": "http://www.therightrhymes.com{{thumb}}"
-  }
+            "image": {
+                "@type": "URL",
+                "url": "http://www.therightrhymes.com{{thumb}}"
+            }
+        }
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://www.therightrhymes.com/songs/{{slug}}"
+    }
 }
 </script>
 {% endblock %}
