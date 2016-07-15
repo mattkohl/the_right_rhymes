@@ -70,6 +70,7 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
         {'csrfmiddlewaretoken': '{{csrf_token}}' },
         function(data) {
             var senses = data.senses;
+            var artist_slug = $('#artist_slug').text();
             $.each(senses, function(i, sense) {
                 var ex = $("<li></li>", {"class": 'trr-list-group-item'}).append(
                     $('<div></div>').append(
@@ -107,13 +108,17 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
                     }
                     ex.append(
                         $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
-                        $('<div class="lyric">' + example.linked_lyric + '</div>')
+                        $('<div class="lyric">' + example.linked_lyric + '</div>').append(
+                        $('<a></a>', { "class": 'tweet', "href": "http://www.therightrhymes.com/artists/" + artist_slug, "title": example.lyric, "target": '_blank'}).append(
+                            $('<i></i>', { 'class': "fa fa-share-alt", 'aria-hidden': true })
+                        ))
                     );
                 });
                 ex.appendTo(ul);
             });
             breaker.hide();
             context.show();
+            add_tweet();
         });
 }
 
@@ -160,13 +165,17 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
             });
             breaker.hide();
             context.show();
-            $('a.tweet').click(function(e){
-                e.preventDefault();
-                var loc = $(this).attr('href');
-                var title  = encodeURIComponent($(this).attr('title'));
-                window.open('http://twitter.com/share?url=' + loc + '&text=' + title + '&via=theRightRhymes' + '&', 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
-            });
+            add_tweet();
         });
+}
+
+function add_tweet() {
+    $('a.tweet').click(function(e){
+        e.preventDefault();
+        var loc = $(this).attr('href');
+        var title  = encodeURIComponent($(this).attr('title'));
+        window.open('http://twitter.com/share?url=' + loc + '&text=' + title + '&via=theRightRhymes' + '&', 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+    });
 }
 
 $(".toggle").click(function(){
