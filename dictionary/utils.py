@@ -4,6 +4,7 @@ import re
 import decimal
 from operator import itemgetter
 from django.db.models import Q
+from django.utils.http import urlencode
 
 
 NUM_QUOTS_TO_SHOW = 3

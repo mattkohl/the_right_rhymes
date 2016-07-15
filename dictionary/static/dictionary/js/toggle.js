@@ -150,7 +150,10 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
                 }
                 ex.append(
                     $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
-                    $('<div class="lyric">' + example.linked_lyric + '</div>')
+                    $('<div class="lyric">' + example.linked_lyric + '</div>'),
+                    $('<a></a>', { "href": "http://www.therightrhymes.com/", "title": example.lyric, "target": '_blank', "class": 'tweet'}).append(
+                        $('<i></i>', { 'class': "fa fa-twitter", 'aria-hidden': true })
+                    )
                 );
                 ex.appendTo(ul);
             });

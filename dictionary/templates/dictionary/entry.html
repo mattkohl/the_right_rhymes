@@ -239,7 +239,10 @@
                                             {% endfor %}
                                         {% endif %}
                                         <span class="album">[{{ example.album }}]</span>
-                                        <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                                        <div class="lyric">
+                                            {{ example.linked_lyric|safe }}
+                                        </div>
+                                        <a class="tweet" href="http://www.therightrhymes.com/{{slug}}" title="{{ example.lyric }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                                     </li>
                                 {% endfor %}
                                 </ul>
@@ -333,4 +336,5 @@
     }
 }
 </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}

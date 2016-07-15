@@ -584,13 +584,14 @@ a:focus.feat {
 
 .lyric {
 	display: block;
-	/*color: #3399FF;*/
 	color: #888;
 	font-style: italic;
-	/*margin-bottom: .5em;*/
-	/*margin-top: .5em;*/
-	/*margin-left: 1em;*/
     margin: .5em;
+}
+
+.tweet {
+    margin-left: -18px;
+    font-size: .8em;
 }
 
 .lyrics {
