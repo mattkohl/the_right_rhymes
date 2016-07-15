@@ -123,6 +123,7 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
         {'csrfmiddlewaretoken': '{{csrf_token}}' },
         function(data) {
             var examples = data.examples;
+            var entry_slug = $('#entry_slug').text();
             $.each(examples, function(i, example) {
                 var ex = $("<li></li>").append(
                     $('<span></span>', {"class": 'date', "text": example.release_date_string}),
@@ -151,7 +152,7 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
                 ex.append(
                     $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
                     $('<div class="lyric">' + example.linked_lyric + '</div>'),
-                    $('<a></a>', { "href": "http://www.therightrhymes.com/", "title": example.lyric, "target": '_blank', "class": 'tweet'}).append(
+                    $('<a></a>', { "class": 'tweet', "href": "http://www.therightrhymes.com/" + entry_slug, "title": example.lyric, "target": '_blank'}).append(
                         $('<i></i>', { 'class': "fa fa-twitter", 'aria-hidden': true })
                     )
                 );
@@ -159,6 +160,12 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
             });
             breaker.hide();
             context.show();
+            $('a.tweet').click(function(e){
+                e.preventDefault();
+                var loc = $(this).attr('href');
+                var title  = encodeURIComponent($(this).attr('title'));
+                window.open('http://twitter.com/share?url=' + loc + '&text=' + title + '&via=theRightRhymes' + '&', 'twitterwindow', 'height=450, width=550, top='+($(window).height()/2 - 225) +', left='+$(window).width()/2 +', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+            });
         });
 }
 
