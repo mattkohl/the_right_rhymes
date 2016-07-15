@@ -587,10 +587,11 @@ a:focus.feat {
 	color: #888;
 	font-style: italic;
     margin: .5em;
+    margin-left: 38px;
 }
 
 .tweet {
-    margin-left: -18px;
+    margin-left: 10px;
     font-size: .8em;
 }
 

@@ -241,8 +241,9 @@
                                         <span class="album">[{{ example.album }}]</span>
                                         <div class="lyric">
                                             {{ example.linked_lyric|safe }}
+                                            <a class="tweet" href="http://www.therightrhymes.com/{{slug}}" title="{{ example.lyric }}" target="_blank"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
                                         </div>
-                                        <a class="tweet" href="http://www.therightrhymes.com/{{slug}}" title="{{ example.lyric }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+
                                     </li>
                                 {% endfor %}
                                 </ul>
