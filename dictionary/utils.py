@@ -373,3 +373,14 @@ def make_label_from_camel_case(text):
         text = text[0].upper() + text[1:]
     tokens = re.findall('[A-Z][^A-Z]*', text)
     return ' '.join(tokens)
+
+
+def dedupe_rhymes(rhymes_intermediate):
+    for r in rhymes_intermediate:
+        example_cache = set()
+        rhymes_deduped = []
+        for example in rhymes_intermediate[r]['examples']:
+            if example['lyric'] not in example_cache:
+                example_cache.add(example['lyric'])
+                rhymes_deduped.append(example)
+        rhymes_intermediate[r]['examples'] = rhymes_deduped

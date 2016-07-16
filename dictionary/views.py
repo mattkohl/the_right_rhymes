@@ -2,19 +2,18 @@ import json
 import logging
 from operator import itemgetter
 
-from django.shortcuts import redirect, get_object_or_404, get_list_or_404
-from django.template import loader
-from django.http import HttpResponse
+from django.core.cache import cache
 from django.db.models import Q, Count
 from django.db.models.functions import Lower
-from django.core.cache import cache
+from django.http import HttpResponse
+from django.shortcuts import redirect, get_object_or_404, get_list_or_404
+from django.template import loader
 
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
-    collect_place_artists, build_entry_preview, count_place_artists
-from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end
+    collect_place_artists, build_entry_preview, count_place_artists, dedupe_rhymes
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
-
+from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end
 
 logger = logging.getLogger(__name__)
 NUM_QUOTS_TO_SHOW = 3
@@ -276,6 +275,7 @@ def rhyme(request, rhyme_slug):
 
     rhyme_results = ExampleRhyme.objects.filter(Q(word_one_slug=rhyme_slug)|Q(word_two_slug=rhyme_slug))
     rhymes_intermediate = {}
+
     image_exx = []
 
     for r in rhyme_results:
@@ -299,11 +299,20 @@ def rhyme(request, rhyme_slug):
                'rhyme': rhyme,
                'examples': exx
             }
+
+        dedupe_rhymes(rhymes_intermediate)
+
         rhymes_intermediate[slug]['examples'] = sorted(rhymes_intermediate[slug]['examples'], key=itemgetter('release_date'))
 
     artist_slug, artist_name, image = assign_artist_image(image_exx)
 
-    rhymes = [{'slug': r, 'rhyme': rhymes_intermediate[r]['rhyme'], 'examples': rhymes_intermediate[r]['examples']} for r in rhymes_intermediate]
+    rhymes = [
+        {
+            'slug': r,
+            'rhyme': rhymes_intermediate[r]['rhyme'],
+            'examples': rhymes_intermediate[r]['examples']
+        } for r in rhymes_intermediate
+    ]
 
     context = {
         'published_entries': published,
