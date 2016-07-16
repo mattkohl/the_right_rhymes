@@ -140,6 +140,7 @@ class Song(models.Model):
     album = models.CharField('Album', max_length=200)
     examples = models.ManyToManyField('Example', db_index=True, related_name="+")
     lyrics = models.TextField('Lyrics', null=True, blank=True)
+    release_date_verified = models.BooleanField('Release Date Verified', default=False)
 
     class Meta:
         ordering = ["title", "artist_name"]
