@@ -371,7 +371,7 @@ class TRRExample:
         self.song_title = self.example_dict['songTitle']
         self.xml_id = self.example_dict['@id']
         self.release_date_string = self.example_dict['date']
-        self.release_date = self.clean_up_date()
+        self.release_date = clean_up_date(self.release_date_string)
         self.album = self.example_dict['album']
         self.artist_name = self.get_artist_name()
         self.artist_slug = slugify(self.artist_name)
@@ -527,19 +527,6 @@ class TRRExample:
             r.rhyme_object.parent_example.add(self.example_object)
             r.rhyme_object.save()
         self.example_object.from_song.add(self.song.song_object)
-
-    def clean_up_date(self):
-        new_date = self.release_date_string
-        month = new_date[-2:]
-        if len(new_date) == 7 and month == '02':
-            return new_date + '-28'
-        if len(new_date) == 7 and month in ['04', '06', '11', '09']:
-            return new_date + '-30'
-        if len(new_date) == 7:
-            return new_date + '-31'
-        if len(new_date) == 4:
-            return new_date + '-12-31'
-        return new_date
 
 
 class TRRArtist:
@@ -937,6 +924,20 @@ class TRRLyricLink:
                                                                target_slug=self.target_slug,
                                                                position=self.position)
         return link_object
+
+
+def clean_up_date(unformatted_date):
+    new_date = unformatted_date
+    month = new_date[-2:]
+    if len(new_date) == 7 and month == '02':
+        return new_date + '-28'
+    if len(new_date) == 7 and month in ['04', '06', '11', '09']:
+        return new_date + '-30'
+    if len(new_date) == 7:
+        return new_date + '-31'
+    if len(new_date) == 4:
+        return new_date + '-12-31'
+    return new_date
 
 
 def collect_xml(directory):

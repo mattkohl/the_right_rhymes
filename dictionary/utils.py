@@ -5,6 +5,7 @@ import decimal
 from operator import itemgetter
 from django.db.models import Q
 from django.utils.http import urlencode
+from dictionary.models import Artist
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -384,3 +385,93 @@ def dedupe_rhymes(rhymes_intermediate):
                 example_cache.add(example['lyric'])
                 rhymes_deduped.append(example)
         rhymes_intermediate[r]['examples'] = rhymes_deduped
+
+
+def add_aka(name1, name2):
+    name1_slug = slugify(name1)
+    name2_slug = slugify(name2)
+    artist1 = Artist.objects.filter(slug=name1_slug).first()
+    artist2 = Artist.objects.filter(slug=name2_slug).first()
+    if artist1 and artist2:
+        print(artist1.name, 'now also known as', artist2.name)
+        artist1.also_known_as.add(artist2)
+
+
+def sameas_artists(master_name, dupe_name):
+    dupe_slug = slugify(dupe_name)
+    master_slug = slugify(master_name)
+    master = Artist.objects.filter(slug=master_slug).first()
+    dupe = Artist.objects.filter(slug=dupe_slug).first()
+    if master and dupe:
+
+        # origin = models.ManyToManyField('Place', related_name="+")
+        # primary_examples = models.ManyToManyField('Example', related_name="+", blank=True)
+        # primary_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
+        # featured_examples = models.ManyToManyField('Example', related_name="+", blank=True)
+        # featured_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
+        # primary_songs = models.ManyToManyField('Song', related_name="+", blank=True)
+        # featured_songs = models.ManyToManyField('Song', related_name="+", blank=True)
+        # also_known_as = models.ManyToManyField("self", blank=True, symmetrical=True)
+
+        origin = dupe.origin.first()
+        if origin:
+            print('Reassigning origin', origin, 'from', dupe.name, 'to', master.name)
+            origin.artists.remove(dupe)
+            origin.artists.add(master)
+            origin.save()
+
+        primary_examples = dupe.primary_examples.all()
+        for example in primary_examples:
+            print('Reassigning primary example', example, 'from', dupe.name, 'to', master.name)
+            example.artist.remove(dupe)
+            example.artist.add(master)
+            example.artist_name = master.name
+            example.artist_slug = master.slug
+            example.save()
+
+        primary_senses = dupe.primary_senses.all()
+        for sense in primary_senses:
+            print('Reassigning primary sense', sense, 'from', dupe.name, 'to', master.name)
+            sense.cites_artists.remove(dupe)
+            sense.cites_artists.add(master)
+            sense.save()
+
+        featured_examples = dupe.featured_examples.all()
+        for example in featured_examples:
+            print('Reassigning featured example', example, 'from', dupe.name, 'to', master.name)
+            example.feat_artist.remove(dupe)
+            example.feat_artist.add(master)
+            example.save()
+
+        featured_senses = dupe.featured_senses.all()
+        for sense in featured_senses:
+            print('Reassigning primary sense', sense, 'from', dupe.name, 'to', master.name)
+            dupe.featured_senses.remove(sense)
+            master.featured_senses.add(sense)
+            master.save()
+
+        primary_songs = dupe.primary_songs.all()
+        for song in primary_songs:
+            print('Reassigning primary song', song, 'from', dupe.name, 'to', master.name)
+            song.artist.remove(dupe)
+            song.artist.add(master)
+            song.artist_name = master.name
+            song.artist_slug = master.slug
+            song.save()
+
+        featured_songs = dupe.featured_songs.all()
+        for song in featured_songs:
+            print('Reassigning featured song', song, 'from', dupe.name, 'to', master.name)
+            song.feat_artist.remove(dupe)
+            song.feat_artist.add(master)
+            song.save()
+
+        aka = dupe.also_known_as.all()
+        for artist in aka:
+            print('Reassigning aka', artist, 'from', dupe.name, 'to', master.name)
+            artist.also_known_as.remove(dupe)
+            artist.also_known_as.add(master)
+            artist.save()
+
+        print('Done!')
+        return dupe

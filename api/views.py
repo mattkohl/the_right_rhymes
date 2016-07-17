@@ -16,13 +16,12 @@ from dictionary.utils import build_artist, build_example, \
 from dictionary.views import NUM_QUOTS_TO_SHOW
 
 
-@api_view(['GET'])
+@api_view(('GET',))
 def api_root(request, format=None):
     return Response({
         'artists': reverse('artists', request=request, format=format),
         'senses': reverse('senses', request=request, format=format)
     })
-
 
 
 @api_view(('GET',))
@@ -496,8 +495,10 @@ def song_release_date_tree(request, song_slug):
         song = results[0]
 
         network = dict()
-        for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name'):
-            if s != song:
+        cache = set()
+        for s in Song.objects.filter(release_date=song.release_date, examples__isnull=False).order_by('artist_name'):
+            if s != song and s.slug not in cache:
+                cache.add(s.slug)
                 artist_name = s.artist_name
                 if artist_name not in network:
                     network[artist_name] = [(s.title, s.slug)]
@@ -505,6 +506,7 @@ def song_release_date_tree(request, song_slug):
                     network[artist_name].extend([(s.title, s.slug)])
 
         if network:
+            print(network)
             data = {
                 'name': song.release_date_string,
                 'children': [

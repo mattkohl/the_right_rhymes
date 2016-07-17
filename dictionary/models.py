@@ -19,8 +19,8 @@ class Artist(models.Model):
     class Meta:
         ordering = ["name"]
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
     def get_absolute_url(self):
         return reverse('artist', args=[str(self.slug)])
