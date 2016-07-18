@@ -5,7 +5,7 @@ import decimal
 from operator import itemgetter
 from django.db.models import Q
 from django.utils.http import urlencode
-from dictionary.models import Artist, NamedEntity
+from dictionary.models import Artist, NamedEntity, LyricLink
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -464,10 +464,36 @@ def sameas_artists(master_name, dupe_name):
             artist.also_known_as.add(master)
             artist.save()
 
-        entities = NamedEntity.objects.filter(pref_label_slug=dupe_slug)
-        for entity in entities:
-            entity.pref_label_slug = master_slug
-            entity.save()
+        print('Done!')
+        return dupe
+
+
+def sameas_entities(master_name, dupe_name):
+    dupe_slug = slugify(dupe_name)
+    master_slug = slugify(master_name)
+    master = NamedEntity.objects.filter(slug=master_slug).first()
+    dupe = NamedEntity.objects.filter(slug=dupe_slug).first()
+    if master and dupe:
+        for sense in dupe.mentioned_at_senses.all():
+            print('Reassigning sense', sense, 'from', dupe.name, 'to', master.name)
+            sense.features_entities.remove(dupe)
+            sense.features_entities.add(master)
+            sense.save()
+
+        for example in dupe.examples.all():
+            print('Reassigning example', example, 'from', dupe.name, 'to', master.name)
+            sense.features_entities.remove(dupe)
+            sense.features_entities.add(master)
+            sense.save()
 
         print('Done!')
         return dupe
+
+
+def sameas_lyric_links(master_name, dupe_name):
+    dupe_slug = slugify(dupe_name)
+    master_slug = slugify(master_name)
+    for link in LyricLink.objects.filter(target_slug=dupe_slug):
+        print('Reassigning lyric link', link, 'from', dupe_name, 'to', master_name)
+        link.target_slug = master_slug
+        link.save()
