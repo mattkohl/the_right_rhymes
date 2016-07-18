@@ -5,7 +5,7 @@ import decimal
 from operator import itemgetter
 from django.db.models import Q
 from django.utils.http import urlencode
-from dictionary.models import Artist
+from dictionary.models import Artist, NamedEntity
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -404,15 +404,6 @@ def sameas_artists(master_name, dupe_name):
     dupe = Artist.objects.filter(slug=dupe_slug).first()
     if master and dupe:
 
-        # origin = models.ManyToManyField('Place', related_name="+")
-        # primary_examples = models.ManyToManyField('Example', related_name="+", blank=True)
-        # primary_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
-        # featured_examples = models.ManyToManyField('Example', related_name="+", blank=True)
-        # featured_senses = models.ManyToManyField('Sense', related_name="+", blank=True)
-        # primary_songs = models.ManyToManyField('Song', related_name="+", blank=True)
-        # featured_songs = models.ManyToManyField('Song', related_name="+", blank=True)
-        # also_known_as = models.ManyToManyField("self", blank=True, symmetrical=True)
-
         origin = dupe.origin.first()
         if origin:
             print('Reassigning origin', origin, 'from', dupe.name, 'to', master.name)
@@ -472,6 +463,11 @@ def sameas_artists(master_name, dupe_name):
             artist.also_known_as.remove(dupe)
             artist.also_known_as.add(master)
             artist.save()
+
+        entities = NamedEntity.objects.filter(pref_label_slug=dupe_slug)
+        for entity in entities:
+            entity.pref_label_slug = master_slug
+            entity.save()
 
         print('Done!')
         return dupe

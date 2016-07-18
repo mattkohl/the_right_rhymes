@@ -26,26 +26,24 @@
     <div id="content-container">
         <div id="content" class="group">
             <div class="entry-content">
-                {% if image %}
-                    <figure class="center-block">
-                        <img src="{{ image }}"
-                             alt="{{ artist }}"
-                             property="image"
-                             scale="0"/>
-                    </figure>
-                    <div class="headword-image">{{ artist }}</div>
-                {% else %}
-                    <div class="headword">{{ artist }}</div>
-                {% endif %}
-                {% if also_known_as %}
-                    <div class="aka">
-                        <span class="" style="text-transform: lowercase">a.k.a.</span>
-                        {% for aka in also_known_as %}
-                            <a href="{% url 'artist' aka.slug %}">{{ aka.artist }}</a>{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </div>
+                <figure class="center-block">
+                    <img src="{{ image }}"
+                         alt="{{ artist }}"
+                         property="image"
+                         scale="0"/>
+                </figure>
+                <div class="headword-image">
+                    {{ artist }}
+                    {% if also_known_as %}
+                        <div class="aka">
+                            <span class="" style="text-transform: lowercase">a.k.a.</span>
+                            {% for aka in also_known_as %}
+                                <a href="{% url 'artist' aka.slug %}">{{ aka.artist }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
-                {% endif %}
                 {% if primary_senses %}
 
                     {% if primary_sense_count > 1 %}
