@@ -476,9 +476,9 @@ def sameas_entities(master_name, dupe_name):
 
         for example in dupe.examples.all():
             print('Reassigning example', example, 'from', dupe.name, 'to', master.name)
-            sense.features_entities.remove(dupe)
-            sense.features_entities.add(master)
-            sense.save()
+            example.features_entities.remove(dupe)
+            example.features_entities.add(master)
+            example.save()
 
         print('Done!')
         return dupe
