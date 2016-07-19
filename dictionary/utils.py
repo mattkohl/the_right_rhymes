@@ -1,14 +1,18 @@
+import decimal
 import os
 import random
 import re
-import decimal
 from operator import itemgetter
+from geopy.geocoders import Nominatim
+
 from django.db.models import Q
-from django.utils.http import urlencode
-from dictionary.models import Artist, NamedEntity, LyricLink
+import dictionary.models
 
 
 NUM_QUOTS_TO_SHOW = 3
+
+geolocator = Nominatim()
+geocache = []
 
 
 def normalize_query(query_string,
@@ -387,21 +391,11 @@ def dedupe_rhymes(rhymes_intermediate):
         rhymes_intermediate[r]['examples'] = rhymes_deduped
 
 
-def add_aka(name1, name2):
-    name1_slug = slugify(name1)
-    name2_slug = slugify(name2)
-    artist1 = Artist.objects.filter(slug=name1_slug).first()
-    artist2 = Artist.objects.filter(slug=name2_slug).first()
-    if artist1 and artist2:
-        print(artist1.name, 'now also known as', artist2.name)
-        artist1.also_known_as.add(artist2)
-
-
 def sameas_artists(master_name, dupe_name):
     dupe_slug = slugify(dupe_name)
-    master_slug = slugify(master_name)
-    master = Artist.objects.filter(slug=master_slug).first()
-    dupe = Artist.objects.filter(slug=dupe_slug).first()
+    master_slug = slugify(move_definite_article_to_end(master_name))
+    master = dictionary.models.Artist.objects.filter(slug=master_slug).first()
+    dupe = dictionary.models.Artist.objects.filter(slug=dupe_slug).first()
     if master and dupe:
 
         origin = dupe.origin.first()
@@ -470,9 +464,9 @@ def sameas_artists(master_name, dupe_name):
 
 def sameas_entities(master_name, dupe_name):
     dupe_slug = slugify(dupe_name)
-    master_slug = slugify(master_name)
-    master = NamedEntity.objects.filter(slug=master_slug).first()
-    dupe = NamedEntity.objects.filter(slug=dupe_slug).first()
+    master_slug = slugify(move_definite_article_to_end(master_name))
+    master = dictionary.models.NamedEntity.objects.filter(slug=master_slug).first()
+    dupe = dictionary.models.NamedEntity.objects.filter(slug=dupe_slug).first()
     if master and dupe:
         for sense in dupe.mentioned_at_senses.all():
             print('Reassigning sense', sense, 'from', dupe.name, 'to', master.name)
@@ -492,8 +486,36 @@ def sameas_entities(master_name, dupe_name):
 
 def sameas_lyric_links(master_name, dupe_name):
     dupe_slug = slugify(dupe_name)
-    master_slug = slugify(master_name)
-    for link in LyricLink.objects.filter(target_slug=dupe_slug):
+    master_slug = slugify(move_definite_article_to_end(master_name))
+    for link in dictionary.models.LyricLink.objects.filter(target_slug=dupe_slug):
         print('Reassigning lyric link', link, 'from', dupe_name, 'to', master_name)
         link.target_slug = master_slug
         link.save()
+
+
+def geocode_place(place_name):
+
+    print('Geocoding:', place_name)
+    try:
+        coded = geolocator.geocode(place_name)
+        longitude = coded.longitude
+        latitude = coded.latitude
+    except:
+        geocache.append(slugify(place_name))
+        print('Unable to geolocate', place_name)
+    else:
+        return latitude, longitude
+
+
+def extract_short_name(place_name):
+    if ',' in place_name:
+        return place_name.split(', ')[0]
+    else:
+        return place_name
+
+
+def extract_parent(place_name):
+    if ',' in place_name:
+        return place_name.split(', ')[1:]
+    else:
+        return None

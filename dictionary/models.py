@@ -3,6 +3,8 @@ from django.db.models import Q, Count
 from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 
+from dictionary.utils import slugify, geocode_place, extract_short_name, extract_parent
+
 
 class Artist(models.Model):
     name = models.CharField('Artist Name', max_length=1000, null=True, blank=True)
@@ -24,6 +26,20 @@ class Artist(models.Model):
 
     def get_absolute_url(self):
         return reverse('artist', args=[str(self.slug)])
+
+    def add_aka(self, aka_name):
+        aka_slug = slugify(aka_name)
+        aka = Artist.objects.filter(slug=aka_slug).first()
+        if aka:
+            print(self.name, 'now also known as', aka.name)
+            self.also_known_as.add(aka)
+
+    def add_origin(self, place_name):
+        place_slug = slugify(place_name)
+        place = Place.objects.filter(slug=place_slug).first()
+        if place:
+            print('Adding origin', place.name, 'to', self.name)
+            self.origin.add(place)
 
 
 class Editor(models.Model):
@@ -89,6 +105,13 @@ class Place(models.Model):
 
     def get_absolute_url(self):
         return reverse('place', args=[str(self.slug)])
+
+    @classmethod
+    def create(cls, full_name):
+        slug = slugify(full_name)
+        name = extract_short_name(full_name)
+        place = cls(slug=slug, full_name=full_name, name=name)
+        return place
 
 
 class Sense(models.Model):

@@ -10,7 +10,7 @@ from geopy.geocoders import Nominatim
 from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
     Place, Song, SemanticClass
-from dictionary.utils import slugify, make_label_from_camel_case
+from dictionary.utils import slugify, make_label_from_camel_case, geocode_place
 
 
 geolocator = Nominatim()
@@ -580,20 +580,12 @@ class TRRPlace:
 
     def add_lat_long(self):
         if self.place_object and not self.place_object.longitude and self.slug not in geocache:
-            print('Geocoding:', self.name)
-            try:
-                coded = geolocator.geocode(self.full_name)
-                longitude = coded.longitude
-                latitude = coded.latitude
-            except:
-                geocache.append(self.slug)
-                print('Unable to geolocate', self.name)
-            else:
-                if longitude:
-                    self.place_object.longitude = longitude
-                if latitude:
-                    self.place_object.latitude = latitude
-                self.place_object.save()
+            latitude, longitude = geocode_place(self.full_name)
+            if longitude:
+                self.place_object.longitude = longitude
+            if latitude:
+                self.place_object.latitude = latitude
+            self.place_object.save()
 
     def check_if_part(self):
         if ', ' in self.full_name:
