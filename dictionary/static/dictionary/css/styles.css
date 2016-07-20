@@ -352,10 +352,13 @@ figcaption {
     color: white;
     font-weight: bolder;
     text-align: left;
+    text-shadow: 1px 1px 10px black;
+
 }
 
 figcaption a.artist {
     color: white;
+
 }
 
 .anchor {
