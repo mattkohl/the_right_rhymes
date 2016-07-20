@@ -161,7 +161,7 @@ class Song(models.Model):
     release_date = models.DateField('Release Date', db_index=True, blank=True, null=True)
     release_date_string = models.CharField('Release Date String', max_length=10, blank=True, null=True)
     album = models.CharField('Album', max_length=200)
-    examples = models.ManyToManyField('Example', db_index=True, related_name="+")
+    examples = models.ManyToManyField('Example', db_index=True, related_name="+", blank=True)
     lyrics = models.TextField('Lyrics', null=True, blank=True)
     release_date_verified = models.BooleanField('Release Date Verified', default=False)
 

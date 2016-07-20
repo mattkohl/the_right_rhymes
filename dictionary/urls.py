@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^search/$', views.search, name='search'),
 
     # /about/
-    url(r'^about/$', views.about, name='about'),
+    url(r'^about-the-right-rhymes/$', views.about, name='about'),
 
     # /index/
     url(r'^index/$', views.a_to_z, name='a_to_z'),
