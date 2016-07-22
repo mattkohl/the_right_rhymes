@@ -52,7 +52,7 @@ class NamedEntityAdmin(admin.ModelAdmin):
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'full_name', 'slug']
 
 
 @admin.register(SemanticClass)

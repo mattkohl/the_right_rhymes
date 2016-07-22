@@ -506,7 +506,6 @@ def song_release_date_tree(request, song_slug):
                     network[artist_name].extend([(s.title, s.slug)])
 
         if network:
-            print(network)
             data = {
                 'name': song.release_date_string,
                 'children': [

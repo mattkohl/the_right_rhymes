@@ -7,6 +7,7 @@ from geopy.geocoders import Nominatim
 
 from django.db.models import Q
 import dictionary.models
+# from dictionary.forms import SenseForm
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -175,13 +176,16 @@ def assign_artist_image(examples):
     return '', '', ''
 
 
-def build_sense(sense_object, published, full=False):
+def build_sense(sense_object, published, full=False, build_form=False):
     example_results = sense_object.examples.order_by('release_date')
     if full:
         examples = [build_example(example, published) for example in example_results]
     else:
         examples = [build_example(example, published) for example in example_results[:NUM_QUOTS_TO_SHOW]]
     artist_slug, artist_name, image = assign_artist_image(examples)
+    form = None
+    # if build_form:
+    #     form = SenseForm(instance=sense_object)
     result = {
         "part_of_speech": sense_object.part_of_speech,
         "xml_id": sense_object.xml_id,
@@ -206,7 +210,8 @@ def build_sense(sense_object, published, full=False):
         "collocates": sense_object.collocates.order_by('-frequency'),
         "artist_slug": artist_slug,
         "artist_name": artist_name,
-        "image": image
+        "image": image,
+        "form": form
     }
     return result
 
@@ -389,6 +394,22 @@ def dedupe_rhymes(rhymes_intermediate):
                 example_cache.add(example['lyric'])
                 rhymes_deduped.append(example)
         rhymes_intermediate[r]['examples'] = rhymes_deduped
+
+
+def sameas_places(master_name, dupe_name):
+    dupe_slug = slugify(dupe_name)
+    master_slug = slugify(move_definite_article_to_end(master_name))
+    master = dictionary.models.Place.objects.get(slug=master_slug)
+    dupe = dictionary.models.Place.objects.get(slug=dupe_slug)
+    if master and dupe:
+
+        artists = dupe.artists.all()
+        for artist in artists:
+            print('Reassigning', artist.name, 'origin from', dupe.full_name, 'to', master.full_name)
+            artist.origin.remove(dupe)
+            artist.origin.add(master)
+            artist.save()
+        return dupe
 
 
 def sameas_artists(master_name, dupe_name):

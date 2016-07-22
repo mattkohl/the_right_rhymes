@@ -8,12 +8,16 @@ from django.db.models.functions import Lower
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
     collect_place_artists, build_entry_preview, count_place_artists, dedupe_rhymes
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
 from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end
+from dictionary.forms import SongForm
+
 
 logger = logging.getLogger(__name__)
 NUM_QUOTS_TO_SHOW = 3
@@ -188,7 +192,9 @@ def entry(request, headword_slug):
 
     entry = get_object_or_404(Entry, slug=slug, publish=True)
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    senses = [build_sense(sense, published) for sense in entry.get_senses_ordered_by_example_count()]
+    include_form = request.user.is_authenticated()
+    include_all_senses = False
+    senses = [build_sense(sense, published, include_all_senses, include_form) for sense in entry.get_senses_ordered_by_example_count()]
     context = {
         'headword': entry.headword,
         'slug': slug,
@@ -387,6 +393,20 @@ def semantic_classes(request):
     return HttpResponse(template.render(context, request))
 
 
+@require_http_methods(['POST'])
+def sense(request, id):
+    form = SenseForm(request.POST)
+    if form.is_valid():
+        sense = Sense.objects.get(id=id)
+        sense.headword = form.cleaned_data['headword']
+        sense.xml_id = form.cleaned_data['xml_id']
+        sense.part_of_speech = form.cleaned_data["part_of_speech"]
+        sense.definition = form.cleaned_data["definition"]
+        sense.etymology = form.cleaned_data["etymology"]
+        sense.notes = form.cleaned_data["notes"]
+        sense.save()
+
+
 def sense_timeline(request, sense_id):
     sense = get_object_or_404(Sense, xml_id=sense_id)
     template = loader.get_template('dictionary/_timeline.html')
@@ -397,13 +417,34 @@ def sense_timeline(request, sense_id):
     return HttpResponse(template.render(context, request))
 
 
+@require_http_methods(['GET', 'POST'])
 def song(request, song_slug):
+    if request.method == 'POST':
+        form = SongForm(request.POST)
+        if form.is_valid():
+            song = Song.objects.get(slug=song_slug)
+            song.title = form.cleaned_data['title']
+            song.release_date = form.cleaned_data["release_date"]
+            song.release_date_string = form.cleaned_data["release_date_string"]
+            song.artist_name = form.cleaned_data["artist_name"]
+            song.album = form.cleaned_data["album"]
+            song.lyrics = form.cleaned_data["lyrics"]
+            song.release_date_verified = form.cleaned_data["release_date_verified"]
+            song.save()
+
     song = get_list_or_404(Song, slug=song_slug)[0]
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     template = loader.get_template('dictionary/song.html')
-    same_dates = [{'title': s.title, 'artist_name': reformat_name(s.artist_name), 'artist_slug': s.artist_slug, 'slug': s.slug} for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
+    same_dates = [
+        {
+            'title': s.title,
+            'artist_name': reformat_name(s.artist_name),
+            'artist_slug': s.artist_slug,
+            'slug': s.slug
+        } for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
     image = check_for_image(song.artist_slug, 'artists', 'full')
     thumb = check_for_image(song.artist_slug, 'artists', 'thumb')
+    form = SongForm(instance=song)
     context = {
         "title": song.title,
         "slug": song.slug,
@@ -417,8 +458,13 @@ def song(request, song_slug):
         "release_date_string": song.release_date_string,
         "album": song.album,
         "examples": [build_example(example, published_entries, rf=True) for example in song.examples.all()],
-        "same_dates": same_dates
+        "same_dates": same_dates,
+        "form": None
     }
+
+    if request.user.is_authenticated():
+        context['form'] = form
+
     return HttpResponse(template.render(context, request))
 
 
@@ -457,8 +503,6 @@ def stats(request):
     artist_cite_count = most_cited_artists[0].num_cites
 
     template = loader.get_template('dictionary/stats.html')
-
-    print(place_count)
 
     WIDTH_ADJUSTMENT = 5
 
