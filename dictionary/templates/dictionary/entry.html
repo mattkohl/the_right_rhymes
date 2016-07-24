@@ -294,6 +294,9 @@
     </div>
 </div>
 <div id="entry_slug" style="display: none">{{slug}}</div>
+{% endblock %}
+{% block scripts %}}
+{{ block.super }}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
@@ -354,5 +357,4 @@
     }
 }
 </script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-{% endblock %}
+{% endblock %}}
