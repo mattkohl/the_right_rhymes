@@ -10,6 +10,7 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.cache import cache_control
 
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
@@ -24,6 +25,7 @@ NUM_QUOTS_TO_SHOW = 3
 NUM_ARTISTS_TO_SHOW = 6
 
 
+@cache_control(max_age=3600)
 def about(request):
     template = loader.get_template('dictionary/about.html')
     entry_count = Entry.objects.filter(publish=True).count()
@@ -33,6 +35,7 @@ def about(request):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def a_to_z(request):
     template = loader.get_template('dictionary/a_to_z.html')
     published = cache.get('a_to_z')
@@ -46,6 +49,7 @@ def a_to_z(request):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def artist(request, artist_slug):
     artist_results = get_list_or_404(Artist, slug=artist_slug)
     artist = artist_results[0]
@@ -117,6 +121,7 @@ def artist(request, artist_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def domain(request, domain_slug):
     template = loader.get_template('dictionary/domain.html')
     domain = get_object_or_404(Domain, slug=domain_slug)
@@ -137,6 +142,7 @@ def domain(request, domain_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def domains(request):
     template = loader.get_template('dictionary/domains.html')
     results = Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
@@ -148,6 +154,7 @@ def domains(request):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def entity(request, entity_slug):
     results = get_list_or_404(NamedEntity, pref_label_slug=entity_slug)
     template = loader.get_template('dictionary/named_entity.html')
@@ -183,6 +190,7 @@ def entity(request, entity_slug):
         return HttpResponse("Whoa, what is {}?".format(entity_slug))
 
 
+@cache_control(max_age=3600)
 def entry(request, headword_slug):
     if '#' in headword_slug:
         slug = headword_slug.split('#')[0]
@@ -208,6 +216,7 @@ def entry(request, headword_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def index(request):
     template = loader.get_template('dictionary/index.html')
     entry_count = Entry.objects.filter(publish=True).count()
@@ -227,6 +236,7 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def place(request, place_slug):
     place = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
@@ -269,11 +279,13 @@ def place(request, place_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def random_entry(request):
     rand_entry = Entry.objects.filter(publish=True).order_by('?').first()
     return redirect('entry', headword_slug=rand_entry.slug)
 
 
+@cache_control(max_age=3600)
 def rhyme(request, rhyme_slug):
     template = loader.get_template('dictionary/rhyme.html')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
@@ -332,6 +344,7 @@ def rhyme(request, rhyme_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=360)
 def search(request):
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
@@ -369,6 +382,7 @@ def search(request):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def semantic_class(request, semantic_class_slug):
     template = loader.get_template('dictionary/semantic_class.html')
     semantic_class = get_object_or_404(SemanticClass, slug=semantic_class_slug)
@@ -382,6 +396,7 @@ def semantic_class(request, semantic_class_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def semantic_classes(request):
     template = loader.get_template('dictionary/semantic_classes.html')
     results = SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
@@ -393,20 +408,21 @@ def semantic_classes(request):
     return HttpResponse(template.render(context, request))
 
 
-@require_http_methods(['POST'])
-def sense(request, id):
-    form = SenseForm(request.POST)
-    if form.is_valid():
-        sense = Sense.objects.get(id=id)
-        sense.headword = form.cleaned_data['headword']
-        sense.xml_id = form.cleaned_data['xml_id']
-        sense.part_of_speech = form.cleaned_data["part_of_speech"]
-        sense.definition = form.cleaned_data["definition"]
-        sense.etymology = form.cleaned_data["etymology"]
-        sense.notes = form.cleaned_data["notes"]
-        sense.save()
+# @require_http_methods(['POST'])
+# def sense(request, id):
+#     form = SenseForm(request.POST)
+#     if form.is_valid():
+#         sense = Sense.objects.get(id=id)
+#         sense.headword = form.cleaned_data['headword']
+#         sense.xml_id = form.cleaned_data['xml_id']
+#         sense.part_of_speech = form.cleaned_data["part_of_speech"]
+#         sense.definition = form.cleaned_data["definition"]
+#         sense.etymology = form.cleaned_data["etymology"]
+#         sense.notes = form.cleaned_data["notes"]
+#         sense.save()
 
 
+@cache_control(max_age=3600)
 def sense_timeline(request, sense_id):
     sense = get_object_or_404(Sense, xml_id=sense_id)
     template = loader.get_template('dictionary/_timeline.html')
@@ -468,6 +484,7 @@ def song(request, song_slug):
     return HttpResponse(template.render(context, request))
 
 
+@cache_control(max_age=3600)
 def stats(request):
 
     LIST_LENGTH = 5
