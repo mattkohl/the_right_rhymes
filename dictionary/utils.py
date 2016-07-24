@@ -399,8 +399,11 @@ def dedupe_rhymes(rhymes_intermediate):
 def sameas_places(master_name, dupe_name):
     dupe_slug = slugify(dupe_name)
     master_slug = slugify(move_definite_article_to_end(master_name))
-    master = dictionary.models.Place.objects.get(slug=master_slug)
-    dupe = dictionary.models.Place.objects.get(slug=dupe_slug)
+    master = dictionary.models.Place.objects.filter(slug=master_slug).first()
+    dupe = dictionary.models.Place.objects.filter(slug=dupe_slug).first()
+    ne_dupe = dictionary.models.NamedEntity.objects.filter(slug=dupe_slug).first()
+    ne_master = dictionary.models.NamedEntity.objects.filter(slug=master_slug).first()
+    ll_dupes = dictionary.models.LyricLink.objects.filter(target_slug=dupe_slug)
     if master and dupe:
 
         artists = dupe.artists.all()
@@ -409,7 +412,40 @@ def sameas_places(master_name, dupe_name):
             artist.origin.remove(dupe)
             artist.origin.add(master)
             artist.save()
-        return dupe
+
+    if ne_dupe and (ne_master or master):
+        if not ne_master:
+            ne_master = dictionary.models.NamedEntity(name=master.name,
+                                                      slug=master.slug,
+                                                      pref_label=master.full_name,
+                                                      pref_label_slug=master.slug,
+                                                      entity_type='place')
+            ne_master.save()
+
+        for example in ne_dupe.examples.all():
+            print('Reassigning', example, 'featured entity from', ne_dupe.pref_label, 'to', ne_master.pref_label)
+            example.features_entities.remove(ne_dupe)
+            example.features_entities.add(ne_master)
+            example.save()
+
+        for example in dictionary.models.Example.objects.filter(features_entities__in=[ne_dupe]):
+            print('Reassigning', example, 'featured entity from', ne_dupe.pref_label, 'to', ne_master.pref_label)
+            example.features_entities.remove(ne_dupe)
+            example.features_entities.add(ne_master)
+            example.save()
+
+        for sense in dictionary.models.Sense.objects.filter(features_entities__in=[ne_dupe]):
+            print('Reassigning', sense, 'featured entity from', ne_dupe.pref_label, 'to', ne_master.pref_label)
+            sense.features_entities.remove(ne_dupe)
+            sense.features_entities.add(ne_master)
+            sense.save()
+
+    for ll in ll_dupes:
+        print('Reassigning lyric link target', ll, 'from', dupe_slug, 'to', master_slug)
+        ll.target_slug = master_slug
+        ll.save()
+
+    return dupe, ne_dupe
 
 
 def sameas_artists(master_name, dupe_name):
