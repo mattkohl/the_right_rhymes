@@ -199,6 +199,4 @@ $(".toggle-artist-examples").click(function(){
         var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json';
         addRemainingExamples(ul, breaker, context, endpoint);
     });
-
-
 });
