@@ -1,6 +1,5 @@
 {% extends "dictionary/base.html" %}
 {% block title %}{{ query }} ⋅ Search Results ⋅ {% endblock %}
-
 {% block content %}
 <div id="wrapper">
     <div id="content-container">
@@ -44,6 +43,18 @@
                 {% else %}
                     <h3 class="trr-list-header" style="margin-top: 1.7em;">Sorry, couldn't find any matches for <strong>{{ query }}</strong></h3>
                 {% endif %}
+                {% if other_entries %}
+                    <h4 class="other-entries">Why not try
+                        {% for entry in other_entries %}
+                            {% if forloop.last %}or {% endif %}<a href="{% url 'entry' entry.slug %}">{{entry.headword}}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}?
+                    </h4>
+                {% endif %}
+            </div>
+            <div class="col-lg-8 col-lg-offset-2">
+                <a href="{% url 'random_entry' %}" class="h3" style="color: black; margin-left: .5em;">
+                    <i class="fa fa-bomb" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>

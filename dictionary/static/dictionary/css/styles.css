@@ -763,6 +763,12 @@ a.sense_timeline:hover, .xrlabel:hover {
     margin-bottom: 1em;
 }
 
+.other-entries {
+    margin-top: 5em;
+    padding: 1em;
+    line-height: 1.5em;
+}
+
 .trr-list-header {
     background: #EAEAEA;
     display: block;

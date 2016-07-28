@@ -379,6 +379,15 @@ def search(request):
             context['result_count'] = result_count
             context['the_rest'] = (result_count - 100) if (result_count > 100) else 0
 
+
+    other_entries = []
+    if 'result_count' in context and context['result_count'] < 1 or 'result_count' not in context:
+        for i in range(3):
+            r = Entry.objects.filter(publish=True).order_by('?').first()
+            print(r)
+            other_entries.append(r)
+    context['other_entries'] = other_entries
+
     return HttpResponse(template.render(context, request))
 
 
