@@ -384,7 +384,6 @@ def search(request):
     if 'result_count' in context and context['result_count'] < 1 or 'result_count' not in context:
         for i in range(3):
             r = Entry.objects.filter(publish=True).order_by('?').first()
-            print(r)
             other_entries.append(r)
     context['other_entries'] = other_entries
 
