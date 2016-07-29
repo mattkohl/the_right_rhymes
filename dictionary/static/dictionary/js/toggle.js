@@ -8,7 +8,7 @@ $(document).ready(function(){
         var context = $(this);
         if ($(this).text() == 'Hide more examples') {
             $(this).text('Show more examples');
-            $(this).css("background-color","#9b9b9b");
+            $(this).css("background-color","#838383");
         } else {
             $(this).text('Hide more examples');
             $(this).css("background-color","lightgray");
