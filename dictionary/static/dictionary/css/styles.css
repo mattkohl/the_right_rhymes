@@ -480,8 +480,7 @@ p.mapLabel {
 	text-transform: uppercase;
 	margin: 20px -2px 0 0px;
     width: 100%;
-    border-top-right-radius: 2px;
-    border-top-left-radius: 2px;
+
 }
 
 .mapLabel a {
