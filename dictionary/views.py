@@ -95,8 +95,8 @@ def artist(request, artist_slug):
     image = check_for_image(artist.slug, 'artists', 'full')
     thumb = check_for_image(artist.slug, 'artists', 'thumb')
     name = reformat_name(artist.name)
-    primary_sense_count = artist.primary_senses.all().count()
-    featured_sense_count = artist.featured_senses.all().count()
+    primary_sense_count = artist.primary_senses.filter(publish=True).count()
+    featured_sense_count = artist.featured_senses.filter(publish=True).count()
 
     context = {
         'artist': name,
