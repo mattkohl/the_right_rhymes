@@ -427,7 +427,7 @@ class TRRExample:
                 origin = None
 
         if origin:
-            a = TRRArtist(name, origin)
+            a = TRRArtist(name)
         else:
             a = TRRArtist(name)
         return a
