@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--directory',
             action='store_true',
-            default='./xml/django-xml',
+            default='../xml/django-xml',
             help='path to XML')
 
     def handle(self, *args, **options):
