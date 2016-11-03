@@ -579,7 +579,7 @@ class TRRPlace:
         return place_object
 
     def add_lat_long(self):
-        if self.place_object and not self.place_object.longitude and self.slug not in geocache:
+        if self.full_name and self.place_object and not self.place_object.longitude and self.slug not in geocache:
             latitude, longitude = geocode_place(self.full_name)
             if longitude:
                 self.place_object.longitude = longitude
