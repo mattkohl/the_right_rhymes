@@ -910,12 +910,20 @@ class TRRLyricLink:
 
     def add_to_db(self):
         # print('Adding LyricLink:', self.link_text)
-        link_object, created = LyricLink.objects.get_or_create(link_text=self.link_text,
-                                                               link_type=self.link_type,
-                                                               target_lemma=self.target_lemma,
-                                                               target_slug=self.target_slug,
-                                                               position=self.position)
-        return link_object
+        test = LyricLink.objects.filter(link_text=self.link_text,
+                                        link_type=self.link_type,
+                                        target_lemma=self.target_lemma,
+                                        target_slug=self.target_slug,
+                                        position=self.position)
+        if test:
+            return test.first()
+        else:
+            link_object, created = LyricLink.objects.create(link_text=self.link_text,
+                                                            link_type=self.link_type,
+                                                            target_lemma=self.target_lemma,
+                                                            target_slug=self.target_slug,
+                                                            position=self.position)
+            return link_object
 
 
 def clean_up_date(unformatted_date):
