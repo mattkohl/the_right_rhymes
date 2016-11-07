@@ -918,11 +918,11 @@ class TRRLyricLink:
         if test:
             return test.first()
         else:
-            link_object, created = LyricLink.objects.create(link_text=self.link_text,
-                                                            link_type=self.link_type,
-                                                            target_lemma=self.target_lemma,
-                                                            target_slug=self.target_slug,
-                                                            position=self.position)
+            link_object = LyricLink.objects.create(link_text=self.link_text,
+                                                   link_type=self.link_type,
+                                                   target_lemma=self.target_lemma,
+                                                   target_slug=self.target_slug,
+                                                   position=self.position)
             return link_object
 
 
