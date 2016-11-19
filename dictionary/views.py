@@ -223,7 +223,7 @@ def index(request):
     sense_count = Sense.objects.filter(publish=True).count()
     example_count = Example.objects.all().count()
     artist_count = Artist.objects.all().count()
-    recently_updated = [build_entry_preview(e) for e in Entry.objects.filter(publish=True).order_by('last_updated')[:5]]
+    recently_updated = [build_entry_preview(e) for e in Entry.objects.filter(publish=True).order_by('-last_updated')[:5]]
     recently_published = [build_entry_preview(e) for e in Entry.objects.filter(publish=True).order_by('-pub_date')[:5]]
     context = {
         "entry_count": entry_count,
