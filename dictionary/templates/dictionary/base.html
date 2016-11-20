@@ -21,15 +21,8 @@
     {% block content %}
     {% endblock %}
 
-    <div id="search-overlay" class="overlay overlay-data">
-      <button type="button" class="overlay-close"><i class="material-icons">close</i></button>
-      <nav>
-        <ul>
-          <li>{% include 'dictionary/_search.html' %}</li>
-        </ul>
-      </nav>
-        <div class="index-link-search"><a href="{% url 'a_to_z' %}">Or check out the index</a></div>
-    </div>
+    {% include "dictionary/_search_overlay.html" %}
+
     {% include "dictionary/_footer.html" %}
 </body>
 </html>
