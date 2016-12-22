@@ -279,7 +279,6 @@ def place(request, place_slug):
     return HttpResponse(template.render(context, request))
 
 
-@cache_control(max_age=3600)
 def random_entry(request):
     rand_entry = Entry.objects.filter(publish=True).order_by('?').first()
     return redirect('entry', headword_slug=rand_entry.slug)
