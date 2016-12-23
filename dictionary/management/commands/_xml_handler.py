@@ -10,7 +10,7 @@ from geopy.geocoders import Nominatim
 from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
     Place, Song, SemanticClass
-from dictionary.utils import slugify, make_label_from_camel_case, geocode_place
+from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end
 
 
 geolocator = Nominatim()
@@ -88,6 +88,7 @@ class TRREntry:
     def __init__(self, entry_dict):
         self.entry_dict = entry_dict
         self.headword = self.entry_dict['head']['headword']
+        self.sort_key = move_definite_article_to_end(self.headword).lower()
         self.slug = slugify(self.headword)
         self.letter = self.get_letter()
         self.xml_id = self.entry_dict['@eid']
@@ -119,6 +120,7 @@ class TRREntry:
     def add_to_db(self):
         print("------ Processing: '" + self.headword + "' ------")
         entry, created = Entry.objects.get_or_create(headword=self.headword,
+                                                     sort_key=self.sort_key,
                                                      slug=self.slug)
         return entry
 
