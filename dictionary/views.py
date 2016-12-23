@@ -39,13 +39,21 @@ def about(request):
 def a_to_z(request):
     template = loader.get_template('dictionary/a_to_z.html')
     published = cache.get('a_to_z')
+    published = None
     if published is None:
-        published = [{'headword': e[0], 'slug': e[1], 'letter': e[2]} for e in Entry.objects.values_list('headword', 'slug', 'letter').filter(publish=True).order_by(Lower('headword'))]
+        published = [
+            {
+                'headword': e[0],
+                'slug': e[1],
+                'letter': e[2].lower(),
+                'sort_key': e[3]
+            } for e in Entry.objects.values_list('headword', 'slug', 'letter', 'sort_key').filter(publish=True).order_by(Lower('sort_key'))]
         cache.set('a_to_z', published, 86400)
 
     context = {
         'entries': published
     }
+    [print(p) for p in published]
     return HttpResponse(template.render(context, request))
 
 
