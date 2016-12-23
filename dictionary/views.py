@@ -35,11 +35,10 @@ def about(request):
     return HttpResponse(template.render(context, request))
 
 
-@cache_control(max_age=3600)
+@cache_control(max_age=360)
 def a_to_z(request):
     template = loader.get_template('dictionary/a_to_z.html')
     published = cache.get('a_to_z')
-    published = None
     if published is None:
         published = [
             {
