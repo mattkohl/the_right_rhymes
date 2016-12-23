@@ -56,6 +56,7 @@ class Editor(models.Model):
 
 class Entry(models.Model):
     headword = models.CharField(primary_key=True, max_length=200)
+    sort_key = models.CharField(max_length=200, null=True, blank=True)
     letter = models.CharField(max_length=1, null=True, blank=True)
     slug = models.SlugField('Headword Slug', db_index=True)
     publish = models.BooleanField(default=False, db_index=True)
