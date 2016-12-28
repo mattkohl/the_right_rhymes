@@ -29,23 +29,26 @@ $.getJSON(
 
             collabText = numCollabs == 1 ? " collaborator" : " collaborators";
 
-            d3.select("#numCollabs").text(numCollabs + collabText);
+            if (numCollabs > 0) {
+                d3.select("#collabs").style("display", "inherit");
+                d3.select("#numCollabs").text(numCollabs + collabText);
 
-            var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
-            if (adjustment < 0.175) adjustment = 0.175;
+                var adjustment = (Math.sqrt(nLen)*2.5)/Math.sqrt(h);
+                if (adjustment < 0.175) adjustment = 0.175;
 
-            if (h < 600) {
-                adjustment = adjustment + (nLen * .01) ;
+                if (h < 600) {
+                    adjustment = adjustment + (nLen * .01) ;
+                }
+                h = h * adjustment;
+
+                vis.attr("width", w).attr("height", h);
+
+                root.fixed = true;
+                root.x = w / 2;
+                root.y = h / 2;
+
+                graph();
             }
-            h = h * adjustment;
-
-            vis.attr("width", w).attr("height", h);
-
-            root.fixed = true;
-            root.x = w / 2;
-            root.y = h / 2;
-
-            graph();
         }
 );
 

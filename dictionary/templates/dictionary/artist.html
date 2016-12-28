@@ -186,16 +186,18 @@
                     {% endfor %}
                     </div>
                 {% endif %}
-                <h3 class="trr-list-header"><strong><span id="numCollabs"></span></strong> pictured from <span class="logo">The Right Rhymes</span> database</h3>
-                <span class="artist_slug hidden">{{ slug }}</span>
-                <div id="vis" style="margin-bottom: 0;"></div>
-                {% if longitude and latitude %}
-                    <div class="map-canvas">
-                        <p class="hidden artist-slug">{{ slug }}</p>
-                        <p class="mapLabel">origin: <a href="{% url 'place' origin_slug %}">{{ origin }}</a></p>
-                        <div id="map1" class="map"></div>
-                    </div>
-                {% endif %}
+                <div id="collabs" style="display: none;">
+                    <h3 class="trr-list-header"><strong><span id="numCollabs"></span></strong> pictured from <span class="logo">The Right Rhymes</span> database</h3>
+                    <span class="artist_slug hidden">{{ slug }}</span>
+                    <div id="vis" style="margin-bottom: 0;"></div>
+                    {% if longitude and latitude %}
+                        <div class="map-canvas">
+                            <p class="hidden artist-slug">{{ slug }}</p>
+                            <p class="mapLabel">origin: <a href="{% url 'place' origin_slug %}">{{ origin }}</a></p>
+                            <div id="map1" class="map"></div>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
