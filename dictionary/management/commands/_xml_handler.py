@@ -120,7 +120,6 @@ class TRREntry:
     def add_to_db(self):
         print("------ Processing: '" + self.headword + "' ------")
         entry, created = Entry.objects.get_or_create(headword=self.headword,
-                                                     sort_key=self.sort_key,
                                                      slug=self.slug)
         return entry
 
@@ -133,6 +132,7 @@ class TRREntry:
         self.entry_object.publish = self.publish
         self.entry_object.json = self.entry_dict
         self.entry_object.letter = self.letter
+        self.entry_object.sort_key = self.sort_key
         self.entry_object.save()
 
     def extract_forms(self):
