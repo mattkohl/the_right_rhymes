@@ -1515,6 +1515,9 @@ and (min-width : 360px) and (max-width : 374px) {
     .single-thumb {
         width: 116px;
     }
+   .name-date {
+       margin-top: 2em;
+   }
 }
 
 @media only screen
@@ -1533,7 +1536,10 @@ and (min-width : 321px) and (max-width : 359px) {
 
    .song-release-date {
        margin-top: 0;
+   }
 
+   .name-date {
+       margin-top: 2em;
    }
 
 }
