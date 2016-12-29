@@ -1171,6 +1171,9 @@ Media Queries Aplenty
 }
 
 @media only screen and (max-width : 767px) {
+    .letter-container {
+        padding: 1em;
+    }
 
     .navbar-toggle i {
         font-size: 1.25em;
