@@ -1449,6 +1449,9 @@ and (min-width : 411px) and (max-width : 414px) {
     .single-thumb {
         width: 133px;
     }
+   .name-date {
+       margin-top: 2em;
+   }
 }
 
 @media only screen
