@@ -22,6 +22,16 @@
                     <li class="sense-count"><strong>{{num_senses}}</strong> senses</li>
                     <li class="example-count"><strong>{{num_examples}}</strong> examples</li>
                 </ul>
+                <div class="trr-list-header">Most Recently Published Entries</div>
+                <table class="table">
+                    <th colspan="1">Headword</th><th colspan="1">Publication Date</th>
+                    {% for entry in most_recent_entries %}
+                    <tr>
+                        <td class="col-md-1"><a href="{% url 'entry' entry.slug %}">{{entry.headword}}</a></td>
+                        <td class="col-md-1 counter-bar">{{entry.pub_date|date}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 <div class="trr-list-header">Best attested senses</div>
                 <table class="table">
                     <th colspan="1">Headword</th><th colspan="1"># Examples</th>

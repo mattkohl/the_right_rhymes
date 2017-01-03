@@ -508,6 +508,7 @@ def stats(request):
     entry_count = Entry.objects.filter(publish=True).count()
     sense_count = Sense.objects.filter(publish=True).count()
     example_count = Example.objects.all().count()
+    most_recent_entries = [entry for entry in Entry.objects.filter(publish=True).order_by('-pub_date')[:LIST_LENGTH]]
     best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     best_attested_sense_count = best_attested_senses[0].num_examples
     best_attested_domains = [domain for domain in Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')[:LIST_LENGTH]]
@@ -541,6 +542,7 @@ def stats(request):
         'num_entries': entry_count,
         'num_senses': sense_count,
         'num_examples': example_count,
+        'most_recent_entries': most_recent_entries,
         'best_attested_senses': [
             {
                 'headword': sense.headword,
