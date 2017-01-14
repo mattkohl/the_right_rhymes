@@ -925,6 +925,10 @@ h2 {
     padding-bottom: .5em;
 }
 
+.stats-date {
+    padding: 8px;
+}
+
 .more-link {
 	text-align: center;
     padding: 2px 20px;
