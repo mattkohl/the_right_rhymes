@@ -42,9 +42,6 @@
                             <div class="pos">{{ sense.part_of_speech }}</div>
                             <div class="name-date">
                                 <span>Published on <time>{{ pub_date }}</time></span>
-                                {% if last_updated %}
-                                    <span> ⋅ Last updated <time>{{ last_updated }}</time></span>
-                                {% endif %}
                             </div>
                             <div id="{{ sense.xml_id }}" class="anchor"></div>
                             <div class="definition">{{ sense.definition }}</div>

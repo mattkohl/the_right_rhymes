@@ -185,12 +185,6 @@
                     <li><strong><a href="{% url 'entry' e.slug %}">{{e.headword}}</a></strong></li>
                 {% endfor %}
                 </ul>
-                <h4 style="margin-top: 2.5em; margin-bottom: .5em;">Most recently updated:</h4>
-                <ul class="list-inline">
-                {% for e in recently_updated %}
-                    <li><strong><a href="{% url 'entry' e.slug %}">{{e.headword}}</a></strong></li>
-                {% endfor %}
-                </ul>
                 <p style="margin-top: 2.5em; margin-bottom: 0;">Want more figures?</p>
                 <p>
                     <a href="{% url 'stats' %}">Click the bar chart.</a>
