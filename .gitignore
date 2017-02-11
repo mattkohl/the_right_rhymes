@@ -50,4 +50,4 @@ dictionary/management/commands/__pycache__/
 dictionary/migrations/0001_initial.py
 dictionary/migrations/__pycache__/
 the_right_rhymes/__pycache__/
-static/
+/static/
