@@ -55,7 +55,7 @@ var w = window.innerWidth,
 var endpoint = '/data/regions/{{slug}}/';
 $.getJSON(
         endpoint,
-        {'csrfmiddlewaretoken': '{{csrf_token'},
+        {'csrfmiddlewaretoken': '{{csrf_token}}'},
         function(data) {
             var children = data.children;
             var scaleMin = d3.min(children, function(d) { return d.weight });
