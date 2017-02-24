@@ -129,6 +129,7 @@ class Sense(models.Model):
     notes = models.CharField(max_length=2000, null=True, blank=True)
     examples = models.ManyToManyField('Example', db_index=True, related_name="+")
     domains = models.ManyToManyField('Domain', related_name="+", blank=True)
+    regions = models.ManyToManyField('Region', related_name="+", blank=True)
     semantic_classes = models.ManyToManyField('SemanticClass', related_name="+", blank=True)
     synset = models.ManyToManyField('SynSet', related_name="+", blank=True)
     xrefs = models.ManyToManyField('Xref', related_name="+", blank=True)
@@ -207,6 +208,19 @@ class Domain(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(primary_key=True, max_length=1000)
     senses = models.ManyToManyField('Sense', through=Sense.domains.through, related_name='+', blank=True)
+    broader = models.ManyToManyField("self", blank=True, symmetrical=False)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Region(models.Model):
+    name = models.CharField(max_length=1000)
+    slug = models.SlugField(primary_key=True, max_length=1000)
+    senses = models.ManyToManyField('Sense', through=Sense.regions.through, related_name='+', blank=True)
     broader = models.ManyToManyField("self", blank=True, symmetrical=False)
 
     class Meta:
