@@ -193,6 +193,7 @@ def build_sense(sense_object, published, full=False, build_form=False):
         "notes": sense_object.notes,
         "etymology": sense_object.etymology,
         "domains": sense_object.domains.order_by('name'),
+        "regions": sense_object.regions.order_by('name'),
         "semantic_classes": sense_object.semantic_classes.order_by('name'),
         "examples": examples,
         "num_examples": len(example_results),

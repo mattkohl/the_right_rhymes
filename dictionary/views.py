@@ -15,7 +15,7 @@ from django.views.decorators.cache import cache_control
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
     collect_place_artists, build_entry_preview, count_place_artists, dedupe_rhymes
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Example, Place, ExampleRhyme, Song, SemanticClass
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Song, SemanticClass
 from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end
 from dictionary.forms import SongForm
 
@@ -157,6 +157,39 @@ def domains(request):
     context = {
         'domain_count': domain_count,
         'image': check_for_image('domains', 'domains', 'full')
+    }
+    return HttpResponse(template.render(context, request))
+
+
+@cache_control(max_age=3600)
+def region(request, region_slug):
+    template = loader.get_template('dictionary/region.html')
+    region = get_object_or_404(Region, slug=region_slug)
+    sense_objects = region.senses.filter(publish=True).order_by('headword')
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
+    senses = [build_sense_preview(sense, published) for sense in sense_objects]
+    senses_data = [{"word": sense.headword, "weight": sense.examples.count()} for sense in sense_objects]
+    data = [sense.headword for sense in sense_objects]
+    context = {
+        'region': un_camel_case(region.name),
+        'slug': region_slug,
+        'senses': senses,
+        'senses_data': json.dumps(senses_data),
+        'published_entries': published,
+        'image': check_for_image(region.slug, 'regions', 'full'),
+        'data': json.dumps(data)
+    }
+    return HttpResponse(template.render(context, request))
+
+
+@cache_control(max_age=3600)
+def regions(request):
+    template = loader.get_template('dictionary/regions.html')
+    results = Region.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
+    region_count = results.count()
+    context = {
+        'region_count': region_count,
+        'image': check_for_image('regions', 'regions', 'full')
     }
     return HttpResponse(template.render(context, request))
 

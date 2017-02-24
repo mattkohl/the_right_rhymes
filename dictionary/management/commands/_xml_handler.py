@@ -9,7 +9,7 @@ import xmltodict
 from geopy.geocoders import Nominatim
 from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
-    Place, Song, SemanticClass
+    Place, Song, SemanticClass, Region
 from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end
 
 
@@ -194,6 +194,8 @@ class TRRSense:
         self.update_sense()
         self.domains = []
         self.extract_domains()
+        self.regions = []
+        self.extract_regions()
         self.semantic_classes = []
         self.extract_semantic_classes()
         self.collocates = []
@@ -259,6 +261,15 @@ class TRRSense:
             if type(domain_list) is OrderedDict:
                 self.domains.append(TRRDomain(domain_list['@type']))
 
+    def extract_regions(self):
+        if 'region' in self.sense_dict:
+            region_list = self.sense_dict['region']
+            if type(region_list) is list:
+                for region_name in region_list:
+                    self.regions.append(TRRRegion(region_name['@type']))
+            if type(region_list) is OrderedDict:
+                self.regions.append(TRRRegion(region_list['@type']))
+
     def extract_semantic_classes(self):
         if 'semanticClass' in self.sense_dict:
             semantic_class_list = self.sense_dict['semanticClass']
@@ -307,6 +318,8 @@ class TRRSense:
         self.parent_entry.senses.add(self.sense_object)
         for d in self.domains:
             d.domain_object.senses.add(self.sense_object)
+        for d in self.regions:
+            d.region_object.senses.add(self.sense_object)
         for sc in self.semantic_classes:
             sc.semantic_class_object.senses.add(self.sense_object)
         for s in self.synset:
@@ -644,6 +657,27 @@ class TRRDomain:
     def update_domain_object(self):
         self.domain_object.name = self.name
         self.domain_object.save()
+
+
+class TRRRegion:
+
+    def __init__(self, name):
+        self.name = make_label_from_camel_case(name)
+        self.slug = slugify(self.name)
+        self.region_object = self.add_to_db()
+        self.update_region_object()
+
+    def __str__(self):
+        return self.name
+
+    def add_to_db(self):
+        # print('Adding Region:', self.name)
+        region_object, created = Region.objects.get_or_create(slug=self.slug)
+        return region_object
+
+    def update_region_object(self):
+        self.region_object.name = self.name
+        self.region_object.save()
 
 
 class TRRSynSet:

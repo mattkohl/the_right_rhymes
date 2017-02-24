@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 
-from dictionary.models import Artist, Domain, Entry, Example, \
+from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, \
     build_place, build_sense, build_timeline_example, \
@@ -225,6 +225,46 @@ def domains(request):
                         'weight': domain.num_senses,
                         'url': '/domains/' + domain.slug
                     } for domain in results
+                ]
+            }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def region(request, region_slug):
+    results = Region.objects.filter(slug=region_slug)
+    if results:
+        region_object = results[0]
+        senses = region_object.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
+        data = {
+            'name': region_object.name,
+            'children': [
+                {
+                    'word': sense.headword,
+                    'weight': sense.num_examples,
+                    'url': '/' + sense.slug + '#' + sense.xml_id
+                } for sense in senses
+                ]
+            }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def regions(request):
+    results = Region.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')
+    if results:
+        data = {
+            'name': "Regions",
+            'children': [
+                    {
+                        'word': region.name,
+                        'weight': region.num_senses,
+                        'url': '/regions/' + region.slug
+                    } for region in results
                 ]
             }
         return Response(data)

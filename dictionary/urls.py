@@ -44,6 +44,9 @@ urlpatterns = [
     # /domains/
     url(r"^domains/$", views.domains, name='domains'),
 
+    # /regions/
+    url(r"^regions/$", views.regions, name='regions'),
+
     # /<headword-slug>/
     url(r"^(?P<headword_slug>[a-zA-Z0-9\-_#’']+)/?$", views.entry, name='entry'),
 
@@ -52,6 +55,9 @@ urlpatterns = [
 
     # /domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
+
+    # /regions/<region-slug>/
+    url(r"^regions/(?P<region_slug>[a-zA-Z0-9\-_’']+)/$", views.region, name='region'),
 
     # /entities/<named-entity-slug>/
     url(r"^entities/(?P<entity_slug>[a-zA-Z0-9\-_'’]+)/$", views.entity, name='entity'),

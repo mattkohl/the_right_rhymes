@@ -37,6 +37,12 @@ urlpatterns = [
     # /data/domains/<domain-slug>/
     url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
 
+    # /data/regions/
+    url(r"^regions/$", views.regions, name='regions'),
+
+    # /data/regions/<region-slug>/
+    url(r"^regions/(?P<region_slug>[a-zA-Z0-9\-_’']+)/$", views.region, name='region'),
+
     # /data/examples/random/
     url(r"^examples/random/$", views.random_example, name='random_example'),
 

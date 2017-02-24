@@ -1,0 +1,153 @@
+{% extends "dictionary/base.html" %}
+{% block title %}{{ region }} ⋅ {% endblock %}
+{% block content %}
+<div id="wrapper">
+    <div id="content-container">
+        <div id="content" class="group">
+            <div class="entry-content">
+                {% if image %}
+                    <figure class="center-block">
+                        <img src="{{ image }}"
+                          alt="{{ region }}"
+                          property="image"
+                          scale="0"/>
+                    </figure>
+                    <div class="headword-image">{{ region }}</div>
+                {% else %}
+                    <div class="headword">{{ region }}</div>
+                {% endif %}
+                {% if senses %}
+                    {% if senses|length > 1 %}
+                    <h3 class="trr-list-header">{{ senses|length }} senses in the region of <strong>{{ region }}</strong></h3>
+                    {% elif senses|length == 1 %}
+                    <h3 class="trr-list-header">{{ senses|length }} sense in the region of <strong>{{ region }}</strong></h3>
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% csrf_token %}
+            <div id="cloud"></div>
+        </div>
+    </div>
+</div>
+    {% load staticfiles %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+<script src="/static/dictionary/js/word_cloud.js"></script>
+<script>
+
+var r = ["#3399ff",
+        "#47a3ff",
+        "#5badff",
+        "#70b7ff",
+        "#84c1ff",
+        "#99ccff",
+        "#add6ff",
+        "#2d89e5",
+        "#287acc",
+        "#236bb2",
+        "#1e5b99",
+        "#194c7f"];
+
+var fill = d3.scale.ordinal().range(r);
+var w = window.innerWidth,
+    h = window.innerHeight;
+
+var endpoint = '/data/regions/{{slug}}/';
+$.getJSON(
+        endpoint,
+        {'csrfmiddlewaretoken': '{{csrf_token'},
+        function(data) {
+            var children = data.children;
+            var scaleMin = d3.min(children, function(d) { return d.weight });
+            var scaleMax = d3.max(children, function(d) { return d.weight });
+            var weightScale = d3.scale.linear()
+                .region([scaleMin, scaleMax])
+                .range([30, 200]);
+            d3.layout.cloud().size([w, h])
+                    .words(children.map(function (d) {
+                        return {
+                            url: d.url,
+                            text: d.word,
+                            size: weightScale(d.weight)
+                        };
+                    }))
+                    .padding(5)
+                    .rotate(function () {
+                        return ~~(Math.random() * 2) * 90;
+                    })
+                    .font("Impact")
+                    .fontSize(function (d) {
+                        return d.size;
+                    })
+                    .on("end", draw)
+                    .start();
+                }
+);
+
+function draw(words) {
+    d3.select("#cloud").append("svg")
+            .attr("width", w)
+            .attr("height", h)
+            .append("g")
+            .attr("transform", "translate(" + [w >> 1, h >> 1] + ")")
+            .selectAll("text")
+            .data(words)
+            .enter().append("a")
+            .attr("xlink:href", function(d) {
+                return d.url
+            })
+            .append("text")
+            .style("font-size", function (d) {
+                return d.size + "px";
+            })
+            .style("font-family", "Impact")
+            .style("cursor", "pointer")
+            .style("fill", function (d, i) {
+                return fill(i);
+            })
+            .attr("text-anchor", "middle")
+            .attr("transform", function (d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function (d) {
+                return d.text;
+            });
+}
+
+function drawUpdate(words) {
+    d3.layout.cloud().size([w, h])
+            .words(words)
+            .padding(5)
+            .rotate(function () {
+                return ~~(Math.random() * 2) * 90;
+            })
+            .font("Impact")
+            .fontSize(function (d) {
+                return d.size;
+            })
+            .start();
+
+
+    d3.select("svg")
+            .selectAll("g")
+            .attr("transform", "translate(" + [w >> 1, h >> 1] + ")")
+            .selectAll("text")
+            .data(words).enter().append("text")
+            .style("font-size", function (d) {
+                return d.size + "px";
+            })
+            .style("font-family", "Impact")
+            .style("fill", function (d, i) {
+                return fill(i);
+            })
+
+            .attr("transform", function (d) {
+
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function (d) {
+                return d.text;
+            });
+}
+</script>
+{% endblock %}
