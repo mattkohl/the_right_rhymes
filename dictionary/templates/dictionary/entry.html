@@ -111,6 +111,16 @@
                                         </span>
                                     </div>
                                 {% endif %}
+                                {% if sense.regions %}
+                                    <div class="xref toggle">
+                                        <span class="xrlabel" tabindex="2">Region</span>
+                                        <span class="the-list">
+                                        {% for region in sense.regions %}
+                                            <span class="domain"><a href="{% url 'region' region.slug %}">{{ region.name }}</a>{% if not forloop.last %}, {% endif %}</span>
+                                        {% endfor %}
+                                        </span>
+                                    </div>
+                                {% endif %}
                                 {% if sense.etymology %}
                                     <div class="etym xref toggle">
                                         <span class="xrlabel" tabindex="11">Etymology</span>
