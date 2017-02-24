@@ -61,7 +61,7 @@ $.getJSON(
             var scaleMin = d3.min(children, function(d) { return d.weight });
             var scaleMax = d3.max(children, function(d) { return d.weight });
             var weightScale = d3.scale.linear()
-                .region([scaleMin, scaleMax])
+                .domain([scaleMin, scaleMax])
                 .range([30, 200]);
             d3.layout.cloud().size([w, h])
                     .words(children.map(function (d) {
