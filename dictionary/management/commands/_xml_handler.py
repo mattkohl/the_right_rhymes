@@ -457,12 +457,21 @@ class TRRExample:
             return []
 
     def add_to_db(self):
-        example, created = Example.objects.get_or_create(song_title=self.song_title,
-                                                         artist_name=self.artist_name,
-                                                         release_date=self.release_date,
-                                                         release_date_string=self.release_date_string,
-                                                         album=self.album,
-                                                         lyric_text=self.lyric_text)
+        example_result = Example.objects.filter(song_title=self.song_title,
+                                                artist_name=self.artist_name,
+                                                release_date=self.release_date,
+                                                release_date_string=self.release_date_string,
+                                                album=self.album,
+                                                lyric_text=self.lyric_text)
+        if example_result:
+            return example_result.first()
+        example = Example(song_title=self.song_title,
+                          artist_name=self.artist_name,
+                          release_date=self.release_date,
+                          release_date_string=self.release_date_string,
+                          album=self.album,
+                          lyric_text=self.lyric_text)
+        example.save()
         return example
 
     def extract_entities(self):
