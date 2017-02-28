@@ -457,7 +457,6 @@ class TRRExample:
             return []
 
     def add_to_db(self):
-        print('Adding Example:', self.lyric_text)
         example, created = Example.objects.get_or_create(song_title=self.song_title,
                                                          artist_name=self.artist_name,
                                                          release_date=self.release_date,
