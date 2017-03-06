@@ -311,6 +311,18 @@ def place_artists(request, place_slug):
 
 
 @api_view(('GET',))
+def random_entry(request):
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    entry = Entry.objects.filter(publish=True).order_by('?').first()
+    if entry:
+        senses = [build_sense(sense, published, True) for sense in entry.get_senses_ordered_by_example_count()]
+        data = {'senses': senses}
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
 def random_example(request):
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     result = Example.objects.order_by('?').first()
