@@ -316,7 +316,18 @@ def random_entry(request):
     entry = Entry.objects.filter(publish=True).order_by('?').first()
     if entry:
         senses = [build_sense(sense, published) for sense in entry.get_senses_ordered_by_example_count()]
-        data = {'senses': senses}
+        data = {'headword': entry.headword, 'pub_date': entry.pub_date, 'senses': senses}
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def random_sense(request):
+    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    sense = Sense.objects.filter(publish=True).order_by('?').first()
+    if sense:
+        data = build_sense(sense, published)
         return Response(data)
     else:
         return Response({})

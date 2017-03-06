@@ -70,6 +70,9 @@ urlpatterns = [
     # /data/senses/
     url(r"^senses/$", views.senses, name="senses"),
 
+    # /data/senses/random
+    url(r"^senses/random/$", views.random_sense, name="random_sense"),
+
     # /data/senses/<sense_id>/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/$", views.sense, name="sense"),
 
