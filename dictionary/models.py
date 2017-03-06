@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q, Count
+from django.db.models.fields.related import ManyToManyField
 from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 
@@ -203,6 +204,9 @@ class SemanticClass(models.Model):
     def __str__(self):
         return self.name
 
+    def to_dict(self):
+        return {"name": self.name, "slug": self.slug}
+
 
 class Domain(models.Model):
     name = models.CharField(max_length=1000)
@@ -216,6 +220,9 @@ class Domain(models.Model):
     def __str__(self):
         return self.name
 
+    def to_dict(self):
+        return {"name": self.name, "slug": self.slug}
+
 
 class Region(models.Model):
     name = models.CharField(max_length=1000)
@@ -228,6 +235,9 @@ class Region(models.Model):
 
     def __str__(self):
         return self.name
+
+    def to_dict(self):
+        return {"name": self.name, "slug": self.slug}
 
 
 class Xref(models.Model):
@@ -247,6 +257,20 @@ class Xref(models.Model):
     def __str__(self):
         return self.xref_word
 
+    def to_dict(self):
+        base = {
+            "xref_word": self.xref_word,
+            "xref_type": self.xref_type,
+            "target_lemma": self.target_lemma,
+            "target_slug": self.target_slug,
+            "target_id": self.target_id,
+        }
+        if self.frequency:
+            base.update({"frequency": self.frequency})
+        if self.position:
+            base.update({"position": self.position})
+        return base
+
 
 class Collocate(models.Model):
     id = models.AutoField(primary_key=True)
@@ -262,6 +286,19 @@ class Collocate(models.Model):
 
     def __str__(self):
         return self.collocate_lemma
+    
+    def to_dict(self):
+        base = {
+            "collocate_lemma": self.collocate_lemma,
+            "source_sense_xml_id": self.source_sense_xml_id,
+            "target_slug": self.target_slug,
+            "target_id": self.target_id,
+            "frequency": self.frequency
+        }
+        if self.frequency:
+            base.update({"frequency": self.frequency})
+        return base
+
 
 
 class SenseRhyme(models.Model):
@@ -277,6 +314,14 @@ class SenseRhyme(models.Model):
 
     def __str__(self):
         return self.rhyme + ' - ' + self.parent_sense_xml_id
+
+    def to_dict(self):
+        return {
+            "rhyme": self.rhyme,
+            "rhyme_slug": self.rhyme_slug,
+            "parent_sense_xml_id": self.parent_sense_xml_id,
+            "frequency": self.frequency,
+        }
 
 
 class Example(models.Model):

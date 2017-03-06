@@ -192,23 +192,23 @@ def build_sense(sense_object, published, full=False, build_form=False):
         "definition": sense_object.definition,
         "notes": sense_object.notes,
         "etymology": sense_object.etymology,
-        "domains": sense_object.domains.order_by('name'),
-        "regions": sense_object.regions.order_by('name'),
-        "semantic_classes": sense_object.semantic_classes.order_by('name'),
+        "domains": [o.to_dict() for o in sense_object.domains.order_by('name')],
+        "regions": [o.to_dict() for o in sense_object.regions.order_by('name')],
+        "semantic_classes": [o.to_dict() for o in sense_object.semantic_classes.order_by('name')],
         "examples": examples,
         "num_examples": len(example_results),
-        "synonyms": sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word'),
-        "antonyms": sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word'),
-        "meronyms": sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word'),
-        "holonyms": sense_object.xrefs.filter(xref_type="Holonym").order_by('xref_word'),
-        "derivatives": sense_object.xrefs.filter(xref_type="Derivative").order_by('xref_word'),
-        "ancestors": sense_object.xrefs.filter(xref_type="Derives From").order_by('xref_word'),
-        "instance_of": sense_object.xrefs.filter(xref_type="Instance Of").order_by('xref_word'),
-        "instances": sense_object.xrefs.filter(xref_type="Instance").order_by('xref_word'),
-        "related_concepts": sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word'),
-        "related_words": sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word'),
-        "rhymes": sense_object.sense_rhymes.order_by('-frequency'),
-        "collocates": sense_object.collocates.order_by('-frequency'),
+        "synonyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word')],
+        "antonyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word')],
+        "meronyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word')],
+        "holonyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Holonym").order_by('xref_word')],
+        "derivatives": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Derivative").order_by('xref_word')],
+        "ancestors": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Derives From").order_by('xref_word')],
+        "instance_of": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Instance Of").order_by('xref_word')],
+        "instances": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Instance").order_by('xref_word')],
+        "related_concepts": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Related Concept").order_by('xref_word')],
+        "related_words": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Related Word").order_by('xref_word')],
+        "rhymes": [o.to_dict() for o in sense_object.sense_rhymes.order_by('-frequency')],
+        "collocates": [o.to_dict() for o in sense_object.collocates.order_by('-frequency')],
         "artist_slug": artist_slug,
         "artist_name": artist_name,
         "image": image,
@@ -226,6 +226,31 @@ def build_sense_preview(sense_object, published):
         "xml_id": sense_object.xml_id,
         "example_count": sense_object.examples.count()
         # "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
+    }
+    return result
+
+
+def build_xref(xref_object):
+
+    result = {
+        "xref_word": xref_object.xref_word,
+        "xref_type": xref_object.xref_type,
+        "target_lemma": xref_object.target_lemma,
+        "target_slug": xref_object.target_slug,
+        "target_id": xref_object.target_id,
+        "frequency": xref_object.frequency,
+        "position": xref_object.position
+    }
+    return result
+
+
+def build_collocate(collocate_object):
+    result = {
+        "collocate_lemma": collocate_object.collocate_lemma,
+        "source_sense_xml_id": collocate_object.source_sense_xml_id,
+        "target_slug": collocate_object.target_slug,
+        "target_id": collocate_object.target_id,
+        "frequency": collocate_object.frequency
     }
     return result
 
