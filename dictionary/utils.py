@@ -187,6 +187,7 @@ def build_sense(sense_object, published, full=False, build_form=False):
     # if build_form:
     #     form = SenseForm(instance=sense_object)
     result = {
+        "headword": sense_object.headword,
         "part_of_speech": sense_object.part_of_speech,
         "xml_id": sense_object.xml_id,
         "definition": sense_object.definition,
