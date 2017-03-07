@@ -550,7 +550,7 @@ def stats(request):
     most_mentioned_artists = [e for e in NamedEntity.objects.filter(entity_type='artist').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_cited_artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')[:LIST_LENGTH]]
     examples_date_ascending = Example.objects.order_by('release_date')
-    examples_date_descending = Example.objects.order_by('-release_date')
+    examples_date_descending = Example.objects.extra(where=["CHAR_LENGTH(release_date_string) > 4"]).order_by('-release_date')
     seventies = Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
     eighties = Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"]).count()
     nineties = Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
