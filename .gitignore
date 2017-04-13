@@ -42,6 +42,7 @@ settings.py
 .idea/
 
 /dictionary/migrations
+api/migrations
 api/__pycache__/
 api/migrations/__pycache__/
 dictionary/__pycache__/
