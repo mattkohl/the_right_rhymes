@@ -312,7 +312,7 @@ def place_artists(request, place_slug):
 
 @api_view(('GET',))
 def random_entry(request):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     entry = Entry.objects.filter(publish=True).order_by('?').first()
     if entry:
         senses = [build_sense(sense, published) for sense in entry.get_senses_ordered_by_example_count()]
@@ -324,7 +324,7 @@ def random_entry(request):
 
 @api_view(('GET',))
 def random_sense(request):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     sense = Sense.objects.filter(publish=True).order_by('?').first()
     if sense:
         data = build_sense(sense, published)
@@ -335,7 +335,7 @@ def random_sense(request):
 
 @api_view(('GET',))
 def random_example(request):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     result = Example.objects.order_by('?').first()
     if result:
         data = {
@@ -349,7 +349,7 @@ def random_example(request):
 
 @api_view(('GET',))
 def remaining_place_examples(request, place_slug):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
     examples = []
     if len(entity_results) >= 1:
@@ -368,7 +368,7 @@ def remaining_place_examples(request, place_slug):
 
 @api_view(('GET',))
 def remaining_sense_examples(request, sense_id):
-    published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     sense_object = Sense.objects.filter(xml_id=sense_id)[0]
     example_results = sense_object.examples.order_by('release_date')
 

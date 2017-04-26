@@ -316,12 +316,14 @@ def add_links(lyric, links, published, rf=False):
     for link in links:
         try:
             lyric.index(link.link_text)
-        except:
+        except Exception as e:
             continue
         else:
             start = link.position + buffer
             end = start + len(link.link_text)
-            if link.link_type == 'rhyme' and link.target_lemma in published:
+            hw_slug = link.target_slug.split("#")[0]
+            print(link.target_lemma, link.target_slug)
+            if link.link_type == 'rhyme' and hw_slug in published:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
@@ -329,10 +331,11 @@ def add_links(lyric, links, published, rf=False):
                 a = '<a href="/rhymes/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
-            if link.link_type == 'xref' and link.target_lemma in published:
+            if link.link_type == 'xref' and hw_slug in published:
                 a = '<a href="/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
                 buffer += (len(a) - len(link.link_text))
+                print(linked_lyric)
             if link.link_type == 'artist':
                 a = '<a href="/artists/{}">{}</a>'.format(link.target_slug, link.link_text)
                 linked_lyric = inject_link(linked_lyric, start, end, a)
