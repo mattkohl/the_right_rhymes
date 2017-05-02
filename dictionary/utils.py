@@ -182,6 +182,10 @@ def build_sense(sense_object, published, full=False, build_form=False):
         examples = [build_example(example, published) for example in example_results]
     else:
         examples = [build_example(example, published) for example in example_results[:NUM_QUOTS_TO_SHOW]]
+    sense_slug = slugify(sense_object.headword + '_' + sense_object.xml_id)
+    sense_image = check_for_image(sense_slug, 'senses', 'full')
+    if "__none" in sense_image:
+        sense_image = None
     artist_slug, artist_name, image = assign_artist_image(examples)
     form = None
     # if build_form:
@@ -212,6 +216,7 @@ def build_sense(sense_object, published, full=False, build_form=False):
         "collocates": [o.to_dict() for o in sense_object.collocates.order_by('-frequency')],
         "artist_slug": artist_slug,
         "artist_name": artist_name,
+        "sense_image": sense_image,
         "image": image,
         "form": form
     }

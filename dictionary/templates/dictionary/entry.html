@@ -28,7 +28,15 @@
                 {% if headword %}
                     <div class="entry-content">
                         {% for sense in senses %}
-                            {% if sense.image %}
+                            {% if sense.sense_image %}
+                                <figure class="center-block">
+                                    <img src="{{ sense.sense_image }}"
+                                      alt="{{ headword }}"
+                                      property="image"
+                                      scale="0"/>
+                                </figure>
+                                <h1 class="headword-image">{{ headword }}</h1>
+                            {% elif sense.image %}
                                 <figure class="center-block">
                                     <img src="{{ sense.image }}"
                                       alt="{{ sense.artist_name }}"
