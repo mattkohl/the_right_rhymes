@@ -154,26 +154,26 @@
                     {% for example in earliest_date.example %}
                         <tr>
                             <td>
-                            <span class="date">{{ example.release_date_string }}</span>
-                            <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                            <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
-                                {% if example.featured_artists %}
-                                <span> feat. </span>
-                                {% for feat in example.featured_artists %}
-                                    <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
-                                {% endfor %}
-                            {% endif %}
-                            <span class="album">[{{example.album }}]</span>
-                            <div class="lyric">{{ example.linked_lyric|safe }}</div>
+                                <span class="date">{{ example.release_date_string }}</span>
+                                <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
+                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                    {% if example.featured_artists %}
+                                    <span> feat. </span>
+                                    {% for feat in example.featured_artists %}
+                                        <span class="artist"><a href="{% url 'artist' feat.slug %}">{{feat.name}}</a>{% if not forloop.last %}, {% endif %}</span>
+                                    {% endfor %}
+                                {% endif %}
+                                <span class="album">[{{example.album }}]</span>
+                                <div class="lyric">{{ example.linked_lyric|safe }}</div>
                             </td>
                         </tr>
                     {% endfor %}
                 </table>
                 <table class="table">
                     <div class="trr-list-header">Most recent examples</div>
-                        {% for example in latest_date.example %}
-                            <tr>
-                                <td>
+                    {% for example in latest_date.example %}
+                        <tr>
+                            <td>
                                 <span class="date">{{ example.release_date_string }}</span>
                                 <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
                                 <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
@@ -185,9 +185,9 @@
                                 {% endif %}
                                 <span class="album">[{{example.album }}]</span>
                                 <div class="lyric">{{ example.linked_lyric|safe }}</div>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>
