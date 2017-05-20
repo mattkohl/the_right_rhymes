@@ -108,10 +108,7 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
                     }
                     ex.append(
                         $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
-                        $('<div class="lyric">' + example.linked_lyric + '</div>').append(
-                        $('<a></a>', { "class": 'tweet', "href": "http://www.therightrhymes.com/artists/" + artist_slug, "title": example.lyric, "target": '_blank'}).append(
-                            $('<i></i>', { 'class': "fa fa-share-alt", 'aria-hidden': true })
-                        ))
+                        $('<div class="lyric">' + example.linked_lyric + '</div>')
                     );
                 });
                 ex.appendTo(ul);
@@ -156,10 +153,7 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
                 }
                 ex.append(
                     $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
-                    $('<div class="lyric">' + example.linked_lyric + '</div>').append(
-                    $('<a></a>', { "class": 'tweet', "href": "http://www.therightrhymes.com/" + entry_slug, "title": example.lyric, "target": '_blank'}).append(
-                        $('<i></i>', { 'class': "fa fa-share-alt", 'aria-hidden': true })
-                    ))
+                    $('<div class="lyric">' + example.linked_lyric + '</div>')
                 );
                 ex.appendTo(ul);
             });
