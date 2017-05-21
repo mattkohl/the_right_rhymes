@@ -270,7 +270,8 @@ footer {
 
 .placeholder-background {
     background: #eee;
-    padding-bottom: .5em;
+    padding-bottom: .25em;
+    margin-bottom: 1em;
 }
 
 .letter-container-wrapper {
@@ -511,14 +512,19 @@ p.mapLabel {
 	font-weight: bold;
 }
 
+.buttons {
+    margin-top: 0.75em;
+    margin-bottom: 0.25em;
+}
+
 .xref {
     display: inline-block;
 }
 
 .xref, .etym {
 	font-size: .75em;
-	margin-bottom: .5em;
-	/*margin-left: .5em;*/
+	margin-bottom: 1.25em;
+	margin-left: .25em;
 }
 
 .artist {
@@ -642,11 +648,11 @@ a:focus.feat {
 }
 
 .sense_timeline, .xrlabel {
-    padding: 2px 10px;
+    padding: 6px 12px;
     text-transform: uppercase;
     background-color: #838383;
     color: #fff;
-    border-radius: 2px;
+    border-radius: 1px;
     will-change: opacity, transform;
     transition: all .3s ease-out;
     -webkit-tap-highlight-color: transparent;
@@ -677,7 +683,7 @@ a.sense_timeline:hover, .xrlabel:hover {
 .toggle_exx a {
     color: white;
     background: #838383;
-    border-radius: 2px;
+    border-radius: 1px;
     will-change: opacity, transform;
     transition: all .3s ease-out;
     -webkit-tap-highlight-color: transparent;
@@ -687,7 +693,7 @@ a.sense_timeline:hover, .xrlabel:hover {
 .toggle_exx a:link,
 .toggle_exx a:visited {
 	font-size: 0.6em;
-	padding: 2px 10px;
+	padding: 6px 12px;
 	text-decoration: none;
 	text-transform: uppercase;
 	line-height: 17px;
@@ -1763,8 +1769,8 @@ and (max-width : 240px) and (max-height : 240px) {
 .resp-sharing-button__link {
   text-decoration: none;
   color: #fff;
-  margin:  1em 0.5em 0.25em 0.5em;
-  font-size: 0.8em;
+  margin:  0 0.5em 0.25em 0.5em;
+  font-size: 0.85em;
 }
 
 .resp-sharing-button {
@@ -1784,7 +1790,7 @@ and (max-width : 240px) and (max-height : 240px) {
 .resp-sharing-button--small svg {
   margin: 0;
   vertical-align: middle;
-  margin-bottom: 0.15em;
+  margin-bottom: 0.17em;
 }
 
 /* Non solid icons get a stroke */
