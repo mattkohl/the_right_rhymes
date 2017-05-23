@@ -205,6 +205,7 @@ $(document).ready(function() {
                 var map = new google.maps.Map(document.getElementById('map' + index), options);
                     map.mapTypes.set('grey', mapType);
                     map.setMapTypeId('grey');
+                    map.setOptions({zoomControl: false, mapTypeControl: false, streetViewControl: false});
                 var markers = [];
                 var mc = new MarkerClusterer(map);
                 var isEntry = true;
