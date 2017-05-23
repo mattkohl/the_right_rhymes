@@ -1919,3 +1919,160 @@ background-color: #FF6600
   background-color: #1DA851;
   border-color: #1DA851;
 }
+
+
+
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic);
+.fabs {
+  font-family: 'Roboto';
+  color: #fff;
+  bottom: 0;
+  position: fixed;
+  margin: 1em;
+  right: 0;
+}
+
+.fab {
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  margin: 20px auto 0;
+  box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.18), 0px 4px 12px -7px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  -webkit-transition: all .1s ease-out;
+  transition: all .1s ease-out;
+  position: relative;
+}
+
+.fab > i {
+  font-size: 28px;
+  line-height: 60px;
+  transition: all .2s ease-in-out;
+  transition-delay: 2s;
+}
+
+.fab.facebook {
+  background-color: #3b5998;
+  border-color: #3b5998;
+}
+
+.fab.facebook:hover,
+.fab.facebook:active {
+  background-color: #2d4373;
+  border-color: #2d4373;
+}
+
+.fab.twitter {
+  background-color: #55acee;
+  border-color: #55acee;
+}
+
+.fab.twitter:hover,
+.fab.twitter:active {
+  background-color: #2795e9;
+  border-color: #2795e9;
+}
+
+.fab.reddit {
+  background-color: #5f99cf
+}
+
+.fab.reddit:hover {
+  background-color: #3a80c1
+}
+
+.fab.whatsapp {
+  background-color: #25D366;
+  border-color: #25D366;
+}
+
+.fab.whatsapp:hover,
+.fab.whatsapp:active {
+  background-color: #1DA851;
+  border-color: #1DA851;
+}
+
+.fab.red {
+  background: #F44336;
+}
+
+.fab:active,
+.fab:focus,
+.fab:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+}
+
+.fab:not(:last-child) {
+  width: 36px;
+  height: 36px;
+  margin: 20px auto 0;
+  opacity: 0;
+}
+
+.fab:not(:last-child) > i {
+  font-size: 18px;
+  line-height: 40px;
+  transition: all .3s ease-in-out;
+}
+
+.fabs:hover .fab:not(:last-child) {
+  opacity: 1;
+  width: 40px;
+  height: 40px;
+  margin: 15px auto 0;
+}
+
+.fab:nth-last-child(1) {
+  -webkit-transition-delay: 25ms;
+  transition-delay: 25ms;
+}
+
+.fab:not(:last-child):nth-last-child(2) {
+  -webkit-transition-delay: 20ms;
+  transition-delay: 20ms;
+}
+
+.fab:not(:last-child):nth-last-child(3) {
+  -webkit-transition-delay: 40ms;
+  transition-delay: 40ms;
+}
+
+.fab:not(:last-child):nth-last-child(4) {
+  -webkit-transition-delay: 60ms;
+  transition-delay: 60ms;
+}
+
+.fab:not(:last-child):nth-last-child(5) {
+  -webkit-transition-delay: 80ms;
+  transition-delay: 80ms;
+}
+
+[tooltip]:before {
+  font-family: 'Roboto';
+  font-weight: 600;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-color: #585858;
+  color: #fff;
+  content: attr(tooltip);
+  font-size: 12px;
+  visibility: hidden;
+  opacity: 0;
+  padding: 5px 7px;
+  margin-right: 10px;
+  position: absolute;
+  right: 100%;
+  bottom: 5%;
+  white-space: nowrap;
+}
+
+[tooltip]:hover:before,
+[tooltip]:hover:after {
+  visibility: visible;
+  opacity: 1;
+}
