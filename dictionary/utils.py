@@ -188,8 +188,13 @@ def build_sense(sense_object, published, full=False, build_form=False):
         sense_image = None
     artist_slug, artist_name, image = assign_artist_image(examples)
     form = None
-    # if build_form:
-    #     form = SenseForm(instance=sense_object)
+
+    synset = sense_object.synset.first()
+    if synset:
+        synonyms = [sense_to_xref_dict(s) for s in synset.senses.order_by('headword') if s != sense_object]
+    else:
+        synonyms = [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word')]
+
     result = {
         "headword": sense_object.headword,
         "part_of_speech": sense_object.part_of_speech,
@@ -202,7 +207,7 @@ def build_sense(sense_object, published, full=False, build_form=False):
         "semantic_classes": [o.to_dict() for o in sense_object.semantic_classes.order_by('name')],
         "examples": examples,
         "num_examples": len(example_results),
-        "synonyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Synonym").order_by('xref_word')],
+        "synonyms": synonyms,
         "antonyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Antonym").order_by('xref_word')],
         "meronyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Meronym").order_by('xref_word')],
         "holonyms": [o.to_dict() for o in sense_object.xrefs.filter(xref_type="Holonym").order_by('xref_word')],
@@ -221,6 +226,16 @@ def build_sense(sense_object, published, full=False, build_form=False):
         "form": form
     }
     return result
+
+
+def sense_to_xref_dict(sense_object):
+    return {
+        "xref_word": sense_object.headword,
+        "xref_type": "synonym",
+        "target_lemma": sense_object.headword,
+        "target_slug": slugify(sense_object.headword),
+        "target_id": sense_object.xml_id,
+    }
 
 
 def build_sense_preview(sense_object, published):
