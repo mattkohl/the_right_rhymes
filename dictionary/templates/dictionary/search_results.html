@@ -9,15 +9,10 @@
                 <header class="page-header search-results">
                     <div class="page-title trr-list-header" style="margin-top: -0.25em; margin-bottom: 0.25em; padding: 20px; font-size: 1.25em;">
                         <div>There's no entry for <strong>{{query}}</strong>.</div>
-                        <div style="margin: 0.75em 0 0.25em 0;"><a class="suggest" href="https://twitter.com/intent/tweet/?text=Hey%2C%20%40theRightRhymes%2C%20why%20not%20add%20%22{{query}}%22%20to%20the%20dictionary%3F" target="_blank">Suggest one?</a></div>
                     </div>
-                    {% if result_count == 1 %}
-                    <h4>Found {{result_count }} matching example</h4>
-                    {% else %}
-                    <h4>Found {{ result_count }} matching examples</h4>
-                    {% endif %}
                 </header>
-                <div class="trr-list">
+                <div class="suggest-wrapper"><a class="suggest" href="https://twitter.com/intent/tweet/?text=Hey%2C%20%40theRightRhymes%2C%20why%20not%20add%20%22{{query}}%22%20to%20the%20dictionary%3F" target="_blank">Suggest it</a></div>
+                <div class="trr-list" style="margin-bottom: 0.5em;">
                     {% for example in examples %}
                         <div class="trr-list-group-item">
                             <div>
@@ -52,7 +47,7 @@
                     </h4>
                 {% endif %}
 
-                <div style="margin-top: -2em; margin-bottom: 4em;">
+                <div style="margin-top: 0em; margin-bottom: 3em;">
                     <a href="{% url 'random_entry' %}" class="h3" style="color: black; margin-left: .5em; margin-bottom: 1em;">
                         <i class="fa fa-bomb" aria-hidden="true"></i>
                     </a>

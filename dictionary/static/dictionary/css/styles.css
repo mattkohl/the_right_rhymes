@@ -628,6 +628,11 @@ a:focus.feat {
 	margin-bottom: 1em;
 }
 
+.suggest-wrapper {
+     margin: 1em;
+}
+
+
 .suggest {
     background: #3399FF;
     color: #fff !important;
@@ -785,7 +790,8 @@ a.sense_timeline:hover, .xrlabel:hover, .suggest:hover {
 }
 
 .other-entries {
-    margin-top: 5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
     padding: 1em;
     line-height: 1.5em;
 }
