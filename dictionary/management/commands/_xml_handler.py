@@ -1,5 +1,3 @@
-__author__ = 'MBK'
-
 import time
 from collections import OrderedDict
 from os import listdir
@@ -603,12 +601,11 @@ class TRRPlace:
 
     def add_lat_long(self):
         if self.full_name and self.place_object and not self.place_object.longitude and self.slug not in geocache:
-            latitude, longitude = geocode_place(self.full_name)
-            if longitude:
-                self.place_object.longitude = longitude
-            if latitude:
-                self.place_object.latitude = latitude
-            self.place_object.save()
+            coords = geocode_place(self.full_name)
+            if coords:
+                self.place_object.longitude = coords[0]
+                self.place_object.latitude = coords[1]
+                self.place_object.save()
 
     def check_if_part(self):
         if ', ' in self.full_name:
