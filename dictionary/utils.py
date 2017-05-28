@@ -605,9 +605,9 @@ def geocode_place(place_name):
         coded = geolocator.geocode(place_name)
         longitude = coded.longitude
         latitude = coded.latitude
-    except:
+    except Exception as e:
         geocache.append(slugify(place_name))
-        print('Unable to geolocate', place_name)
+        print('Unable to geolocate', place_name, e)
     else:
         return latitude, longitude
 
