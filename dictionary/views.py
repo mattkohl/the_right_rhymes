@@ -506,6 +506,9 @@ def song(request, song_slug):
     image = check_for_image(song.artist_slug, 'artists', 'full')
     thumb = check_for_image(song.artist_slug, 'artists', 'thumb')
     form = SongForm(instance=song)
+    sense_results = set([s for e in song.examples.all() for s in e.illustrates_senses.filter(publish=True).order_by('headword')])
+    senses = [build_sense_preview(s, published_entries) for s in sense_results]
+
     context = {
         "title": song.title,
         "slug": song.slug,
@@ -518,7 +521,7 @@ def song(request, song_slug):
         "release_date": song.release_date,
         "release_date_string": song.release_date_string,
         "album": song.album,
-        "examples": [build_example(example, published_entries, rf=True) for example in song.examples.all()],
+        "senses": senses,
         "same_dates": same_dates,
         "form": None
     }

@@ -795,6 +795,51 @@ a.sense_timeline:hover, .xrlabel:hover, .suggest:hover {
     margin-bottom: 1em;
 }
 
+.chips {
+    margin-top: -.75em;
+    margin-bottom: -2.75em;
+}
+
+.chip {
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 0 .25em;
+    will-change: opacity, transform;
+    transition: all .3s ease-out;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.chip:hover {
+    opacity: .8;
+}
+
+.chip figure {
+    width: 150px;
+    max-height: 50px;
+    overflow: hidden;
+}
+
+.chip figcaption {
+    text-align: center;
+    height: 48px;
+    line-height: 50px;
+    padding: 0 3px;
+}
+
+.chip figcaption span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+.chip img {
+    filter: brightness(25%);
+    height: 150px;
+}
+
 .other-entries {
     margin-top: 1em;
     margin-bottom: 1em;

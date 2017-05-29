@@ -239,13 +239,16 @@ def sense_to_xref_dict(sense_object):
 
 
 def build_sense_preview(sense_object, published):
+    first_example = sense_object.examples.order_by('release_date').first()
     result = {
         "headword": sense_object.headword,
         "slug": sense_object.slug,
         "part_of_speech": sense_object.part_of_speech,
         "definition": sense_object.definition,
         "xml_id": sense_object.xml_id,
-        "example_count": sense_object.examples.count()
+        "example_count": sense_object.examples.count(),
+        "first_example": first_example,
+        "image": check_for_image(first_example.artist_slug)
         # "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
     }
     return result

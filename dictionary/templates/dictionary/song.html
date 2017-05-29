@@ -42,18 +42,26 @@
                 <span class="song_slug hidden">{{slug}}</span>
                 <div id="songVis"></div>
 
-                {% if examples|length == 1 %}
-                <div class="song-list-header" style="margin-top: 1.25em;">{{examples|length}} example found in <span class="logo">The Right Rhymes</span> database</div>
+                {% if senses|length == 1 %}
+                <div class="song-list-header" style="margin-top: .75em;">Cited at {{senses|length}} sense in <span class="logo">The Right Rhymes</span> database</div>
                 {% else %}
-                <div class="song-list-header" style="margin-top: 1.25em;">{{examples|length}} examples found in <span class="logo">The Right Rhymes</span> database</div>
+                <div class="song-list-header" style="margin-top: .75em;">Cited at {{senses|length}} senses in <span class="logo">The Right Rhymes</span> database</div>
                 {% endif %}
 
-                <div class="lyrics">
-                {% for example in examples %}
-                    <div>
-                        <div class="lyric-list">{{ example.linked_lyric|safe }}</div>
-                    </div>
-                {% endfor %}
+                <div class="chips">
+                    {% for sense in senses %}
+                    <a href="{% url 'entry' sense.slug %}#{{sense.xml_id}}" class="chip">
+                        <figure class="single-thumb">
+                            <img src="{{ sense.image }}"
+                                 alt="{{ sense.headword }}"
+                                 property="image"
+                                 scale="0"
+                                 width="150"
+                                 height="150"/>
+                            <figcaption><span>{{sense.headword}}</span></figcaption>
+                        </figure>
+                    </a>
+                    {% endfor %}
                 </div>
 
                 {% if same_dates %}
@@ -62,9 +70,12 @@
                     {% else %}
                     <div class="trr-list-header">Currently citing <strong>{{same_dates|length}}</strong> other songs with the same release date</div>
                     {% endif %}
+                    <div id="songTreeVis"></div>
                 {% endif %}
 
-                <div id="songTreeVis"></div>
+                {% if not same_dates %}
+                    <div class="trr-list-header" style="margin-top: 2.5em; color: #EAEAEA;">-</div>
+                {% endif %}
 
                 {% if form %}
                     <hr>
