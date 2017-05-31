@@ -841,10 +841,11 @@ a.sense_timeline:hover, .xrlabel:hover, .suggest:hover {
 }
 
 .other-entries {
-    margin-top: 1em;
+    margin-top: .5em;
     margin-bottom: 1em;
     padding: 1em;
     line-height: 1.5em;
+    text-transform: uppercase;
 }
 
 .trr-list-header {
