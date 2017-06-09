@@ -22,6 +22,9 @@ urlpatterns = [
     # /data/artists/missing_metadata/
     url(r"^artists/missing_metadata/$", views.artists_missing_metadata, name='artists_missing_metadata'),
 
+    # /data/artists/random/
+    url(r"^artists/random/$", views.random_artist, name='random_artist'),
+
     # /data/artists/<artist_slug>/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/$", views.artist, name="artist"),
 
@@ -51,6 +54,9 @@ urlpatterns = [
 
     # /data/headword_search/
     url(r'^headword_search/$', views.headword_search, name='headword_search'),
+
+    # /data/places/random/
+    url(r"^places/random/$", views.random_place, name='random_place'),
 
     # /data/places/<place-name-slug>/
     url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),

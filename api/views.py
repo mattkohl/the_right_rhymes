@@ -323,6 +323,26 @@ def random_entry(request):
 
 
 @api_view(('GET',))
+def random_artist(request):
+    a = Artist.objects.all().order_by('?').first()
+    if a:
+        data = build_artist(a)
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def random_place(request):
+    p = Place.objects.filter(longitude__isnull=False).order_by('?').first()
+    if p:
+        data = build_place(p)
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
 def random_sense(request):
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     sense = Sense.objects.filter(publish=True).order_by('?').first()
