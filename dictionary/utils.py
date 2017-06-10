@@ -307,6 +307,19 @@ def build_example(example_object, published, rf=False):
     return result
 
 
+def build_song(song_object, rf=False):
+    result = {
+        "artist": [build_artist(a) for a in song_object.artist.order_by('name')],
+        "song_title": song_object.title,
+        "song_slug": slugify(song_object.artist_name + ' ' + song_object.title),
+        "album": song_object.album,
+        "release_date": str(song_object.release_date),
+        "release_date_string": song_object.release_date_string,
+        "featured_artists": [build_artist(feat) for feat in song_object.feat_artist.order_by('name')],
+    }
+    return result
+
+
 def build_timeline_example(example_object, published, rf=False):
     example = build_example(example_object, published, rf)
     url = check_for_image(example['artist_slug'], 'artists', 'full')

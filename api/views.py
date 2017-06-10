@@ -11,7 +11,7 @@ from rest_framework.pagination import PageNumberPagination
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, \
-    build_place, build_sense, build_timeline_example, \
+    build_place, build_sense, build_timeline_example, build_song, \
     check_for_image, reduce_ordered_list, reformat_name, slugify
 from dictionary.views import NUM_QUOTS_TO_SHOW
 
@@ -327,6 +327,16 @@ def random_artist(request):
     a = Artist.objects.all().order_by('?').first()
     if a:
         data = build_artist(a)
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def random_song(request):
+    a = Song.objects.all().order_by('?').first()
+    if a:
+        data = build_song(a)
         return Response(data)
     else:
         return Response({})

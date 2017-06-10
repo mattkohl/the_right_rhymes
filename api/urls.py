@@ -94,6 +94,9 @@ urlpatterns = [
     # /data/senses/<sense_id>/timeline/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name="sense_timeline"),
 
+    # /data/songs/random
+    url(r"^songs/random/$", views.random_song, name="random_song"),
+
     # /data/songs/<song-slug>/artist_network/
     url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@\^]+)/artist_network/$", views.song_artist_network, name='song_artist_network'),
 
