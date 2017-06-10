@@ -309,9 +309,9 @@ def build_example(example_object, published, rf=False):
 
 def build_song(song_object, rf=False):
     result = {
-        "artist": [build_artist(a) for a in song_object.artist.order_by('name')],
-        "song_title": song_object.title,
-        "song_slug": slugify(song_object.artist_name + ' ' + song_object.title),
+        "primary_artists": [build_artist(a) for a in song_object.artist.order_by('name')],
+        "title": song_object.title,
+        "slug": slugify(song_object.artist_name + ' ' + song_object.title),
         "album": song_object.album,
         "release_date": str(song_object.release_date),
         "release_date_string": song_object.release_date_string,
