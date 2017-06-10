@@ -105,6 +105,7 @@ def un_camel_case(name):
 def build_place(place_object, include_artists=False):
     result = {
         "name": place_object.name,
+        "full_name": place_object.full_name,
         "slug": place_object.slug,
     }
     if include_artists:
