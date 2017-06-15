@@ -308,6 +308,28 @@ def build_example(example_object, published, rf=False):
     return result
 
 
+def build_beta_example(example_object):
+    lyric = example_object.lyric_text
+    lyric_links = example_object.lyric_links.order_by('position')
+    result = {
+        "primary_artists": [build_artist(a) for a in example_object.artist.order_by('name')],
+        "title": example_object.song_title,
+        "album": example_object.album,
+        "release_date": str(example_object.release_date),
+        "release_date_string": example_object.release_date_string,
+        "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
+        "lyric": lyric,
+        "links": [{
+            "text": link.link_text,
+            "type": link.link_type,
+            "offset": link.position,
+            "target_lemma": link.target_lemma,
+            "target_slug": link.target_slug,
+        } for link in lyric_links]
+    }
+    return result
+
+
 def build_song(song_object, rf=False):
     result = {
         "primary_artists": [build_artist(a) for a in song_object.artist.order_by('name')],

@@ -10,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
-from dictionary.utils import build_artist, build_example, \
+from dictionary.utils import build_artist, build_example, build_beta_example, \
     build_place, build_sense, build_timeline_example, build_song, \
     check_for_image, reduce_ordered_list, reformat_name, slugify
 from dictionary.views import NUM_QUOTS_TO_SHOW
@@ -365,13 +365,11 @@ def random_sense(request):
 
 @api_view(('GET',))
 def random_example(request):
-    published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     result = Example.objects.order_by('?').first()
     if result:
         data = {
-            'example': build_example(result, published)
+            'example': build_beta_example(result)
         }
-        data['example']['linked_lyric'] = data['example']['linked_lyric'].replace('href="/', 'href="http://www.therightrhymes.com/')
         return Response(data)
     else:
         return Response({})
