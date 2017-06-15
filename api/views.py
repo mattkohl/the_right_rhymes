@@ -367,9 +367,7 @@ def random_sense(request):
 def random_example(request):
     result = Example.objects.order_by('?').first()
     if result:
-        data = {
-            'example': build_beta_example(result)
-        }
+        data = build_beta_example(result)
         return Response(data)
     else:
         return Response({})
