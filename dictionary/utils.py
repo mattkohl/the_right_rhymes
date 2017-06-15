@@ -318,7 +318,7 @@ def build_beta_example(example_object):
         "release_date": str(example_object.release_date),
         "release_date_string": example_object.release_date_string,
         "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
-        "lyric": lyric,
+        "text": lyric,
         "links": [{
             "text": link.link_text,
             "type": link.link_type,
