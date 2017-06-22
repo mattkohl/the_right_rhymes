@@ -1,5 +1,10 @@
-django
-xmltodict
-geopy
-psycopg2
-djangorestframework
+Django==1.11.2
+django-crispy-forms==1.6.1
+django-extensions==1.7.9
+djangorestframework==3.6.3
+geopy==1.11.0
+gunicorn==19.7.1
+psycopg2==2.7.1
+pytz==2017.2
+six==1.10.0
+xmltodict==0.11.0
