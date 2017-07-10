@@ -7,7 +7,6 @@ from geopy.geocoders import Nominatim
 
 from django.db.models import Q
 import dictionary.models
-# from dictionary.forms import SenseForm
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -663,3 +662,16 @@ def extract_parent(place_name):
         return place_name.split(', ')[1:]
     else:
         return None
+
+
+def add_artist_origin_with_slugs(artist_slug=None, place_slug=None):
+    if artist_slug is not None and place_slug is not None:
+        try:
+            a = dictionary.models.Artist.objects.get(slug=artist_slug)
+            p = dictionary.models.Place.objects.get(slug=place_slug)
+        except Exception as e:
+            return e
+        else:
+            a.origin.add(p)
+            return str(a) + " updated with origin " + str(p)
+    return "Please give slugs for artist and place"
