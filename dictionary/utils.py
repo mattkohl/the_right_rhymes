@@ -672,6 +672,7 @@ def add_artist_origin_with_slugs(artist_slug=None, place_slug=None):
         except Exception as e:
             return e
         else:
+            a.origin.clear()
             a.origin.add(p)
             return str(a) + " updated with origin " + str(p)
     return "Please give slugs for artist and place"
