@@ -156,6 +156,8 @@ def artists_missing_metadata(request):
     primary_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
     feat_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
 
+    results_multiple_origins = [artist for artist in Artist.objects.annotate(num_origins=Count('origin')).order_by('-num_origins')]
+
     if primary_results_no_image or feat_results_no_image:
         data = {
             'primary_artists_no_image': [
@@ -185,7 +187,16 @@ def artists_missing_metadata(request):
                                        'slug': artist.slug,
                                        'site_link': BASE_URL + '/artists/' + artist.slug,
                                        'num_cites': artist.num_cites
-                                   } for artist in feat_results_no_origin][:3]
+                                   } for artist in feat_results_no_origin][:3],
+            'multiple_origins': [
+                                          {
+                                              'name': artist.name,
+                                              'slug': artist.slug,
+                                              'site_link': BASE_URL + '/artists/' + artist.slug,
+                                              'num_origins': artist.num_origins,
+                                              'origins': [build_place(p, False) for p in artist.origin.all()],
+                                          } for artist in results_multiple_origins][:3]
+
         }
         return Response(data)
     else:
