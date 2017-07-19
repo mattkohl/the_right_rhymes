@@ -676,3 +676,26 @@ def add_artist_origin_with_slugs(artist_slug=None, place_slug=None):
             a.origin.add(p)
             return str(a) + " updated with origin " + str(p)
     return "Please give slugs for artist and place"
+
+
+def fix_lyric_link_positions():
+    exx = dictionary.models.Example.objects.filter(lyric_text__icontains='"').exclude(features_entities__isnull=True)
+    altered = []
+    for e in exx:
+        lyric = e.lyric_text
+        links = e.lyric_links.order_by('position')
+        for link in links:
+            i = lyric.index(link.link_text)
+            o = link.position
+            if o != i:
+                link.position = i
+                link.save()
+                altered.append({
+                    "example_id": e.id,
+                    "lyric": lyric,
+                    "link_id": link.id,
+                    "link_text": link.link_text,
+                    "old_position": o,
+                    "new_position": i
+                })
+    return altered
