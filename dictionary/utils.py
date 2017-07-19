@@ -665,6 +665,10 @@ def extract_parent(place_name):
 
 
 def add_artist_origin_with_slugs(artist_slug=None, place_slug=None):
+    """
+    takes an artist slug and a place slug, drops all the artist's existing origin
+    links, then adds that place as origin
+    """
     if artist_slug is not None and place_slug is not None:
         try:
             a = dictionary.models.Artist.objects.get(slug=artist_slug)
@@ -679,6 +683,14 @@ def add_artist_origin_with_slugs(artist_slug=None, place_slug=None):
 
 
 def fix_lyric_link_positions():
+    """
+    Some of the ingested lyrics with quot marks in them had links with positions off by 1.
+    I think this was due to a bug in the XML transform. This function pulls those examples &
+    links, then compares the link position against the example.lyric.index(link_text),
+    preferring the index where different.
+
+    queryset is limited to examples with " in lyric_text and featuring an entity
+    """
     exx = dictionary.models.Example.objects.filter(lyric_text__icontains='"').exclude(features_entities__isnull=True)
     altered = []
     for e in exx:
