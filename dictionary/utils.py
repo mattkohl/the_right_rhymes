@@ -249,7 +249,6 @@ def build_sense_preview(sense_object, published):
         "example_count": sense_object.examples.count(),
         "first_example": first_example,
         "image": check_for_image(first_example.artist_slug)
-        # "examples": [build_example(example, published) for example in sense_object.examples.order_by('release_date')][:1]
     }
     return result
 
@@ -651,10 +650,7 @@ def geocode_place(place_name):
 
 
 def extract_short_name(place_name):
-    if ',' in place_name:
-        return place_name.split(', ')[0]
-    else:
-        return place_name
+    return place_name.split(', ')[0]
 
 
 def extract_parent(place_name):
@@ -724,12 +720,11 @@ def get_or_create_place_from_full_name(full_name):
     try:
         p = dictionary.models.Place.objects.get(slug=slug)
     except Exception as e:
-        name_tokens = full_name.split(", ")
-        name = name_tokens[0]
+        name = extract_short_name(full_name)
         lat, long = geocode_place(full_name)
         p = dictionary.models.Place(full_name=full_name, name=name, slug=slug, latitude=lat, longitude=long)
         p.save()
-        within = ', '.join(name_tokens[1:]) if len(name_tokens) > 1 else None
+        within = extract_parent(full_name)
         w = dictionary.models.Place.objects.get(slug=slugify(within))
         w.contains.add(p)
     return p
