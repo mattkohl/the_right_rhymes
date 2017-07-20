@@ -711,3 +711,25 @@ def fix_lyric_link_positions():
                     "new_position": i
                 })
     return altered
+
+
+def get_or_create_place_from_full_name(full_name):
+    """
+    (Gets or) creates a place, including geocoding & adding regional container, e.g. "Texas contains Houston"
+
+    :param full_name: comma-separated, complete up to country level, as in "Houston, Texas, USA"
+    :return: a place object
+    """
+    slug = slugify(full_name)
+    try:
+        p = dictionary.models.Place.objects.get(slug=slug)
+    except Exception as e:
+        name_tokens = full_name.split(", ")
+        name = name_tokens[0]
+        lat, long = geocode_place(full_name)
+        p = dictionary.models.Place(full_name=full_name, name=name, slug=slug, latitude=lat, longitude=long)
+        p.save()
+        within = ', '.join(name_tokens[1:]) if len(name_tokens) > 1 else None
+        w = dictionary.models.Place.objects.get(slug=slugify(within))
+        w.contains.add(p)
+    return p
