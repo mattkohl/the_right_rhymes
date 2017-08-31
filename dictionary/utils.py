@@ -655,7 +655,7 @@ def extract_short_name(place_name):
 
 def extract_parent(place_name):
     if ',' in place_name:
-        return place_name.split(', ')[1:]
+        return ", ".join(place_name.split(', ')[1:])
     else:
         return None
 
