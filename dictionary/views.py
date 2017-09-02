@@ -219,9 +219,6 @@ def entity(request, entity_slug):
         image_exx = entities[0]['senses'][0]['examples']
         artist_slug, artist_name, image = assign_artist_image(image_exx)
 
-        from pprint import pprint
-        pprint(entities)
-
         context = {
             'title': title,
             'entities': entities,
