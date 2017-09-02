@@ -211,6 +211,7 @@ def entity(request, entity_slug):
                 return redirect('/places/' + entity.pref_label_slug)
             entities.append({
                 'name': entity.name,
+                'slug': entity.slug,
                 'pref_label': entity.pref_label,
                 'senses': [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
             })
@@ -218,12 +219,16 @@ def entity(request, entity_slug):
         image_exx = entities[0]['senses'][0]['examples']
         artist_slug, artist_name, image = assign_artist_image(image_exx)
 
+        from pprint import pprint
+        pprint(entities)
+
         context = {
             'title': title,
             'entities': entities,
-            'image': image,
+            'artist_image': image,
             'artist_slug': artist_slug,
-            'artist_name': artist_name
+            'artist_name': artist_name,
+            'image': check_for_image(slugify(entities[0]['pref_label']), 'entities', 'full'),
         }
         return HttpResponse(template.render(context, request))
     else:
@@ -294,7 +299,6 @@ def place(request, place_slug):
         w_name = ', '.join(place.full_name.split(', ')[1:])
         w_slug = slugify(w_name)
         within = {'name': abbreviate_place_name(w_name), 'slug': w_slug}
-
 
     # TODO: reorder examples by release_date in case of multiple entities
     if len(entity_results) >= 1:
