@@ -388,6 +388,7 @@ def search(request):
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     artist_slugs = [artist.slug for artist in Artist.objects.all()]
+    entity_slugs = [entity.pref_label_slug for entity in NamedEntity.objects.filter(entity_type='person')]
 
     template = loader.get_template('dictionary/search_results.html')
     context = dict()
@@ -405,6 +406,8 @@ def search(request):
             return redirect('entry', headword_slug=query_slug)
         elif query_slug in artist_slugs:
             return redirect('artist', artist_slug=query_slug)
+        elif query_slug in entity_slugs:
+            return redirect('entity', entity_slug=query_slug)
         elif alt_query_slug and alt_query_slug in published_entry_slugs:
             return redirect('entry', headword_slug=alt_query_slug)
         elif alt_query_slug and alt_query_slug in artist_slugs:
