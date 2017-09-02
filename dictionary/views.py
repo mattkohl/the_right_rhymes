@@ -213,6 +213,7 @@ def entity(request, entity_slug):
                 'name': entity.name,
                 'slug': entity.slug,
                 'pref_label': entity.pref_label,
+                'pref_label_slug': entity.pref_label_slug,
                 'senses': [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
             })
 
@@ -225,7 +226,7 @@ def entity(request, entity_slug):
             'artist_image': image,
             'artist_slug': artist_slug,
             'artist_name': artist_name,
-            'image': check_for_image(slugify(entities[0]['pref_label']), 'entities', 'full'),
+            'image': check_for_image(entities[0]['pref_label_slug'], 'entities', 'full'),
         }
         return HttpResponse(template.render(context, request))
     else:

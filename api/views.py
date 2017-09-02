@@ -133,6 +133,27 @@ def artist_sense_examples(request, artist_slug):
 
 
 @api_view(('GET',))
+def named_entities_missing_metadata(request):
+    results = NamedEntity.objects.filter(entity_type='person').annotate(num_mentions=Count('examples')).order_by('-num_mentions')
+    if results:
+        BASE_URL = "http://" + request.META['HTTP_HOST']
+        data = [
+            {
+                'name': entity.name,
+                'slug': entity.slug,
+                'pref_label': entity.pref_label,
+                'pref_label_slug': entity.pref_label_slug,
+                'site_link': BASE_URL + '/entities/' + entity.pref_label_slug,
+                'type': entity.entity_type,
+                'num_mentions': entity.num_mentions
+            } for entity in results if '__none' in check_for_image(entity.pref_label_slug, 'entities')][:5]
+
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
 def artists(request):
     results = Artist.objects.order_by("slug")
     if results:

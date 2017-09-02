@@ -55,6 +55,9 @@ urlpatterns = [
     # /data/headword_search/
     url(r'^headword_search/$', views.headword_search, name='headword_search'),
 
+    # /data/entities/missing_metadata/
+    url(r"^entities/missing_metadata/$", views.named_entities_missing_metadata, name='named_entities_missing_metadata'),
+
     # /data/places/random/
     url(r"^places/random/$", views.random_place, name='random_place'),
 
