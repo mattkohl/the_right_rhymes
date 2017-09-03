@@ -13,9 +13,10 @@ def ingest():
 
     xml_source = "/home/{}/django-xml".format(env.user)
     venv = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
+    app_source = "/home/{}/the_right_rhymes".format(env.user)
 
     _get_latest_xml_source(xml_source)
-    _ingest_dictionary(venv)
+    _ingest_dictionary(app_source, venv)
 
 
 def deploy():
@@ -52,7 +53,7 @@ def _update_settings(source_folder, xml_source):
     settings_path = source_folder + "/the_right_rhymes/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path, "ALLOWED_HOSTS =.+$", """ALLOWED_HOSTS = ["www.therightrhymes.com", "therightrhymes.com"]""")
-    sed(settings_path, "SOURCE_XML_PATH =.+$", """SOURCE_XML_PATH = "{}" """.format(xml_source))
+    sed(settings_path, "SOURCE_XML_PATH =.+$", """SOURCE_XML_PATH = "{}" """.format(xml))
     secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
     if not exists(secret_key_file):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
@@ -79,8 +80,8 @@ def _restart_gunicorn_service():
     sudo("systemctl restart gunicorn")
 
 
-def _ingest_dictionary(virtualenv_folder):
-    run("{}/bin/python manage.py ingest_dictionary".format(virtualenv_folder))
+def _ingest_dictionary(source_folder, virtualenv_folder):
+    run("cd {} && {}/bin/python manage.py ingest_dictionary".format(source_folder, virtualenv_folder))
 
 
 class DeployException(Exception):
