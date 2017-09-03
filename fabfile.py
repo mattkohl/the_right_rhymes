@@ -13,10 +13,9 @@ def ingest():
 
     xml_source = "/home/{}/django-xml".format(env.user)
     venv = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
-    app_source = "/home/{}/the_right_rhymes".format(env.user)
 
     _get_latest_xml_source(xml_source)
-    _ingest_dictionary(app_source, venv)
+    _ingest_dictionary(venv)
 
 
 def deploy():
@@ -80,8 +79,8 @@ def _restart_gunicorn_service():
     sudo("systemctl restart gunicorn")
 
 
-def _ingest_dictionary(source_folder, virtualenv_folder):
-    run("{}/bin/python manage.py ingest_dictionary".format(source_folder, virtualenv_folder))
+def _ingest_dictionary(virtualenv_folder):
+    run("{}/bin/python manage.py ingest_dictionary".format(virtualenv_folder))
 
 
 class DeployException(Exception):
