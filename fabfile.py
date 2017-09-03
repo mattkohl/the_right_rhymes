@@ -51,8 +51,8 @@ def _get_latest_xml_source(source_folder):
 def _update_settings(source_folder):
     settings_path = source_folder + "/the_right_rhymes/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
-    sed(settings_path, "ALLOWED_HOSTS =.+$", "ALLOWED_HOSTS = ['www.therightrhymes.com', 'therightrhymes.com']")
-    sed(settings_path, "SOURCE_XML_PATH =.+$", "SOURCE_XML_PATH = '../django-xml'")
+    sed(settings_path, "ALLOWED_HOSTS =.+$", """ALLOWED_HOSTS = ["www.therightrhymes.com", "therightrhymes.com"]""")
+    sed(settings_path, "SOURCE_XML_PATH =.+$", """SOURCE_XML_PATH = "../django-xml" """)
     secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
     if not exists(secret_key_file):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
