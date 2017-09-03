@@ -20,7 +20,7 @@ SECRET_KEY = '0f00h*r%gv5_pb6=xs+rr1=(f%kts2s#$r&3!abi=47$2*5pz+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0', '45.55.65.250', 'www.therightrhymes.com', 'therightrhymes.com']
 
 
 # Application definition
