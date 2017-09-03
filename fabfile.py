@@ -24,11 +24,12 @@ def deploy():
     To deploy with Fabric, execute this command: fab deploy:host=username@hostname
     """
 
+    xml_source = "/home/{}/django-xml".format(env.user)
     venv = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
     app_source = "/home/{}/the_right_rhymes".format(env.user)
 
     _get_latest_app_source(app_source, app_source)
-    _update_settings(app_source)
+    _update_settings(app_source, xml_source)
     _update_virtualenv(app_source, venv)
     _update_static_files(app_source, venv)
     _update_database(app_source, venv)
@@ -48,11 +49,11 @@ def _get_latest_xml_source(source_folder):
     run("cd {} && git pull".format(source_folder))
 
 
-def _update_settings(source_folder):
+def _update_settings(source_folder, xml_source):
     settings_path = source_folder + "/the_right_rhymes/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path, "ALLOWED_HOSTS =.+$", """ALLOWED_HOSTS = ["www.therightrhymes.com", "therightrhymes.com"]""")
-    sed(settings_path, "SOURCE_XML_PATH =.+$", """SOURCE_XML_PATH = "../django-xml" """)
+    sed(settings_path, "SOURCE_XML_PATH =.+$", """SOURCE_XML_PATH = "{}" """.format(xml_source))
     secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
     if not exists(secret_key_file):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
@@ -80,7 +81,7 @@ def _restart_gunicorn_service():
 
 
 def _ingest_dictionary(source_folder, virtualenv_folder):
-    run("cd {} && {}/bin/python manage.py ingest_dictionary".format(source_folder, virtualenv_folder))
+    run("{}/bin/python manage.py ingest_dictionary".format(source_folder, virtualenv_folder))
 
 
 class DeployException(Exception):
