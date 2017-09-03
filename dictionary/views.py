@@ -457,20 +457,6 @@ def semantic_classes(request):
     return HttpResponse(template.render(context, request))
 
 
-# @require_http_methods(['POST'])
-# def sense(request, id):
-#     form = SenseForm(request.POST)
-#     if form.is_valid():
-#         sense = Sense.objects.get(id=id)
-#         sense.headword = form.cleaned_data['headword']
-#         sense.xml_id = form.cleaned_data['xml_id']
-#         sense.part_of_speech = form.cleaned_data["part_of_speech"]
-#         sense.definition = form.cleaned_data["definition"]
-#         sense.etymology = form.cleaned_data["etymology"]
-#         sense.notes = form.cleaned_data["notes"]
-#         sense.save()
-
-
 @cache_control(max_age=3600)
 def sense_timeline(request, sense_id):
     sense = get_object_or_404(Sense, xml_id=sense_id)
@@ -548,11 +534,11 @@ def stats(request):
     example_count = Example.objects.all().count()
     most_recent_entries = [entry for entry in Entry.objects.filter(publish=True).order_by('-pub_date')[:LIST_LENGTH]]
     best_attested_senses = [sense for sense in Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
-    best_attested_sense_count = best_attested_senses[0].num_examples
+    best_attested_sense_count = best_attested_senses[0].num_examples if best_attested_senses else 0
     best_attested_domains = [domain for domain in Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')[:LIST_LENGTH]]
     best_attested_semantic_classes = [semantic_class for semantic_class in SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')[:LIST_LENGTH]]
     most_cited_songs = [song for song in Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
-    most_cited_song_count = most_cited_songs[0].num_examples
+    most_cited_song_count = most_cited_songs[0].num_examples if most_cited_songs else 0
     most_mentioned_places = [e for e in NamedEntity.objects.filter(entity_type='place').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_mentioned_artists = [e for e in NamedEntity.objects.filter(entity_type='artist').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_cited_artists = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')[:LIST_LENGTH]]
@@ -565,12 +551,12 @@ def stats(request):
     twenty_tens = Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
     decade_max = max([seventies, eighties, nineties, noughties, twenty_tens])
     places = [place for place in Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')[:LIST_LENGTH]]
-    domain_count = best_attested_domains[0].num_senses
-    semantic_class_count = best_attested_semantic_classes[0].num_senses
+    domain_count = best_attested_domains[0].num_senses if best_attested_domains else 0
+    semantic_class_count = best_attested_semantic_classes[0].num_senses if best_attested_semantic_classes else 0
     place_count = count_place_artists(places[0], [0])
-    place_mention_count = most_mentioned_places[0].num_examples
-    artist_mention_count = most_mentioned_artists[0].num_examples
-    artist_cite_count = most_cited_artists[0].num_cites
+    place_mention_count = most_mentioned_places[0].num_examples if most_mentioned_places else 0
+    artist_mention_count = most_mentioned_artists[0].num_examples if most_mentioned_artists else 0
+    artist_cite_count = most_cited_artists[0].num_cites if most_cited_artists else 0
 
     template = loader.get_template('dictionary/stats.html')
 
