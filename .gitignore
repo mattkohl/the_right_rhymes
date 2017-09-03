@@ -36,7 +36,7 @@
 ehthumbs.db
 Thumbs.db
 
-settings.py
+
 *.pyc
 .idea/*
 .idea/
@@ -51,3 +51,4 @@ dictionary/management/commands/__pycache__/
 dictionary/migrations
 the_right_rhymes/__pycache__/
 /static/
+.env
