@@ -16,9 +16,6 @@ urlpatterns = [
     # /
     url(r'^$', views.index, name="dictionary_index"),
 
-    # /admin/
-    url(r'^admin/?', admin.site.urls),
-
     # /statistics/
     url(r"^statistics/$", views.stats, name='stats'),
 
