@@ -13,7 +13,7 @@ def deploy():
     virtualenv_folder = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
 
     _get_latest_source(source_folder)
-    _update_settings(source_folder, env.host)
+    _update_settings(source_folder)
     _update_virtualenv(source_folder, virtualenv_folder)
     _update_static_files(source_folder, virtualenv_folder)
     _update_database(source_folder, virtualenv_folder)
@@ -29,10 +29,10 @@ def _get_latest_source(source_folder):
     run("cd {} && git reset --hard {}".format(source_folder, current_commit))
 
 
-def _update_settings(source_folder, site_name):
+def _update_settings(source_folder):
     settings_path = source_folder + "/the_right_rhymes/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
-    sed(settings_path, "ALLOWED_HOSTS =.+$", """ALLOWED_HOSTS = ["{}"]""".format(site_name))
+    sed(settings_path, "ALLOWED_HOSTS =.+$", "ALLOWED_HOSTS = ['www.therightrhymes.com', 'therightrhymes.com']")
     secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
     if not exists(secret_key_file):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
