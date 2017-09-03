@@ -2,38 +2,57 @@ from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run, sudo
 import random
 
-REPO_URL = "https://github.com/mattkohl/the_right_rhymes.git"
+APP_REPO_URL = "https://github.com/mattkohl/the_right_rhymes.git"
+XML_REPO_URL = "git@gitlab.com:mattkohl/django-xml.git"
+
+
+def ingest():
+    """
+    To ingest with Fabric, execute this command: fab ingest:host=username@hostname
+    """
+
+    xml_source = "/home/{}/django-xml".format(env.user)
+    venv = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
+    app_source = "/home/{}/the_right_rhymes".format(env.user)
+
+    _get_latest_xml_source(xml_source)
+    _ingest_dictionary(app_source, venv)
 
 
 def deploy():
     """
     To deploy with Fabric, execute this command: fab deploy:host=username@hostname
     """
-    source_folder = "/home/{}/the_right_rhymes".format(env.user)
-    virtualenv_folder = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
 
-    _get_latest_source(source_folder)
-    _update_settings(source_folder)
-    _update_virtualenv(source_folder, virtualenv_folder)
-    _update_static_files(source_folder, virtualenv_folder)
-    _update_database(source_folder, virtualenv_folder)
+    venv = "/home/{}/.virtualenvs/the_right_rhymes".format(env.user)
+    app_source = "/home/{}/the_right_rhymes".format(env.user)
+
+    _get_latest_app_source(app_source, app_source)
+    _update_settings(app_source)
+    _update_virtualenv(app_source, venv)
+    _update_static_files(app_source, venv)
+    _update_database(app_source, venv)
     _restart_gunicorn_service()
 
 
-def _get_latest_source(source_folder):
+def _get_latest_app_source(source_folder, repo_url):
     if exists(source_folder + "/.git"):
         run("cd {} && git fetch".format(source_folder))
     else:
-        run("git clone {} {}".format(REPO_URL, source_folder))
+        run("git clone {} {}".format(repo_url, source_folder))
     current_commit = local("git log -n 1 --format=%H", capture=True)
     run("cd {} && git reset --hard {}".format(source_folder, current_commit))
+
+
+def _get_latest_xml_source(source_folder):
+    run("cd {} && git pull".format(source_folder))
 
 
 def _update_settings(source_folder):
     settings_path = source_folder + "/the_right_rhymes/settings.py"
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path, "ALLOWED_HOSTS =.+$", "ALLOWED_HOSTS = ['www.therightrhymes.com', 'therightrhymes.com']")
-    sed(settings_path, "SOURCE_XML_PATH =.+$", "SOURCE_XML_PATH = '../xml'")
+    sed(settings_path, "SOURCE_XML_PATH =.+$", "SOURCE_XML_PATH = '../django-xml'")
     secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
     if not exists(secret_key_file):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
@@ -58,6 +77,10 @@ def _restart_gunicorn_service():
     sudo("systemctl enable gunicorn")
     sudo("systemctl start gunicorn")
     sudo("systemctl restart gunicorn")
+
+
+def _ingest_dictionary(source_folder, virtualenv_folder):
+    run("cd {} && {}/bin/python manage.py ingest_dictionary".format(source_folder, virtualenv_folder))
 
 
 class DeployException(Exception):
