@@ -811,6 +811,9 @@ class TRRSenseRhyme:
 class TRRExampleRhyme:
 
     def __init__(self, rhyme_dict):
+        from pprint import pprint
+        pprint(rhyme_dict)
+
         self.rhyme_dict = rhyme_dict
         self.word_one = self.rhyme_dict['#text']
         self.word_one_slug = slugify(self.word_one)
