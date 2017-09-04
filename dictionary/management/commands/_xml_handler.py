@@ -812,7 +812,8 @@ class TRRExampleRhyme:
 
     def __init__(self, rhyme_dict):
         from pprint import pprint
-        pprint(rhyme_dict)
+        if "#text" not in rhyme_dict:
+            pprint(rhyme_dict)
 
         self.rhyme_dict = rhyme_dict
         self.word_one = self.rhyme_dict['#text']
