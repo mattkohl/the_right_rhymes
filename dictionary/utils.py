@@ -721,10 +721,29 @@ def get_or_create_place_from_full_name(full_name):
         p = dictionary.models.Place.objects.get(slug=slug)
     except Exception as e:
         name = extract_short_name(full_name)
-        lat, long = geocode_place(full_name)
-        p = dictionary.models.Place(full_name=full_name, name=name, slug=slug, latitude=lat, longitude=long)
+        try:
+            lat, long = geocode_place(full_name)
+        except Exception as e:
+            p = dictionary.models.Place(full_name=full_name, name=name, slug=slug)
+        else:
+            p = dictionary.models.Place(full_name=full_name, name=name, slug=slug, latitude=lat, longitude=long)
         p.save()
         within = extract_parent(full_name)
         w = dictionary.models.Place.objects.get(slug=slugify(within))
         w.contains.add(p)
     return p
+
+
+def gather_suspicious_lat_longs():
+    """Finds places with 'usa' in slug that have erroneous lat & long"""
+    return dictionary.models.Place.objects.filter(latitude__lt=0).filter(longitude__gt=0).filter(slug__endswith="usa")
+
+
+def format_suspicious_lat_longs(suspects):
+    return ["{} {}\t{}\t{}".format(i, e.latitude, e.longitude, e.slug) for i, e in enumerate(suspects)]
+
+
+def swap_place_lat_long(place):
+    place.latitude, place.longitude = place.longitude, place.latitude
+    place.save()
+    return place.latitude, place.longitude
