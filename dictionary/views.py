@@ -415,7 +415,7 @@ def search(request):
         else:
             sense_query = build_query(query_string, ['lyric_text'])
             result_count = Example.objects.filter(sense_query).order_by('-release_date').count()
-            example_results = [build_example(example, published=published_entries, rf=True) for example in Example.objects.filter(sense_query).order_by('-release_date')[:100]]
+            example_results = [build_example(example, published=published_entry_slugs, rf=True) for example in Example.objects.filter(sense_query).order_by('-release_date')[:100]]
             context['query'] = query_string
             context['examples'] = example_results
             context['result_count'] = result_count
