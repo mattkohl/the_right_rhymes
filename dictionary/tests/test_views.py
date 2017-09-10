@@ -21,6 +21,8 @@ class TemplateTests(TestCase):
         self.s = Sense(headword="foo", slug="foo", xml_id="bar", part_of_speech="noun")
         self.s.save()
         self.e.senses.add(self.s)
+        self.sc = SemanticClass(name="drugs", slug="drugs")
+        self.sc.save()
 
     def test_uses_atoz_template(self):
         response = self.client.get("/index/")
@@ -78,3 +80,14 @@ class TemplateTests(TestCase):
         response = self.client.get("/search/?q=test")
         self.assertTemplateUsed(response, "dictionary/search_results.html")
 
+    def test_uses_semantic_class_template(self):
+        response = self.client.get("/semantic-classes/drugs/")
+        self.assertTemplateUsed(response, "dictionary/semantic_class.html")
+
+    def test_uses_semantic_classes_template(self):
+        response = self.client.get("/semantic-classes/")
+        self.assertTemplateUsed(response, "dictionary/semantic_classes.html")
+
+    def test_timeline(self):
+        response = self.client.get("/senses/bar/timeline/")
+        self.assertTemplateUsed(response, "dictionary/_timeline.html")
