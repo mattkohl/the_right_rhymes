@@ -144,19 +144,6 @@ def build_artist(artist_object, require_origin=False):
         return result
 
 
-def build_index():
-    ABC = 'abcdefghijklmnopqrstuvwxyz#'
-    index = []
-    published = Entry.objects.filter(publish=True)
-    for letter in ABC:
-        let = {
-            'letter': letter.upper(),
-            'entries': [entry for entry in published if entry.letter == letter]
-        }
-        index.append(let)
-    return index
-
-
 def assign_artist_image(examples):
     THRESHOLD = 3
     if len(examples) < THRESHOLD:

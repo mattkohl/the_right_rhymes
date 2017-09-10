@@ -3,7 +3,7 @@ from django.test import TestCase
 from dictionary.models import Entry, Artist, Collocate, LyricLink, Example, Place, Xref
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
-    build_collocate, build_xref, build_artist, check_for_image, build_index
+    build_collocate, build_xref, build_artist, check_for_image
 
 
 class TestUtils(TestCase):
