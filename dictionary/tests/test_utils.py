@@ -3,7 +3,7 @@ from django.test import TestCase
 from dictionary.models import Entry, Artist, Collocate, LyricLink, Example, Place, Xref
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
-    build_collocate, build_xref
+    build_collocate, build_xref, build_artist, check_for_image, build_index
 
 
 class TestUtils(TestCase):
@@ -67,6 +67,36 @@ class TestUtils(TestCase):
             "position": 1
         }
         self.assertDictEqual(result, expected)
+
+
+class TestBuildArtist(TestCase):
+    def setUp(self):
+        self.a = Artist(name='EPMD', slug='epmd')
+        self.a.save()
+        self.p = Place(name="Brentwood", full_name="Brentwood, New York, USA", slug="brentwood-new-york-usa")
+        self.p.save()
+        self.a.origin.add(self.p)
+
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_build_artist(self, mock_check_for_image):
+        mock_check_for_image.return_value = "foo"
+        result = build_artist(self.a)
+        expected = {
+            "name": "EPMD",
+            "slug": "epmd",
+            "image": "foo"
+        }
+        self.assertDictEqual(result, expected)
+
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_build_artist_require_origin(self, mock_check_for_image):
+        mock_check_for_image.return_value = "foo"
+        result = build_artist(Artist(name="name", slug="slug"), True)
+        self.assertIsNone(result)
+
+
+class TestBuildSense(TestCase):
+    pass
 
 
 class TestBuildExample(TestCase):
