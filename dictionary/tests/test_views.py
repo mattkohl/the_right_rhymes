@@ -1,5 +1,5 @@
 from django.test import TestCase
-from dictionary.models import Entry, Artist, NamedEntity, Song, Domain, Place
+from dictionary.models import Entry, Artist, NamedEntity, Song, Domain, Place, Region, SemanticClass
 
 
 class TemplateTests(TestCase):
@@ -12,6 +12,10 @@ class TemplateTests(TestCase):
         self.p.save()
         self.d = Domain(name="drugs", slug="drugs")
         self.d.save()
+        self.r = Region(slug="west-coast", name="West Coast")
+        self.r.save()
+        self.ne = NamedEntity(name="foo", slug="foo", entity_type="product", pref_label="Foo", pref_label_slug="foo")
+        self.ne.save()
 
     def test_uses_index_template(self):
         response = self.client.get("/")
@@ -40,4 +44,16 @@ class TemplateTests(TestCase):
     def test_uses_domains_template(self):
         response = self.client.get("/domains/")
         self.assertTemplateUsed(response, "dictionary/domains.html")
+
+    def test_uses_region_template(self):
+        response = self.client.get("/regions/west-coast/")
+        self.assertTemplateUsed(response, "dictionary/region.html")
+
+    def test_uses_regions_template(self):
+        response = self.client.get("/regions/")
+        self.assertTemplateUsed(response, "dictionary/regions.html")
+
+    def test_uses_named_entity_template(self):
+        response = self.client.get("/entities/foo/")
+        self.assertTemplateUsed(response, "dictionary/named_entity.html")
 
