@@ -1,7 +1,9 @@
+from unittest import mock
 from django.test import TestCase
 from dictionary.models import Entry, Artist, Song, LyricLink, Example, Place
-from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, add_links, \
-    inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs
+from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
+    inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
+    build_collocate
 
 
 class TestUtils(TestCase):
@@ -14,6 +16,17 @@ class TestUtils(TestCase):
 
     def test_extract_parent(self):
         self.assertEqual(extract_parent("Houston, Texas, USA"), "Texas, USA")
+
+    def test_build_entry_preview(self):
+        e = Entry(headword="headword", slug="headword", pub_date="2017-01-01", last_updated="2017-01-01")
+        result = build_entry_preview(e)
+        expected = {
+            "headword": "headword",
+            "slug": "headword",
+            "pub_date": "2017-01-01",
+            "last_updated": "2017-01-01"
+        }
+        self.assertDictEqual(result, expected)
 
 
 class TestBuildExample(TestCase):
@@ -30,6 +43,8 @@ class TestBuildExample(TestCase):
         )
         self.e.save()
         self.a = Artist(name='EMPD')
+        self.a.save()
+        self.e.artist.add(self.a)
         self.l1 = LyricLink(
             link_text="E",
             link_type="artist",
@@ -57,12 +72,65 @@ class TestBuildExample(TestCase):
         self.e.lyric_links.add(self.l1)
         self.e.lyric_links.add(self.l2)
         self.e.lyric_links.add(self.l3)
+        self.published = ['rock', 'loco',]
 
-    def test_build_example(self):
-        pass
+    @mock.patch('dictionary.utils.add_links')
+    def test_build_example(self, mock_add_links):
+        mock_add_links.return_value = "foo"
+        built = build_example(self.e, self.published)
+        expected = {
+            'featured_artists': [],
+            'album': 'Crossover',
+            'release_date': '1992-07-28',
+            'linked_lyric': 'foo',
+            'release_date_string': '1992-07-28',
+            'lyric': "Now, it's time for me, the E, to rock it loco",
+            'artist_slug': 'EPMD',
+            'artist_name': 'EPMD',
+            'song_slug': 'epmd-brothers-from-brentwood-l-i',
+            'song_title': 'Brothers From Brentwood L.I.'
+        }
+        self.assertDictEqual(built, expected)
+
+    @mock.patch('dictionary.utils.build_artist')
+    def test_build_beta_example(self, mock_build_artist):
+        mock_build_artist.return_value = {'foo': 'bar'}
+        result = build_beta_example(self.e)
+        expected = {
+            'featured_artists': [],
+            'links': [
+                {'target_lemma': 'E',
+                 'text': 'E',
+                 'type': 'artist',
+                 'target_slug': 'erick-sermon',
+                 'offset': 27
+                 },
+                {'target_lemma': 'rock',
+                 'text': 'rock',
+                 'type': 'xref',
+                 'target_slug': 'rock#e9060_trV_1',
+                 'offset': 33
+                 },
+                {'target_lemma': 'loco',
+                 'text': 'loco',
+                 'type': 'xref',
+                 'target_slug': 'loco#e7360_adv_1',
+                 'offset': 41}
+            ],
+            'album': 'Crossover',
+            'text': "Now, it's time for me, the E, to rock it loco",
+            'release_date': '1992-07-28',
+            'release_date_string': '1992-07-28',
+            'primary_artists': [{"foo": "bar"}],
+            'title': 'Brothers From Brentwood L.I.'
+        }
+        self.assertDictEqual(result, expected)
 
     def test_add_links(self):
-        pass
+        lyric_links = self.e.lyric_links.order_by('position')
+        result = add_links(self.e.lyric_text, lyric_links, self.published)
+        expected = """Now, it's time for me, the <a href="/artists/erick-sermon">E</a>, to <a href="/rock#e9060_trV_1">rock</a> it <a href="/loco#e7360_adv_1">loco</a>"""
+        self.assertEqual(result, expected)
 
     def test_inject_link(self):
         lyric = """Now, it's time for me, the <a href="/artists/erick-sermon">E</a>, to <a href="/rock#e9060_trV_1">rock</a> it loco"""
@@ -82,7 +150,6 @@ class TestPlaceMgmtUtils(TestCase):
         self.p.save()
 
     def test_swap_place_lat_long(self):
-
         swap_place_lat_long(self.p)
         self.assertEqual(self.p.latitude, self.lng)
         self.assertEqual(self.p.longitude, self.lat)
