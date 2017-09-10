@@ -23,6 +23,9 @@ class TemplateTests(TestCase):
         self.e.senses.add(self.s)
         self.sc = SemanticClass(name="drugs", slug="drugs")
         self.sc.save()
+        self.song = Song(release_date="1998-01-01", release_date_string="1998-01-01", title="foo", album="bar", artist_name="Erick Sermon", slug="foo", artist_slug="erick-sermon")
+        self.song.save()
+        self.song.artist.add(self.a)
 
     def test_uses_atoz_template(self):
         response = self.client.get("/index/")
@@ -88,6 +91,6 @@ class TemplateTests(TestCase):
         response = self.client.get("/semantic-classes/")
         self.assertTemplateUsed(response, "dictionary/semantic_classes.html")
 
-    def test_timeline(self):
+    def test_uses_timeline_template(self):
         response = self.client.get("/senses/bar/timeline/")
         self.assertTemplateUsed(response, "dictionary/_timeline.html")
