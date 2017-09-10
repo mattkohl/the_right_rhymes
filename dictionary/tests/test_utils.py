@@ -1,9 +1,9 @@
 from unittest import mock
 from django.test import TestCase
-from dictionary.models import Entry, Artist, Song, LyricLink, Example, Place
+from dictionary.models import Entry, Artist, Collocate, LyricLink, Example, Place, Xref
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
-    build_collocate
+    build_collocate, build_xref
 
 
 class TestUtils(TestCase):
@@ -25,6 +25,46 @@ class TestUtils(TestCase):
             "slug": "headword",
             "pub_date": "2017-01-01",
             "last_updated": "2017-01-01"
+        }
+        self.assertDictEqual(result, expected)
+
+    def test_build_collocate(self):
+        c = Collocate(
+            collocate_lemma="lemma",
+            source_sense_xml_id="x1",
+            target_slug="target1",
+            target_id="target1",
+            frequency=1
+        )
+        result = build_collocate(c)
+        expected = {
+            "collocate_lemma": "lemma",
+            "source_sense_xml_id": "x1",
+            "target_slug": "target1",
+            "target_id": "target1",
+            "frequency": 1
+        }
+        self.assertDictEqual(result, expected)
+
+    def test_build_xref(self):
+        x = Xref(
+            xref_word="word",
+            xref_type="type",
+            target_lemma="target_lemma",
+            target_slug="target_slug",
+            target_id="target_id",
+            frequency=1,
+            position=1
+        )
+        result = build_xref(x)
+        expected = {
+            "xref_word": "word",
+            "xref_type": "type",
+            "target_lemma": "target_lemma",
+            "target_slug": "target_slug",
+            "target_id": "target_id",
+            "frequency": 1,
+            "position": 1
         }
         self.assertDictEqual(result, expected)
 
