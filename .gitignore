@@ -41,13 +41,6 @@ Thumbs.db
 .idea/*
 .idea/
 
-/dictionary/migrations
-api/migrations
-api/__pycache__/
-api/migrations/__pycache__/
-dictionary/__pycache__/
-dictionary/management/__pycache__/
-dictionary/management/commands/__pycache__/
-the_right_rhymes/__pycache__/
+*/__pycache__
 /static/
 .env

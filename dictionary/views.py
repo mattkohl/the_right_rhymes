@@ -52,7 +52,6 @@ def a_to_z(request):
     context = {
         'entries': published
     }
-    [print(p) for p in published]
     return HttpResponse(template.render(context, request))
 
 
@@ -419,7 +418,8 @@ def search(request):
     if 'result_count' in context and context['result_count'] < 1 or 'result_count' not in context:
         for i in range(6):
             r = Sense.objects.filter(publish=True).order_by('?').first()
-            other_entries.append(build_sense_preview(r, published_entries))
+            if r:
+                other_entries.append(build_sense_preview(r, published_entries))
     context['other_entries'] = other_entries
 
     return HttpResponse(template.render(context, request))
