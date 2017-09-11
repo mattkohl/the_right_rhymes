@@ -105,14 +105,14 @@ class TestBuildExample(TestCase):
         self.e = Example(
             lyric_text="Now, it's time for me, the E, to rock it loco",
             artist_name='EPMD',
-            artist_slug='EPMD',
+            artist_slug='epmd',
             song_title='Brothers From Brentwood L.I.',
             album='Crossover',
             release_date='1992-07-28',
             release_date_string='1992-07-28'
         )
         self.e.save()
-        self.a = Artist(name='EMPD')
+        self.a = Artist(name='EPMD')
         self.a.save()
         self.e.artist.add(self.a)
         self.l1 = LyricLink(
@@ -155,7 +155,7 @@ class TestBuildExample(TestCase):
             'linked_lyric': 'foo',
             'release_date_string': '1992-07-28',
             'lyric': "Now, it's time for me, the E, to rock it loco",
-            'artist_slug': 'EPMD',
+            'artist_slug': 'epmd',
             'artist_name': 'EPMD',
             'song_slug': 'epmd-brothers-from-brentwood-l-i',
             'song_title': 'Brothers From Brentwood L.I.'
