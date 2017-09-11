@@ -23,7 +23,13 @@ class TemplateTests(TestCase):
         self.e.senses.add(self.s)
         self.sc = SemanticClass(name="drugs", slug="drugs")
         self.sc.save()
-        self.song = Song(release_date="1998-01-01", release_date_string="1998-01-01", title="foo", album="bar", artist_name="Erick Sermon", slug="foo", artist_slug="erick-sermon")
+        self.song = Song(release_date="1998-01-01",
+                         release_date_string="1998-01-01",
+                         title="foo",
+                         album="bar",
+                         artist_name="Erick Sermon",
+                         slug="erick-sermon-foo",
+                         artist_slug="erick-sermon")
         self.song.save()
         self.song.artist.add(self.a)
 
@@ -75,7 +81,7 @@ class TemplateTests(TestCase):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "dictionary/index.html")
 
-    def test_uses_rhymes_template(self):
+    def test_uses_rhyme_template(self):
         response = self.client.get("/rhymes/foo/")
         self.assertTemplateUsed(response, "dictionary/rhyme.html")
 
@@ -94,3 +100,7 @@ class TemplateTests(TestCase):
     def test_uses_timeline_template(self):
         response = self.client.get("/senses/bar/timeline/")
         self.assertTemplateUsed(response, "dictionary/_timeline.html")
+
+    def test_uses_song_template(self):
+        response = self.client.get("/songs/erick-sermon-foo/")
+        self.assertTemplateUsed(response, "dictionary/song.html")
