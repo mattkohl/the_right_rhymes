@@ -1,10 +1,9 @@
 from django.db import models
-from django.db.models import Q, Count
-from django.db.models.fields.related import ManyToManyField
+from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 
-from dictionary.utils import slugify, geocode_place, extract_short_name, extract_parent
+from dictionary.utils import slugify, extract_short_name
 
 
 class Artist(models.Model):

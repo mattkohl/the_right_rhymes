@@ -6,10 +6,7 @@ from dictionary.utils import slugify
 
 
 def process_row(row):
-    xml_id, artist, album, \
-    release_date, song_title, \
-    feat, lyrics, discogs_date, \
-    rel_date_verified, lyrics_verified = row
+    xml_id, artist, album, release_date, song_title, feat, lyrics, discogs_date, rel_date_verified, lyrics_verified = row
 
     song_object, created = get_song(xml_id)
     if created or song_object.slug is None:

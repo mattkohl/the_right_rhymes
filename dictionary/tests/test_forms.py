@@ -1,9 +1,5 @@
-import unittest
-from unittest import skip
-from unittest.mock import patch, Mock
 from django.test import TestCase
-from dictionary.models import Song, Sense
-from dictionary.forms import SongForm, SenseForm
+from dictionary.forms import SongForm
 
 
 class SongFormTest(TestCase):
