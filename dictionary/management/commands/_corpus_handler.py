@@ -21,8 +21,8 @@ def process_row(row):
         artist_object.primary_songs.add(song_object)
         if feat:
             feat_artists = [get_artist(f) for f in feat.split('; ')]
-            [song_object.feat_artist.add(f) for f in feat_artists]
-            [feat_object.featured_songs.add(song_object) for feat_object in feat_artists]
+            _ = [song_object.feat_artist.add(f) for f in feat_artists]
+            _ = [feat_object.featured_songs.add(song_object) for feat_object in feat_artists]
         song_object.title = song_title
         song_object.album = album
         song_object.slug = slugify(song_object.artist_name + ' ' + song_title)
@@ -53,4 +53,4 @@ def get_song(xml_id):
 def main(location='../corpus/dbs/HH.db'):
     conn = sqlite3.connect(location)
     cursor = conn.execute('select * from Songs')
-    [process_row(row) for row in cursor]
+    _ = [process_row(row) for row in cursor]
