@@ -1,13 +1,7 @@
 from django.conf.urls import url, include
-from django.contrib.auth.models import User
-# from rest_framework.authtoken.models import Token
 from rest_framework import routers
-# from rest_framework.authtoken import views as rf_views
 from . import views
 
-
-# for user in User.objects.all():
-#     Token.objects.get_or_create(user=user)
 
 router = routers.DefaultRouter()
 

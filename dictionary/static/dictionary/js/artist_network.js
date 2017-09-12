@@ -287,7 +287,7 @@ function nodeTransform(d) {
     d.x = Math.max(maxNodeSize, Math.min(w - (Math.sqrt(Math.sqrt(d.size)) * 40), d.x));
     d.y = Math.max(maxNodeSize, Math.min(h - (Math.sqrt(Math.sqrt(d.size)) * 40), d.y));
     return "translate(" + d.x + "," + d.y + ")";
-};
+}
 
 /**
  * Returns a list of all nodes under the root.
@@ -306,10 +306,10 @@ function flatten(root) {
 
     recurse(root);
     return nodes;
-};
+}
 
 var hashCode = function(s){
     return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
-};
+}
 
 

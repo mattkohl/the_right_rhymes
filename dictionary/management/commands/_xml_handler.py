@@ -2,12 +2,11 @@ import time
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
-import concurrent.futures
 import xmltodict
 from geopy.geocoders import Nominatim
 from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
-    Place, Song, SemanticClass, Region
+    Place, Song, SemanticClass, Region, Form
 from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end
 
 
@@ -117,7 +116,7 @@ class TRREntry:
 
     def add_to_db(self):
         print("------ Processing: '" + self.headword + "' ------")
-        entry, created = Entry.objects.get_or_create(headword=self.headword,
+        entry, _ = Entry.objects.get_or_create(headword=self.headword,
                                                      slug=self.slug)
         return entry
 
@@ -172,7 +171,7 @@ class TRRForm:
 
     def add_to_db(self):
         print("Adding Form:'" + self.label)
-        form_object, created = Form.objects.get_or_create(slug=self.slug)
+        form_object, _ = Form.objects.get_or_create(slug=self.slug)
         return form_object
 
 class TRRSense:
@@ -213,7 +212,7 @@ class TRRSense:
 
     def add_to_db(self):
         print("Adding Sense:'" + self.headword + "' -", self.pos, '(' + self.xml_id + ')')
-        sense_object, created = Sense.objects.get_or_create(xml_id=self.xml_id)
+        sense_object, _ = Sense.objects.get_or_create(xml_id=self.xml_id)
         return sense_object
 
     def update_sense(self, clear_exx=False):
@@ -253,34 +252,34 @@ class TRRSense:
     def extract_domains(self):
         if 'domain' in self.sense_dict:
             domain_list = self.sense_dict['domain']
-            if type(domain_list) is list:
+            if isinstance(domain_list, list):
                 for domain_name in domain_list:
                     self.domains.append(TRRDomain(domain_name['@type']))
-            if type(domain_list) is OrderedDict:
+            if isinstance(domain_list, OrderedDict):
                 self.domains.append(TRRDomain(domain_list['@type']))
 
     def extract_regions(self):
         if 'region' in self.sense_dict:
             region_list = self.sense_dict['region']
-            if type(region_list) is list:
+            if isinstance(region_list, list):
                 for region_name in region_list:
                     self.regions.append(TRRRegion(region_name['@type']))
-            if type(region_list) is OrderedDict:
+            if isinstance(region_list, OrderedDict):
                 self.regions.append(TRRRegion(region_list['@type']))
 
     def extract_semantic_classes(self):
         if 'semanticClass' in self.sense_dict:
             semantic_class_list = self.sense_dict['semanticClass']
-            if type(semantic_class_list) is list:
+            if isinstance(semantic_class_list, list):
                 for semantic_class_name in semantic_class_list:
                     self.semantic_classes.append(TRRSemanticClass(semantic_class_name['@type']))
-            if type(semantic_class_list) is OrderedDict:
+            if isinstance(semantic_class_list, OrderedDict):
                 self.semantic_classes.append(TRRSemanticClass(semantic_class_list['@type']))
 
     def extract_synset(self):
         if 'synSetRef' in self.sense_dict:
             synset = self.sense_dict['synSetRef']
-            if type(synset) is OrderedDict:
+            if isinstance(synset, OrderedDict):
                 self.synset.append(TRRSynSet(synset['@target']))
 
     def extract_collocates(self):
@@ -305,10 +304,10 @@ class TRRSense:
         examples = self.sense_dict['examples']
         if examples:
             example_list = examples['example']
-            if type(example_list) is list:
+            if isinstance(example_list, list):
                 for example in example_list:
                     yield(TRRExample(self.sense_object, example))
-            if type(example_list) is OrderedDict:
+            if isinstance(example_list, OrderedDict):
                 yield(TRRExample(self.sense_object, example_list))
 
     def add_relations(self):
@@ -351,8 +350,7 @@ class TRRSong:
         return '"' + self.title + '" '
 
     def add_to_db(self):
-        # print('Adding Song: "' + self.title + '"')
-        song_object, created = Song.objects.get_or_create(xml_id=self.xml_id)
+        song_object, _ = Song.objects.get_or_create(xml_id=self.xml_id)
         return song_object
 
     def update_song(self):
@@ -409,7 +407,7 @@ class TRRExample:
 
     def get_artist_name(self):
         val = self.example_dict['artist']
-        if type(val) is OrderedDict:
+        if isinstance(val, OrderedDict):
             return val['#text']
         elif type(val) is str:
             return val
@@ -421,7 +419,7 @@ class TRRExample:
             artist = self.example_dict[artist_type]
             if type(artist) is OrderedDict or type(artist) is str:
                 yield self.process_artist(artist)
-            if type(artist) is list:
+            if isinstance(artist, list):
                 for a in artist:
                     yield self.process_artist(a)
         else:
@@ -508,7 +506,7 @@ class TRRExample:
         if 'xref' in self.example_dict['lyric']:
             xrefs = self.example_dict['lyric']['xref']
             for xref in xrefs:
-                xref_sense_object, created = Sense.objects.get_or_create(xml_id=xref['@target'])
+                xref_sense_object, _ = Sense.objects.get_or_create(xml_id=xref['@target'])
                 self.example_object.illustrates_senses.add(xref_sense_object)
                 for artist in self.primary_artists:
                     artist.artist_object.primary_senses.add(xref_sense_object)
@@ -522,7 +520,6 @@ class TRRExample:
         self.example_object.save()
 
     def remove_previous_lyric_links_and_rhymes(self):
-        # print('Removing any pre-existing lyric links / rhymes to "' + self.lyric_text + '"')
         self.example_object.lyric_links.all().delete()
         self.example_object.example_rhymes.all().delete()
         self.example_object.from_song.all().delete()
@@ -563,8 +560,7 @@ class TRRArtist:
         return self.name
 
     def add_to_db(self):
-        # print('Adding Artist:', self.name, self.slug)
-        artist_object, created = Artist.objects.get_or_create(slug=self.slug)
+        artist_object, _ = Artist.objects.get_or_create(slug=self.slug)
         return artist_object
 
     def update_artist(self):
@@ -595,8 +591,7 @@ class TRRPlace:
             return self.full_name
 
     def add_to_db(self):
-        # print('Adding Place:', self.name)
-        place_object, created = Place.objects.get_or_create(slug=self.slug)
+        place_object, _ = Place.objects.get_or_create(slug=self.slug)
         return place_object
 
     def add_lat_long(self):
@@ -634,8 +629,7 @@ class TRRSemanticClass:
         return self.name
 
     def add_to_db(self):
-        # print('Adding semantic_class:', self.name)
-        semantic_class_object, created = SemanticClass.objects.get_or_create(slug=self.slug)
+        semantic_class_object, _ = SemanticClass.objects.get_or_create(slug=self.slug)
         return semantic_class_object
 
     def update_semantic_class_object(self):
@@ -655,8 +649,7 @@ class TRRDomain:
         return self.name
 
     def add_to_db(self):
-        # print('Adding Domain:', self.name)
-        domain_object, created = Domain.objects.get_or_create(slug=self.slug)
+        domain_object, _ = Domain.objects.get_or_create(slug=self.slug)
         return domain_object
 
     def update_domain_object(self):
@@ -676,8 +669,7 @@ class TRRRegion:
         return self.name
 
     def add_to_db(self):
-        # print('Adding Region:', self.name)
-        region_object, created = Region.objects.get_or_create(slug=self.slug)
+        region_object, _ = Region.objects.get_or_create(slug=self.slug)
         return region_object
 
     def update_region_object(self):
@@ -697,8 +689,7 @@ class TRRSynSet:
         return self.synset_id
 
     def add_to_db(self):
-        # print('Adding SynSet:', self.synset_id)
-        synset_object, created = SynSet.objects.get_or_create(name=self.synset_id)
+        synset_object, _ = SynSet.objects.get_or_create(name=self.synset_id)
         return synset_object
 
     def update_synset_object(self):
@@ -728,8 +719,7 @@ class TRREntity:
             return self.name
 
     def add_to_db(self):
-        # print('Adding Entity:', self.name)
-        entity_object, created = NamedEntity.objects.get_or_create(pref_label_slug=self.pref_label_slug,
+        entity_object, _ = NamedEntity.objects.get_or_create(pref_label_slug=self.pref_label_slug,
                                                                    entity_type=self.entity_type)
         # if self.entity_type == 'place':
         #     TRRPlace(self.pref_label)
@@ -764,8 +754,7 @@ class TRRCollocate:
             return None
 
     def add_to_db(self):
-        # print('Adding Collocate:', self.collocate_lemma)
-        collocate_object, created = Collocate.objects.get_or_create(collocate_lemma=self.collocate_lemma,
+        collocate_object, _ = Collocate.objects.get_or_create(collocate_lemma=self.collocate_lemma,
                                                                     source_sense_xml_id=self.source_sense_xml_id,
                                                                     target_id=self.target_id)
         return collocate_object
@@ -797,8 +786,7 @@ class TRRSenseRhyme:
             return None
 
     def add_to_db(self):
-        # print('Adding Rhyme:', self.rhyme)
-        rhyme_object, created = SenseRhyme.objects.get_or_create(rhyme=self.rhyme,
+        rhyme_object, _ = SenseRhyme.objects.get_or_create(rhyme=self.rhyme,
                                                                  parent_sense_xml_id=self.source_sense_xml_id)
         return rhyme_object
 
@@ -831,8 +819,7 @@ class TRRExampleRhyme:
 
     def add_to_db(self):
         if self.word_two_position:
-            # print('Adding Example Rhyme:', self.word_one, '-', self.word_two)
-            rhyme_object, created = ExampleRhyme.objects.get_or_create(word_one=self.word_one,
+            rhyme_object, _ = ExampleRhyme.objects.get_or_create(word_one=self.word_one,
                                                                        word_two=self.word_two,
                                                                        word_one_position=self.word_one_position,
                                                                        word_two_position=self.word_two_position)
@@ -911,8 +898,7 @@ class TRRXref:
             return None
 
     def add_to_db(self):
-        # print('Adding Xref:', self.xref_word)
-        xref_object, created = Xref.objects.get_or_create(xref_word=self.xref_word,
+        xref_object, _ = Xref.objects.get_or_create(xref_word=self.xref_word,
                                                           xref_type=self.xref_type,
                                                           target_id=self.target_id,
                                                           target_lemma=self.target_lemma,
@@ -954,7 +940,6 @@ class TRRLyricLink:
             return self.link_text
 
     def add_to_db(self):
-        # print('Adding LyricLink:', self.link_text)
         test = LyricLink.objects.filter(link_text=self.link_text,
                                         link_type=self.link_type,
                                         target_lemma=self.target_lemma,
@@ -994,16 +979,6 @@ def launch_trr_dict(x):
 
 
 def process_xml(xml_list):
-    # with concurrent.futures.ProcessPoolExecutor(max_workers=4) as executor:
-    #     processed_xml = {executor.submit(launch_trr_dict, XMLDict(xml)): xml for xml in xml_list}
-    #     for future in concurrent.futures.as_completed(processed_xml):
-    #         done = processed_xml[future]
-    #         try:
-    #             data = future.result()
-    #         except Exception as exc:
-    #             print('%r generated an exception: %s' % (done, exc))
-    #         else:
-    #             print('{} is done, yo'.format(data))
 
     for xml in xml_list:
         x = XMLDict(xml)
@@ -1020,10 +995,3 @@ def main(directory='../tRR/XML/tRR_Django'):
     h, m = divmod(m, 60)
 
     print('Processed dictionary in %d:%02d:%02d' % (h, m, s))
-
-
-#
-#
-# if __name__ == '__main__':
-#     x = XMLDict('static/test/test.xml')
-#     t = TRRDict(x.xml_dict)

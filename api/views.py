@@ -2,12 +2,7 @@ from operator import itemgetter
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import PageNumberPagination
-
-
+from rest_framework.decorators import api_view
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, build_beta_example, \

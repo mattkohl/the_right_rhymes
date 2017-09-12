@@ -1,5 +1,5 @@
 from ._corpus_handler import main
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 import django.conf.global_settings as settings
 
 
@@ -8,9 +8,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--directory',
-            action='store_true',
-            default='../corpus/dbs/HH.db',
-            help='path to sqlite3 db')
+                            action='store_true',
+                            default='../corpus/dbs/HH.db',
+                            help='path to sqlite3 db')
 
     def handle(self, *args, **options):
         if 'directory' in options:
