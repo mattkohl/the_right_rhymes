@@ -35,18 +35,21 @@ class TestArtistEndpoints(TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
 
-    def test_artist_network(self):
-        result = self.client.get("/data/artists/epmd/network")
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_artist_network(self, mock_check_for_image):
+        mock_check_for_image.return_value = 'some_image.png'
+        result = self.client.get("/data/artists/epmd/network", follow=True)
+        parsed = result.json()
+        self.assertIn('size', parsed)
+        self.assertIn('children', parsed)
+        self.assertIn('name', parsed)
+        self.assertTrue(len(parsed['children']) > 0)
 
     @mock.patch('dictionary.utils.check_for_image')
-    def test_artists_get(self, mock_check_for_image):
+    def test_artists_no_sense_examples(self, mock_check_for_image):
         mock_check_for_image.return_value = 'some_image.png'
-        result = self.client.get("/data/artists/", follow=True)
-        expected = {
-            'user': 'AnonymousUser',
-            'artists': [{'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'}, {'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}],
-            'auth': 'None'
-        }
+        result = self.client.get("/data/artists/epmd/sense_examples", follow=True)
+        expected = {}
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
 
