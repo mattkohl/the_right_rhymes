@@ -1,6 +1,6 @@
 from unittest import mock
 from django.test import TestCase
-from dictionary.models import Artist, Example, Sense
+from dictionary.models import Artist, Example, Sense, Domain
 
 
 class TestArtistEndpoints(TestCase):
@@ -99,3 +99,26 @@ class TestArtistEndpoints(TestCase):
         self.assertDictEqual(result.json(), expected)
 
 
+class TestDomainEndpoints(TestCase):
+    
+    def setUp(self):
+        self.domain = Domain(name="foo", slug="foo")
+        self.domain.save()
+        
+    def test_domain_get(self):
+        result = self.client.get("/data/domains/foo", follow=True)
+        expected = {
+            'name': "foo",
+            'children': [],
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+        
+    def test_domains_get(self):
+        result = self.client.get("/data/domains", follow=True)
+        expected = {
+            'name': "Domains",
+            'children': [{'word': 'foo', 'weight': 0, 'url': '/domains/foo'}],
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
