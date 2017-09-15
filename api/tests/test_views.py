@@ -1,6 +1,6 @@
 from unittest import mock
 from django.test import TestCase
-from dictionary.models import Artist, Example, Sense, Domain
+from dictionary.models import Artist, Example, Sense, Domain, Region, Entry
 
 
 class TestArtistEndpoints(TestCase):
@@ -119,6 +119,51 @@ class TestDomainEndpoints(TestCase):
         expected = {
             'name': "Domains",
             'children': [{'word': 'foo', 'weight': 0, 'url': '/domains/foo'}],
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+
+class TestRegionEndpoints(TestCase):
+    def setUp(self):
+        self.region = Region(name="foo", slug="foo")
+        self.region.save()
+
+    def test_region_get(self):
+        result = self.client.get("/data/regions/foo", follow=True)
+        expected = {
+            'name': "foo",
+            'children': [],
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    def test_regions_get(self):
+        result = self.client.get("/data/regions", follow=True)
+        expected = {
+            'name': "Regions",
+            'children': [{'word': 'foo', 'weight': 0, 'url': '/regions/foo'}],
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+
+class TestEntry(TestCase):
+
+    def setUp(self):
+        self.headwords = ["foo", "bar", "baz"]
+
+        for hw in self.headwords:
+            e = Entry(headword=hw, slug=hw, letter=hw[0], publish=True)
+            e.save()
+
+    def test_headword_views(self):
+        result = self.client.get("/data/headword_search/?term=ba")
+        expected = {
+            'entries': [
+                {'id': 'bar', 'label': 'bar', 'value': 'bar'},
+                {'id': 'baz', 'label': 'baz', 'value': 'baz'}
+            ]
         }
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
