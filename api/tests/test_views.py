@@ -1,6 +1,6 @@
 from unittest import mock
 from django.test import TestCase
-from dictionary.models import Artist, Example
+from dictionary.models import Artist, Example, Sense
 
 
 class TestArtistEndpoints(TestCase):
@@ -22,6 +22,8 @@ class TestArtistEndpoints(TestCase):
         self.method_man = Artist(name="Method Man", slug="method-man")
         self.method_man.save()
         self.example.feat_artist.add(self.method_man)
+        self.sense = Sense(headword="headword", part_of_speech="noun", xml_id="foo", slug="headword")
+        self.sense.save()
 
     @mock.patch('dictionary.utils.check_for_image')
     def test_artist_get(self, mock_check_for_image):
@@ -52,4 +54,44 @@ class TestArtistEndpoints(TestCase):
         expected = {}
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
+
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_artists_sense_examples(self, mock_check_for_image):
+        self.sense.cites_artists.add(self.epmd)
+        mock_check_for_image.return_value = 'some_image.png'
+        result = self.client.get("/data/artists/epmd/sense_examples", follow=True)
+        expected = {}
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_artists_get(self, mock_check_for_image):
+        mock_check_for_image.return_value = 'some_image.png'
+        result = self.client.get("/data/artists/", follow=True)
+        expected = {
+            'user': 'AnonymousUser',
+            'artists': [
+                {'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'},
+                {'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}
+            ],
+            'auth': 'None'
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_artists_missing_metadata(self, mock_check_for_image):
+        mock_check_for_image.return_value = '__none.png'
+        result = self.client.get("/data/artists/missing_metadata/", follow=True)
+        expected = {
+            'user': 'AnonymousUser',
+            'artists': [
+                {'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'},
+                {'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}
+            ],
+            'auth': 'None'
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
 
