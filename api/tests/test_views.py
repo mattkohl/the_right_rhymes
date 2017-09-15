@@ -84,12 +84,16 @@ class TestArtistEndpoints(TestCase):
         mock_check_for_image.return_value = '__none.png'
         result = self.client.get("/data/artists/missing_metadata/", follow=True)
         expected = {
-            'user': 'AnonymousUser',
-            'artists': [
-                {'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'},
-                {'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}
+            'primary_artists_no_image': [],
+            'primary_artists_no_origin': [
+                {'site_link': 'https://example.org/artists/epmd', 'slug': 'epmd', 'num_cites': 1, 'name': 'EPMD'},
+                {'site_link': 'https://example.org/artists/method-man', 'slug': 'method-man', 'num_cites': 0, 'name': 'Method Man'}
             ],
-            'auth': 'None'
+            'feat_artists_no_image': [],
+            'feat_artists_no_origin': [
+                {'site_link': 'https://example.org/artists/method-man', 'slug': 'method-man', 'num_cites': 1, 'name': 'Method Man'},
+                {'site_link': 'https://example.org/artists/epmd', 'slug': 'epmd', 'num_cites': 0, 'name': 'EPMD'}
+            ]
         }
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
