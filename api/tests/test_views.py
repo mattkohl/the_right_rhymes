@@ -1,6 +1,6 @@
 from unittest import mock
 from django.test import TestCase
-from dictionary.models import Artist, Example, Sense, Domain, Region, Entry
+from dictionary.models import Artist, Example, Sense, Domain, Region, Entry, Place
 
 
 class TestArtistEndpoints(TestCase):
@@ -98,6 +98,14 @@ class TestArtistEndpoints(TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
 
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_random_artist(self, mock_check_for_image):
+        mock_check_for_image.return_value = '__none.png'
+        result = self.client.get("/data/artists/random/", follow=True)
+        j = result.json()
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(j['slug'], ['method-man', 'epmd'])
+
 
 class TestDomainEndpoints(TestCase):
     
@@ -163,6 +171,46 @@ class TestEntry(TestCase):
             'entries': [
                 {'id': 'bar', 'label': 'bar', 'value': 'bar'},
                 {'id': 'baz', 'label': 'baz', 'value': 'baz'}
+            ]
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    def test_random_entry(self):
+        result = self.client.get("/data/entries/random/", follow=True)
+        j = result.json()
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(j['headword'], self.headwords)
+
+
+
+
+class TestPlace(TestCase):
+
+    def setUp(self):
+        self.place = Place(name="foo", full_name="foo, usa", slug="foo-usa")
+        self.place.save()
+
+    def test_place(self):
+        result = self.client.get("/data/places/foo-usa", follow=True)
+        expected = {
+            'places': [
+                {'full_name': 'foo, usa', 'name': 'foo', 'slug': 'foo-usa'}
+            ]
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    def test_place_artists(self):
+        result = self.client.get("/data/places/foo-usa/artists", follow=True)
+        expected = {
+            'places': [
+                {
+                    'artists_with_image': [],
+                    'artists_without_image': [],
+                    'full_name': 'foo, usa',
+                    'name': 'foo',
+                    'slug': 'foo-usa'}
             ]
         }
         self.assertEqual(result.status_code, 200)
