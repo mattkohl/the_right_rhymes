@@ -1,6 +1,6 @@
 from unittest import mock
 from django.test import TestCase
-from dictionary.models import Artist, Example, Sense, Domain, Region, Entry, Place
+from dictionary.models import Artist, Example, Sense, Domain, Region, Entry, Place, SemanticClass
 
 
 class TestArtistEndpoints(TestCase):
@@ -183,6 +183,40 @@ class TestEntry(TestCase):
         self.assertIn(j['headword'], self.headwords)
 
 
+class TestExample(TestCase):
+
+    def setUp(self):
+        self.example = Example(
+            lyric_text="Now, it's time for me, the E, to rock it loco",
+            artist_name='EPMD',
+            artist_slug='epmd',
+            song_title='Brothers From Brentwood L.I.',
+            album='Crossover',
+            release_date='1992-07-28',
+            release_date_string='1992-07-28'
+        )
+        self.example.save()
+        self.artist = Artist(name='EPMD')
+        self.artist.save()
+        self.example.artist.add(self.artist)
+
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_random_example(self, mock_check_for_image):
+        mock_check_for_image.return_value = '__none.png'
+        result = self.client.get("/data/examples/random/", follow=True)
+        j = result.json()
+        expected = {
+            'album': 'Crossover',
+            'featured_artists': [],
+            'links': [],
+            'primary_artists': [{'image': '__none.png', 'name': 'EPMD', 'slug': ''}],
+            'release_date': '1992-07-28',
+            'release_date_string': '1992-07-28',
+            'text': "Now, it's time for me, the E, to rock it loco",
+            'title': 'Brothers From Brentwood L.I.'
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(j, expected)
 
 
 class TestPlace(TestCase):
@@ -212,6 +246,39 @@ class TestPlace(TestCase):
                     'name': 'foo',
                     'slug': 'foo-usa'}
             ]
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    def test_random_place(self):
+        self.place.longitude = 0.1
+        self.place.save()
+        result = self.client.get("/data/places/random/", follow=True)
+        j = result.json()
+        expected = {'full_name': 'foo, usa', 'name': 'foo', 'slug': 'foo-usa'}
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(j, expected)
+
+
+class TestSemanticClassEndpoints(TestCase):
+    def setUp(self):
+        self.semantic_class = SemanticClass(name="foo", slug="foo")
+        self.semantic_class.save()
+
+    def test_semantic_class_get(self):
+        result = self.client.get("/data/semantic-classes/foo", follow=True)
+        expected = {
+            'name': "foo",
+            'children': [],
+        }
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(result.json(), expected)
+
+    def test_semantic_classes_get(self):
+        result = self.client.get("/data/semantic-classes", follow=True)
+        expected = {
+            'name': "Semantic Classes",
+            'children': [{'word': 'foo', 'weight': 0, 'url': '/semantic-classes/foo'}],
         }
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
