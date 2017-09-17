@@ -261,6 +261,7 @@ class TestPlace(TestCase):
 
 
 class TestSemanticClassEndpoints(TestCase):
+
     def setUp(self):
         self.semantic_class = SemanticClass(name="foo", slug="foo")
         self.semantic_class.save()
@@ -282,3 +283,81 @@ class TestSemanticClassEndpoints(TestCase):
         }
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
+
+
+class TestSenseEndpoints(TestCase):
+
+    def setUp(self):
+        self.entry = Entry(headword="mad", slug="mad", publish=True)
+        self.entry.save()
+        self.sense = Sense(headword="mad", slug="mad", xml_id="bar", part_of_speech="adj", publish=True)
+        self.sense.save()
+        self.entry.senses.add(self.sense)
+        self.e1 = Example(
+            lyric_text="For an MC on a trail of a mad comeback",
+            artist_name='EPMD',
+            artist_slug='epmd',
+            song_title="Rap Is Outta Control",
+            album='Business As Usual',
+            release_date='1990-12-15',
+            release_date_string='1990-12-15'
+        )
+        self.e1.save()
+        self.epmd = Artist(name='EPMD')
+        self.epmd.save()
+        self.e1.artist.add(self.epmd)
+        self.e2 = Example(
+            lyric_text="To go platinum and clock mad green",
+            artist_name='EPMD',
+            artist_slug='epmd',
+            song_title='Crossover',
+            album='Business Never Personal',
+            release_date='1992-07-28',
+            release_date_string='1992-07-28'
+        )
+        self.e2.save()
+        self.e2.artist.add(self.epmd)
+        self.e3 = Example(
+            lyric_text="EPMD in effect, I'm clockin mad green",
+            artist_name='EPMD',
+            artist_slug='epmd',
+            song_title='Chill',
+            album='Business Never Personal',
+            release_date='1992-07-28',
+            release_date_string='1992-07-28'
+        )
+        self.e3.save()
+        self.e3.artist.add(self.epmd)
+        self.e4 = Example(
+            lyric_text="No static, Uncle Sam, I got mad loot",
+            artist_name='EPMD',
+            artist_slug='epmd',
+            song_title='Boon Dox',
+            album='Business Never Personal',
+            release_date='1992-07-28',
+            release_date_string='1992-07-28'
+        )
+        self.e4.save()
+        self.e4.artist.add(self.epmd)
+        self.sense.examples.add(self.e1)
+        self.sense.examples.add(self.e2)
+        self.sense.examples.add(self.e3)
+        self.sense.examples.add(self.e4)
+
+    def test_remaining_sense_examples(self):
+        result = self.client.get("/data/senses/bar/remaining_examples/")
+        j = result.json()
+        expected = {'examples': [
+            {'album': 'Business Never Personal',
+             'artist_name': 'EPMD',
+             'artist_slug': 'epmd',
+             'featured_artists': [],
+             'linked_lyric': 'No static, Uncle Sam, I got mad loot',
+             'lyric': 'No static, Uncle Sam, I got mad loot',
+             'release_date': '1992-07-28',
+             'release_date_string': '1992-07-28',
+             'song_slug': 'epmd-boon-dox',
+             'song_title': 'Boon Dox'}],
+          'sense_id': 'bar'}
+        self.assertEqual(result.status_code, 200)
+        self.assertDictEqual(j, expected)
