@@ -1,29 +1,10 @@
 from unittest import mock
 from django.test import TestCase
+from dictionary.tests.base import BaseTest
 from dictionary.models import Artist, Example, Sense, Domain, Region, Entry, Place, SemanticClass
 
 
-class TestArtistEndpoints(TestCase):
-
-    def setUp(self):
-        self.example = Example(
-            lyric_text="I must go hard, then take charge",
-            artist_name='EPMD',
-            artist_slug='epmd',
-            song_title="Never Defeat 'Em",
-            album='We Mean Business',
-            release_date='2008-12-09',
-            release_date_string='2008-12-09'
-        )
-        self.example.save()
-        self.epmd = Artist(name='EPMD', slug="epmd")
-        self.epmd.save()
-        self.example.artist.add(self.epmd)
-        self.method_man = Artist(name="Method Man", slug="method-man")
-        self.method_man.save()
-        self.example.feat_artist.add(self.method_man)
-        self.sense = Sense(headword="headword", part_of_speech="noun", xml_id="foo", slug="headword")
-        self.sense.save()
+class TestArtistEndpoints(BaseTest):
 
     @mock.patch('dictionary.utils.check_for_image')
     def test_artist_get(self, mock_check_for_image):
@@ -72,6 +53,7 @@ class TestArtistEndpoints(TestCase):
             'user': 'AnonymousUser',
             'artists': [
                 {'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'},
+                {'image': 'some_image.png', 'name': 'Erick Sermon', 'slug': 'erick-sermon'},
                 {'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}
             ],
             'auth': 'None'
@@ -83,20 +65,10 @@ class TestArtistEndpoints(TestCase):
     def test_artists_missing_metadata(self, mock_check_for_image):
         mock_check_for_image.return_value = '__none.png'
         result = self.client.get("/data/artists/missing_metadata/", follow=True)
-        expected = {
-            'primary_artists_no_image': [],
-            'primary_artists_no_origin': [
-                {'site_link': 'https://example.org/artists/epmd', 'slug': 'epmd', 'num_cites': 1, 'name': 'EPMD'},
-                {'site_link': 'https://example.org/artists/method-man', 'slug': 'method-man', 'num_cites': 0, 'name': 'Method Man'}
-            ],
-            'feat_artists_no_image': [],
-            'feat_artists_no_origin': [
-                {'site_link': 'https://example.org/artists/method-man', 'slug': 'method-man', 'num_cites': 1, 'name': 'Method Man'},
-                {'site_link': 'https://example.org/artists/epmd', 'slug': 'epmd', 'num_cites': 0, 'name': 'EPMD'}
-            ]
-        }
+        expected = {'feat_artists_no_origin': [{'num_cites': 1, 'slug': 'method-man', 'name': 'Method Man', 'site_link': 'https://example.org/artists/method-man'}, {'num_cites': 0, 'slug': 'erick-sermon', 'name': 'Erick Sermon', 'site_link': 'https://example.org/artists/erick-sermon'}], 'feat_artists_no_image': [], 'primary_artists_no_origin': [{'num_cites': 0, 'slug': 'erick-sermon', 'name': 'Erick Sermon', 'site_link': 'https://example.org/artists/erick-sermon'}, {'num_cites': 0, 'slug': 'method-man', 'name': 'Method Man', 'site_link': 'https://example.org/artists/method-man'}], 'primary_artists_no_image': []}
+        j = result.json()
         self.assertEqual(result.status_code, 200)
-        self.assertDictEqual(result.json(), expected)
+        self.assertDictEqual(j, expected)
 
     @mock.patch('dictionary.utils.check_for_image')
     def test_random_artist(self, mock_check_for_image):
@@ -104,7 +76,7 @@ class TestArtistEndpoints(TestCase):
         result = self.client.get("/data/artists/random/", follow=True)
         j = result.json()
         self.assertEqual(result.status_code, 200)
-        self.assertIn(j['slug'], ['method-man', 'epmd'])
+        self.assertIn(j['slug'], ['method-man', 'epmd', 'erick-sermon'])
 
 
 class TestDomainEndpoints(TestCase):

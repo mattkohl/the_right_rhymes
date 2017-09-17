@@ -1,37 +1,7 @@
-from django.test import TestCase
-from dictionary.models import Entry, Artist, NamedEntity, Song, Domain, Place, Region, SemanticClass, Sense
+from dictionary.tests.base import BaseTest
 
 
-class TemplateTests(TestCase):
-    def setUp(self):
-        self.a = Artist(name="EPMD", slug="epmd")
-        self.a.save()
-        self.a1 = Artist(name="Erick Sermon", slug="erick-sermon")
-        self.a1.save()
-        self.p = Place(full_name="Brentwood, New York, USA", slug="brentwood-new-york-usa", name="Brentwood")
-        self.p.save()
-        self.d = Domain(name="drugs", slug="drugs")
-        self.d.save()
-        self.r = Region(slug="west-coast", name="West Coast")
-        self.r.save()
-        self.ne = NamedEntity(name="foo", slug="foo", entity_type="product", pref_label="Foo", pref_label_slug="foo")
-        self.ne.save()
-        self.e = Entry(headword="foo", slug="foo", letter="f", publish=True)
-        self.e.save()
-        self.s = Sense(headword="foo", slug="foo", xml_id="bar", part_of_speech="noun")
-        self.s.save()
-        self.e.senses.add(self.s)
-        self.sc = SemanticClass(name="drugs", slug="drugs")
-        self.sc.save()
-        self.song = Song(release_date="1998-01-01",
-                         release_date_string="1998-01-01",
-                         title="foo",
-                         album="bar",
-                         artist_name="Erick Sermon",
-                         slug="erick-sermon-foo",
-                         artist_slug="erick-sermon")
-        self.song.save()
-        self.song.artist.add(self.a)
+class TemplateTests(BaseTest):
 
     def test_uses_atoz_template(self):
         response = self.client.get("/index/")
@@ -66,7 +36,7 @@ class TemplateTests(TestCase):
         self.assertTemplateUsed(response, "dictionary/regions.html")
 
     def test_uses_named_entity_template(self):
-        response = self.client.get("/entities/foo/")
+        response = self.client.get("/entities/oprah-winfrey/")
         self.assertTemplateUsed(response, "dictionary/named_entity.html")
 
     def test_uses_entry_template(self):
