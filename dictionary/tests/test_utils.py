@@ -4,7 +4,8 @@ from dictionary.tests.base import BaseTest
 from dictionary.models import Artist, Place
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
-    build_collocate, build_xref, build_artist, build_sense
+    build_collocate, build_xref, build_artist, build_sense, build_timeline_example, reduce_ordered_list, \
+    count_place_artists, make_label_from_camel_case, dedupe_rhymes
 
 
 class TestUtils(BaseTest):
@@ -45,6 +46,21 @@ class TestUtils(BaseTest):
             "position": 1
         }
         self.assertDictEqual(result, expected)
+
+    def test_reduce_ordered_list(self):
+        ol = list("abcdeabcdefghabcdefghijkijkabcdeabcdefghijkfghijk")
+        threshold = 20
+        reduced = reduce_ordered_list(ol, threshold)
+        self.assertTrue(len(list(reduced)) < len(ol))
+
+    def test_count_place_artists(self):
+        pass
+
+    def test_make_label_from_camel_case(self):
+        pass
+
+    def test_dedupe_rhymes(self):
+        pass
 
 
 class TestBuildArtist(BaseTest):
@@ -107,6 +123,15 @@ class TestBuildExample(BaseTest):
         result = inject_link(lyric, start, end, a)
         expected = """Now, it's time for me, the <a href="/artists/erick-sermon">E</a>, to <a href="/rock#e9060_trV_1">rock</a> it <a href="/loco#e7360_adv_1">loco</a>"""
         self.assertEqual(result, expected)
+
+    @mock.patch('dictionary.utils.add_links')
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_build_timeline_example(self, mock_check_for_image, mock_add_links):
+        mock_add_links.return_value = "foo"
+        mock_check_for_image.return_value = "__none.png"
+        built = build_timeline_example(self.example_2, self.published_headwords)
+        expected = {'background': {'url': '__none.png'}, 'start_date': {'month': '07', 'day': '28', 'year': '1992'}, 'media': {'thumbnail': '__none.png'}, 'text': {'headline': 'foo', 'text': '<a href="/artists/epmd">EPMD</a> - "<a href="/songs/epmd-brothers-from-brentwood-l-i">Brothers From Brentwood L.I.</a>"'}}
+        self.assertDictEqual(built, expected)
 
 
 class TestPlaceMgmtUtils(TestCase):
