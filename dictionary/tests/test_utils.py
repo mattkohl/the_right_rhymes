@@ -1,7 +1,7 @@
 from unittest import mock
 from django.test import TestCase
 from dictionary.tests.base import BaseTest
-from dictionary.models import Entry, Artist, Collocate, Place, Xref
+from dictionary.models import Artist, Place
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
     build_collocate, build_xref, build_artist
@@ -19,14 +19,8 @@ class TestUtils(BaseTest):
         self.assertEqual(extract_parent("Houston, Texas, USA"), "Texas, USA")
 
     def test_build_entry_preview(self):
-        result = build_entry_preview(self.entry)
-        expected = {
-            "headword": "headword",
-            "slug": "headword",
-            "pub_date": "2017-01-01",
-            "last_updated": "2017-01-01"
-        }
-        self.assertDictEqual(result, expected)
+        result = build_entry_preview(self.mad_entry)
+        self.assertEqual(result['headword'], 'mad')
 
     def test_build_collocate(self):
         result = build_collocate(self.collocate)

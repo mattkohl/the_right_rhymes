@@ -40,12 +40,12 @@ class TemplateTests(BaseTest):
         self.assertTemplateUsed(response, "dictionary/named_entity.html")
 
     def test_uses_entry_template(self):
-        response = self.client.get("/foo/")
+        response = self.client.get("/mad/")
         self.assertTemplateUsed(response, "dictionary/entry.html")
 
     def test_random_uses_entry_template(self):
         response = self.client.get("/random/")
-        self.assertRedirects(response, '/foo')
+        self.assertEqual(response.status_code, 302)
 
     def test_uses_index_template(self):
         response = self.client.get("/")
