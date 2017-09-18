@@ -4,7 +4,7 @@ from dictionary.tests.base import BaseTest
 from dictionary.models import Artist, Place
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
-    build_collocate, build_xref, build_artist
+    build_collocate, build_xref, build_artist, build_sense
 
 
 class TestUtils(BaseTest):
@@ -67,8 +67,13 @@ class TestBuildArtist(BaseTest):
         self.assertIsNone(result)
 
 
-class TestBuildSense(TestCase):
-    pass
+class TestBuildSense(BaseTest):
+    @mock.patch('dictionary.utils.build_example')
+    def test_build_sense(self, mock_build_example):
+        mock_build_example.return_value = {"example": "example"}
+        built = build_sense(self.mad_sense, self.published_headwords)
+        expected = {'xml_id': 'bar', 'collocates': [], 'regions': [], 'etymology': None, 'semantic_classes': [], 'antonyms': [], 'ancestors': [], 'artist_name': '', 'artist_slug': '', 'sense_image': None, 'holonyms': [], 'related_words': [], 'image': '', 'examples': [{'example': 'example'}, {'example': 'example'}, {'example': 'example'}], 'form': None, 'part_of_speech': 'adj', 'instance_of': [], 'definition': None, 'num_examples': 4, 'meronyms': [], 'notes': None, 'rhymes': [], 'related_concepts': [], 'instances': [], 'derivatives': [], 'synonyms': [], 'headword': 'mad', 'domains': []}
+        self.assertDictEqual(built, expected)
 
 
 class TestBuildExample(BaseTest):

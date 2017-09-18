@@ -119,7 +119,7 @@ class BaseTest(TestCase):
         self.example_2.lyric_links.add(self.lyric_link_2)
         self.example_2.lyric_links.add(self.lyric_link_3)
 
-        self.published_headwords = ['rock', 'loco']
+        self.published_headwords = ['rock', 'loco', 'mad']
         self.collocate = Collocate(
             collocate_lemma="lemma",
             source_sense_xml_id="x1",
