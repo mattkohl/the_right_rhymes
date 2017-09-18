@@ -54,7 +54,8 @@ class TestUtils(BaseTest):
         self.assertTrue(len(list(reduced)) < len(ol))
 
     def test_count_place_artists(self):
-        pass
+        result = count_place_artists(self.brentwood_place, [0])
+        self.assertGreater(result, 0)
 
     def test_make_label_from_camel_case(self):
         pass

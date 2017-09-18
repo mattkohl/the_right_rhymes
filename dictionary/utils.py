@@ -441,7 +441,7 @@ def collect_place_artists(place_object, artists):
     return sorted(artists, key=itemgetter('name'))
 
 
-def count_place_artists(place_object, counts):
+def count_place_artists(place_object, counts=[]):
     counts.extend([place_object.artists.all().count()])
     contains = place_object.contains.all()
     if contains:
