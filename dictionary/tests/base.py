@@ -163,3 +163,12 @@ class BaseTest(TestCase):
 
         self.sense = Sense(headword="headword", part_of_speech="noun", xml_id="foo", slug="headword")
         self.sense.save()
+
+
+class BaseXMLTest(TestCase):
+
+    def setUp(self):
+        import os
+        self.source_file = "dictionary/tests/resources/zootie.xml"
+
+
