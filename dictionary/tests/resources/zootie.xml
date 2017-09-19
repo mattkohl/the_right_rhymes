@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><dictionary><entry sk="zootie" eid="e11730" publish="yes">
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+   <entry sk="zootie" eid="e11730" publish="yes">
       <head>
          <headword>zootie</headword>
       </head>
@@ -62,4 +64,5 @@
             </examples>
          </sense>
       </senses>
-   </entry></dictionary>
+   </entry>
+</dictionary>
