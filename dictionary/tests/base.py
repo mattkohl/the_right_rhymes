@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+import json
 from dictionary.models import Entry, Artist, Domain, Collocate, Sense, Region, SemanticClass, Song, NamedEntity, LyricLink, Example, Place, Xref
 from dictionary.management.commands.xml_handler import XMLDict
 
@@ -171,11 +171,4 @@ class BaseXMLTest(TestCase):
     def setUp(self):
         self.source_file = "dictionary/tests/resources/zootie.xml"
         self.x = XMLDict(self.source_file)
-
-
-class BaseTRRTest(TestCase):
-
-    def setUp(self):
-        self.source_file = "dictionary/tests/resources/zootie.xml"
-        self.x = XMLDict(self.source_file)
-
+        self.x_as_dict = json.loads(json.dumps(self.x.xml_dict))
