@@ -1,7 +1,7 @@
 import sqlite3
 
 from dictionary.models import Song, Artist
-from ._xml_handler import clean_up_date
+from .xml_handler import clean_up_date
 from dictionary.utils import slugify
 
 

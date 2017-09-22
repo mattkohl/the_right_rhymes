@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+   <entry sk="zootie" eid="e11730" publish="yes">
+      <head>
+         <headword>zootie</headword>
+      </head>
+      <senses id="e11730_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="5">zootie</form>
+         </forms>
+         <sense id="e11730_n_1">
+            <rhymes>
+               <rhyme freq="2">cutie</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="1" target="e3170_adj_1">blunted</collocate>
+               <collocate freq="1" target="e9000_intrV_1">ride</collocate>
+            </collocates>
+            <domain type="drugs"/>
+            <domain type="marijuana"/>
+            <sentiment type="neutral"/>
+            <definition><text>a marijuana cigarette laced with cocaine</text></definition>
+            <xref type="hasSynonym" target="e8630_n_1">primo</xref>
+            <xref type="conceptRelatesTo" target="e8900_n_1">reefer</xref>
+            <examples>
+               <example id="3470">
+                  <date>1989-07-25</date>
+                  <artist>Beastie Boys</artist>
+                  <songTitle>Hey Ladies</songTitle>
+                  <album>Paul's Boutique</album>
+                  <lyric><text>I met a little cutie, she was all hopped up on zootie</text><rhyme rhymeTarget="e11730_n_1" position="15" rhymeTargetWord="zootie" rhymeTargetPosition="47">cutie</rhyme><rf target="e11730_n_1" position="47" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="5033">
+                  <date>1994-12-06</date>
+                  <artist>Black Sheep</artist>
+                  <songTitle>We Boys</songTitle>
+                  <feat>Legion, The</feat>
+                  <album>Non-Fiction</album>
+                  <lyric><text>One love with the bang, riding with the zootie</text><xref target="e9000_intrV_1" position="24" lemma="ride">riding</xref><rf target="e11730_n_1" position="40" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="11290">
+                  <date>1996-07-07</date>
+                  <artist>De La Soul</artist>
+                  <songTitle>Intro</songTitle>
+                  <album>Stakes Is High</album>
+                  <lyric><text>Big four gets the zootie for the self</text><rf target="e11730_n_1" position="18" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="17365">
+                  <date>1999-07-13</date>
+                  <artist>Gang Starr</artist>
+                  <songTitle>Discipline</songTitle>
+                  <feat>Total</feat>
+                  <album>Full Clip</album>
+                  <lyric><text>Used to get blunted down in the hallways, I love the cutie pies, never the zootie pies</text><xref target="e3170_adj_1" position="12" lemma="blunted">blunted</xref><rhyme rhymeTarget="e11730_n_1" position="53" rhymeTargetWord="zootie" rhymeTargetPosition="75">cutie</rhyme><rf target="e11730_n_1" position="75" lemma="zootie">zootie</rf></lyric>
+               </example>
+               <example id="38936">
+                  <date>2003-10-07</date>
+                  <artist>RZA</artist>
+                  <songTitle>A Day To God Is 1,000 Years (Stay With Me)</songTitle>
+                  <album>Birth of A Prince</album>
+                  <lyric><text>Nigga, pass the zootie</text><rf target="e11730_n_1" position="16" lemma="zootie">zootie</rf></lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+</dictionary>

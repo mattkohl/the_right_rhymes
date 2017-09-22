@@ -1,4 +1,5 @@
 from unittest import mock
+from decimal import Decimal
 from django.test import TestCase
 from dictionary.tests.base import BaseTest
 from dictionary.models import Artist, Place
@@ -58,10 +59,16 @@ class TestUtils(BaseTest):
         self.assertGreater(result, 0)
 
     def test_make_label_from_camel_case(self):
-        pass
+        cc = "thisIsCamelCase"
+        result = make_label_from_camel_case(cc)
+        self.assertEqual(result, "This Is Camel Case")
 
     def test_dedupe_rhymes(self):
-        pass
+        r = {'w': {'rhyme': 'w', 'examples': [{'lyric': "l_1"}, {"lyric": "l_2"}, {"lyric": "l_2"}, {"lyric": "l_3"}]}}
+        e = {'w': {'rhyme': 'w', 'examples': [{'lyric': "l_1"}, {"lyric": "l_2"}, {"lyric": "l_3"}]}}
+        self.assertNotEqual(r, e)
+        dedupe_rhymes(r)
+        self.assertDictEqual(r, e)
 
 
 class TestBuildArtist(BaseTest):

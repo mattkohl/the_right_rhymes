@@ -1,4 +1,4 @@
-from ._corpus_handler import main
+from .corpus_handler import main
 from django.core.management.base import BaseCommand
 import django.conf.global_settings as settings
 
