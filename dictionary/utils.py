@@ -5,7 +5,7 @@ import re
 from operator import itemgetter
 from geopy.geocoders import Nominatim
 
-from django.db.models import Q
+from django.db.models import Q, Count
 import dictionary.models
 
 
@@ -734,3 +734,13 @@ def swap_place_lat_long(place):
     place.latitude, place.longitude = place.longitude, place.latitude
     place.save()
     return place.latitude, place.longitude
+
+
+def get_duplicate_lyric_texts():
+    return dictionary.models.Example.objects.values('lyric_text').annotate(Count('id')).order_by().filter(id__count__gt=1)
+
+
+def get_all_examples_with_lyric_text(text):
+    return dictionary.models.Example.objects.filter(lyric_text=text)
+
+
