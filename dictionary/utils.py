@@ -744,3 +744,17 @@ def get_all_examples_with_lyric_text(text):
     return dictionary.models.Example.objects.filter(lyric_text=text)
 
 
+def get_duplicate_lyric_links():
+    from itertools import groupby
+    exx = dictionary.models.Example.objects.annotate(Count('lyric_links')).filter(lyric_links__count__gt=1)
+    for e in exx:
+        positions = [link.position for link in e.lyric_links.all()]
+        counts = [
+            {"position": key, "count": len(list(group))} for key, group in groupby(positions)
+        ]
+        dupe_positions = [x["position"] for x in counts if x["count"] > 1]
+        if dupe_positions:
+            for p in dupe_positions:
+                links = list(e.lyric_links.filter(position=p))
+                print(e, links)
+                yield ([e] + links)
