@@ -60,3 +60,33 @@ class TestTRREntry(BaseTest):
         mock_update_entry.return_value = None
         result = TRREntry(self.entry_dict)
         self.assertEqual(str(result), 'zootie')
+
+
+class TestTRRLyricLink(BaseTest):
+
+    bad_position_ex = {
+        'album': 'By Any Means',
+        'songTitle': 'Arm and Hammer',
+        'artist': 'Kevin Gates',
+        '@id': '51232',
+        'date': '2014-03-18',
+        'lyric': {
+            'text': 'She like, "Bae, I\'m at the store"',
+            'rf': [{'@lemma': 'bae', '@position': '12', '#text': 'Bae', '@target': 'e2667_n_1'}]
+         }
+    }
+    good_position_ex = {
+        'album': 'King Push',
+        'songTitle': 'Drug Dealers Anonymous',
+        'artist': 'Pusha T',
+        '@id': '66175',
+        'feat': ['Jay Z'],
+        'date': '2015-12-18',
+        'lyric': {
+            'text': 'He told 12, "Gimme 12"',
+            'rf': [
+                {'@lemma': '12', '@position': '8', '#text': '12', '@target': 'e2045_n_1'},
+                {'@lemma': '12', '@position': '19', '#text': '12', '@target': 'e2045_n_1'}
+            ]
+        }
+    }
