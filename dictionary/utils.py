@@ -758,3 +758,16 @@ def get_duplicate_lyric_links():
                 links = list(e.lyric_links.filter(position=p))
                 print(e, links)
                 yield ([e] + links)
+
+
+def right_wrong_lyric_link_positions():
+    exx = dictionary.models.Example.objects.filter(lyric_text__icontains='"')
+    for ex in exx:
+        text = ex.lyric_text
+        for link in ex.lyric_links.all():
+            l_text = link.link_text
+            i = text.index(l_text)
+            if link.position != i and text.count(l_text) == 1 and link.position - 1 == i:
+                print(ex)
+                link.position -= 1
+                link.save()
