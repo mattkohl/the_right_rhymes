@@ -477,13 +477,13 @@ class TRRExample:
             for entity in entities:
                 self.entities.append(TRREntity(entity))
                 if '@type' in entity and entity['@type'] == 'artist':
-                    self.lyric_links.append(TRRLyricLink(entity, 'artist'))
+                    self.lyric_links.append(TRRLyricLink(link_dict=entity, link_type='artist', example_text=self.lyric_text))
                     if '@prefLabel' in entity:
                         TRRArtist(entity['@prefLabel'])
                     else:
                         TRRArtist(entity['#text'])
                 else:
-                    self.lyric_links.append(TRRLyricLink(entity, 'entity'))
+                    self.lyric_links.append(TRRLyricLink(link_dict=entity, link_type='entity', example_text=self.lyric_text))
                 if '@rhymeTarget' in entity:
                     self.example_rhymes.append(TRRExampleRhyme(entity))
 
@@ -493,14 +493,13 @@ class TRRExample:
 
             for rhyme in rhymes:
                 self.example_rhymes.append(TRRExampleRhyme(rhyme))
-                self.lyric_links.append(TRRLyricLink(rhyme, 'rhyme'))
+                self.lyric_links.append(TRRLyricLink(link_dict=rhyme, link_type='rhyme', example_text=self.lyric_text))
 
     def extract_rf(self):
         if 'rf' in self.example_dict['lyric']:
             rfs = self.example_dict['lyric']['rf']
             for rf in rfs:
-                # self.lyric_links.append(TRRLyricLink(rf, 'rf'))
-                self.lyric_links.append(TRRLyricLink(rf, 'xref'))
+                self.lyric_links.append(TRRLyricLink(link_dict=rf, link_type='xref', example_text=self.lyric_text))
 
     def extract_xrefs(self):
         if 'xref' in self.example_dict['lyric']:
@@ -510,7 +509,7 @@ class TRRExample:
                 self.example_object.illustrates_senses.add(xref_sense_object)
                 for artist in self.primary_artists:
                     artist.artist_object.primary_senses.add(xref_sense_object)
-                self.lyric_links.append(TRRLyricLink(xref, 'xref'))
+                self.lyric_links.append(TRRLyricLink(link_dict=xref, link_type='xref', example_text=self.lyric_text))
                 if '@rhymeTarget' in xref:
                     self.example_rhymes.append(TRRExampleRhyme(xref))
 
@@ -913,17 +912,25 @@ class TRRXref:
 
 class TRRLyricLink:
 
-    def __init__(self, link_dict, link_type):
+    def __init__(self, link_dict, link_type, example_text):
         self.link_dict = link_dict
         self.link_type = link_type
+        self.example_text = example_text
         self.link_text = self.link_dict['#text']
         self.target_slug = self.extract_target_slug()
         self.target_lemma = self.extract_target_lemma()
-        self.position = self.link_dict['@position']
+        self.position = self.confirm_position(self.link_dict['@position'])
         self.link_object = self.add_to_db()
 
     def __str__(self):
         return self.link_text
+
+    def confirm_position(self, position):
+        pos = int(position)
+        i = self.example_text.index(self.link_text)
+        if pos != i and self.example_text.count(self.link_text) == 1 and pos - 1 == i:
+            return pos - 1
+        return pos
 
     def extract_target_slug(self):
         if '@target' in self.link_dict and '@lemma' in self.link_dict:

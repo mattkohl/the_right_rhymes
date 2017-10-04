@@ -1,7 +1,7 @@
 from unittest import mock
 from collections import OrderedDict
 from dictionary.tests.base import BaseXMLTest, BaseTest
-from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry
+from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRExample, TRRLyricLink
 
 
 class TestXMLDict(BaseXMLTest):
@@ -90,3 +90,17 @@ class TestTRRLyricLink(BaseTest):
             ]
         }
     }
+
+    def test_fix_bad_position(self):
+        link_dict = self.bad_position_ex['lyric']['rf'][0]
+        link_type = 'rf'
+        example_text = self.bad_position_ex['lyric']['text']
+        l1 = TRRLyricLink(link_dict=link_dict, link_type=link_type, example_text=example_text)
+        self.assertEqual(l1.position, 11)
+
+    def test_confirm_good_position(self):
+        link_dict = self.good_position_ex['lyric']['rf'][0]
+        link_type = 'rf'
+        example_text = self.good_position_ex['lyric']['text']
+        l1 = TRRLyricLink(link_dict=link_dict, link_type=link_type, example_text=example_text)
+        self.assertEqual(l1.position, 8)
