@@ -62,6 +62,16 @@ class TestTRREntry(BaseTest):
         self.assertEqual(str(result), 'zootie')
 
 
+class TestTRRSense(BaseTest):
+
+    sense_dict = {}
+
+
+class TestTRRExample(BaseTest):
+
+    example_dict = {}
+
+
 class TestTRRLyricLink(BaseTest):
 
     bad_position_ex = {
