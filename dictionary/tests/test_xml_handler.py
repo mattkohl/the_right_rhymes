@@ -1,7 +1,8 @@
 from unittest import mock
 from collections import OrderedDict
 from dictionary.tests.base import BaseXMLTest, BaseTest
-from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink
+from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink, TRRPlace
+from dictionary.models import Place
 
 
 class TestXMLDict(BaseXMLTest):
@@ -94,6 +95,15 @@ class TestTRRExample(BaseTest):
         }
         result = TRRExample(self.mad_sense, example_dict)
         self.assertIsInstance(result, TRRExample)
+
+
+class TestTRRPlace(BaseTest):
+
+    def test_construct(self):
+        result = TRRPlace("Paris, Texas, USA")
+        self.assertIsInstance(result, TRRPlace)
+        self.assertEqual(Place.objects.filter(slug="paris-texas-usa").count(), 1)
+        self.assertEqual(Place.objects.filter(slug="texas-usa").count(), 1)
 
 
 class TestTRRLyricLink(BaseTest):
