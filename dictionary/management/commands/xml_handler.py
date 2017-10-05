@@ -174,6 +174,7 @@ class TRRForm:
         form_object, _ = Form.objects.get_or_create(slug=self.slug)
         return form_object
 
+
 class TRRSense:
 
     def __init__(self, entry_object, headword, pos, sense_dict, publish):

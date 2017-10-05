@@ -1,7 +1,7 @@
 from unittest import mock
 from collections import OrderedDict
 from dictionary.tests.base import BaseXMLTest, BaseTest
-from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRExample, TRRLyricLink
+from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink
 
 
 class TestXMLDict(BaseXMLTest):
@@ -64,12 +64,36 @@ class TestTRREntry(BaseTest):
 
 class TestTRRSense(BaseTest):
 
-    sense_dict = {}
+    @mock.patch("dictionary.management.commands.xml_handler.TRRSense.update_sense")
+    def test_construct(self, mock_update_sense):
+        mock_update_sense.return_value = None
+        headword = "mad"
+        publish = True
+        pos = "noun"
+        sense = {
+            "@id": "someId",
+            "definition": [{"text": "some definition"}],
+            "examples": []
+        }
+        result = TRRSense(self.mad_entry, headword, pos, sense, publish)
+        self.assertIsInstance(result, TRRSense)
 
 
 class TestTRRExample(BaseTest):
 
-    example_dict = {}
+    @mock.patch("dictionary.management.commands.xml_handler.TRRExample.update_example")
+    def test_construct(self, mock_update_example):
+        mock_update_example.return_value = None
+        example_dict = {
+            "@id": "someId",
+            "date": "2017-05-05",
+            "songTitle": "Jammin",
+            "album": "Foo",
+            "artist": "Bar",
+            "lyric": {"text": "Baz"}
+        }
+        result = TRRExample(self.mad_sense, example_dict)
+        self.assertIsInstance(result, TRRExample)
 
 
 class TestTRRLyricLink(BaseTest):
