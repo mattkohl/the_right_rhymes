@@ -174,6 +174,7 @@ class TRRForm:
         form_object, _ = Form.objects.get_or_create(slug=self.slug)
         return form_object
 
+
 class TRRSense:
 
     def __init__(self, entry_object, headword, pos, sense_dict, publish):
@@ -519,30 +520,30 @@ class TRRExample:
         self.example_object.save()
 
     def remove_previous_lyric_links_and_rhymes(self):
-        self.example_object.lyric_links.all().delete()
-        self.example_object.example_rhymes.all().delete()
-        self.example_object.from_song.all().delete()
+        for link in self.example_object.lyric_links.all():
+            self.example_object.lyric_links.remove(link)
+        for rhyme in self.example_object.example_rhymes.all():
+            self.example_object.example_rhymes.remove(rhyme)
+        for song in self.example_object.from_song.all():
+            self.example_object.from_song.remove(song)
 
     def add_relations(self):
         self.example_object.illustrates_senses.add(self.sense_object)
         for artist in self.primary_artists:
             self.example_object.artist.add(artist.artist_object)
             artist.artist_object.primary_senses.add(self.sense_object)
-            artist.artist_object.save()
         for artist in self.featured_artists:
             self.example_object.feat_artist.add(artist.artist_object)
             artist.artist_object.featured_senses.add(self.sense_object)
-            artist.artist_object.save()
         for e in self.entities:
             e.entity_object.examples.add(self.example_object)
             e.entity_object.mentioned_at_senses.add(self.sense_object)
-            e.entity_object.save()
         for l in self.lyric_links:
-            l.link_object.parent_example.add(self.example_object)
-            l.link_object.save()
+            current_link_positions = (link.position for link in self.example_object.lyric_links.all())
+            if l.link_object.position not in current_link_positions:
+                l.link_object.parent_example.add(self.example_object)
         for r in self.example_rhymes:
             r.rhyme_object.parent_example.add(self.example_object)
-            r.rhyme_object.save()
         self.example_object.from_song.add(self.song.song_object)
 
 

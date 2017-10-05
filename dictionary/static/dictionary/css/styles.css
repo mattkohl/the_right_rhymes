@@ -375,6 +375,11 @@ figcaption a.artist {
     top:-375px;
 }
 
+.heading-anchor {
+    position:relative;
+    top:-75px;
+}
+
 .headword {
     color: black;
     font-size: 2em;

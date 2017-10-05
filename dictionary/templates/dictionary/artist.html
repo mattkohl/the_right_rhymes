@@ -47,9 +47,9 @@
                 {% if primary_senses %}
 
                     {% if primary_sense_count > 1 %}
-                    <h3 class="trr-list-header">cited at {{ primary_sense_count }} senses as a <strong>primary artist</strong>, including:</h3>
+                    <h3 id="primary-senses" class="trr-list-header">cited at {{ primary_sense_count }} senses as a <strong>primary artist</strong>, including:</h3>
                     {% elif primary_senses|length == 1 %}
-                    <h3 class="trr-list-header">cited at {{ primary_sense_count }} sense as a <strong>primary artist</strong></h3>
+                    <h3 id="primary-senses" class="trr-list-header">cited at {{ primary_sense_count }} sense as a <strong>primary artist</strong></h3>
                     {% endif %}
 
                     <div class="trr-list">
@@ -100,9 +100,9 @@
 
                 {% if featured_senses %}
                     {% if featured_sense_count > 1 %}
-                    <h3 class="trr-list-header">cited at {{ featured_sense_count }} senses as a <strong>featured artist</strong>, including:</h3>
+                    <h3 id="featured-senses" class="trr-list-header">cited at {{ featured_sense_count }} senses as a <strong>featured artist</strong>, including:</h3>
                     {% elif featured_sense_count == 1 %}
-                    <h3 class="trr-list-header">cited at {{ featured_sense_count }} sense as a <strong>featured artist</strong></h3>
+                    <h3 id="featured-senses" class="trr-list-header">cited at {{ featured_sense_count }} sense as a <strong>featured artist</strong></h3>
                     {% endif %}
 
                     <div class="trr-list">
@@ -157,9 +157,9 @@
                 {% endif %}
                 {% if entity_examples %}
                     {% if entity_example_count > 1 %}
-                    <h3 class="trr-list-header">{{ entity_example_count }} <strong>shout-outs</strong> in these lyrics</h3>
+                    <h3 id="shout-outs" class="trr-list-header">{{ entity_example_count }} <strong>shout-outs</strong> in these lyrics</h3>
                     {% elif entity_example_count == 1 %}
-                    <h3 class="trr-list-header">{{ entity_example_count }} <strong>shout-out</strong> in this lyric</h3>
+                    <h3 id="shout-outs" class="trr-list-header">{{ entity_example_count }} <strong>shout-out</strong> in this lyric</h3>
                     {% endif %}
                     <div class="trr-list">
                     {% for example in entity_examples %}
