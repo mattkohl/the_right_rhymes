@@ -1318,6 +1318,10 @@ Media Queries Aplenty
     .navbar-default .navbar-header .navbar-form {
         border: none;
     }
+
+    #collapse-search {
+        display: none !important;
+    }
 }
 
 @media only screen
