@@ -87,6 +87,7 @@
     background-color: transparent;
     font-size: 3em;
     color: lightgray;
+    z-index: -100;
 }
 
 .overlay-close i {
@@ -161,6 +162,7 @@ and (max-width : 600px) {
     #index-search-box {
         background: none;
         border: none;
+        height: 100%;
         padding-left: .5em;
         color: white;
         width: 78%;
