@@ -123,6 +123,7 @@
     border: none;
     height: 100%;
     font-size: 1em;
+    padding-left: .5em;
     color: white;
     width: 78%
 }
@@ -162,6 +163,7 @@ and (max-width : 600px) {
         background: none;
         border: none;
         height: 100%;
+        padding-left: .05em;
         color: white;
         width: 78%;
         font-size: .7em;
