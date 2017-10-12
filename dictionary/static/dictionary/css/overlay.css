@@ -87,6 +87,7 @@
     background-color: transparent;
     font-size: 3em;
     color: lightgray;
+    z-index: -100;
 }
 
 .overlay-close i {
@@ -112,8 +113,9 @@
 
 
 #index-search-form {
-    height: 3em;
-    font-size: inherit;
+    height: 2em;
+    font-size: 0.8em;
+    background: #111;
 }
 
 #index-search-box {
@@ -123,7 +125,7 @@
     font-size: 1em;
     padding-left: .5em;
     color: white;
-    width: 80%
+    width: 78%
 }
 
 #index-search-button {
@@ -161,17 +163,10 @@ and (max-width : 600px) {
         background: none;
         border: none;
         height: 100%;
-        font-size: 1em;
         padding-left: .5em;
         color: white;
-        width: 60%
-    }
-
-    #index-search-box {
-        width: 80%;
+        width: 78%;
         font-size: .7em;
-        height: 50%;
-        margin-top: .25em;
     }
 
     #index-search-button {
@@ -199,8 +194,14 @@ and (max-width : 600px) {
 @media only screen
 and (max-width : 320px) {
 
+    #index-search-form {
+        height: 2em;
+        font-size: 0.7em;
+        background: #111;
+    }
+
     #index-search-box {
-        width: 90%;
+        width: 70%;
     }
 
 

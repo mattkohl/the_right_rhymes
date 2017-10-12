@@ -1,4 +1,4 @@
-@import url("overlay.css");
+@import url("overlay.min.css");
 
 /* 'Open Sans' */
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,300,600);
@@ -1317,6 +1317,10 @@ Media Queries Aplenty
 
     .navbar-default .navbar-header .navbar-form {
         border: none;
+    }
+
+    #collapse-search {
+        display: none !important;
     }
 }
 

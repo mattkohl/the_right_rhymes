@@ -2,6 +2,9 @@
 <nav id="navbar-custom" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
+            <a class="overlay-menu navbar-toggle collapsed trr-icon" style="float: left; left: 10px">
+                <span class="glyphicon glyphicon-search"></span>
+            </a>
             <button type="button"
                     class="navbar-toggle collapsed"
                     data-toggle="collapse"
@@ -20,13 +23,12 @@
                         <i class="fa fa-bomb"></i><span class="collapse-only"> Random</span>
                     </a>
                 </li>
-                <li>
-                    <a id="overlay-menu" class="nav-search-icon trr-icon"><span class="glyphicon glyphicon-search"></span><span class="collapse-only"> Search</span></a>
+                <li id="collapse-search">
+                    <a class="overlay-menu nav-search-icon trr-icon"><span class="glyphicon glyphicon-search"></span><span class="collapse-only"> Search</span></a>
                 </li>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li style="margin-bottom: 6px">
                     <a href="{% url 'stats' %}" class="trr-icon"><i class="fa fa-bar-chart-o"></i><span class="collapse-only"> Statistics</span></a>
                 </li>
                 <li>
