@@ -1,3 +1,4 @@
+from collections import Counter
 from django.db import models
 from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
@@ -40,6 +41,9 @@ class Artist(models.Model):
         if place:
             print('Adding origin', place.name, 'to', self.name)
             self.origin.add(place)
+
+    def get_primary_sense_example_counts(self):
+        return Counter([sense.slug + "#" + sense.xml_id for sense in self.primary_senses.filter(publish=True) for _ in sense.examples.filter(artist_name=self.name)])
 
 
 class Editor(models.Model):
@@ -149,6 +153,9 @@ class Sense(models.Model):
 
     def update_definition(self, new_definition):
         self.definition = new_definition
+
+    def get_artist_example_count(self):
+        return Counter([a.name for ex in self.examples.all() for a in ex.artist.all()])
 
 
 class Song(models.Model):
