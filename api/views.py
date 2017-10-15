@@ -210,6 +210,27 @@ def artists_missing_metadata(request):
 
 
 @api_view(('GET',))
+def artist_salient_senses(request, artist_slug):
+    BASE_URL = "https://" + request.META.get('HTTP_HOST', 'example.org')
+    try:
+        artist = Artist.objects.get(slug=artist_slug)
+    except Exception as e:
+        return Response({})
+    else:
+        results = artist.get_tfidfs()
+        linked = [{
+            "headword": sense.headword,
+            "link": BASE_URL + '/' + sense.slug + "#" + sense.xml_id,
+            "salience": val
+        } for (sense, val) in reversed(results[-10:])]
+        data = {
+            "artist": BASE_URL + '/artists/' + artist.slug,
+            "senses": linked
+        }
+        return Response(data)
+
+
+@api_view(('GET',))
 def domain(request, domain_slug):
     results = Domain.objects.filter(slug=domain_slug)
     if results:

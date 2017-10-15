@@ -1,4 +1,6 @@
 from collections import Counter
+import operator
+import math
 from django.db import models
 from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
@@ -43,7 +45,19 @@ class Artist(models.Model):
             self.origin.add(place)
 
     def get_primary_sense_example_counts(self):
-        return Counter([sense.slug + "#" + sense.xml_id for sense in self.primary_senses.filter(publish=True) for _ in sense.examples.filter(artist_name=self.name)])
+        return Counter([sense for sense in self.primary_senses.filter(publish=True) for _ in sense.examples.filter(artist_name=self.name)])
+
+    def tf(self, sense):
+        a_count = sense.examples.filter(artist_name=self.name).count()
+        e_count = self.primary_examples.count()
+        return a_count / e_count
+
+    def tfidf(self, sense):
+        return self.tf(sense) * sense.idf()
+
+    def get_tfidfs(self):
+        results = {sense: self.tfidf(sense) for sense in self.primary_senses.filter(publish=True)}
+        return sorted(results.items(), key=operator.itemgetter(1))
 
 
 class Editor(models.Model):
@@ -156,6 +170,12 @@ class Sense(models.Model):
 
     def get_artist_example_count(self):
         return Counter([a.name for ex in self.examples.all() for a in ex.artist.all()])
+
+    def idf(self):
+        sa_count = self.cites_artists.count()
+        a_count = Artist.objects.count()
+        log_count = math.log10(a_count / sa_count)
+        return log_count
 
 
 class Song(models.Model):

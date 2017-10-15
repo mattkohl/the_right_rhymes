@@ -28,6 +28,9 @@ urlpatterns = [
     # /data/artists/<artist_slug>/sense_examples/
     url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/sense_examples/$", views.artist_sense_examples, name="artist_sense_examples"),
 
+    # /data/artists/<artist_slug>/salience/
+    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/salience/$", views.artist_salient_senses, name="artist_salient_senses"),
+
     # /data/domains/
     url(r"^domains/$", views.domains, name='domains'),
 
