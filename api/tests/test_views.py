@@ -78,6 +78,14 @@ class TestArtistEndpoints(BaseTest):
         self.assertEqual(result.status_code, 200)
         self.assertIn(j['slug'], ['method-man', 'epmd', 'erick-sermon'])
 
+    @mock.patch('dictionary.utils.check_for_image')
+    def test_artist_salient_senses(self, mock_check_for_image):
+        mock_check_for_image.return_value = 'some_image.png'
+        result = self.client.get("/data/artists/epmd/salience", follow=True)
+        parsed = result.json()
+        self.assertIn('senses', parsed)
+        self.assertTrue(len(parsed['senses']) == 0)
+
 
 class TestDomainEndpoints(TestCase):
     
@@ -137,7 +145,7 @@ class TestEntry(TestCase):
             e = Entry(headword=hw, slug=hw, letter=hw[0], publish=True)
             e.save()
 
-    def test_headword_views(self):
+    def test_headword_search(self):
         result = self.client.get("/data/headword_search/?term=ba")
         expected = {
             'entries': [
