@@ -1,7 +1,7 @@
 from unittest import mock
 from collections import OrderedDict
 from dictionary.tests.base import BaseXMLTest, BaseTest
-from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink, TRRPlace
+from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink, TRRPlace, TRRSong
 from dictionary.models import Place
 
 
@@ -97,6 +97,36 @@ class TestTRRExample(BaseTest):
         self.assertIsInstance(result, TRRExample)
 
 
+class TestTRRSong(BaseTest):
+
+    def test_construct(self):
+
+        class Artist_(object):
+            def __init__(self, artist_object):
+                self.artist_object = artist_object
+
+        es_ = Artist_(self.erick_sermon)
+
+        xml_id = "a1234"
+        release_date = "1998-01-01"
+        title = "foo"
+        album = "bar"
+        artist_name = "Erick Sermon"
+        slug = "erick-sermon-foo"
+        artist_slug = "erick-sermon"
+        result = TRRSong(xml_id=xml_id,
+                         release_date=release_date,
+                         release_date_string=release_date,
+                         song_title=title,
+                         artist_name=artist_name,
+                         artist_slug=artist_slug,
+                         primary_artists=[es_],
+                         feat_artists=[],
+                         album=album)
+        self.assertIsInstance(result, TRRSong)
+        self.assertEquals(result.slug, slug)
+
+
 class TestTRRPlace(BaseTest):
 
     def test_construct(self):
@@ -148,3 +178,4 @@ class TestTRRLyricLink(BaseTest):
         example_text = self.good_position_ex['lyric']['text']
         l1 = TRRLyricLink(link_dict=link_dict, link_type=link_type, example_text=example_text)
         self.assertEqual(l1.position, 8)
+
