@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, OrderedDict
 import operator
 import math
 from django.db import models
@@ -55,8 +55,12 @@ class Artist(models.Model):
     def tfidf(self, sense):
         return self.tf(sense) * sense.idf()
 
-    def get_tfidfs(self):
-        results = {sense: self.tfidf(sense) for sense in self.primary_senses.filter(publish=True)}
+    def get_tfidfs(self, senses=list()):
+        if senses:
+            results = {sense: self.tfidf(sense) for sense in senses}
+        else:
+            results = {sense: self.tfidf(sense) for sense in self.primary_senses.filter(publish=True)}
+
         return sorted(results.items(), key=operator.itemgetter(1))
 
 
@@ -176,6 +180,21 @@ class Sense(models.Model):
         a_count = Artist.objects.count()
         log_count = math.log10(a_count / sa_count)
         return log_count
+
+    def tf(self, artist):
+        a_count = self.examples.filter(artist_name=artist.name).count()
+        e_count = self.examples.count()
+        return a_count / e_count
+
+    def tfidf(self, artist):
+        return self.tf(artist) * self.idf()
+
+    def get_tfidfs(self, artists=list()):
+        if artists:
+            results = {artist: self.tfidf(artist) for artist in artists}
+        else:
+            results = {artist: self.tfidf(artist) for artist in self.cites_artists.all()}
+        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1)))
 
 
 class Song(models.Model):

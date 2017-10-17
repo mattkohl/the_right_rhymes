@@ -56,9 +56,8 @@ def a_to_z(request):
 
 @cache_control(max_age=3600)
 def artist(request, artist_slug):
-    artist_results = get_list_or_404(Artist, slug=artist_slug)
-    artist = artist_results[0]
-    origin_results = artist.origin.all()
+    a = get_object_or_404(Artist, slug=artist_slug)
+    origin_results = a.origin.all()
     if origin_results:
         origin = origin_results[0].full_name
         origin_slug = origin_results[0].slug
@@ -78,9 +77,9 @@ def artist(request, artist_slug):
             'headword': sense.headword,
             'slug': sense.slug,
             'xml_id': sense.xml_id,
-            'example_count': sense.examples.filter(artist=artist).count(),
-            'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]
-        } for sense in artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[:5]
+            'example_count': sense.examples.filter(artist=a).count(),
+            'examples': [build_example(example, published) for example in sense.examples.filter(artist=a).order_by('release_date')]
+        } for sense in a.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[:5]
     ]
 
     featured_senses = [
@@ -88,24 +87,24 @@ def artist(request, artist_slug):
             'headword': sense.headword,
             'slug': sense.slug,
             'xml_id': sense.xml_id,
-            'example_count': sense.examples.filter(feat_artist=artist).count(),
-            'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]
-        } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[:5]
+            'example_count': sense.examples.filter(feat_artist=a).count(),
+            'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=a).order_by('release_date')]
+        } for sense in a.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[:5]
     ]
 
     entity_examples = []
     if entity_results:
         entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
 
-    image = check_for_image(artist.slug, 'artists', 'full')
-    thumb = check_for_image(artist.slug, 'artists', 'thumb')
-    name = reformat_name(artist.name)
-    primary_sense_count = artist.primary_senses.filter(publish=True).count()
-    featured_sense_count = artist.featured_senses.filter(publish=True).count()
+    image = check_for_image(a.slug, 'artists', 'full')
+    thumb = check_for_image(a.slug, 'artists', 'thumb')
+    name = reformat_name(a.name)
+    primary_sense_count = a.primary_senses.filter(publish=True).count()
+    featured_sense_count = a.featured_senses.filter(publish=True).count()
 
     context = {
         'artist': name,
-        'slug': artist.slug,
+        'slug': a.slug,
         'origin': origin,
         'origin_slug': origin_slug,
         'longitude': long,
@@ -121,7 +120,7 @@ def artist(request, artist_slug):
         'also_known_as': [{
             'artist': aka.name,
             'slug': aka.slug
-        } for aka in artist.also_known_as.all()]
+        } for aka in a.also_known_as.all()]
     }
     return HttpResponse(template.render(context, request))
 

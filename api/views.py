@@ -1,4 +1,5 @@
 from operator import itemgetter
+from collections import Counter, OrderedDict
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -532,6 +533,28 @@ def sense_artists(request, sense_id):
         sense_artist_dicts = [build_artist(a, require_origin=True) for a in sense_object.cites_artists.all()]
         data = {'senses': [a for a in sense_artist_dicts if a is not None]}
         return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def sense_artists_salience(request, sense_id):
+    results = Sense.objects.filter(xml_id=sense_id)
+    if results:
+        sense_object = results[0]
+        sense_artist_dicts = [(build_artist(a, require_origin=True), {"salience": a.tfidf(sense_object)}) for a in sense_object.cites_artists.all()]
+        for a in sense_artist_dicts:
+            if a[0] is not None:
+                a[0].update(a[1])
+
+        data = [a[0] for a in sense_artist_dicts if a[0] is not None]
+        sorted_data = sorted(data, key=itemgetter("salience"), reverse=True)[:10]
+        return Response(
+            {"artists": sorted_data,
+             "headword": sense_object.headword,
+             "xml_id": sense_object.xml_id,
+             "definition": sense_object.definition}
+        )
     else:
         return Response({})
 

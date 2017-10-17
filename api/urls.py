@@ -85,6 +85,9 @@ urlpatterns = [
     # /data/senses/<sense_id>/artists/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/$", views.sense_artists, name="sense_artists"),
 
+    # /data/senses/<sense_id>/artists/salience
+    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/salience/$", views.sense_artists_salience, name="sense_artists_salience"),
+
     # /data/senses/<sense_id>/artists/<artist_slug>/
     url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.sense_artist, name="sense_artist"),
 
