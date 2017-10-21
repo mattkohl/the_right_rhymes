@@ -542,7 +542,11 @@ def sense_artists_salience(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        sense_artist_dicts = [(build_artist(a, require_origin=True), {"salience": a.tfidf(sense_object)}) for a in sense_object.cites_artists.all()]
+        sense_artist_dicts = [
+            (
+                build_artist(a, require_origin=True), {"salience": a.tfidf(sense_object)}
+            ) for a in sense_object.cites_artists.all()
+        ]
         for a in sense_artist_dicts:
             if a[0] is not None:
                 a[0].update(a[1])
