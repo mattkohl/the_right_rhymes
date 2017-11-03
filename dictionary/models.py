@@ -20,6 +20,7 @@ class Artist(models.Model):
     primary_songs = models.ManyToManyField('Song', related_name="+", blank=True)
     featured_songs = models.ManyToManyField('Song', related_name="+", blank=True)
     also_known_as = models.ManyToManyField("self", blank=True, symmetrical=True)
+    member_of = models.ManyToManyField("self", related_name="members", blank=True)
 
     class Meta:
         ordering = ["name"]
@@ -343,7 +344,6 @@ class Collocate(models.Model):
         if self.frequency:
             base.update({"frequency": self.frequency})
         return base
-
 
 
 class SenseRhyme(models.Model):
