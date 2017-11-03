@@ -38,7 +38,23 @@
                         <div class="aka">
                             <span class="" style="text-transform: lowercase">a.k.a.</span>
                             {% for aka in also_known_as %}
-                                <a href="{% url 'artist' aka.slug %}">{{ aka.artist }}</a>{% if not forloop.last %}, {% endif %}
+                                <a href="{% url 'artist' aka.slug %}">{{ aka.name }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if member_of %}
+                        <div class="aka">
+                            <span class="" style="text-transform: lowercase">member of:</span>
+                            {% for m in member_of %}
+                                <a href="{% url 'artist' m.slug %}">{{ m.name }}</a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if members %}
+                        <div class="aka">
+                            <span class="" style="text-transform: lowercase">members:</span>
+                            {% for m in members %}
+                                <a href="{% url 'artist' m.slug %}">{{ m.name }}</a>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </div>
                     {% endif %}

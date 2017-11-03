@@ -20,7 +20,7 @@ class Artist(models.Model):
     primary_songs = models.ManyToManyField('Song', related_name="+", blank=True)
     featured_songs = models.ManyToManyField('Song', related_name="+", blank=True)
     also_known_as = models.ManyToManyField("self", blank=True, symmetrical=True)
-    member_of = models.ManyToManyField("self", related_name="members", blank=True)
+    member_of = models.ManyToManyField("self", related_name="members", blank=True, symmetrical=False)
 
     class Meta:
         ordering = ["name"]

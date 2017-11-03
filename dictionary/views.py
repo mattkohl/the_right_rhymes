@@ -117,10 +117,9 @@ def artist(request, artist_slug):
         'entity_example_count': len(entity_examples),
         'image': image,
         'thumb': thumb,
-        'also_known_as': [{
-            'artist': aka.name,
-            'slug': aka.slug
-        } for aka in a.also_known_as.all()]
+        'also_known_as': [build_artist(aka) for aka in a.also_known_as.all()],
+        'member_of':  [build_artist(m) for m in a.member_of.all()],
+        'members': [build_artist(m) for m in a.members.all()],
     }
     return HttpResponse(template.render(context, request))
 
