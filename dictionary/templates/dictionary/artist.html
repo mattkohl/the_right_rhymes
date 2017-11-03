@@ -42,7 +42,7 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    {% if member_of %}
+                    {% if member_of and not also_known_as %}
                         <div class="aka">
                             <span class="" style="text-transform: lowercase">member of:</span>
                             {% for m in member_of %}
@@ -50,7 +50,7 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    {% if members %}
+                    {% if members and not also_known_as and not member_of %}
                         <div class="aka">
                             <span class="" style="text-transform: lowercase">members:</span>
                             {% for m in members %}
