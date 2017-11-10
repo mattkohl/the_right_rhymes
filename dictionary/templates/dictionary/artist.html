@@ -52,10 +52,11 @@
                     {% endif %}
                     {% if members and not also_known_as and not member_of %}
                         <div class="aka">
-                            <span class="" style="text-transform: lowercase">members include: </span>
+                            <span class="" style="text-transform: lowercase">( </span>
                             {% for m in members %}
                                 <a href="{% url 'artist' m.slug %}">{{ m.name }}</a>{% if not forloop.last %} ⋅ {% endif %}
                             {% endfor %}
+                            <span class="" style="text-transform: lowercase"> )</span>
                         </div>
                     {% endif %}
                 </div>
