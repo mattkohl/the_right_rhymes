@@ -170,9 +170,6 @@ class Sense(models.Model):
         else:
             return self.xml_id
 
-    def update_definition(self, new_definition):
-        self.definition = new_definition
-
     def get_artist_example_count(self):
         return Counter([a.name for ex in self.examples.all() for a in ex.artist.all()])
 
