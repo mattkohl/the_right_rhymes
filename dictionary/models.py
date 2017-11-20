@@ -198,6 +198,32 @@ class Sense(models.Model):
         return OrderedDict(sorted(results.items(), key=operator.itemgetter(1)))
 
 
+class Salience(models.Model):
+    id = models.AutoField(primary_key=True)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    sense = models.ForeignKey(Sense, on_delete=models.CASCADE)
+    score = models.FloatField()
+
+    class Meta:
+        ordering = ["score"]
+
+    def __str__(self):
+        return "SALIENCE: " + self.artist.name + ' - ' + self.sense.headword + ' (' + self.sense.xml_id + '): ' + str(self.score)
+
+    def to_dict(self):
+        return {
+            "artist": {
+                "name": self.artist.name,
+                "slug": self.artist.slug
+            },
+            "sense": {
+                "headword": self.sense.headword,
+                "xml_id": self.sense.xml_id
+            },
+            "score": self.score
+        }
+
+
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
     xml_id = models.CharField('XML id', db_index=True, max_length=50, null=True, blank=True)
