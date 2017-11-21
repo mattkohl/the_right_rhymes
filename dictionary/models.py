@@ -62,7 +62,7 @@ class Artist(models.Model):
         else:
             results = {sense: self.tfidf(sense) for sense in self.primary_senses.filter(publish=True)}
 
-        return sorted(results.items(), key=operator.itemgetter(1))
+        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1), reverse=True))
 
 
 class Editor(models.Model):
@@ -192,7 +192,7 @@ class Sense(models.Model):
             results = {artist: self.tfidf(artist) for artist in artists}
         else:
             results = {artist: self.tfidf(artist) for artist in self.cites_artists.all()}
-        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1)))
+        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1), reverse=True))
 
 
 class Salience(models.Model):
@@ -205,7 +205,7 @@ class Salience(models.Model):
         ordering = ["score"]
 
     def __str__(self):
-        return "SALIENCE: " + self.artist.name + ' - ' + self.sense.headword + ' (' + self.sense.xml_id + '): ' + str(self.score)
+        return self.artist.name + ' / ' + self.sense.headword + ' (' + self.sense.xml_id + '): ' + str(self.score)
 
     def to_dict(self):
         return {

@@ -219,11 +219,12 @@ def artist_salient_senses(request, artist_slug):
         return Response({})
     else:
         results = artist.get_tfidfs()
+        keys = results.keys()
         linked = [{
             "headword": sense.headword,
             "link": BASE_URL + '/' + sense.slug + "#" + sense.xml_id,
-            "salience": val
-        } for (sense, val) in reversed(results[-10:])]
+            "salience": results[sense]
+        } for sense in list(keys)[:10]]
         data = {
             "artist": BASE_URL + '/artists/' + artist.slug,
             "senses": linked
