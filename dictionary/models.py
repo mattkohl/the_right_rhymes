@@ -62,7 +62,7 @@ class Artist(models.Model):
         else:
             results = {sense: self.tfidf(sense) for sense in self.primary_senses.filter(publish=True)}
 
-        return sorted(results.items(), key=operator.itemgetter(1))
+        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1), reverse=True))
 
 
 class Editor(models.Model):
@@ -170,9 +170,6 @@ class Sense(models.Model):
         else:
             return self.xml_id
 
-    def update_definition(self, new_definition):
-        self.definition = new_definition
-
     def get_artist_example_count(self):
         return Counter([a.name for ex in self.examples.all() for a in ex.artist.all()])
 
@@ -195,7 +192,47 @@ class Sense(models.Model):
             results = {artist: self.tfidf(artist) for artist in artists}
         else:
             results = {artist: self.tfidf(artist) for artist in self.cites_artists.all()}
-        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1)))
+        return OrderedDict(sorted(results.items(), key=operator.itemgetter(1), reverse=True))
+
+    def remove_saliences(self):
+        old = Salience.objects.filter(sense=self)
+        count = old.count()
+        for o in old:
+            o.delete()
+        print("Removed {} Saliences from {}".format(count, self))
+
+    def add_saliences(self):
+        scores = self.get_tfidfs()
+        for key in scores:
+            s = Salience(sense=self, artist=key, score=scores[key])
+            print(s)
+            s.save()
+
+
+class Salience(models.Model):
+    id = models.AutoField(primary_key=True)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    sense = models.ForeignKey(Sense, on_delete=models.CASCADE)
+    score = models.FloatField()
+
+    class Meta:
+        ordering = ["score"]
+
+    def __str__(self):
+        return self.artist.name + ' / ' + self.sense.headword + ' (' + self.sense.xml_id + '): ' + str(self.score)
+
+    def to_dict(self):
+        return {
+            "artist": {
+                "name": self.artist.name,
+                "slug": self.artist.slug
+            },
+            "sense": {
+                "headword": self.sense.headword,
+                "xml_id": self.sense.xml_id
+            },
+            "score": self.score
+        }
 
 
 class Song(models.Model):

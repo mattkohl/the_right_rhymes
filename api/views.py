@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
-    NamedEntity, Place, SemanticClass, Sense, Song
+    NamedEntity, Place, Salience, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, build_beta_example, \
     build_place, build_sense, build_timeline_example, build_song, \
     check_for_image, reduce_ordered_list, reformat_name, slugify
@@ -218,12 +218,13 @@ def artist_salient_senses(request, artist_slug):
     except Exception as e:
         return Response({})
     else:
-        results = artist.get_tfidfs()
+        results = Salience.objects.filter(artist=artist).order_by('-score')
+
         linked = [{
-            "headword": sense.headword,
-            "link": BASE_URL + '/' + sense.slug + "#" + sense.xml_id,
-            "salience": val
-        } for (sense, val) in reversed(results[-10:])]
+            "headword": s.sense.headword,
+            "link": BASE_URL + '/' + s.sense.slug + "#" + s.sense.xml_id,
+            "salience": s.score
+        } for s in results[:10]]
         data = {
             "artist": BASE_URL + '/artists/' + artist.slug,
             "senses": linked
@@ -542,17 +543,13 @@ def sense_artists_salience(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        sense_artist_dicts = [
-            (
-                build_artist(a, require_origin=True), {"salience": a.tfidf(sense_object)}
-            ) for a in sense_object.cites_artists.all()
-        ]
-        for a in sense_artist_dicts:
-            if a[0] is not None:
-                a[0].update(a[1])
+        saliences = Salience.objects.filter(sense=sense_object).order_by("-score")
 
-        data = [a[0] for a in sense_artist_dicts if a[0] is not None]
-        sorted_data = sorted(data, key=itemgetter("salience"), reverse=True)[:10]
+        sorted_data = [{
+            "artist": build_artist(s.artist),
+            "salience": s.score
+        } for s in saliences[:10]]
+
         return Response(
             {"artists": sorted_data,
              "headword": sense_object.headword,
