@@ -543,17 +543,13 @@ def sense_artists_salience(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        sense_artist_dicts = [
-            (
-                build_artist(a, require_origin=True), {"salience": a.tfidf(sense_object)}
-            ) for a in sense_object.cites_artists.all()
-        ]
-        for a in sense_artist_dicts:
-            if a[0] is not None:
-                a[0].update(a[1])
+        saliences = sense_object.get_tfidfs()
+        artists = list(saliences.keys())
+        sorted_data = [{
+            "artist": build_artist(a),
+            "salience": saliences[a]
+        } for a in artists[:10]]
 
-        data = [a[0] for a in sense_artist_dicts if a[0] is not None]
-        sorted_data = sorted(data, key=itemgetter("salience"), reverse=True)[:10]
         return Response(
             {"artists": sorted_data,
              "headword": sense_object.headword,

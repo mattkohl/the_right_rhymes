@@ -194,6 +194,20 @@ class Sense(models.Model):
             results = {artist: self.tfidf(artist) for artist in self.cites_artists.all()}
         return OrderedDict(sorted(results.items(), key=operator.itemgetter(1), reverse=True))
 
+    def remove_saliences(self):
+        old = Salience.objects.filter(sense=self)
+        count = old.count()
+        for o in old:
+            o.delete()
+        print("Removed {} Saliences from {}".format(count, self))
+
+    def add_saliences(self):
+        scores = self.get_tfidfs()
+        for key in scores:
+            s = Salience(sense=self, artist=key, score=scores[key])
+            print(s)
+            s.save()
+
 
 class Salience(models.Model):
     id = models.AutoField(primary_key=True)
