@@ -7,3 +7,4 @@ def main():
     for sense in senses:
         sense.remove_saliences()
         sense.add_saliences()
+        print("### ", sense, " done")
