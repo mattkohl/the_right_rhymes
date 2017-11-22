@@ -2,11 +2,15 @@ import decimal
 import os
 import random
 import re
+import logging
 from operator import itemgetter
 from geopy.geocoders import Nominatim
 
 from django.db.models import Q, Count
 import dictionary.models
+
+
+logger = logging.getLogger(__name__)
 
 
 NUM_QUOTS_TO_SHOW = 3
@@ -480,7 +484,8 @@ def sameas_places(master_name, dupe_name):
 
         artists = dupe.artists.all()
         for artist in artists:
-            print('Reassigning', artist.name, 'origin from', dupe.full_name, 'to', master.full_name)
+            msg = 'Reassigning {} origin from {} to {}'.format(artist.name, dupe.full_name, master.full_name)
+            logger.info(msg)
             artist.origin.remove(dupe)
             artist.origin.add(master)
             artist.save()
@@ -495,25 +500,29 @@ def sameas_places(master_name, dupe_name):
             ne_master.save()
 
         for example in ne_dupe.examples.all():
-            print('Reassigning', example, 'featured entity from', ne_dupe.pref_label, 'to', ne_master.pref_label)
+            msg = 'Reassigning {} featured entity from {} to {}'.format(example, ne_dupe.pref_label, ne_master.pref_label)
+            logger.info(msg)
             example.features_entities.remove(ne_dupe)
             example.features_entities.add(ne_master)
             example.save()
 
         for example in dictionary.models.Example.objects.filter(features_entities__in=[ne_dupe]):
-            print('Reassigning', example, 'featured entity from', ne_dupe.pref_label, 'to', ne_master.pref_label)
+            msg = 'Reassigning {} featured entity from {} to {}'.format(example, ne_dupe.pref_label, ne_master.pref_label)
+            logger.info(msg)
             example.features_entities.remove(ne_dupe)
             example.features_entities.add(ne_master)
             example.save()
 
         for sense in dictionary.models.Sense.objects.filter(features_entities__in=[ne_dupe]):
-            print('Reassigning', sense, 'featured entity from', ne_dupe.pref_label, 'to', ne_master.pref_label)
+            msg = 'Reassigning {} featured entity from {} to {}'.format(sense, ne_dupe.pref_label, ne_master.pref_label)
+            logger.info(msg)
             sense.features_entities.remove(ne_dupe)
             sense.features_entities.add(ne_master)
             sense.save()
 
     for ll in ll_dupes:
-        print('Reassigning lyric link target', ll, 'from', dupe_slug, 'to', master_slug)
+        msg = 'Reassigning lyric link target {} from {} to {}'.format(ll, dupe_slug, master_slug)
+        logger.info(msg)
         ll.target_slug = master_slug
         ll.save()
 
@@ -529,14 +538,16 @@ def sameas_artists(master_name, dupe_name):
 
         origin = dupe.origin.first()
         if origin:
-            print('Reassigning origin', origin, 'from', dupe.name, 'to', master.name)
+            msg = 'Reassigning origin {} from {} to {}'.format(origin, dupe.name, master.name)
+            logger.info(msg)
             origin.artists.remove(dupe)
             origin.artists.add(master)
             origin.save()
 
         primary_examples = dupe.primary_examples.all()
         for example in primary_examples:
-            print('Reassigning primary example', example, 'from', dupe.name, 'to', master.name)
+            msg = 'Reassigning primary example {} from {} to {}'.format(example, dupe.name, master.name)
+            logger.info(msg)
             example.artist.remove(dupe)
             example.artist.add(master)
             example.artist_name = master.name
@@ -545,28 +556,33 @@ def sameas_artists(master_name, dupe_name):
 
         primary_senses = dupe.primary_senses.all()
         for sense in primary_senses:
-            print('Reassigning primary sense', sense, 'from', dupe.name, 'to', master.name)
+            msg = 'Reassigning primary sense {} from {} to {}'.format(sense, dupe.name, master.name)
+            logger.info(msg)
+            logger.info(msg)
             sense.cites_artists.remove(dupe)
             sense.cites_artists.add(master)
             sense.save()
 
         featured_examples = dupe.featured_examples.all()
         for example in featured_examples:
-            print('Reassigning featured example', example, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning featured example {} from {} to {}".format(example, dupe.name, master.name)
+            logger.info(msg)
             example.feat_artist.remove(dupe)
             example.feat_artist.add(master)
             example.save()
 
         featured_senses = dupe.featured_senses.all()
         for sense in featured_senses:
-            print('Reassigning primary sense', sense, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning primary sense {} from {} to {}".format(sense, dupe.name, master.name)
+            logger.info(msg)
             dupe.featured_senses.remove(sense)
             master.featured_senses.add(sense)
             master.save()
 
         primary_songs = dupe.primary_songs.all()
         for song in primary_songs:
-            print('Reassigning primary song', song, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning primary song {} from {} to {}".format(song, dupe.name, master.name)
+            logger.info(msg)
             song.artist.remove(dupe)
             song.artist.add(master)
             song.artist_name = master.name
@@ -575,19 +591,21 @@ def sameas_artists(master_name, dupe_name):
 
         featured_songs = dupe.featured_songs.all()
         for song in featured_songs:
-            print('Reassigning featured song', song, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning featured song {} from {} to {}".format(song, dupe.name, master.name)
+            logger.info(msg)
             song.feat_artist.remove(dupe)
             song.feat_artist.add(master)
             song.save()
 
         aka = dupe.also_known_as.all()
         for artist in aka:
-            print('Reassigning aka', artist, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning aka {} from {} to {}".format(artist, dupe.name, master.name)
+            logger.info(msg)
             artist.also_known_as.remove(dupe)
             artist.also_known_as.add(master)
             artist.save()
 
-        print('Done!')
+        logger.info('Done!')
         return dupe
 
 
@@ -598,18 +616,20 @@ def sameas_entities(master_name, dupe_name):
     dupe = dictionary.models.NamedEntity.objects.filter(slug=dupe_slug).first()
     if master and dupe:
         for sense in dupe.mentioned_at_senses.all():
-            print('Reassigning sense', sense, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning sense {} from {} to {}".format(sense, dupe.name, master.name)
+            logger.info(msg)
             sense.features_entities.remove(dupe)
             sense.features_entities.add(master)
             sense.save()
 
         for example in dupe.examples.all():
-            print('Reassigning example', example, 'from', dupe.name, 'to', master.name)
+            msg = "Reassigning example {} from {} to {}".format(example, dupe.name, master.name)
+            logger.info(msg)
             example.features_entities.remove(dupe)
             example.features_entities.add(master)
             example.save()
 
-        print('Done!')
+        logger.info('Done!')
         return dupe
 
 
@@ -617,21 +637,23 @@ def sameas_lyric_links(master_name, dupe_name):
     dupe_slug = slugify(dupe_name)
     master_slug = slugify(move_definite_article_to_end(master_name))
     for link in dictionary.models.LyricLink.objects.filter(target_slug=dupe_slug):
-        print('Reassigning lyric link', link, 'from', dupe_name, 'to', master_name)
+        msg = "Reassigning lyric link {} from {} to {}".format(link, dupe_name, master_name)
+        logger.info(msg)
         link.target_slug = master_slug
         link.save()
 
 
 def geocode_place(place_name):
 
-    print('Geocoding:', place_name)
+    logger.info('Geocoding: ' + place_name)
     try:
         coded = geolocator.geocode(place_name)
         longitude = coded.longitude
         latitude = coded.latitude
     except Exception as e:
         geocache.append(slugify(place_name))
-        print('Unable to geolocate', place_name, e)
+        msg = 'Unable to geolocate {}: {}'.format(place_name, e)
+        logger.warning(msg)
     else:
         return latitude, longitude
 
@@ -756,7 +778,8 @@ def get_duplicate_lyric_links():
         if dupe_positions:
             for p in dupe_positions:
                 links = list(e.lyric_links.filter(position=p))
-                print(e, links)
+                msg = "{} {}".format(e, links)
+                logger.info(msg)
                 yield ([e] + links)
 
 
@@ -768,6 +791,6 @@ def right_wrong_lyric_link_positions():
             l_text = link.link_text
             i = text.index(l_text)
             if link.position != i and text.count(l_text) == 1 and link.position - 1 == i:
-                print(ex)
+                logger.info(ex)
                 link.position -= 1
                 link.save()
