@@ -67,6 +67,9 @@ class Artist(models.Model):
 
         return OrderedDict(sorted(results.items(), key=operator.itemgetter(1), reverse=True))
 
+    def get_salient_senses(self):
+        return Salience.objects.filter(artist=self).order_by("-score")
+
 
 class Editor(models.Model):
     id = models.AutoField(primary_key=True)

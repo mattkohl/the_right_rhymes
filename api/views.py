@@ -100,6 +100,12 @@ def artist_sense_examples(request, artist_slug):
     feat = request.GET.get('feat', '')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     if not feat:
+        salient_senses = artist.get_salient_senses()
+        if not salient_senses.count():
+            p_senses = artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by(
+                '-num_examples')[5:]
+        else:
+            p_senses = [s.sense for s in salient_senses][5:]
         senses = [
             {
                 'headword': sense.headword,
@@ -107,7 +113,7 @@ def artist_sense_examples(request, artist_slug):
                 'xml_id': sense.xml_id,
                 'example_count': sense.examples.filter(artist=artist).count(),
                 'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]
-            } for sense in artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[5:]
+            } for sense in p_senses
         ]
     else:
         senses = [
