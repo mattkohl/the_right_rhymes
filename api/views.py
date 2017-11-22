@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
-    NamedEntity, Place, SemanticClass, Sense, Song
+    NamedEntity, Place, Salience, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, build_beta_example, \
     build_place, build_sense, build_timeline_example, build_song, \
     check_for_image, reduce_ordered_list, reformat_name, slugify
@@ -218,13 +218,13 @@ def artist_salient_senses(request, artist_slug):
     except Exception as e:
         return Response({})
     else:
-        results = artist.get_tfidfs()
-        keys = results.keys()
+        results = Salience.objects.filter(artist=artist).order_by('-score')
+
         linked = [{
-            "headword": sense.headword,
-            "link": BASE_URL + '/' + sense.slug + "#" + sense.xml_id,
-            "salience": results[sense]
-        } for sense in list(keys)[:10]]
+            "headword": s.sense.headword,
+            "link": BASE_URL + '/' + s.sense.slug + "#" + s.sense.xml_id,
+            "salience": s.score
+        } for s in results[:10]]
         data = {
             "artist": BASE_URL + '/artists/' + artist.slug,
             "senses": linked
@@ -543,12 +543,12 @@ def sense_artists_salience(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        saliences = sense_object.get_tfidfs()
-        artists = list(saliences.keys())
+        saliences = Salience.objects.filter(sense=sense_object).order_by("-score")
+
         sorted_data = [{
-            "artist": build_artist(a),
-            "salience": saliences[a]
-        } for a in artists[:10]]
+            "artist": build_artist(s.artist),
+            "salience": s.score
+        } for s in saliences[:10]]
 
         return Response(
             {"artists": sorted_data,
