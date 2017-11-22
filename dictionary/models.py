@@ -1,12 +1,15 @@
 from collections import Counter, OrderedDict
 import operator
 import math
+import logging
 from django.db import models
 from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 
 from dictionary.utils import slugify, extract_short_name
+
+logger = logging.getLogger(__name__)
 
 
 class Artist(models.Model):
@@ -35,14 +38,14 @@ class Artist(models.Model):
         aka_slug = slugify(aka_name)
         aka = Artist.objects.filter(slug=aka_slug).first()
         if aka:
-            print(self.name, 'now also known as', aka.name)
+            logger.info(self.name + ' now also known as ' + aka.name)
             self.also_known_as.add(aka)
 
     def add_origin(self, place_name):
         place_slug = slugify(place_name)
         place = Place.objects.filter(slug=place_slug).first()
         if place:
-            print('Adding origin', place.name, 'to', self.name)
+            logger.info('Adding origin ' + place.name + ' to ' + self.name)
             self.origin.add(place)
 
     def get_primary_sense_example_counts(self):
@@ -199,13 +202,14 @@ class Sense(models.Model):
         count = old.count()
         for o in old:
             o.delete()
-        print("Removed {} Saliences from {}".format(count, self))
+            msg = "Removed {} Saliences from {}".format(count, self)
+            logger.info(msg)
 
     def add_saliences(self):
         scores = self.get_tfidfs()
         for key in scores:
             s = Salience(sense=self, artist=key, score=scores[key])
-            print(s)
+            logger.info(s)
             s.save()
 
 
