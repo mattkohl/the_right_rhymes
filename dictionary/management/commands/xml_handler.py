@@ -1,4 +1,5 @@
 import time
+import logging
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
@@ -8,6 +9,9 @@ from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
     Place, Song, SemanticClass, Region, Form
 from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end
+
+
+logger = logging.getLogger(__name__)
 
 
 geolocator = Nominatim()
@@ -77,7 +81,8 @@ class TRRDict:
         m, s = divmod(self.total_time, 60)
         h, m = divmod(m, 60)
 
-        print('Processed', self.entry_count, 'entry in %d:%02d:%02d' % (h, m, s))
+        msg = 'Processed ' + str(self.entry_count) + ' entry in %d:%02d:%02d' % (h, m, s)
+        logger.info(msg)
 
 
 class TRREntry:
@@ -115,7 +120,7 @@ class TRREntry:
             return '#'
 
     def add_to_db(self):
-        print("------ Processing: '" + self.headword + "' ------")
+        logger.info("------ Processing: '" + self.headword + "' ------")
         entry, _ = Entry.objects.get_or_create(headword=self.headword,
                                                      slug=self.slug)
         return entry
@@ -146,7 +151,7 @@ class TRREntry:
                 for l in lexemes:
                     self.process_lexeme(l)
             else:
-                print("Skipping '" + self.headword + "' -- it hasn't been updated")
+                logger.info("Skipping '" + self.headword + "' -- it hasn't been updated")
         else:
             lexemes = self.entry_dict['senses']
             for l in lexemes:
@@ -170,7 +175,7 @@ class TRRForm:
         self.slug = slugify(self.label)
 
     def add_to_db(self):
-        print("Adding Form:'" + self.label)
+        logger.info("Adding Form:'" + self.label)
         form_object, _ = Form.objects.get_or_create(slug=self.slug)
         return form_object
 
@@ -212,7 +217,7 @@ class TRRSense:
         return self.headword + ', ' + self.pos
 
     def add_to_db(self):
-        print("Adding Sense:'" + self.headword + "' -", self.pos, '(' + self.xml_id + ')')
+        logger.info("Adding Sense:'" + self.headword + "' - " + self.pos + ' (' + self.xml_id + ')')
         sense_object, _ = Sense.objects.get_or_create(xml_id=self.xml_id)
         return sense_object
 
@@ -799,9 +804,8 @@ class TRRSenseRhyme:
 class TRRExampleRhyme:
 
     def __init__(self, rhyme_dict):
-        from pprint import pprint
         if "#text" not in rhyme_dict:
-            pprint(rhyme_dict)
+            logger.warning(rhyme_dict)
 
         self.rhyme_dict = rhyme_dict
         self.word_one = self.rhyme_dict['#text']
@@ -825,7 +829,7 @@ class TRRExampleRhyme:
                                                                        word_two_position=self.word_two_position)
             return rhyme_object
         else:
-            print('Unable to find word position for', self.word_two, 'in rhyme', self.word_one)
+            logger.warning('Unable to find word position for' + self.word_two + ' in rhyme ' + self.word_one)
             return None
 
     def extract_target_id(self):
@@ -1002,4 +1006,5 @@ def main(directory='../tRR/XML/tRR_Django'):
     m, s = divmod(total_time, 60)
     h, m = divmod(m, 60)
 
-    print('Processed dictionary in %d:%02d:%02d' % (h, m, s))
+    msg = 'Processed dictionary in %d:%02d:%02d' % (h, m, s)
+    logger.info(msg)

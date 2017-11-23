@@ -14,7 +14,7 @@ from django.views.decorators.cache import cache_control
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
     collect_place_artists, build_entry_preview, count_place_artists, dedupe_rhymes
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Song, SemanticClass
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Salience, Song, SemanticClass
 from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end
 from dictionary.forms import SongForm
 
@@ -72,6 +72,12 @@ def artist(request, artist_slug):
     template = loader.get_template('dictionary/artist.html')
     entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
 
+    salient_senses = a.get_salient_senses()
+    if not salient_senses.count():
+        p_senses = a.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[:5]
+    else:
+        p_senses = [s.sense for s in salient_senses][:5]
+
     primary_senses = [
         {
             'headword': sense.headword,
@@ -79,7 +85,7 @@ def artist(request, artist_slug):
             'xml_id': sense.xml_id,
             'example_count': sense.examples.filter(artist=a).count(),
             'examples': [build_example(example, published) for example in sense.examples.filter(artist=a).order_by('release_date')]
-        } for sense in a.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('-num_examples')[:5]
+        } for sense in p_senses
     ]
 
     featured_senses = [
