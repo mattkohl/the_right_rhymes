@@ -1,4 +1,5 @@
 import time
+import sys
 import logging
 from collections import OrderedDict
 from os import listdir
@@ -991,10 +992,14 @@ def launch_trr_dict(x):
 
 
 def process_xml(xml_list):
+    from dictionary.management.commands.utils import print_progress
+    iterations = len(xml_list)
+    print_progress(0, iterations, prefix='Progress:', suffix='Complete')
 
-    for xml in xml_list:
+    for i, xml in enumerate(xml_list):
         x = XMLDict(xml)
         launch_trr_dict(x)
+        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete ({})'.format(xml))
 
 
 def main(directory='../tRR/XML/tRR_Django'):
@@ -1008,3 +1013,4 @@ def main(directory='../tRR/XML/tRR_Django'):
 
     msg = 'Processed dictionary in %d:%02d:%02d' % (h, m, s)
     logger.info(msg)
+    sys.stdout.write(msg)
