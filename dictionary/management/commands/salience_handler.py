@@ -12,14 +12,11 @@ def main():
     iterations = senses.count()
     print_progress(0, iterations, prefix='Progress:', suffix='Complete')
     for i, sense in enumerate(senses):
-        msg = ""
-
-        if is_ascii(str(sense)):
-            msg = "Now processing: {}".format(str(sense))
+        msg = "Now processing: {}".format(str(sense))
         logger.info(msg)
         sense.remove_saliences()
         sense.add_saliences()
 
-        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete ({})'.format(msg))
+        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete')
 
 
