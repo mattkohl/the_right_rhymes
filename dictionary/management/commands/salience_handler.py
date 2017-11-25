@@ -13,8 +13,9 @@ def main():
     print_progress(0, iterations, prefix='Progress:', suffix='Complete')
     for i, sense in enumerate(senses):
         msg = ""
-        if is_ascii(sense):
-            msg = "Now processing: {}".format(sense)
+
+        if is_ascii(str(sense)):
+            msg = "Now processing: {}".format(str(sense))
         logger.info(msg)
         sense.remove_saliences()
         sense.add_saliences()
