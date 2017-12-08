@@ -805,7 +805,7 @@ class TRRSenseRhyme:
 class TRRExampleRhyme:
 
     def __init__(self, rhyme_dict):
-        if "#text" not in rhyme_dict:
+        if "#text" and "@rhymeTargetWord" not in rhyme_dict:
             logger.warning(rhyme_dict)
 
         self.rhyme_dict = rhyme_dict
