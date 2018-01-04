@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.urls import include, path
 from rest_framework import routers
 from . import views
 
@@ -6,104 +6,50 @@ from . import views
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
-    # url(r'^api-token-auth/', rf_views.obtain_auth_token),
+    path("", include(router.urls)),
+    path("auth/", include('rest_framework.urls', namespace='rest_framework')),
 
-    # /data/artists/
-    url(r"^artists/$", views.artists, name='artists'),
+    path("artists/", views.artists, name='artists'),
+    path("artists/missing_metadata/", views.artists_missing_metadata, name='artists_missing_metadata'),
+    path("artists/random/", views.random_artist, name='random_artist'),
+    path("artists/<slug:artist_slug>/", views.artist, name="artist"),
+    path("artists/<slug:artist_slug>/network/", views.artist_network, name="artist_network"),
+    path("artists/<slug:artist_slug>/sense_examples/", views.artist_sense_examples, name="artist_sense_examples"),
+    path("artists/<slug:artist_slug>/salience/", views.artist_salient_senses, name="artist_salient_senses"),
 
-    # /data/artists/missing_metadata/
-    url(r"^artists/missing_metadata/$", views.artists_missing_metadata, name='artists_missing_metadata'),
+    path("domains/", views.domains, name='domains'),
+    path("domains/<slug:domain_slug>/", views.domain, name='domain'),
 
-    # /data/artists/random/
-    url(r"^artists/random/$", views.random_artist, name='random_artist'),
+    path("regions/", views.regions, name='regions'),
+    path("regions/<slug:region_slug>/", views.region, name='region'),
 
-    # /data/artists/<artist_slug>/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/$", views.artist, name="artist"),
+    path("entries/random/", views.random_entry, name='random_entry'),
 
-    # /data/artists/<artist_slug>/network/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/network/$", views.artist_network, name="artist_network"),
+    path("examples/random/", views.random_example, name='random_example'),
 
-    # /data/artists/<artist_slug>/sense_examples/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/sense_examples/$", views.artist_sense_examples, name="artist_sense_examples"),
+    path("headword_search/", views.headword_search, name='headword_search'),
 
-    # /data/artists/<artist_slug>/salience/
-    url(r"^artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)\+\!\*ōé½@áó]+)/salience/$", views.artist_salient_senses, name="artist_salient_senses"),
+    path("entities/missing_metadata/", views.named_entities_missing_metadata, name='named_entities_missing_metadata'),
 
-    # /data/domains/
-    url(r"^domains/$", views.domains, name='domains'),
+    path("places/random/", views.random_place, name='random_place'),
+    path("places/<slug:place_slug>/", views.place, name='place'),
+    path("places/<slug:place_slug>/artists/", views.place_artists, name='place_artists'),
+    path("places/<slug:place_slug>/remaining_examples/", views.remaining_place_examples, name='remaining_place_examples'),
 
-    # /data/domains/<domain-slug>/
-    url(r"^domains/(?P<domain_slug>[a-zA-Z0-9\-_’']+)/$", views.domain, name='domain'),
+    path("semantic-classes/", views.semantic_classes, name='semantic_classes'),
+    path("semantic-classes/<slug:semantic_class_slug>/", views.semantic_class, name='semantic_class'),
 
-    # /data/regions/
-    url(r"^regions/$", views.regions, name='regions'),
+    path("senses/", views.senses, name="senses"),
+    path("senses/random/", views.random_sense, name="random_sense"),
+    path("senses/<slug:sense_id>/", views.sense, name="sense"),
+    path("senses/<slug:sense_id>/artists/", views.sense_artists, name="sense_artists"),
+    path("senses/<slug:sense_id>/artists/salience/", views.sense_artists_salience, name="sense_artists_salience"),
+    path("senses/<slug:sense_id>/artists/<slug:artist_slug>/", views.sense_artist, name="sense_artist"),
+    path("senses/<slug:sense_id>/remaining_examples/", views.remaining_sense_examples, name="remaining_sense_examples"),
+    path("senses/<slug:sense_id>/timeline/", views.sense_timeline, name="sense_timeline"),
 
-    # /data/regions/<region-slug>/
-    url(r"^regions/(?P<region_slug>[a-zA-Z0-9\-_’']+)/$", views.region, name='region'),
-
-    # /data/entries/random/
-    url(r"^entries/random/$", views.random_entry, name='random_entry'),
-
-    # /data/examples/random/
-    url(r"^examples/random/$", views.random_example, name='random_example'),
-
-    # /data/headword_search/
-    url(r'^headword_search/$', views.headword_search, name='headword_search'),
-
-    # /data/entities/missing_metadata/
-    url(r"^entities/missing_metadata/$", views.named_entities_missing_metadata, name='named_entities_missing_metadata'),
-
-    # /data/places/random/
-    url(r"^places/random/$", views.random_place, name='random_place'),
-
-    # /data/places/<place-name-slug>/
-    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.place, name='place'),
-
-    # /data/places/<place-name-slug>/artists/
-    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)]+)/artists/$", views.place_artists, name='place_artists'),
-
-    # /data/places/<place-name-slug>/remaining_examples/
-    url(r"^places/(?P<place_slug>[a-zA-Z0-9\-_'’,\(\)–]+)/remaining_examples/$", views.remaining_place_examples, name='remaining_place_examples'),
-
-    # /data/semantic-classes/
-    url(r"^semantic\-classes/$", views.semantic_classes, name='semantic_classes'),
-
-    # /data/semantic-classes/<semantic-class-slug>/
-    url(r"^semantic\-classes/(?P<semantic_class_slug>[a-zA-Z0-9\-_’']+)/$", views.semantic_class, name='semantic_class'),
-
-    # /data/senses/
-    url(r"^senses/$", views.senses, name="senses"),
-
-    # /data/senses/random
-    url(r"^senses/random/$", views.random_sense, name="random_sense"),
-
-    # /data/senses/<sense_id>/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/$", views.sense, name="sense"),
-
-    # /data/senses/<sense_id>/artists/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/$", views.sense_artists, name="sense_artists"),
-
-    # /data/senses/<sense_id>/artists/salience
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/salience/$", views.sense_artists_salience, name="sense_artists_salience"),
-
-    # /data/senses/<sense_id>/artists/<artist_slug>/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/artists/(?P<artist_slug>[a-zA-Z0-9\-_'’,\(\)]+)/$", views.sense_artist, name="sense_artist"),
-
-    # /data/senses/<sense_id>/remaining_examples/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/remaining_examples/$", views.remaining_sense_examples, name="remaining_sense_examples"),
-
-    # /data/senses/<sense_id>/timeline/
-    url(r"^senses/(?P<sense_id>[a-zA-Z0-9_]+)/timeline/$", views.sense_timeline, name="sense_timeline"),
-
-    # /data/songs/random
-    url(r"^songs/random/$", views.random_song, name="random_song"),
-
-    # /data/songs/<song-slug>/artist_network/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@\^]+)/artist_network/$", views.song_artist_network, name='song_artist_network'),
-
-    # /data/songs/<song-slug>/release_date_tree/
-    url(r"^songs/(?P<song_slug>[a-zA-Z0-9\-_'’,\{\}\[\]\(\)\+\!\*ōóéáñ½#%´=@\^]+)/release_date_tree/$", views.song_release_date_tree, name='song_release_date_tree'),
+    path("songs/random/", views.random_song, name="random_song"),
+    path("songs/<slug:song_slug>/artist_network/", views.song_artist_network, name='song_artist_network'),
+    path("songs/<slug:song_slug>/release_date_tree/", views.song_release_date_tree, name='song_release_date_tree'),
 
 ]
