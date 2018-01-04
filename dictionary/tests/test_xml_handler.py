@@ -124,7 +124,7 @@ class TestTRRSong(BaseTest):
                          feat_artists=[],
                          album=album)
         self.assertIsInstance(result, TRRSong)
-        self.assertEquals(result.slug, slug)
+        self.assertEqual(result.slug, slug)
 
 
 class TestTRRPlace(BaseTest):

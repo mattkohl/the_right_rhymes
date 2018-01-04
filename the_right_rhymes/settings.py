@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -52,8 +52,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'the_right_rhymes.urls'
-
-# SILKY_PYTHON_PROFILER = True
 
 TEMPLATES = [
     {
