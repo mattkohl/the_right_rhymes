@@ -239,7 +239,7 @@ def entry(request, headword_slug):
 
     entry = get_object_or_404(Entry, slug=slug, publish=True)
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    include_form = request.user.is_authenticated()
+    include_form = request.user.is_authenticated
     include_all_senses = False
     senses = [build_sense(sense, published, include_all_senses, include_form) for sense in entry.get_senses_ordered_by_example_count()]
     context = {
@@ -513,7 +513,7 @@ def song(request, song_slug):
         "form": None
     }
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         context['form'] = form
 
     return HttpResponse(template.render(context, request))

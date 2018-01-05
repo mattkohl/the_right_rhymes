@@ -19,7 +19,7 @@ import dictionary.views as dict_views
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^data/', include('api.urls')),
     url(r'^', include('dictionary.urls')),
 ]

@@ -5,7 +5,7 @@ import logging
 from django.db import models
 from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from dictionary.utils import slugify, extract_short_name
 
