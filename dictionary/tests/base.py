@@ -161,6 +161,17 @@ class BaseTest(TestCase):
                          artist_slug="erick-sermon")
         self.song.save()
         self.song.artist.add(self.erick_sermon)
+        self.example_foo = Example(
+            lyric_text="Foo bar baz, boom bap",
+            artist_name='Erick Sermon',
+            artist_slug='erick-sermon',
+            song_title='foo',
+            album="bar",
+            release_date="1998-01-01",
+            release_date_string="1998-01-01",
+        )
+        self.example_foo.save()
+        self.example_foo.artist.add(self.erick_sermon)
 
         self.sense = Sense(headword="headword", part_of_speech="noun", xml_id="foo", slug="headword")
         self.sense.save()

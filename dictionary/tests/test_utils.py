@@ -6,7 +6,7 @@ from dictionary.models import Artist, Place
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
     build_collocate, build_xref, build_artist, build_sense, build_timeline_example, reduce_ordered_list, \
-    count_place_artists, make_label_from_camel_case, dedupe_rhymes
+    count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date
 
 
 class TestUtils(BaseTest):
@@ -69,6 +69,15 @@ class TestUtils(BaseTest):
         self.assertNotEqual(r, e)
         dedupe_rhymes(r)
         self.assertDictEqual(r, e)
+
+    def test_update_release_date(self):
+        artist_name = "Erick Sermon"
+        album = "bar"
+        new_release_date = "2018-01-05"
+        updated = update_release_date(artist_name=artist_name, album=album, new_release_date=new_release_date)
+        t1, t2 = updated
+        self.assertEqual(t1.release_date, new_release_date)
+        self.assertEqual(t2.release_date, new_release_date)
 
 
 class TestBuildArtist(BaseTest):
@@ -163,3 +172,5 @@ class TestPlaceMgmtUtils(TestCase):
         suspects = gather_suspicious_lat_longs()
         self.assertEqual(suspects.count(), 1)
         self.assertEqual(suspects.first(), self.p)
+
+

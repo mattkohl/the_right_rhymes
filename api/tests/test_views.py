@@ -65,7 +65,30 @@ class TestArtistEndpoints(BaseTest):
     def test_artists_missing_metadata(self, mock_check_for_image):
         mock_check_for_image.return_value = '__none.png'
         result = self.client.get("/data/artists/missing_metadata/", follow=True)
-        expected = {'feat_artists_no_origin': [{'num_cites': 1, 'slug': 'method-man', 'name': 'Method Man', 'site_link': 'https://example.org/artists/method-man'}, {'num_cites': 0, 'slug': 'erick-sermon', 'name': 'Erick Sermon', 'site_link': 'https://example.org/artists/erick-sermon'}], 'feat_artists_no_image': [], 'primary_artists_no_origin': [{'num_cites': 0, 'slug': 'erick-sermon', 'name': 'Erick Sermon', 'site_link': 'https://example.org/artists/erick-sermon'}, {'num_cites': 0, 'slug': 'method-man', 'name': 'Method Man', 'site_link': 'https://example.org/artists/method-man'}], 'primary_artists_no_image': []}
+        expected = {
+            'feat_artists_no_image': [],
+            'feat_artists_no_origin': [
+                {'name': 'Method Man',
+                 'num_cites': 1,
+                 'site_link': 'https://example.org/artists/method-man',
+                 'slug': 'method-man'},
+                {'name': 'Erick Sermon',
+                 'num_cites': 0,
+                 'site_link': 'https://example.org/artists/erick-sermon',
+                 'slug': 'erick-sermon'}
+            ],
+            'primary_artists_no_image': [],
+            'primary_artists_no_origin': [
+                {'name': 'Erick Sermon',
+                 'num_cites': 1,
+                 'site_link': 'https://example.org/artists/erick-sermon',
+                 'slug': 'erick-sermon'},
+                {'name': 'Method Man',
+                 'num_cites': 0,
+                 'site_link': 'https://example.org/artists/method-man',
+                 'slug': 'method-man'}
+            ]
+        }
         j = result.json()
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(j, expected)

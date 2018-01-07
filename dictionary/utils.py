@@ -794,3 +794,18 @@ def right_wrong_lyric_link_positions():
                 logger.info(ex)
                 link.position -= 1
                 link.save()
+
+
+def update_release_date(artist_name=None, album=None, new_release_date=None):
+    if not artist_name or not album or not new_release_date:
+        msg = "One of artist_name: {}, album: {}, or release_date: {} was None".format(artist_name, album, new_release_date)
+        logger.error(msg)
+        return
+
+    candidates = list(dictionary.models.Song.objects.filter(artist_name=artist_name, album=album)) + list(dictionary.models.Example.objects.filter(artist_name=artist_name, album=album))
+    for c in candidates:
+        c.release_date = new_release_date
+        c.release_date_string = new_release_date
+        c.save()
+
+    return candidates
