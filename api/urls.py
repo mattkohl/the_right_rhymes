@@ -12,10 +12,10 @@ urlpatterns = [
     path("artists/", views.artists, name="artists"),
     path("artists/missing_metadata/", views.artists_missing_metadata, name="artists_missing_metadata"),
     path("artists/random/", views.random_artist, name="random_artist"),
-    path("artists/<slug:artist_slug>/", views.artist, name="artist"),
-    path("artists/<slug:artist_slug>/network/", views.artist_network, name="artist_network"),
-    path("artists/<slug:artist_slug>/sense_examples/", views.artist_sense_examples, name="artist_sense_examples"),
-    path("artists/<slug:artist_slug>/salience/", views.artist_salient_senses, name="artist_salient_senses"),
+    path("artists/<str:artist_slug>/", views.artist, name="artist"),
+    path("artists/<str:artist_slug>/network/", views.artist_network, name="artist_network"),
+    path("artists/<str:artist_slug>/sense_examples/", views.artist_sense_examples, name="artist_sense_examples"),
+    path("artists/<str:artist_slug>/salience/", views.artist_salient_senses, name="artist_salient_senses"),
 
     path("domains/", views.domains, name="domains"),
     path("domains/<slug:domain_slug>/", views.domain, name="domain"),
@@ -44,12 +44,12 @@ urlpatterns = [
     path("senses/<slug:sense_id>/", views.sense, name="sense"),
     path("senses/<slug:sense_id>/artists/", views.sense_artists, name="sense_artists"),
     path("senses/<slug:sense_id>/artists/salience/", views.sense_artists_salience, name="sense_artists_salience"),
-    path("senses/<slug:sense_id>/artists/<slug:artist_slug>/", views.sense_artist, name="sense_artist"),
+    path("senses/<slug:sense_id>/artists/<str:artist_slug>/", views.sense_artist, name="sense_artist"),
     path("senses/<slug:sense_id>/remaining_examples/", views.remaining_sense_examples, name="remaining_sense_examples"),
     path("senses/<slug:sense_id>/timeline/", views.sense_timeline, name="sense_timeline"),
 
     path("songs/random/", views.random_song, name="random_song"),
-    path("songs/<slug:song_slug>/artist_network/", views.song_artist_network, name="song_artist_network"),
-    path("songs/<slug:song_slug>/release_date_tree/", views.song_release_date_tree, name="song_release_date_tree"),
+    path("songs/<str:song_slug>/artist_network/", views.song_artist_network, name="song_artist_network"),
+    path("songs/<str:song_slug>/release_date_tree/", views.song_release_date_tree, name="song_release_date_tree"),
 
 ]

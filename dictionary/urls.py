@@ -24,15 +24,15 @@ urlpatterns = [
     path("regions/", views.regions, name="regions"),
 
     path("<slug:headword_slug>/", views.entry, name="entry"),
-    path("artists/<slug:artist_slug>/", views.artist, name="artist"),
+    path("artists/<str:artist_slug>/", views.artist, name="artist"),
     path("domains/<slug:domain_slug>/", views.domain, name="domain"),
     path("regions/<slug:region_slug>/", views.region, name="region"),
-    path("entities/<slug:entity_slug>/", views.entity, name="entity"),
+    path("entities/<str:entity_slug>/", views.entity, name="entity"),
     path("places/<slug:place_slug>/", views.place, name="place"),
     path("rhymes/<slug:rhyme_slug>/", views.rhyme, name="rhyme"),
     path("semantic-classes/<slug:semantic_class_slug>/", views.semantic_class, name="semantic_class"),
     path("senses/<slug:sense_id>/timeline/", views.sense_timeline, name="sense_timeline"),
-    path("songs/<slug:song_slug>/", views.song, name="song")
+    path("songs/<str:song_slug>/", views.song, name="song")
 
 ]
 
