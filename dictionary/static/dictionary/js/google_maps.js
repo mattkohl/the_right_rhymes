@@ -208,6 +208,7 @@ $(document).ready(function() {
                     map.setOptions({zoomControl: false, mapTypeControl: false, streetViewControl: false});
                 var markers = [];
                 var mc = new MarkerClusterer(map);
+                    mc.setGridSize(1000);
                 var isEntry = true;
                 var infoWindow = new google.maps.InfoWindow({content: ''});
                 var markerBounds = new google.maps.LatLngBounds();
