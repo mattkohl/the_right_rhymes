@@ -123,7 +123,7 @@ def build_place(place_object, include_artists=False):
     return result
 
 
-def build_artist(artist_object, require_origin=False):
+def build_artist(artist_object, require_origin=False, count=1):
     result = {
         "name": reformat_name(artist_object.name),
         "slug": artist_object.slug,
@@ -140,6 +140,7 @@ def build_artist(artist_object, require_origin=False):
                  "latitude": origin_object.latitude
             }
 
+    result.update({"count": count})
     if require_origin:
         if 'origin' in result:
             return result

@@ -210,7 +210,7 @@ $(document).ready(function() {
                     data: pointArray,
                     map: map
                 });
-                heatmap.set('radius', 12);
+                heatmap.set('radius', 20);
                 heatmap.set('opacity', 0.8);
                 var isEntry = true;
                 var infoWindow = new google.maps.InfoWindow({content: ''});
@@ -240,7 +240,7 @@ $(document).ready(function() {
                     $.each(children, function (index, p) {
                         if (p != null && p.origin) {
                             tmpLatLng = new google.maps.LatLng(p.origin.latitude, p.origin.longitude);
-                            pointArray.push(tmpLatLng);
+                            pointArray.push({location: tmpLatLng, weight: Math.pow(1.6, p.count)});
                             markerBounds.extend(tmpLatLng);
                             map.fitBounds(markerBounds);
                         }

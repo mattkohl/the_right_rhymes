@@ -537,7 +537,10 @@ def sense_artists(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
         sense_object = results[0]
-        sense_artist_dicts = [build_artist(a, require_origin=True) for a in sense_object.cites_artists.all()]
+        sense_artist_dicts = [
+            build_artist(a, require_origin=True, count=sense_object.examples.filter(artist=a).count())
+            for a in sense_object.cites_artists.all()
+        ]
         data = {'senses': [a for a in sense_artist_dicts if a is not None]}
         return Response(data)
     else:
