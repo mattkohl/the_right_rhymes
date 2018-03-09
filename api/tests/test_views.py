@@ -12,7 +12,7 @@ class TestArtistEndpoints(BaseTest):
         result = self.client.get("/data/artists/epmd", follow=True)
         expected = {
             'user': 'AnonymousUser',
-            'artists': [{'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'}],
+            'artists': [{'count': 1, 'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'}],
             'auth': 'None'
         }
         self.assertEqual(result.status_code, 200)
@@ -52,9 +52,9 @@ class TestArtistEndpoints(BaseTest):
         expected = {
             'user': 'AnonymousUser',
             'artists': [
-                {'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'},
-                {'image': 'some_image.png', 'name': 'Erick Sermon', 'slug': 'erick-sermon'},
-                {'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}
+                {'count': 1, 'image': 'some_image.png', 'name': 'EPMD', 'slug': 'epmd'},
+                {'count': 1, 'image': 'some_image.png', 'name': 'Erick Sermon', 'slug': 'erick-sermon'},
+                {'count': 1, 'image': 'some_image.png', 'name': 'Method Man', 'slug': 'method-man'}
             ],
             'auth': 'None'
         }
@@ -212,7 +212,7 @@ class TestExample(TestCase):
             'album': 'Crossover',
             'featured_artists': [],
             'links': [],
-            'primary_artists': [{'image': '__none.png', 'name': 'EPMD', 'slug': ''}],
+            'primary_artists': [{'count': 1, 'image': '__none.png', 'name': 'EPMD', 'slug': ''}],
             'release_date': '1992-07-28',
             'release_date_string': '1992-07-28',
             'text': "Now, it's time for me, the E, to rock it loco",

@@ -87,6 +87,7 @@ class TestBuildArtist(BaseTest):
         mock_check_for_image.return_value = "foo"
         result = build_artist(self.epmd)
         expected = {
+            'count': 1,
             "name": "EPMD",
             "slug": "epmd",
             "image": "foo"
