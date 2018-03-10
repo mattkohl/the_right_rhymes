@@ -19,6 +19,7 @@ urlpatterns = [
     path("about-the-right-rhymes/", views.about, name="about"),
     path("index/", views.a_to_z, name="a_to_z"),
     path("random/", views.random_entry, name="random_entry"),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
     path("semantic-classes/", views.semantic_classes, name="semantic_classes"),
     path("domains/", views.domains, name="domains"),
