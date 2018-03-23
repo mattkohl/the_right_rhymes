@@ -2,7 +2,7 @@
 * Created by MBK on 13/01/16.
 */
 
-var mapDelay = 2;
+var mapDelay = 1;
 
 function initializeMaps() {
     setTimeout("initializeMapsDelay();", mapDelay * 1000);
