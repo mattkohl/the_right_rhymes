@@ -2,8 +2,14 @@
 * Created by MBK on 13/01/16.
 */
 
-function initializeMaps() {
+var mapDelay = 2;
 
+function initializeMaps() {
+    setTimeout("initializeMapsDelay();", mapDelay * 1000);
+}
+
+function initializeMapsDelay() {
+    console.log("loading maps");
     var endpoint;
     var latlng = new google.maps.LatLng(40.650002, -73.949997);
     var isDraggable = !('ontouchstart' in document.documentElement);
