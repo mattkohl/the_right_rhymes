@@ -153,7 +153,7 @@ input:focus, button:focus
 :-ms-input-placeholder {  color: lightgray; } /* Internet Explorer */
 
 @media only screen
-and (max-width : 600px) {
+and (max-width : 768px) {
 
     #search-icon-container ul li {
         padding: .5em;
@@ -163,7 +163,7 @@ and (max-width : 600px) {
         background: none;
         border: none;
         height: 100%;
-        padding-left: .05em;
+        padding-left: .05em !important;
         color: white;
         width: 78%;
         font-size: .7em;
