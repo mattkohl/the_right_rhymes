@@ -300,6 +300,10 @@
                                 <div id="map{{forloop.counter}}" class="map"></div>
                             </div>
                         {% endfor %}
+                        <div class="entry-navigation">
+                        {% if preceding %}<div class="preceding-navigation-wrapper"><a href="{% url 'entry' preceding %}" class="preceding-navigation"><i class="fa fa-chevron-circle-left"></i></a></div>{% endif %}
+                        {% if following %}<div class="following-navigation-wrapper"><a href="{% url 'entry' following %}" class="following-navigation"><i class="fa fa-chevron-circle-right"></i></a></div>{% endif %}
+                        </div>
                     </div>
                 {% else %}
                     <p>This is not the entry you're looking for.</p>
@@ -311,7 +315,7 @@
 <div id="entry_slug" style="display: none">{{slug}}</div>
 {% endblock %}
 
-{% block scripts %}}
+{% block scripts %}
 {{ block.super }}
 <script type="application/ld+json">
 {

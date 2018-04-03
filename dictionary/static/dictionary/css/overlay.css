@@ -108,7 +108,7 @@
     visibility: visible;
     -webkit-transition: opacity 0.5s;
     transition: opacity 0.5s;
-    z-index: 100;
+    z-index: 10;
 }
 
 
