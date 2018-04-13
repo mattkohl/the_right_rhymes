@@ -13,8 +13,8 @@ from django.views.decorators.cache import cache_control
 
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
-    collect_place_artists, build_entry_preview, count_place_artists, dedupe_rhymes
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Salience, Song, SemanticClass
+    collect_place_artists, build_entry_preview, dedupe_rhymes
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Song, SemanticClass
 from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end, build_stats
 from dictionary.forms import SongForm
 
