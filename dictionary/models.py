@@ -489,3 +489,12 @@ class NamedEntity(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Stats(models.Model):
+    id = models.AutoField(primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+    json = JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return self.created
