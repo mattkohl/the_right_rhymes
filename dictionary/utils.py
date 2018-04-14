@@ -3,10 +3,13 @@ import os
 import random
 import re
 import logging
+import json
 from operator import itemgetter
 from geopy.geocoders import Nominatim
 
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q, Count
+
 import dictionary.models
 
 
@@ -402,7 +405,7 @@ def build_stats():
             {
                 "slug": e.slug,
                 "headword": e.headword,
-                "pub_date": e.pub_date
+                "pub_date": e.pub_date.strftime('%B %d, %Y')
             } for e in most_recent_entries
         ],
         'best_attested_senses': [
@@ -497,6 +500,12 @@ def build_stats():
         'num_twenty_tens': twenty_tens,
         'twenty_tens_width': (twenty_tens / decade_max) * 100 - WIDTH_ADJUSTMENT
     }
+
+
+def update_stats():
+    context = build_stats()
+    dictionary.models.Stats(json=json.dumps(context, cls=DjangoJSONEncoder)).save()
+    return context
 
 
 def add_links(lyric, links, published):

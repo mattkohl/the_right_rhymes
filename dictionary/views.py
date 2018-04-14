@@ -11,11 +11,13 @@ from django.template import loader
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import cache_control
 
+
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
     collect_place_artists, build_entry_preview, dedupe_rhymes
-from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Song, SemanticClass
-from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end, build_stats
+from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Song, \
+    SemanticClass, Stats
+from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end, update_stats
 from dictionary.forms import SongForm
 
 
@@ -527,9 +529,12 @@ def song(request, song_slug):
 
 @cache_control(max_age=3600)
 def stats(request):
-
+    most_recent_stats = Stats.objects.all().order_by('-created')
+    if most_recent_stats:
+        context = json.loads(most_recent_stats.first().json)
+    else:
+        context = update_stats()
     template = loader.get_template('dictionary/stats.html')
-    context = build_stats()
     return HttpResponse(template.render(context, request))
 
 

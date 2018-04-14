@@ -28,7 +28,7 @@
                     {% for entry in most_recent_entries %}
                     <tr>
                         <td class="col-md-1"><a href="{% url 'entry' entry.slug %}">{{entry.headword}}</a></td>
-                        <td class="col-md-1 counter-bar"><div class="stats-date">{{entry.pub_date|date}}</div></td>
+                        <td class="col-md-1 counter-bar"><div class="stats-date">{{entry.pub_date}}</div></td>
                     </tr>
                     {% endfor %}
                 </table>
