@@ -497,4 +497,4 @@ class Stats(models.Model):
     json = JSONField(null=True, blank=True)
 
     def __str__(self):
-        return self.created
+        return self.created.strftime("%a, %d %b %Y %H:%M:%S")

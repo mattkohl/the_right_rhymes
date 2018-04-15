@@ -183,5 +183,8 @@ class TestStats(BaseTest):
 
     def test_update_stats(self):
         update_stats()
-        count = Stats.objects.all().order_by('-created').count()
+        count = Stats.objects.all().count()
         self.assertEqual(count, 1)
+        update_stats()
+        count = Stats.objects.all().order_by('-created').count()
+        self.assertEqual(count, 2)
