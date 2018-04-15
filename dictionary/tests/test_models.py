@@ -16,5 +16,6 @@ class ExampleTest(BaseTest):
         links = self.example_2.lyric_links.all()
         count = links.count()
         self.assertEqual(count, 3)
-        for link in links: self.example_2.lyric_links.remove(link)
+        for link in links:
+            self.example_2.lyric_links.remove(link)
         self.assertEqual(self.example_2.lyric_links.count(), 0)

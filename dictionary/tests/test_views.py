@@ -74,3 +74,7 @@ class TemplateTests(BaseTest):
     def test_uses_song_template(self):
         response = self.client.get("/songs/erick-sermon-foo/")
         self.assertTemplateUsed(response, "dictionary/song.html")
+
+    def test_uses_stats_template(self):
+        response = self.client.get("/statistics/")
+        self.assertTemplateUsed(response, "dictionary/stats.html")
