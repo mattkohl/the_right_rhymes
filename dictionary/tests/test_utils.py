@@ -1,12 +1,11 @@
 from unittest import mock
-from decimal import Decimal
 from django.test import TestCase
 from dictionary.tests.base import BaseTest
-from dictionary.models import Artist, Place
+from dictionary.models import Artist, Place, Stats
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
     build_collocate, build_xref, build_artist, build_sense, build_timeline_example, reduce_ordered_list, \
-    count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date
+    count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date, build_stats, update_stats
 
 
 class TestUtils(BaseTest):
@@ -175,3 +174,17 @@ class TestPlaceMgmtUtils(TestCase):
         self.assertEqual(suspects.first(), self.p)
 
 
+class TestStats(BaseTest):
+
+    def test_build_stats(self):
+        result = build_stats()
+        self.assertIn("best_represented_places", result)
+        self.assertIn("most_cited_songs", result)
+
+    def test_update_stats(self):
+        update_stats()
+        count = Stats.objects.all().count()
+        self.assertEqual(count, 1)
+        update_stats()
+        count = Stats.objects.all().order_by('-created').count()
+        self.assertEqual(count, 2)

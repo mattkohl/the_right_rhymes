@@ -9,7 +9,8 @@ from geopy.geocoders import Nominatim
 from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
     Place, Song, SemanticClass, Region, Form
-from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end
+from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end, \
+    update_stats
 
 
 logger = logging.getLogger(__name__)
@@ -1014,3 +1015,4 @@ def main(directory='../tRR/XML/tRR_Django'):
     msg = 'Processed dictionary in %d:%02d:%02d' % (h, m, s)
     logger.info(msg)
     sys.stdout.write(msg)
+    update_stats()

@@ -172,9 +172,17 @@ class BaseTest(TestCase):
         )
         self.example_foo.save()
         self.example_foo.artist.add(self.erick_sermon)
-
+        self.example_foo.from_song.add(self.song)
         self.sense = Sense(headword="headword", part_of_speech="noun", xml_id="foo", slug="headword")
         self.sense.save()
+
+        self.domain = Domain(name="domain", slug="domain")
+        self.domain.save()
+        self.domain.senses.add(self.sense)
+
+        self.semantic_class = SemanticClass(name="semantic class", slug="semantic-class")
+        self.semantic_class.save()
+        self.semantic_class.senses.add(self.sense)
 
 
 class BaseXMLTest(TestCase):
