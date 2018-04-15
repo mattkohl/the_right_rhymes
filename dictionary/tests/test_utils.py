@@ -179,4 +179,5 @@ class TestStats(BaseTest):
 
     def test_build_stats(self):
         result = build_stats()
-        print(result)
+        self.assertIn("best_represented_places", result)
+        self.assertIn("most_cited_songs", result)
