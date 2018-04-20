@@ -966,7 +966,7 @@ def update_headword(old_headword, new_headword):
         old_slug = slugify(old_headword)
         new_slug = slugify(new_headword)
         old_entry = dictionary.models.Entry.objects.get(slug=old_slug)
-        new_entry = dictionary.models.Entry(headword=new_headword, slug=new_slug, letter=get_letter(new_headword))
+        new_entry = dictionary.models.Entry(headword=new_headword, slug=new_slug, letter=get_letter(new_headword), publish=True)
         new_entry.save()
         for sense in old_entry.senses.all():
             sense.headword = new_headword
