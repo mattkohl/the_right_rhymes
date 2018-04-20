@@ -959,3 +959,53 @@ def update_release_date(artist_name=None, album=None, new_release_date=None):
         c.save()
 
     return candidates
+
+
+def update_headword(old_headword, new_headword):
+    try:
+        old_slug = slugify(old_headword)
+        new_slug = slugify(new_headword)
+        old_entry = dictionary.models.Entry.objects.get(slug=old_slug)
+        new_entry = dictionary.models.Entry(headword=new_headword, slug=new_slug, letter=get_letter(new_headword))
+        new_entry.save()
+        for sense in old_entry.senses.all():
+            sense.headword = new_headword
+            sense.slug = new_slug
+            sense.parent_entry.add(new_entry)
+            sense.parent_entry.remove(old_entry)
+            sense.save()
+        for xref in dictionary.models.Xref.objects.filter(target_slug=old_slug):
+            xref.target_lemma = new_headword
+            xref.target_slug = new_slug
+            xref.save()
+        for collocate in dictionary.models.Collocate.objects.filter(target_slug=old_slug):
+            collocate.collocate_lemma = new_headword
+            collocate.target_slug = new_slug
+            collocate.save()
+        for lyric_link in dictionary.models.LyricLink.objects.filter(target_slug__icontains=old_slug):
+            lyric_link.target_lemma = new_headword
+            old_ll_slug = lyric_link.target_slug
+            new_ll_slug = old_ll_slug.replace(old_slug, new_slug)
+            lyric_link.target_slug = new_ll_slug
+            lyric_link.save()
+        old_entry.delete()
+    except Exception as e:
+        logger.error(e)
+    else:
+        msg = "{} updated to {}".format(old_headword, new_headword)
+        logger.info(msg)
+        return {old_headword: new_headword}
+
+
+def get_letter(word):
+    slug = slugify(word)
+    ABC = 'abcdefghijklmnopqrstuvwxyz'
+    if slug.startswith('the-'):
+        key = slug[4]
+    else:
+        key = slug[0]
+
+    if key in ABC:
+        return key
+    else:
+        return '#'

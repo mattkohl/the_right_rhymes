@@ -1,11 +1,12 @@
 from unittest import mock
 from django.test import TestCase
 from dictionary.tests.base import BaseTest
-from dictionary.models import Artist, Place, Stats
+from dictionary.models import Artist, Place, Stats, Entry, Sense, Xref, Collocate, LyricLink
 from dictionary.utils import slugify, extract_short_name, extract_parent, build_example, build_beta_example, add_links, \
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
     build_collocate, build_xref, build_artist, build_sense, build_timeline_example, reduce_ordered_list, \
-    count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date, build_stats, update_stats
+    count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date, build_stats, update_stats, \
+    update_headword, get_letter
 
 
 class TestUtils(BaseTest):
@@ -77,6 +78,44 @@ class TestUtils(BaseTest):
         t1, t2 = updated
         self.assertEqual(t1.release_date, new_release_date)
         self.assertEqual(t2.release_date, new_release_date)
+
+    def test_get_letter(self):
+        self.assertEqual(get_letter("four-pound"), "f")
+        self.assertEqual(get_letter("4-pound"), "#")
+
+    def test_update_headword(self):
+        old_headword = "mad"
+        new_headword = "fad"
+        mad_lyric_links = LyricLink.objects.filter(target_slug__icontains="mad")
+        mad_collocates = Collocate.objects.filter(target_slug="mad")
+        mad_xrefs = Xref.objects.filter(target_slug="mad")
+        fad_lyric_links = LyricLink.objects.filter(target_slug__icontains="fad")
+        fad_collocates = Collocate.objects.filter(target_slug="fad")
+        fad_xrefs = Xref.objects.filter(target_slug="fad")
+        self.assertEqual(mad_lyric_links.count(), 1)
+        self.assertEqual(mad_collocates.count(), 1)
+        self.assertEqual(mad_xrefs.count(), 1)
+        self.assertEqual(fad_lyric_links.count(), 0)
+        self.assertEqual(fad_collocates.count(), 0)
+        self.assertEqual(fad_xrefs.count(), 0)
+        update_headword(old_headword, new_headword)
+        fad = Entry.objects.get(slug="fad")
+        mad_lyric_links = LyricLink.objects.filter(target_slug__icontains="mad")
+        mad_collocates = Collocate.objects.filter(target_slug="mad")
+        mad_xrefs = Xref.objects.filter(target_slug="mad")
+        fad_lyric_links = LyricLink.objects.filter(target_slug__icontains="fad")
+        fad_collocates = Collocate.objects.filter(target_slug="fad")
+        fad_xrefs = Xref.objects.filter(target_slug="fad")
+        self.assertEqual(fad.headword, new_headword)
+        self.assertEqual(fad.senses.count(), 1)
+        self.assertEqual(self.mad_sense.parent_entry.count(), 1)
+        self.assertEqual(self.mad_sense.parent_entry.first(), fad)
+        self.assertEqual(mad_lyric_links.count(), 0)
+        self.assertEqual(mad_collocates.count(), 0)
+        self.assertEqual(mad_xrefs.count(), 0)
+        self.assertEqual(fad_lyric_links.count(), 1)
+        self.assertEqual(fad_collocates.count(), 1)
+        self.assertEqual(fad_xrefs.count(), 1)
 
 
 class TestBuildArtist(BaseTest):

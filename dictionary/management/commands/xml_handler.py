@@ -10,7 +10,7 @@ from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
     NamedEntity, Xref, Collocate, SenseRhyme, ExampleRhyme, LyricLink, \
     Place, Song, SemanticClass, Region, Form
 from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end, \
-    update_stats
+    update_stats, get_letter
 
 
 logger = logging.getLogger(__name__)
@@ -94,7 +94,7 @@ class TRREntry:
         self.headword = self.entry_dict['head']['headword']
         self.sort_key = move_definite_article_to_end(self.headword).lower()
         self.slug = slugify(self.headword)
-        self.letter = self.get_letter()
+        self.letter = get_letter(self.headword)
         self.xml_id = self.entry_dict['@eid']
         self.forms = []
         self.publish = False if self.entry_dict['@publish'] == 'no' else True
@@ -108,18 +108,6 @@ class TRREntry:
 
     def __str__(self):
         return self.headword
-
-    def get_letter(self):
-        ABC = 'abcdefghijklmnopqrstuvwxyz'
-        if self.slug.startswith('the-'):
-            key = self.slug[4]
-        else:
-            key = self.slug[0]
-
-        if key in ABC:
-            return key
-        else:
-            return '#'
 
     def add_to_db(self):
         logger.info("------ Processing: '" + self.headword + "' ------")

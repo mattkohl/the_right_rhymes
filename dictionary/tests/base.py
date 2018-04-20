@@ -113,9 +113,17 @@ class BaseTest(TestCase):
             target_lemma='rock',
             target_slug='rock#e9060_trV_1'
         )
+        self.mad_lyric_link = LyricLink(
+            link_text='mad',
+            link_type='xref',
+            position=33,
+            target_lemma='mad',
+            target_slug='mad#e9060_trV_1'
+        )
         self.lyric_link_1.save()
         self.lyric_link_2.save()
         self.lyric_link_3.save()
+        self.mad_lyric_link.save()
         self.example_2.lyric_links.add(self.lyric_link_1)
         self.example_2.lyric_links.add(self.lyric_link_2)
         self.example_2.lyric_links.add(self.lyric_link_3)
@@ -128,6 +136,15 @@ class BaseTest(TestCase):
             target_id="target1",
             frequency=1
         )
+        self.collocate.save()
+        self.mad_collocate = Collocate(
+            collocate_lemma="mad",
+            source_sense_xml_id="x1",
+            target_slug="mad",
+            target_id="target1",
+            frequency=1
+        )
+        self.mad_collocate.save()
         self.xref = Xref(
             xref_word="word",
             xref_type="type",
@@ -137,7 +154,16 @@ class BaseTest(TestCase):
             frequency=1,
             position=1
         )
-
+        self.mad_xref = Xref(
+            xref_word="maddest",
+            xref_type="type",
+            target_lemma="mad",
+            target_slug="mad",
+            target_id="target_id",
+            frequency=1,
+            position=1
+        )
+        self.mad_xref.save()
         self.oprah = NamedEntity(name="Oprah", slug="oprah", entity_type="person", pref_label="Oprah Winfrey", pref_label_slug="oprah-winfrey")
         self.oprah.save()
         self.mad_entry = Entry(headword="mad", slug="mad", letter="m", publish=True)
