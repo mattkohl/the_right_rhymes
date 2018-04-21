@@ -1009,3 +1009,11 @@ def get_letter(word):
         return key
     else:
         return '#'
+
+
+def gex(text):
+    return dictionary.models.Example.objects.get(lyric_text=text)
+
+
+def fex(text):
+    return dictionary.models.Example.objects.filter(lyric_text__icontains=text)
