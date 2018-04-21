@@ -1000,7 +1000,7 @@ def main(directory='../tRR/XML/tRR_Django'):
     m, s = divmod(total_time, 60)
     h, m = divmod(m, 60)
 
-    msg = 'Processed dictionary in %d:%02d:%02d' % (h, m, s)
+    msg = 'Processed dictionary in %d:%02d:%02d\n' % (h, m, s)
     logger.info(msg)
     sys.stdout.write(msg)
     update_stats()
