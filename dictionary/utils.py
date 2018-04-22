@@ -196,7 +196,7 @@ def build_sense(sense_object, published, full=False, build_form=False):
         "headword": sense_object.headword,
         "part_of_speech": sense_object.part_of_speech,
         "xml_id": sense_object.xml_id,
-        "definition": sense_object.definition,
+        "definition": split_definitions(sense_object.definition),
         "notes": sense_object.notes,
         "etymology": sense_object.etymology,
         "domains": [o.to_dict() for o in sense_object.domains.order_by('name')],
@@ -506,6 +506,14 @@ def update_stats():
     context = build_stats()
     dictionary.models.Stats(json=json.dumps(context, cls=DjangoJSONEncoder)).save()
     return context
+
+
+def split_definitions(definition_text):
+    definitions = [d for d in definition_text.split(";")] if definition_text else None
+    if definitions and len(definitions) > 1:
+        return [d + ";" if (i != len(definitions)-1) else d for (i, d) in enumerate(definitions)]
+    else:
+        return definitions
 
 
 def add_links(lyric, links, published):
