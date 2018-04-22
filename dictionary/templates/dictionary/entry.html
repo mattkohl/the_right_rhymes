@@ -52,9 +52,11 @@
                                 <span>Published on <time>{{ pub_date }}</time></span>
                             </div>
                             <div id="{{ sense.xml_id }}" class="anchor"></div>
+                            <div class="definitions">
                             {% for definition in sense.definition %}
                                 <div class="definition">{{ definition }}</div>
                             {% endfor %}
+                            </div>
                             {% if sense.notes %}
                                 <div class="note">({{ sense.notes }})</div>
                             {% endif %}
