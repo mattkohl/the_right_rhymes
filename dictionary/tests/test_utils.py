@@ -6,7 +6,7 @@ from dictionary.utils import slugify, extract_short_name, extract_parent, build_
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
     build_collocate, build_xref, build_artist, build_sense, build_timeline_example, reduce_ordered_list, \
     count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date, build_stats, update_stats, \
-    update_headword, get_letter
+    update_headword, get_letter, split_definitions
 
 
 class TestUtils(BaseTest):
@@ -146,6 +146,12 @@ class TestBuildSense(BaseTest):
         built = build_sense(self.mad_sense, self.published_headwords)
         expected = {'xml_id': 'bar', 'collocates': [], 'regions': [], 'etymology': None, 'semantic_classes': [], 'antonyms': [], 'ancestors': [], 'artist_name': '', 'artist_slug': '', 'sense_image': None, 'holonyms': [], 'related_words': [], 'image': '', 'examples': [{'example': 'example'}, {'example': 'example'}, {'example': 'example'}], 'form': None, 'part_of_speech': 'adj', 'instance_of': [], 'definition': None, 'num_examples': 4, 'meronyms': [], 'notes': None, 'rhymes': [], 'related_concepts': [], 'instances': [], 'derivatives': [], 'synonyms': [], 'headword': 'mad', 'domains': []}
         self.assertDictEqual(built, expected)
+
+    def test_split_definition(self):
+        un_split = "an area including San Francisco & Sacramento, California; people hailing from the Bay area; The group 415, started by Oakland artists Richie Rich, D-Loc, DJ Daryl, and J.E.D."
+        result = split_definitions(un_split)
+        print(result)
+        self.assertEqual(len(result), 3)
 
 
 class TestBuildExample(BaseTest):
