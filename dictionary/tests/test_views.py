@@ -78,3 +78,8 @@ class TemplateTests(BaseTest):
     def test_uses_stats_template(self):
         response = self.client.get("/statistics/")
         self.assertTemplateUsed(response, "dictionary/stats.html")
+
+    def test_uses_search_template_with_form(self):
+        response = self.client.get("/search/?q=madder")
+        self.assertRedirects(response, "/mad/")
+

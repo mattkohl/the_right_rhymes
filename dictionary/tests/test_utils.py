@@ -150,7 +150,6 @@ class TestBuildSense(BaseTest):
     def test_split_definition(self):
         un_split = "an area including San Francisco & Sacramento, California; people hailing from the Bay area; The group 415, started by Oakland artists Richie Rich, D-Loc, DJ Daryl, and J.E.D."
         result = split_definitions(un_split)
-        print(result)
         self.assertEqual(len(result), 3)
 
 
