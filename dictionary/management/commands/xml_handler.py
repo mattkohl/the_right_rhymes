@@ -164,6 +164,7 @@ class TRRForm:
         self.slug = slugify(self.label)
         self.form_object = self.add_to_db()
         self.update()
+        self.add_relations()
 
     def add_to_db(self):
         logger.info("Adding Form:'" + self.label)
@@ -174,6 +175,9 @@ class TRRForm:
         self.form_object.frequency = self.frequency
         self.form_object.label = self.label
         self.form_object.save()
+
+    def add_relations(self):
+        self.form_object.parent_entry.add(self.parent_entry)
 
 
 class TRRSense:
