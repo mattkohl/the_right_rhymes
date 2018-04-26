@@ -41,7 +41,7 @@ class XMLDict:
             return xml_string
 
     def get_json(self):
-        force_list = ('entry', 'senses', 'forms', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
+        force_list = ('entry', 'senses', 'forms', 'form', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
         try:
             j = xmltodict.parse(self.xml_string, force_list=force_list)
         except:
@@ -130,7 +130,8 @@ class TRREntry:
     def extract_forms(self):
         for senses in self.entry_dict['senses']:
             if 'forms' in senses:
-                self.forms.extend([TRRForm(self.entry_object, form['form']['#text'], form["form"]["@freq"]) for form in senses['forms']])
+                for form in senses['forms']: print(dict(form['form'][0]))
+                self.forms.extend([TRRForm(self.entry_object, form['form'][0]['#text'], form["form"][0]["@freq"]) for form in senses['forms']])
 
     def extract_lexemes(self):
         if CHECK_FOR_UPDATES:
