@@ -394,7 +394,6 @@ def search(request):
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     artist_slugs = [artist.slug for artist in Artist.objects.all()]
     entity_slugs = [entity.pref_label_slug for entity in NamedEntity.objects.filter(entity_type='person')]
-    print(published_entry_forms)
     template = loader.get_template('dictionary/search_results.html')
     context = dict()
     if ('q' in request.GET) and request.GET['q'].strip():
