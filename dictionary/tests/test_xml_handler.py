@@ -63,11 +63,9 @@ class TestTRREntry(BaseTest):
             '@eid': 'e11730',
         }
 
-    @mock.patch("dictionary.management.commands.xml_handler.TRREntry.extract_lexemes")
-    @mock.patch("dictionary.management.commands.xml_handler.TRREntry.update_entry")
-    def test_construct(self, mock_update_entry, mock_extract_lexemes):
-        mock_update_entry.return_value = None
-        mock_extract_lexemes.return_value = None
+    @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
+    def test_construct(self, mock_process_sense):
+        mock_process_sense.return_value = None
         result = TRREntry(self.entry_dict)
         self.assertEqual(str(result), 'zootie')
         self.assertGreater(len(result.forms), 1)
@@ -82,16 +80,21 @@ class TestTRREntry(BaseTest):
 
 class TestTRRSense(BaseTest):
 
-    @mock.patch("dictionary.management.commands.xml_handler.TRRSense.update_sense")
-    def test_construct(self, mock_update_sense):
-        mock_update_sense.return_value = None
+    def test_construct(self):
         headword = "mad"
         publish = True
         pos = "noun"
         sense = {
             "@id": "someId",
             "definition": [{"text": "some definition"}],
-            "examples": []
+            "examples": [],
+            "domain": [],
+            "region": [],
+            "semanticClass": [],
+            "synSetRef": OrderedDict({"@target": "foo"}),
+            "collocates": {"collocate": []},
+            "xref": [],
+
         }
         result = TRRSense(self.mad_entry, headword, pos, sense, publish)
         self.assertIsInstance(result, TRRSense)
