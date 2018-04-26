@@ -16,7 +16,7 @@ from dictionary.utils import build_artist, assign_artist_image, build_sense, bui
     build_example, check_for_image, abbreviate_place_name, \
     collect_place_artists, build_entry_preview, dedupe_rhymes
 from .models import Entry, Sense, Artist, NamedEntity, Domain, Region, Example, Place, ExampleRhyme, Song, \
-    SemanticClass, Stats
+    SemanticClass, Stats, Form
 from .utils import build_query, slugify, reformat_name, un_camel_case, move_definite_article_to_end, update_stats
 from dictionary.forms import SongForm
 
@@ -390,6 +390,7 @@ def rhyme(request, rhyme_slug):
 @cache_control(max_age=360)
 def search(request):
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
+    published_entry_forms = Form.objects.filter(parent_entry__publish=True).values_list('slug', flat=True)
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     artist_slugs = [artist.slug for artist in Artist.objects.all()]
     entity_slugs = [entity.pref_label_slug for entity in NamedEntity.objects.filter(entity_type='person')]
@@ -406,7 +407,11 @@ def search(request):
         else:
             alt_query_slug = ''
 
-        if query_slug in published_entry_slugs:
+        if query_slug in published_entry_forms:
+            form = Form.objects.get(slug=query_slug)
+            parent_entry = form.parent_entry.first()
+            return redirect('entry', headword_slug=parent_entry.slug)
+        elif query_slug in published_entry_slugs:
             return redirect('entry', headword_slug=query_slug)
         elif query_slug in artist_slugs:
             return redirect('artist', artist_slug=query_slug)

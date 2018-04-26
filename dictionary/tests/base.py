@@ -1,6 +1,7 @@
 from django.test import TestCase
 import json
-from dictionary.models import Entry, Artist, Domain, Collocate, Sense, Region, SemanticClass, Song, NamedEntity, LyricLink, Example, Place, Xref
+from dictionary.models import Entry, Form, Artist, Domain, Collocate, Sense, Region, SemanticClass, Song, NamedEntity, \
+    LyricLink, Example, Place, Xref
 from dictionary.management.commands.xml_handler import XMLDict
 
 
@@ -168,8 +169,15 @@ class BaseTest(TestCase):
         self.oprah.save()
         self.mad_entry = Entry(headword="mad", slug="mad", letter="m", publish=True)
         self.mad_entry.save()
+        self.mad_form = Form(slug="mad", label="mad")
+        self.mad_form.save()
+        self.madder_form = Form(slug="madder", label="madder")
+        self.madder_form.save()
+        self.maddest_form = Form(slug="maddest", label="maddest")
+        self.maddest_form.save()
         self.mad_sense = Sense(headword="mad", slug="mad", xml_id="bar", part_of_speech="adj", publish=True)
         self.mad_sense.save()
+        self.mad_entry.forms.add(self.mad_form, self.madder_form, self.maddest_form)
         self.mad_entry.senses.add(self.mad_sense)
         self.mad_sense.examples.add(self.example_1)
         self.mad_sense.examples.add(self.example_4)
