@@ -128,11 +128,9 @@ class TRREntry:
         self.entry_object.save()
 
     def extract_forms(self):
-        if 'forms' in self.entry_dict['senses']:
-            for form in self.entry_dict['senses']['forms']['form']:
-                label = form['#text']
-                frequency = form["freq"]
-                self.append(TRRForm(self.entry_object, label, frequency))
+        for senses in self.entry_dict['senses']:
+            if 'forms' in senses:
+                self.forms.extend([TRRForm(self.entry_object, form['form']['#text'], form["form"]["@freq"]) for form in senses['forms']])
 
     def extract_lexemes(self):
         if CHECK_FOR_UPDATES:
@@ -163,11 +161,18 @@ class TRRForm:
         self.label = label
         self.frequency = frequency
         self.slug = slugify(self.label)
+        self.form_object = self.add_to_db()
+        self.update()
 
     def add_to_db(self):
         logger.info("Adding Form:'" + self.label)
         form_object, _ = Form.objects.get_or_create(slug=self.slug)
         return form_object
+
+    def update(self):
+        self.form_object.frequency = self.frequency
+        self.form_object.label = self.label
+        self.form_object.save()
 
 
 class TRRSense:

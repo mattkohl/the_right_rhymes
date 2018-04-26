@@ -2,7 +2,7 @@ from unittest import mock
 from collections import OrderedDict
 from dictionary.tests.base import BaseXMLTest, BaseTest
 from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink, TRRPlace, TRRSong
-from dictionary.models import Place
+from dictionary.models import Place, Form
 
 
 class TestXMLDict(BaseXMLTest):
@@ -49,18 +49,35 @@ class TestTRRDict(BaseTest):
 class TestTRREntry(BaseTest):
 
     entry_dict = {
-            'senses': [],
+            'senses': [{
+                'forms': [
+                    {'form': {'@freq': '5', '#text': 'zootie'}},
+                    {'form': {'@freq': '1', '#text': 'zooties'}},
+                ],
+                'pos': 'noun',
+                'sense': [{}]
+            }],
             'head': {'headword': 'zootie'},
             '@sk': 'zootie',
             '@publish': 'yes',
-            '@eid': 'e11730'
+            '@eid': 'e11730',
         }
 
+    @mock.patch("dictionary.management.commands.xml_handler.TRREntry.extract_lexemes")
     @mock.patch("dictionary.management.commands.xml_handler.TRREntry.update_entry")
-    def test_construct(self, mock_update_entry):
+    def test_construct(self, mock_update_entry, mock_extract_lexemes):
         mock_update_entry.return_value = None
+        mock_extract_lexemes.return_value = None
         result = TRREntry(self.entry_dict)
         self.assertEqual(str(result), 'zootie')
+        self.assertGreater(len(result.forms), 1)
+        for form in result.forms:
+            self.assertIn("zootie", form.label)
+            self.assertIn("zootie", form.slug)
+        z_form = Form.objects.get(slug="zootie")
+        self.assertEquals(z_form.frequency, 5)
+        zs_form = Form.objects.get(slug="zooties")
+        self.assertEquals(zs_form.frequency, 1)
 
 
 class TestTRRSense(BaseTest):
