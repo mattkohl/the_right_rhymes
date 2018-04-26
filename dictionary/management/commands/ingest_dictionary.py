@@ -8,9 +8,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--directory',
-            action='store_true',
-            default='../django-xml',
-            help='path to XML')
+                            action='store_true',
+                            default='../django-xml',
+                            help='path to XML')
 
     def handle(self, *args, **options):
         if 'directory' in options:
