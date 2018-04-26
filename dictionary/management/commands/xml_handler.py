@@ -130,7 +130,6 @@ class TRREntry:
     def extract_forms(self):
         for senses in self.entry_dict['senses']:
             if 'forms' in senses:
-                for form in senses['forms']: print(dict(form['form'][0]))
                 self.forms.extend([TRRForm(self.entry_object, form['form'][0]['#text'], form["form"][0]["@freq"]) for form in senses['forms']])
 
     def extract_lexemes(self):

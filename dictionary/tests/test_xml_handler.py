@@ -51,8 +51,8 @@ class TestTRREntry(BaseTest):
     entry_dict = {
             'senses': [{
                 'forms': [
-                    {'form': {'@freq': '5', '#text': 'zootie'}},
-                    {'form': {'@freq': '1', '#text': 'zooties'}},
+                    {'form': [{'@freq': '5', '#text': 'zootie'}]},
+                    {'form': [{'@freq': '1', '#text': 'zooties'}]},
                 ],
                 'pos': 'noun',
                 'sense': [{}]
