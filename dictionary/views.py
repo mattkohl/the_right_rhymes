@@ -252,7 +252,7 @@ def entry(request, headword_slug):
         'headword': entry.headword,
         'slug': slug,
         'title': entry.headword[0].upper() + entry.headword[1:],
-        'image': senses[0]['image'],
+        'image': senses[0]['image'] if len(senses) > 0 else None,
         'pub_date': entry.pub_date,
         'last_updated': entry.last_updated,
         'senses': senses,

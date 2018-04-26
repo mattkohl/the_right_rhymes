@@ -76,6 +76,8 @@ class TestTRREntry(BaseTest):
         self.assertEquals(z_form.frequency, 5)
         zs_form = Form.objects.get(slug="zooties")
         self.assertEquals(zs_form.frequency, 1)
+        response = self.client.get("/search/?q=zooties")
+        self.assertRedirects(response, "/zootie/")
 
 
 class TestTRRSense(BaseTest):
