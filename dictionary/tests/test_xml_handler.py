@@ -2,7 +2,7 @@ from unittest import mock
 from collections import OrderedDict
 from dictionary.tests.base import BaseXMLTest, BaseTest
 from dictionary.management.commands.xml_handler import XMLDict, TRRDict, TRREntry, TRRSense, TRRExample, TRRLyricLink, TRRPlace, TRRSong
-from dictionary.models import Place, Form
+from dictionary.models import Place, Form, Entry
 
 
 class TestXMLDict(BaseXMLTest):
@@ -78,6 +78,8 @@ class TestTRREntry(BaseTest):
         self.assertEquals(zs_form.frequency, 1)
         response = self.client.get("/search/?q=zooties")
         self.assertRedirects(response, "/zootie/")
+        zootie = Entry.objects.get(slug="zootie")
+        self.assertEqual(zootie.forms.count(), 2)
 
 
 class TestTRRSense(BaseTest):

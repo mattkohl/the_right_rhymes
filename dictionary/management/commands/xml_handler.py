@@ -100,7 +100,7 @@ class TRREntry:
         self.publish = False if self.entry_dict['@publish'] == 'no' else True
         self.entry_object = self.add_to_db()
         self.updated = self.check_if_updated()
-        self.extract_forms()
+        self.forms = list(self.extract_forms())
         self.update_entry()
         self.extract_lexemes()
         self.sense_count = 0
@@ -111,8 +111,7 @@ class TRREntry:
 
     def add_to_db(self):
         logger.info("------ Processing: '" + self.headword + "' ------")
-        entry, _ = Entry.objects.get_or_create(headword=self.headword,
-                                                     slug=self.slug)
+        entry, _ = Entry.objects.get_or_create(headword=self.headword, slug=self.slug)
         return entry
 
     def check_if_updated(self):
@@ -130,7 +129,8 @@ class TRREntry:
     def extract_forms(self):
         for senses in self.entry_dict['senses']:
             if 'forms' in senses:
-                self.forms.extend([TRRForm(self.entry_object, form['form'][0]['#text'], form["form"][0]["@freq"]) for form in senses['forms']])
+                for form in senses['forms']:
+                    yield TRRForm(self.entry_object, form['form'][0]['#text'], form["form"][0]["@freq"])
 
     def extract_lexemes(self):
         if CHECK_FOR_UPDATES:
