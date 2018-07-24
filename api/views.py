@@ -340,7 +340,17 @@ def headword_search(request):
 def place(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
     if results:
-        data = {'places': [build_place(place) for place in results]}
+        data = {'places': [build_place(place, True) for place in results]}
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def places(request):
+    results = Place.objects.filter(longitude__isnull=False).annotate(num_artists=Count('artists')).order_by('-num_artists')
+    if results:
+        data = {'places': [build_place(place, True) for place in results]}
         return Response(data)
     else:
         return Response({})

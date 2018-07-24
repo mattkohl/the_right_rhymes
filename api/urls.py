@@ -31,6 +31,7 @@ urlpatterns = [
 
     path("entities/missing_metadata/", views.named_entities_missing_metadata, name="named_entities_missing_metadata"),
 
+    path("places/", views.places, name="places"),
     path("places/random/", views.random_place, name="random_place"),
     path("places/<slug:place_slug>/", views.place, name="place"),
     path("places/<slug:place_slug>/artists/", views.place_artists, name="place_artists"),
