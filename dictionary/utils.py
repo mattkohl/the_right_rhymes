@@ -128,6 +128,24 @@ def build_place(place_object, include_artists=False):
     return result
 
 
+def build_place_with_artist_slugs(place_object):
+    artists = place_object.artists.all()
+
+    result = {
+        "name": place_object.name,
+        "full_name": place_object.full_name,
+        "slug": place_object.slug,
+        "artists": [artist.slug for artist in artists],
+        "artist_count": len(artists)
+    }
+
+    if place_object.longitude and place_object.latitude:
+        result["longitude"] = place_object.longitude
+        result["latitude"] = place_object.latitude
+
+    return result
+
+
 def build_artist(artist_object, require_origin=False, count=1):
     result = {
         "name": reformat_name(artist_object.name),
@@ -144,6 +162,14 @@ def build_artist(artist_object, require_origin=False, count=1):
                  "longitude": origin_object.longitude,
                  "latitude": origin_object.latitude
             }
+
+    aka_results = artist_object.also_known_as.all()
+    if aka_results:
+        result['also_known_as'] = [aka.slug for aka in aka_results]
+
+    member_results = artist_object.members.all()
+    if member_results:
+        result['members'] = [member.slug for member in member_results]
 
     result.update({"count": count})
     if require_origin:

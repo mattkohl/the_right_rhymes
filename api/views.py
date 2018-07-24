@@ -1,5 +1,4 @@
 from operator import itemgetter
-from collections import Counter, OrderedDict
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -7,7 +6,7 @@ from rest_framework.decorators import api_view
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, Salience, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, build_beta_example, \
-    build_place, build_sense, build_timeline_example, build_song, \
+    build_place, build_place_with_artist_slugs, build_sense, build_timeline_example, build_song, \
     check_for_image, reduce_ordered_list, reformat_name, slugify
 from dictionary.views import NUM_QUOTS_TO_SHOW
 
@@ -340,7 +339,7 @@ def headword_search(request):
 def place(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
     if results:
-        data = {'places': [build_place(place, True) for place in results]}
+        data = {'places': [build_place(place) for place in results]}
         return Response(data)
     else:
         return Response({})
@@ -349,21 +348,13 @@ def place(request, place_slug):
 @api_view(('GET',))
 def places(request):
     results = Place.objects.filter(longitude__isnull=False).annotate(num_artists=Count('artists')).order_by('-num_artists')
-    if results:
-        data = {'places': [build_place(place, True) for place in results]}
-        return Response(data)
-    else:
-        return Response({})
+    return Response({'places': [build_place_with_artist_slugs(p) for p in results]}) if results else Response({})
 
 
 @api_view(('GET',))
 def place_artists(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
-    if results:
-        data = {'places': [build_place(place, include_artists=True) for place in results]}
-        return Response(data)
-    else:
-        return Response({})
+    return Response({'places': [build_place(p, include_artists=True) for p in results]}) if results else Response({})
 
 
 @api_view(('GET',))
@@ -381,52 +372,32 @@ def random_entry(request):
 @api_view(('GET',))
 def random_artist(request):
     a = Artist.objects.all().order_by('?').first()
-    if a:
-        data = build_artist(a)
-        return Response(data)
-    else:
-        return Response({})
+    return Response(build_artist(a)) if a else Response({})
 
 
 @api_view(('GET',))
 def random_song(request):
-    a = Song.objects.all().order_by('?').first()
-    if a:
-        data = build_song(a)
-        return Response(data)
-    else:
-        return Response({})
+    s = Song.objects.all().order_by('?').first()
+    return Response(build_song(s)) if s else Response({})
 
 
 @api_view(('GET',))
 def random_place(request):
     p = Place.objects.filter(longitude__isnull=False).order_by('?').first()
-    if p:
-        data = build_place(p)
-        return Response(data)
-    else:
-        return Response({})
+    return Response(build_place(p)) if p else Response({})
 
 
 @api_view(('GET',))
 def random_sense(request):
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    sense = Sense.objects.filter(publish=True).order_by('?').first()
-    if sense:
-        data = build_sense(sense, published)
-        return Response(data)
-    else:
-        return Response({})
+    s = Sense.objects.filter(publish=True).order_by('?').first()
+    return Response(build_sense(s, published)) if s else Response({})
 
 
 @api_view(('GET',))
 def random_example(request):
     result = Example.objects.order_by('?').first()
-    if result:
-        data = build_beta_example(result)
-        return Response(data)
-    else:
-        return Response({})
+    return Response(build_beta_example(result)) if result else  Response({})
 
 
 @api_view(('GET',))

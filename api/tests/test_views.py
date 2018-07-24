@@ -1,7 +1,7 @@
 from unittest import mock
 from django.test import TestCase
 from dictionary.tests.base import BaseTest
-from dictionary.models import Artist, Example, Sense, Domain, Region, Entry, Place, SemanticClass
+from dictionary.models import Artist, Example, Domain, Region, Entry, Place, SemanticClass
 
 
 class TestArtistEndpoints(BaseTest):
@@ -230,11 +230,7 @@ class TestPlace(TestCase):
 
     def test_place(self):
         result = self.client.get("/data/places/foo-usa", follow=True)
-        expected = {
-            'places': [
-                {'artists_with_image': [], 'artists_without_image': [], 'full_name': 'foo, usa', 'name': 'foo', 'slug': 'foo-usa'}
-            ]
-        }
+        expected = {'places': [{'full_name': 'foo, usa', 'name': 'foo', 'slug': 'foo-usa'}]}
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(result.json(), expected)
 
