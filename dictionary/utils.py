@@ -4,6 +4,7 @@ import random
 import re
 import logging
 import json
+from typing import Dict, List, Union, Any, Tuple
 from operator import itemgetter
 from geopy.geocoders import Nominatim
 
@@ -26,11 +27,11 @@ geocache = []
 
 def normalize_query(query_string,
                     find_terms=re.compile(r'"([^"]+)"|(\S+)').findall,
-                    norm_space=re.compile(r'\s{2,}').sub):
+                    norm_space=re.compile(r'\s{2,}').sub) -> List[str]:
     return [norm_space(' ', (t[0] or t[1]).strip()) for t in find_terms(query_string)]
 
 
-def build_query(query_string, search_fields, normalize=False):
+def build_query(query_string, search_fields, normalize=False) -> str:
     query = None
     if normalize:
         terms = normalize_query(query_string)
@@ -54,13 +55,13 @@ def build_query(query_string, search_fields, normalize=False):
     return query
 
 
-def decimal_default(obj):
+def decimal_default(obj) -> float:
     if isinstance(obj, decimal.Decimal):
         return float(obj)
     raise TypeError
 
 
-def slugify(text):
+def slugify(text) -> str:
     slug = text.strip().lower()
     if slug[0] == "'" or slug[0] == "-":
         slug = slug[1:]
@@ -90,19 +91,19 @@ def slugify(text):
     return slug
 
 
-def reformat_name(name):
+def reformat_name(name) -> str:
     if name.lower().endswith(', the'):
         return 'The ' + name[:-5]
     return name
 
 
-def move_definite_article_to_end(name):
+def move_definite_article_to_end(name) -> str:
     if name.lower().startswith('the ') and len(name) > 4:
         return name[4:] + ' the'
     return name
 
 
-def un_camel_case(name):
+def un_camel_case(name) -> str:
     n = name
     if n[0].islower():
         n = n[0].upper() + n[1:]
@@ -110,7 +111,7 @@ def un_camel_case(name):
     return ' '.join(tokens)
 
 
-def build_place(place_object, include_artists=False):
+def build_place(place_object, include_artists=False) -> Dict[str, Any]:
     result = {
         "name": place_object.name,
         "full_name": place_object.full_name,
@@ -128,7 +129,7 @@ def build_place(place_object, include_artists=False):
     return result
 
 
-def build_place_with_artist_slugs(place_object):
+def build_place_with_artist_slugs(place_object) -> Dict[str, Any]:
     artists = place_object.artists.all()
 
     result = {
@@ -146,7 +147,7 @@ def build_place_with_artist_slugs(place_object):
     return result
 
 
-def build_artist(artist_object, require_origin=False, count=1):
+def build_artist(artist_object, require_origin=False, count=1) -> Dict[str, Any]:
     result = {
         "name": reformat_name(artist_object.name),
         "slug": artist_object.slug,
@@ -180,10 +181,10 @@ def build_artist(artist_object, require_origin=False, count=1):
         return result
 
 
-def assign_artist_image(examples):
-    THRESHOLD = 3
-    if len(examples) < THRESHOLD:
-        THRESHOLD = len(examples)
+def assign_artist_image(examples) -> Tuple[str, str, str]:
+    threshold = 3
+    if len(examples) < threshold:
+        threshold = len(examples)
     count = 0
     artist_slug, artist_name, image = '', '', ''
     for example in examples:
@@ -194,12 +195,12 @@ def assign_artist_image(examples):
             image = check_for_image(artist_slug, 'artists', 'full')
         if image:
             return artist_slug, artist_name, image
-        if count >= THRESHOLD:
+        if count >= threshold:
             return '', '', ''
     return '', '', ''
 
 
-def build_sense(sense_object, published, full=False, build_form=False):
+def build_sense(sense_object, published, full=False, build_form=False) -> Dict[str, Any]:
     example_results = sense_object.examples.order_by('release_date')
     if full:
         examples = [build_example(example, published) for example in example_results]
@@ -251,7 +252,7 @@ def build_sense(sense_object, published, full=False, build_form=False):
     return result
 
 
-def sense_to_xref_dict(sense_object):
+def sense_to_xref_dict(sense_object) -> Dict[str, str]:
     return {
         "xref_word": sense_object.headword,
         "xref_type": "synonym",
@@ -261,9 +262,9 @@ def sense_to_xref_dict(sense_object):
     }
 
 
-def build_sense_preview(sense_object, published):
+def build_sense_preview(sense_object) -> Dict[str, str]:
     first_example = sense_object.examples.order_by('release_date').first()
-    result = {
+    return {
         "headword": sense_object.headword,
         "slug": sense_object.slug,
         "part_of_speech": sense_object.part_of_speech,
@@ -273,12 +274,10 @@ def build_sense_preview(sense_object, published):
         "first_example": first_example,
         "image": check_for_image(first_example.artist_slug)
     }
-    return result
 
 
-def build_xref(xref_object):
-
-    result = {
+def build_xref(xref_object) -> Dict[str, str]:
+    return {
         "xref_word": xref_object.xref_word,
         "xref_type": xref_object.xref_type,
         "target_lemma": xref_object.target_lemma,
@@ -287,34 +286,31 @@ def build_xref(xref_object):
         "frequency": xref_object.frequency,
         "position": xref_object.position
     }
-    return result
 
 
-def build_collocate(collocate_object):
-    result = {
+def build_collocate(collocate_object) -> Dict[str, str]:
+    return {
         "collocate_lemma": collocate_object.collocate_lemma,
         "source_sense_xml_id": collocate_object.source_sense_xml_id,
         "target_slug": collocate_object.target_slug,
         "target_id": collocate_object.target_id,
         "frequency": collocate_object.frequency
     }
-    return result
 
 
-def build_entry_preview(entry_object):
-    result = {
+def build_entry_preview(entry_object) -> Dict[str, str]:
+    return {
         "headword": entry_object.headword,
         "slug": entry_object.slug,
         "pub_date": entry_object.pub_date,
         "last_updated": entry_object.last_updated,
     }
-    return result
 
 
-def build_example(example_object, published, rf=False):
+def build_example(example_object, published, rf=False) -> Dict[str, Any]:
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
-    result = {
+    return {
         "artist_name": reformat_name(example_object.artist_name),
         "artist_slug": example_object.artist_slug,
         "song_title": example_object.song_title,
@@ -326,13 +322,12 @@ def build_example(example_object, published, rf=False):
         "lyric": lyric,
         "linked_lyric": add_links(lyric, lyric_links, published)
     }
-    return result
 
 
-def build_beta_example(example_object):
+def build_beta_example(example_object) -> Dict[str, Any]:
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
-    result = {
+    return {
         "primary_artists": [build_artist(a) for a in example_object.artist.order_by('name')],
         "title": example_object.song_title,
         "album": example_object.album,
@@ -348,11 +343,10 @@ def build_beta_example(example_object):
             "target_slug": link.target_slug,
         } for link in lyric_links]
     }
-    return result
 
 
-def build_song(song_object, rf=False):
-    result = {
+def build_song(song_object, rf=False) -> Dict[str, Any]:
+    return {
         "primary_artists": [build_artist(a) for a in song_object.artist.order_by('name')],
         "title": song_object.title,
         "slug": slugify(song_object.artist_name + ' ' + song_object.title),
@@ -361,7 +355,6 @@ def build_song(song_object, rf=False):
         "release_date_string": song_object.release_date_string,
         "featured_artists": [build_artist(feat) for feat in song_object.feat_artist.order_by('name')],
     }
-    return result
 
 
 def build_timeline_example(example_object, published, rf=False):

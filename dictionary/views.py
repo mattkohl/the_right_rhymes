@@ -135,19 +135,19 @@ def artist(request, artist_slug):
 @cache_control(max_age=3600)
 def domain(request, domain_slug):
     template = loader.get_template('dictionary/domain.html')
-    domain = get_object_or_404(Domain, slug=domain_slug)
-    sense_objects = domain.senses.filter(publish=True).order_by('headword')
+    d = get_object_or_404(Domain, slug=domain_slug)
+    sense_objects = d.senses.filter(publish=True).order_by('headword')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    senses = [build_sense_preview(sense, published) for sense in sense_objects]
+    senses = [build_sense_preview(sense) for sense in sense_objects]
     senses_data = [{"word": sense.headword, "weight": sense.examples.count()} for sense in sense_objects]
     data = [sense.headword for sense in sense_objects]
     context = {
-        'domain': un_camel_case(domain.name),
+        'domain': un_camel_case(d.name),
         'slug': domain_slug,
         'senses': senses,
         'senses_data': json.dumps(senses_data),
         'published_entries': published,
-        'image': check_for_image(domain.slug, 'domains', 'full'),
+        'image': check_for_image(d.slug, 'domains', 'full'),
         'data': json.dumps(data)
     }
     return HttpResponse(template.render(context, request))
@@ -168,19 +168,19 @@ def domains(request):
 @cache_control(max_age=3600)
 def region(request, region_slug):
     template = loader.get_template('dictionary/region.html')
-    region = get_object_or_404(Region, slug=region_slug)
-    sense_objects = region.senses.filter(publish=True).order_by('headword')
+    r = get_object_or_404(Region, slug=region_slug)
+    sense_objects = r.senses.filter(publish=True).order_by('headword')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    senses = [build_sense_preview(sense, published) for sense in sense_objects]
+    senses = [build_sense_preview(sense) for sense in sense_objects]
     senses_data = [{"word": sense.headword, "weight": sense.examples.count()} for sense in sense_objects]
     data = [sense.headword for sense in sense_objects]
     context = {
-        'region': un_camel_case(region.name),
+        'r': un_camel_case(r.name),
         'slug': region_slug,
         'senses': senses,
         'senses_data': json.dumps(senses_data),
         'published_entries': published,
-        'image': check_for_image(region.slug, 'regions', 'full'),
+        'image': check_for_image(r.slug, 'regions', 'full'),
         'data': json.dumps(data)
     }
     return HttpResponse(template.render(context, request))
@@ -283,22 +283,22 @@ def index(request):
 
 @cache_control(max_age=3600)
 def place(request, place_slug):
-    place = get_object_or_404(Place, slug=place_slug)
+    p = get_object_or_404(Place, slug=place_slug)
     template = loader.get_template('dictionary/place.html')
 
     published = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     entity_results = NamedEntity.objects.filter(pref_label_slug=place_slug)
     examples = []
 
-    artists = collect_place_artists(place, [])
+    artists = collect_place_artists(p, [])
 
     artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
     artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
 
-    contains = [{'name': abbreviate_place_name(c.name), 'slug': c.slug} for c in place.contains.order_by('name')]
+    contains = [{'name': abbreviate_place_name(c.name), 'slug': c.slug} for c in p.contains.order_by('name')]
     within = {}
-    if ', ' in place.full_name:
-        w_name = ', '.join(place.full_name.split(', ')[1:])
+    if ', ' in p.full_name:
+        w_name = ', '.join(p.full_name.split(', ')[1:])
         w_slug = slugify(w_name)
         within = {'name': abbreviate_place_name(w_name), 'slug': w_slug}
 
@@ -308,15 +308,15 @@ def place(request, place_slug):
             examples += [build_example(example, published, rf=True) for example in entity.examples.order_by('release_date')]
 
     context = {
-        'place': place.name,
-        'place_name_full': place.full_name,
-        'slug': place.slug,
+        'place': p.name,
+        'place_name_full': p.full_name,
+        'slug': p.slug,
         'contains': contains,
         'within': within,
         'num_artists': len(artists),
         'artists_with_image': artists_with_image,
         'artists_without_image': artists_without_image,
-        'image': check_for_image(place.slug, 'places', 'full'),
+        'image': check_for_image(p.slug, 'places', 'full'),
         'examples': sorted(examples, key=itemgetter('release_date'))[:NUM_QUOTS_TO_SHOW],
         'num_examples': len(examples)
     }
@@ -389,7 +389,6 @@ def rhyme(request, rhyme_slug):
 
 @cache_control(max_age=360)
 def search(request):
-    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     published_entry_forms = Form.objects.filter(parent_entry__publish=True).values_list('slug', flat=True)
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     artist_slugs = [artist.slug for artist in Artist.objects.all()]
@@ -434,7 +433,7 @@ def search(request):
         for i in range(6):
             r = Sense.objects.filter(publish=True).order_by('?').first()
             if r:
-                other_entries.append(build_sense_preview(r, published_entries))
+                other_entries.append(build_sense_preview(r))
     context['other_entries'] = other_entries
 
     return HttpResponse(template.render(context, request))
@@ -493,7 +492,6 @@ def song(request, song_slug):
             song.save()
 
     song = get_list_or_404(Song, slug=song_slug)[0]
-    published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     template = loader.get_template('dictionary/song.html')
     same_dates = [
         {
@@ -506,7 +504,7 @@ def song(request, song_slug):
     thumb = check_for_image(song.artist_slug, 'artists', 'thumb')
     form = SongForm(instance=song)
     sense_results = set([s for e in song.examples.all() for s in e.illustrates_senses.filter(publish=True).order_by('headword')])
-    senses = [build_sense_preview(s, published_entries) for s in sense_results]
+    senses = [build_sense_preview(s) for s in sense_results]
 
     context = {
         "title": song.title,
