@@ -232,7 +232,7 @@ class TestPlace(TestCase):
         result = self.client.get("/data/places/foo-usa", follow=True)
         expected = {
             'places': [
-                {'full_name': 'foo, usa', 'name': 'foo', 'slug': 'foo-usa'}
+                {'artists_with_image': [], 'artists_without_image': [], 'full_name': 'foo, usa', 'name': 'foo', 'slug': 'foo-usa'}
             ]
         }
         self.assertEqual(result.status_code, 200)
