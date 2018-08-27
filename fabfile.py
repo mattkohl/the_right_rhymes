@@ -63,6 +63,7 @@ def _update_settings(source_folder, xml_source):
 
 
 def _update_virtualenv(source_folder, virtualenv_folder):
+    run("{}/bin/pip install --upgrade pip".format(virtualenv_folder))
     run("{}/bin/pip install -r {}/requirements.txt".format(virtualenv_folder, source_folder))
 
 
