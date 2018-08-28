@@ -16,7 +16,7 @@ from dictionary.utils import slugify, make_label_from_camel_case, geocode_place,
 logger = logging.getLogger(__name__)
 
 
-geolocator = Nominatim()
+geolocator = Nominatim(user_agent=__name__)
 geocache = []
 
 
