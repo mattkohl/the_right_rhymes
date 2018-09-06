@@ -438,8 +438,12 @@ th {
 }
 
 .definition {
-	margin-bottom: .5em;
+	margin: 0 .25em;
 	font-weight: bold;
+}
+
+.definitions {
+	display: inline-flex;
 }
 
 .note {
