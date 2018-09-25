@@ -4,9 +4,11 @@ import random
 import re
 import logging
 import json
+import django.conf.global_settings as settings
 from typing import Dict, List, Union, Any, Tuple
 from operator import itemgetter
 from geopy.geocoders import Nominatim
+
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q, Count
@@ -517,7 +519,8 @@ def build_stats():
         'num_noughties': noughties,
         'noughties_width': (noughties / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'num_twenty_tens': twenty_tens,
-        'twenty_tens_width': (twenty_tens / decade_max) * 100 - WIDTH_ADJUSTMENT
+        'twenty_tens_width': (twenty_tens / decade_max) * 100 - WIDTH_ADJUSTMENT,
+        'google_maps_key': settings.GOOGLE_MAPS_KEY
     }
 
 

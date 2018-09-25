@@ -67,7 +67,7 @@
         <script src="{% static 'dictionary/js/google_maps.js' %}?v=0.34"></script>
         <script async src="{% static 'dictionary/js/toggle.min.js' %}?v=0.1"></script>
         <script async src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script defer src="https://maps.googleapis.com/maps/api/js?libraries=visualization&callback=initializeMaps"></script>
+        <script defer src="https://maps.googleapis.com/maps/api/js?libraries=visualization&callback=initializeMaps&key={{ google_maps_key }}"></script>
     {% endblock %}
 </body>
 </html>
