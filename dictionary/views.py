@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from operator import itemgetter
 
 from django.core.cache import cache
@@ -10,7 +11,6 @@ from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import cache_control
-
 
 from dictionary.utils import build_artist, assign_artist_image, build_sense, build_sense_preview, \
     build_example, check_for_image, abbreviate_place_name, \
@@ -24,6 +24,9 @@ from dictionary.forms import SongForm
 logger = logging.getLogger(__name__)
 NUM_QUOTS_TO_SHOW = 3
 NUM_ARTISTS_TO_SHOW = 6
+
+gm = os.getenv("GOOGLE_MAPS_KEY", None)
+GMKV = f"&key={gm}" if gm else None
 
 
 @cache_control(max_age=3600)
@@ -128,6 +131,7 @@ def artist(request, artist_slug):
         'also_known_as': [build_artist(aka) for aka in a.also_known_as.all()],
         'member_of':  [build_artist(m) for m in a.member_of.all()],
         'members': [build_artist(m) for m in a.members.all()],
+        'google_api_key': GMKV
     }
     return HttpResponse(template.render(context, request))
 
@@ -181,7 +185,8 @@ def region(request, region_slug):
         'senses_data': json.dumps(senses_data),
         'published_entries': published,
         'image': check_for_image(r.slug, 'regions', 'full'),
-        'data': json.dumps(data)
+        'data': json.dumps(data),
+        'google_maps_key': GMKV
     }
     return HttpResponse(template.render(context, request))
 
@@ -258,7 +263,8 @@ def entry(request, headword_slug):
         'senses': senses,
         'published_entries': published,
         'preceding': preceding,
-        'following': following
+        'following': following,
+        'google_maps_key': GMKV
     }
     return HttpResponse(template.render(context, request))
 
@@ -318,7 +324,8 @@ def place(request, place_slug):
         'artists_without_image': artists_without_image,
         'image': check_for_image(p.slug, 'places', 'full'),
         'examples': sorted(examples, key=itemgetter('release_date'))[:NUM_QUOTS_TO_SHOW],
-        'num_examples': len(examples)
+        'num_examples': len(examples),
+        'google_maps_key': GMKV
     }
     return HttpResponse(template.render(context, request))
 
