@@ -144,5 +144,3 @@ REST_FRAMEWORK = {
 
 SOURCE_XML_PATH = '../tRR/XML/tRR_Django'
 SOURCE_CORPUS_PATH = '../corpus/dbs/HH.db'
-
-GOOGLE_MAPS_KEY = os.getenv('GOOGLE_MAPS_KEY', '')
