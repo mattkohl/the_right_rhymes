@@ -4,7 +4,7 @@ import random
 import re
 import logging
 import json
-from typing import Dict, List, Union, Any, Tuple
+from typing import Dict, List, Any, Tuple
 from operator import itemgetter
 from geopy.geocoders import Nominatim
 
@@ -14,12 +14,10 @@ from django.db.models import Q, Count
 
 import dictionary.models
 
-gm = os.getenv("GOOGLE_MAPS_KEY", None)
-GMKV = f"&key={gm}" if gm else None
-
 logger = logging.getLogger(__name__)
 
 
+MAPS_TOKEN = os.getenv("MAPS_TOKEN", None)
 NUM_QUOTS_TO_SHOW = 3
 WIDTH_ADJUSTMENT = 5
 LIST_LENGTH = 5
@@ -521,7 +519,7 @@ def build_stats():
         'noughties_width': (noughties / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'num_twenty_tens': twenty_tens,
         'twenty_tens_width': (twenty_tens / decade_max) * 100 - WIDTH_ADJUSTMENT,
-        'google_maps_key': GMKV
+        'maps_token': MAPS_TOKEN
     }
 
 

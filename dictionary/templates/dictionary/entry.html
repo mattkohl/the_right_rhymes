@@ -303,6 +303,7 @@
                                 <p class="mapLabel">Origins of Cited Artists</p>
                                 <div id="map{{forloop.counter}}" class="map"></div>
                             </div>
+
                         {% endfor %}
                         <div class="entry-navigation">
                         {% if preceding %}<div class="preceding-navigation-wrapper"><a href="{% url 'entry' preceding %}" class="preceding-navigation"><i class="fa fa-chevron-circle-left"></i></a></div>{% endif %}
@@ -321,6 +322,7 @@
 
 {% block scripts %}
 {{ block.super }}
+
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",

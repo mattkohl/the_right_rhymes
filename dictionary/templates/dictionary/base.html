@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="{% static 'dictionary/icon/favicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'dictionary/css/styles.min.css' %}?v=0.80">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
     {% block meta %}{% endblock %}
 </head>
 <body id="top">
@@ -64,10 +65,11 @@
             });
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="{% static 'dictionary/js/google_maps.js' %}?v=0.34"></script>
         <script async src="{% static 'dictionary/js/toggle.min.js' %}?v=0.1"></script>
         <script async src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script defer src="https://maps.googleapis.com/maps/api/js?libraries=visualization&callback=initializeMaps{{ google_maps_key|default_if_none:''}}"></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+        <script>var mapsToken = "{{ maps_token|default_if_none:''}}"</script>
+        <script src="{% static 'dictionary/js/maps.js' %}?v=0.01"></script>
     {% endblock %}
 </body>
 </html>
