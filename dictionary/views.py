@@ -131,7 +131,7 @@ def artist(request, artist_slug):
         'also_known_as': [build_artist(aka) for aka in a.also_known_as.all()],
         'member_of':  [build_artist(m) for m in a.member_of.all()],
         'members': [build_artist(m) for m in a.members.all()],
-        'google_api_key': GMKV
+        'google_maps_key': GMKV
     }
     return HttpResponse(template.render(context, request))
 
