@@ -41,6 +41,7 @@ urlpatterns = [
     path("semantic-classes/<slug:semantic_class_slug>/", views.semantic_class, name="semantic_class"),
 
     path("senses/", views.senses, name="senses"),
+    path("senses/unpublished", views.senses_unpublished, name="senses_unpublished"),
     path("senses/random/", views.random_sense, name="random_sense"),
     path("senses/<slug:sense_id>/", views.sense, name="sense"),
     path("senses/<slug:sense_id>/artists/", views.sense_artists, name="sense_artists"),

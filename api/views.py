@@ -667,3 +667,15 @@ def song_release_date_tree(request, song_slug):
             return Response({})
     else:
         return Response({})
+
+
+@api_view(('GET',))
+def senses_unpublished(request):
+    unpublished_senses = Sense.objects.filter(publish=False).annotate(num_examples=Count('examples')).order_by('-num_examples')[:5]
+    data = {
+        "senses": [{
+            "xml_id": unpublished_sense.xml_id,
+            "num_examples": unpublished_sense.num_examples
+        } for unpublished_sense in unpublished_senses]
+    }
+    return Response(data)
