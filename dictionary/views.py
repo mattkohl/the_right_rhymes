@@ -34,7 +34,8 @@ def about(request):
     template = loader.get_template('dictionary/about.html')
     entry_count = Entry.objects.filter(publish=True).count()
     context = {
-        'entry_count': entry_count
+        'entry_count': entry_count,
+        'google_maps_key': GMKV
     }
     return HttpResponse(template.render(context, request))
 
