@@ -397,7 +397,7 @@ def random_sense(request):
 @api_view(('GET',))
 def random_example(request):
     result = Example.objects.order_by('?').first()
-    return Response(build_beta_example(result)) if result else  Response({})
+    return Response(build_beta_example(result)) if result else Response({})
 
 
 @api_view(('GET',))
