@@ -4,7 +4,7 @@ import random
 import re
 import logging
 import json
-from typing import Dict, List, Union, Any, Tuple
+from typing import Dict, List, Any, Tuple
 from operator import itemgetter
 from geopy.geocoders import Nominatim
 
@@ -24,7 +24,7 @@ NUM_QUOTS_TO_SHOW = 3
 WIDTH_ADJUSTMENT = 5
 LIST_LENGTH = 5
 
-geolocator = Nominatim()
+geolocator = Nominatim(user_agent=__name__)
 geocache = []
 
 
