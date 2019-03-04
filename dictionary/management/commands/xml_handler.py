@@ -34,8 +34,8 @@ class XMLDict:
         f = open(self.filename, 'rb')
         try:
             xml_string = f.read()
-        except:
-            raise Exception("Can't read in source XML")
+        except Exception as e:
+            raise IOError(f"Can't read in source XML: {e}")
         else:
             f.close()
             return xml_string
@@ -44,8 +44,8 @@ class XMLDict:
         force_list = ('entry', 'senses', 'forms', 'form', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
         try:
             j = xmltodict.parse(self.xml_string, force_list=force_list)
-        except:
-            raise Exception("xmltodict can't parse that xml string")
+        except Exception as e:
+            raise SyntaxError(f"Failed to parse XML string: {e}")
         else:
             return j
 
@@ -68,14 +68,14 @@ class TRRDict:
     def get_dictionary(self):
         try:
             return self.xml_dict['dictionary']
-        except:
-            raise KeyError("No 'dictionary' key in xml_dict")
+        except Exception as e:
+            raise KeyError(f"No 'dictionary' key in xml_dict: {e}")
 
     def get_entries(self):
         try:
             entry_list = self.dictionary['entry']
-        except:
-            raise KeyError("No 'entry' key in xml_dict")
+        except Exception as e:
+            raise KeyError(f"No 'entry' key in xml_dict: {e}")
         else:
             return[TRREntry(entry_dict) for entry_dict in entry_list]
 
@@ -163,7 +163,7 @@ class TRRForm:
         self.slug = slugify(self.label)
         self.form_object = self.add_to_db()
         self.update()
-        self.add_relations()
+        self.update_relations()
 
     def add_to_db(self):
         logger.info("Adding Form:'" + self.label)
@@ -175,8 +175,8 @@ class TRRForm:
         self.form_object.label = self.label
         self.form_object.save()
 
-    def add_relations(self):
-        self.form_object.parent_entry.add(self.parent_entry)
+    def update_relations(self):
+        self.parent_entry.self.form_object.parent_entry.add(self.parent_entry)
 
 
 class TRRSense:
