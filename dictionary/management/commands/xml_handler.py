@@ -176,7 +176,7 @@ class TRRForm:
         self.form_object.save()
 
     def update_relations(self):
-        self.parent_entry.self.form_object.parent_entry.add(self.parent_entry)
+        self.form_object.parent_entry.add(self.parent_entry)
 
 
 class TRRSense:
