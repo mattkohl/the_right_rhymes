@@ -4,6 +4,8 @@ import logging
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
+from typing import List
+
 import xmltodict
 from geopy.geocoders import Nominatim
 from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
@@ -41,7 +43,20 @@ class XMLDict:
             return xml_string
 
     def get_json(self):
-        force_list = ('entry', 'senses', 'forms', 'form', 'sense', 'definition', 'collocate', 'xref', 'feat', 'note', 'etym', 'rhyme', 'entity', 'rf')
+        force_list = ('entry',
+                      'senses',
+                      'forms',
+                      'form',
+                      'sense',
+                      'definition',
+                      'collocate',
+                      'xref',
+                      'feat',
+                      'note',
+                      'etym',
+                      'rhyme',
+                      'entity',
+                      'rf')
         try:
             j = xmltodict.parse(self.xml_string, force_list=force_list)
         except Exception as e:
@@ -96,12 +111,12 @@ class TRREntry:
         self.slug = slugify(self.headword)
         self.letter = get_letter(self.headword)
         self.xml_id = self.entry_dict['@eid']
-        self.forms = []
         self.publish = False if self.entry_dict['@publish'] == 'no' else True
         self.entry_object = self.add_to_db()
+        self.entry_object.forms.clear()
         self.updated = self.check_if_updated()
-        self.forms = list(self.extract_forms())
         self.update_entry()
+        self.forms = list(self.extract_forms())
         self.extract_lexemes()
         self.sense_count = 0
         self.example_count = 0
