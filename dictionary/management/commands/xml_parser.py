@@ -4,7 +4,8 @@ import logging
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
-from typing import List, Dict
+from typing import List, Dict, AnyStr, Generator
+from dictionary.models import Place, Form, Entry
 
 import xmltodict
 
@@ -29,17 +30,49 @@ CHECK_FOR_UPDATES = True
 class DictionaryParser:
 
     @staticmethod
-    def parse(xml_dict: Dict):
+    def parse(xml_dict: Dict) -> List[Dict]:
+        """
+        :param xml_dict: {"dictionary": { "entry": [ {...}, {...}, ... ] } }
+        :return: list of dict entries
+        """
         try:
-            return xml_dict['dictionary']
+            return xml_dict['dictionary']['entry']
         except Exception as e:
-            raise KeyError(f"No 'dictionary' key in xml_dict: {e}")
+            raise KeyError(f"Could not access ['dictionary']['entry'] in xml_dict: {e}")
+
+
+class EntryParser:
+
+    @staticmethod
+    def parse(entry_dict: Dict) -> Entry:
+        try:
+            headword = entry_dict['head']['headword']
+            sort_key = move_definite_article_to_end(headword).lower()
+            slug = slugify(headword)
+            letter = get_letter(headword)
+            publish = False if entry_dict['@publish'] == 'no' else True
+        except Exception as e:
+            raise KeyError(f"Entry parse failed: {e}")
+        else:
+            logger.info(f"------ Processing: '{headword}' ------")
+            entry_created, _ = Entry.objects.get_or_create(headword=headword, slug=slug)
+            entry_updated = EntryParser.update(entry_created, publish, entry_dict, sort_key, letter)
+            return entry_updated
+
+    @staticmethod
+    def update(entry: Entry, publish: bool, entry_dict: Dict, sort_key: AnyStr, letter: chr) -> Entry:
+        entry.publish = publish
+        entry.json = entry_dict
+        entry.letter = letter
+        entry.sort_key = sort_key
+        entry.save()
+        return entry
 
 
 class FileReader:
 
     @staticmethod
-    def read_xml_file(filename):
+    def read_xml_file(filename: AnyStr) -> AnyStr:
         f = open(filename, 'rb')
         try:
             xml_string = f.read()
@@ -53,7 +86,7 @@ class FileReader:
 class JSONConverter:
 
     @staticmethod
-    def parse_to_dict(xml_string):
+    def parse_to_dict(xml_string: AnyStr) -> Dict:
         force_list = ('entry',
                       'senses',
                       'forms',
@@ -79,11 +112,11 @@ class JSONConverter:
 class DirectoryLoader:
 
     @staticmethod
-    def collect_files(directory):
+    def collect_files(directory: AnyStr) -> List[AnyStr]:
         return [join(directory, f) for f in listdir(directory) if isfile(join(directory, f))]
 
     @staticmethod
-    def process(xml_list):
+    def process(xml_list) -> Generator:
         from dictionary.management.commands.utils import print_progress
         iterations = len(xml_list)
         print_progress(0, iterations, prefix='Progress:', suffix='Complete')
