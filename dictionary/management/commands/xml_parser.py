@@ -1,11 +1,11 @@
 import time
 import sys
 import logging
-from collections import OrderedDict
+
 from os import listdir
 from os.path import isfile, join
 from typing import List, Dict, AnyStr, Generator
-from dictionary.models import Place, Form, Entry
+from dictionary.models import Place, Form, Entry, EntryTuple
 
 import xmltodict
 
@@ -44,27 +44,30 @@ class DictionaryParser:
 class EntryParser:
 
     @staticmethod
-    def parse(entry_dict: Dict) -> Entry:
+    def parse(ed: Dict) -> EntryTuple:
         try:
-            headword = entry_dict['head']['headword']
-            sort_key = move_definite_article_to_end(headword).lower()
-            slug = slugify(headword)
-            letter = get_letter(headword)
-            publish = False if entry_dict['@publish'] == 'no' else True
+            headword = ed['head']['headword']
+            et = EntryTuple(
+                headword=headword,
+                slug=slugify(headword),
+                sort_key=move_definite_article_to_end(headword).lower(),
+                letter=get_letter(headword),
+                publish=False if ed['@publish'] == 'no' else True,
+                as_dict=ed
+            )
         except Exception as e:
             raise KeyError(f"Entry parse failed: {e}")
         else:
             logger.info(f"------ Processing: '{headword}' ------")
-            entry_created, _ = Entry.objects.get_or_create(headword=headword, slug=slug)
-            entry_updated = EntryParser.update(entry_created, publish, entry_dict, sort_key, letter)
-            return entry_updated
+            return et
 
     @staticmethod
-    def update(entry: Entry, publish: bool, entry_dict: Dict, sort_key: AnyStr, letter: chr) -> Entry:
-        entry.publish = publish
-        entry.json = entry_dict
-        entry.letter = letter
-        entry.sort_key = sort_key
+    def persist(et: EntryTuple) -> Entry:
+        entry, _ = Entry.objects.get_or_create(headword=et.headword, slug=et.slug)
+        entry.publish = et.publish
+        entry.json = et.entry_dict
+        entry.letter = et.letter
+        entry.sort_key = et.sort_key
         entry.save()
         return entry
 

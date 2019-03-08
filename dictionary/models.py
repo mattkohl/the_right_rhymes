@@ -2,6 +2,7 @@ from collections import Counter, OrderedDict
 import operator
 import math
 import logging
+from collections import namedtuple
 from django.db import models
 from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
@@ -10,6 +11,9 @@ from django.urls import reverse
 from dictionary.utils import slugify, extract_short_name
 
 logger = logging.getLogger(__name__)
+
+
+ArtistTuple = namedtuple("Artist", ["name", "slug"])
 
 
 class Artist(models.Model):
@@ -81,6 +85,9 @@ class Editor(models.Model):
 
     def __str__(self):
         return self.name
+
+
+EntryTuple = namedtuple("EntryTuple", ["headword", "slug", "sort_key", "letter", "publish", "as_dict"])
 
 
 class Entry(models.Model):

@@ -34,42 +34,43 @@ class TestDictionaryParser(BaseTest):
 class TestEntryParser(BaseTest):
 
     def test_no_entry_key(self):
-        with self.assertRaises(Exception):
+        with self.assertRaises(KeyError):
             EntryParser.parse({"entries": []})
 
+    entry_dict = {
+            'senses': [{
+                'forms': [
+                    {'form': [{'@freq': '6', '#text': 'zootie'}]},
+                    {'form': [{'@freq': '2', '#text': 'zooties'}]},
+                    {'form': [{'@freq': '1', '#text': 'zooty'}]},
+                ],
+                'pos': 'noun',
+                'sense': [{}]
+            }],
+            'head': {'headword': 'zootie'},
+            '@sk': 'zootie',
+            '@publish': 'yes',
+            '@eid': 'e11730',
+        }
 
-# class TestTRREntry(BaseTest):
-#
-#     entry_dict = {
-#             'senses': [{
-#                 'forms': [
-#                     {'form': [{'@freq': '6', '#text': 'zootie'}]},
-#                     {'form': [{'@freq': '2', '#text': 'zooties'}]},
-#                     {'form': [{'@freq': '1', '#text': 'zooty'}]},
-#                 ],
-#                 'pos': 'noun',
-#                 'sense': [{}]
-#             }],
-#             'head': {'headword': 'zootie'},
-#             '@sk': 'zootie',
-#             '@publish': 'yes',
-#             '@eid': 'e11730',
-#         }
-#
-#     entry_dict_updated = {
-#             'senses': [{
-#                 'forms': [
-#                     {'form': [{'@freq': '5', '#text': 'zootie'}]},
-#                     {'form': [{'@freq': '1', '#text': 'zooties'}]},
-#                 ],
-#                 'pos': 'noun',
-#                 'sense': [{}]
-#             }],
-#             'head': {'headword': 'zootie'},
-#             '@sk': 'zootie',
-#             '@publish': 'yes',
-#             '@eid': 'e11730',
-#         }
+    entry_dict_updated = {
+            'senses': [{
+                'forms': [
+                    {'form': [{'@freq': '5', '#text': 'zootie'}]},
+                    {'form': [{'@freq': '1', '#text': 'zooties'}]},
+                ],
+                'pos': 'noun',
+                'sense': [{}]
+            }],
+            'head': {'headword': 'zootie'},
+            '@sk': 'zootie',
+            '@publish': 'yes',
+            '@eid': 'e11730',
+        }
+
+    def test_parse(self):
+        result = EntryParser.parse(self.entry_dict)
+        self.assertEqual(result.headword, 'zootie')
 #
 #     @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
 #     def test_construct(self, mock_process_sense):
