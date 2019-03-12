@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from dictionary.models import Place, Form, Entry, EntryTuple
 from dictionary.tests.base import BaseXMLParserTest, BaseTest
 from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser
 
@@ -21,7 +21,7 @@ class TestJSONConverter(BaseXMLParserTest):
             JSONConverter.parse_to_dict(x)
 
     def test_json_parse(self):
-        self.assertTrue('dictionary' in self.as_dict)
+        self.assertTrue('dictionary' in self.xml_dict)
 
 
 class TestDictionaryParser(BaseTest):
@@ -53,6 +53,8 @@ class TestEntryParser(BaseTest):
             '@eid': 'e11730',
         }
 
+    entry_parsed = EntryTuple(headword='zootie', slug='zootie', sort_key='zootie', letter='z', publish=True, xml_dict={'senses': [{'forms': [{'form': [{'@freq': '6', '#text': 'zootie'}]}, {'form': [{'@freq': '2', '#text': 'zooties'}]}, {'form': [{'@freq': '1', '#text': 'zooty'}]}], 'pos': 'noun', 'sense': [{}]}], 'head': {'headword': 'zootie'}, '@sk': 'zootie', '@publish': 'yes', '@eid': 'e11730'})
+
     entry_dict_updated = {
             'senses': [{
                 'forms': [
@@ -70,8 +72,25 @@ class TestEntryParser(BaseTest):
 
     def test_parse(self):
         result = EntryParser.parse(self.entry_dict)
-        self.assertEqual(result.headword, 'zootie')
-#
+        self.assertEqual(result, self.entry_parsed)
+
+    def test_persist(self):
+        persisted = EntryParser.persist(self.entry_parsed)
+        queried = Entry.objects.get(slug="zootie")
+        self.assertEqual(persisted, queried)
+
+    def test_persist_and_update(self):
+        EntryParser.persist(self.entry_parsed)
+        update_parsed = EntryParser.parse(self.entry_dict_updated)
+        update_persisted = EntryParser.persist(update_parsed)
+        queried = Entry.objects.get(slug="zootie")
+        self.assertEqual(update_persisted, queried)
+
+    def test_extract_forms(self):
+        result = EntryParser.extract_forms(self.entry_parsed)
+        print(result)
+
+
 #     @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
 #     def test_construct(self, mock_process_sense):
 #         mock_process_sense.return_value = None

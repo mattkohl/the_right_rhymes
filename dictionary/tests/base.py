@@ -234,5 +234,5 @@ class BaseXMLParserTest(TestCase):
     def setUp(self):
         self.x = FileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
         self.j = JSONConverter.parse_to_dict(self.x)
-        self.as_dict = json.loads(json.dumps(self.j))
+        self.xml_dict = json.loads(json.dumps(self.j))
 

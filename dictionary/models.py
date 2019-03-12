@@ -87,7 +87,7 @@ class Editor(models.Model):
         return self.name
 
 
-EntryTuple = namedtuple("EntryTuple", ["headword", "slug", "sort_key", "letter", "publish", "as_dict"])
+EntryTuple = namedtuple("EntryTuple", ["headword", "slug", "sort_key", "letter", "publish", "xml_dict"])
 
 
 class Entry(models.Model):
@@ -116,11 +116,17 @@ class Entry(models.Model):
         return reverse('entry', args=[str(self.slug)])
 
 
+FormTuple = namedtuple("FormTuple", ["slug", "label", "frequency"])
+
+
 class Form(models.Model):
     slug = models.SlugField('Form Slug', primary_key=True, db_index=True)
     label = models.CharField(max_length=1000)
     parent_entry = models.ManyToManyField(Entry, through=Entry.forms.through, related_name="+")
     frequency = models.IntegerField(blank=True, null=True)
+
+
+PlaceTuple = namedtuple("PlaceTuple", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
 
 
 class Place(models.Model):
@@ -149,6 +155,9 @@ class Place(models.Model):
         name = extract_short_name(full_name)
         place = cls(slug=slug, full_name=full_name, name=name)
         return place
+
+
+SenseTuple = namedtuple("SenseTuple", ["headword", "slug", "publish", "xml_id", "part_of_speech", "xml_dict", "definition", "notes", "etymology"])
 
 
 class Sense(models.Model):
