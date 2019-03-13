@@ -1,6 +1,9 @@
-from dictionary.models import Place, Form, Entry, EntryTuple
+from collections import Iterator
+
+from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple
 from dictionary.tests.base import BaseXMLParserTest, BaseTest
-from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser
+from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser, \
+    FormParser
 
 
 class TestFileReader(BaseXMLParserTest):
@@ -39,31 +42,52 @@ class TestEntryParser(BaseXMLParserTest):
 
     def test_parse(self):
         result = EntryParser.parse(self.zootie_entry_dict)
-        self.assertEqual(result, self.zootie_entry_parsed)
+        self.assertEqual(result, self.zootie_entry_nt)
 
     def test_persist(self):
-        persisted = EntryParser.persist(self.zootie_entry_parsed)
-        queried = Entry.objects.get(slug="zootie")
+        persisted: Entry = EntryParser.persist(self.zootie_entry_nt)
+        queried: Entry = Entry.objects.get(slug="zootie")
         self.assertEqual(persisted, queried)
 
     def test_persist_and_update(self):
-        EntryParser.persist(self.zootie_entry_parsed)
-        update_parsed = EntryParser.parse(self.zootie_entry_dict_forms_updated)
-        update_persisted = EntryParser.persist(update_parsed)
-        queried = Entry.objects.get(slug="zootie")
+        EntryParser.persist(self.zootie_entry_nt)
+        update_parsed: EntryTuple = EntryParser.parse(self.zootie_entry_dict_forms_updated)
+        update_persisted: Entry = EntryParser.persist(update_parsed)
+        queried: Entry = Entry.objects.get(slug="zootie")
         self.assertEqual(update_persisted, queried)
 
     def test_extract_forms(self):
-        result = EntryParser.extract_forms(self.zootie_entry_parsed)
-        self.assertEqual(len(result), 3)
-        self.assertEqual(result[0].slug, 'zootie')
-
-    def test_extract_sense(self):
-        entries = DictionaryParser.parse(self.xml_dict)
-        entry = EntryParser.parse(entries[0])
-        result = EntryParser.extract_senses(entry)
+        result: EntryTuple = EntryParser.extract_forms(self.zootie_entry_nt)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].slug, 'zootie')
+
+    def test_process_forms(self):
+        zootie: Entry = EntryParser.persist(self.zootie_entry_nt)
+        forms: Iterator[Form] = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
+        self.assertEqual(next(forms), zootie.forms.first())
+
+    def test_extract_sense(self):
+        result = EntryParser.extract_senses(self.zootie_entry_nt)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].slug, 'zootie')
+
+
+class TestFormParser(BaseXMLParserTest):
+
+    def test_parse(self):
+        result = FormParser.parse(self.zootie_form_dict1)
+        self.assertEqual(result, self.zootie_form_nt1)
+
+    def test_persist(self):
+        result = FormParser.persist(self.zootie_form_nt1)
+        form = Form.objects.get(slug="zootie")
+        self.assertEqual(result, form)
+
+
+class TestSenseParser(BaseXMLParserTest):
+    pass
+
+
 
 #     @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
 #     def test_construct(self, mock_process_sense):

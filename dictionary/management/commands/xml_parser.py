@@ -89,6 +89,13 @@ class EntryParser:
             return [FormParser.parse(form) for lexeme in lexemes for form in lexeme['forms']]
 
     @staticmethod
+    def process_forms(entry: Entry, forms: List[FormTuple]) -> Generator[Form, None, None]:
+        for nt in forms:
+            form = FormParser.persist(nt)
+            entry.forms.add(form)
+            yield form
+
+    @staticmethod
     def extract_senses(nt: EntryTuple):
         try:
             lexemes = nt.xml_dict["senses"]
