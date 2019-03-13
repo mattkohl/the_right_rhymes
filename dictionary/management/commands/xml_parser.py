@@ -1,11 +1,12 @@
 import time
 import sys
 import logging
-
+from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
 from typing import List, Dict, AnyStr, Generator
-from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, SenseTuple
+from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, SenseTuple, DomainTuple, RegionTuple, \
+    SemanticClassTuple
 
 import xmltodict
 
@@ -135,7 +136,7 @@ class SenseParser:
                 xml_id=d['@id'],
                 part_of_speech=pos,
                 xml_dict=d,
-                definition='; '.join([definition['text'] for definition in nt.sense_dict['definition']]),
+                definition='; '.join([definition['text'] for definition in d['definition']]),
                 notes=notes,
                 etymology=etymology
             )
@@ -172,6 +173,73 @@ class SenseParser:
         purged.publish = nt.publish
         purged.save()
         return purged
+
+    @staticmethod
+    def extract_domains(d: Dict) -> List[DomainTuple]:
+        if 'domain' in d:
+            domain_list = d['domain']
+            if isinstance(domain_list, list):
+                return [DomainParser.parse(domain_name['@type']) for domain_name in domain_list]
+            elif isinstance(domain_list, OrderedDict):
+                return [DomainParser.parse(domain_list['@type'])]
+            else:
+                return list()
+
+    @staticmethod
+    def extract_regions(d: Dict) -> List[DomainTuple]:
+        if 'region' in d:
+            region_list = d['region']
+            if isinstance(region_list, list):
+                return [RegionParser.parse(region_name['@type']) for region_name in region_list]
+            elif isinstance(region_list, OrderedDict):
+                return [RegionParser.parse(region_list['@type'])]
+            else:
+                return list()
+
+
+class DomainParser:
+
+    @staticmethod
+    def parse(n: str) -> DomainTuple:
+        name = make_label_from_camel_case(n)
+        return DomainTuple(name=name, slug=slugify(name))
+
+    @staticmethod
+    def persist(nt: DomainTuple):
+        domain, _ = Domain.objects.get_or_create(slug=nt.slug)
+        domain.name = nt.name
+        domain.save()
+        return domain
+
+
+class SemanticClassParser:
+
+    @staticmethod
+    def parse(n: str) -> SemanticClassTuple:
+        name = make_label_from_camel_case(n)
+        return SemanticClassTuple(name=name, slug=slugify(name))
+
+    @staticmethod
+    def persist(nt: SemanticClassTuple):
+        semantic_class, _ = SemanticClass.objects.get_or_create(slug=nt.slug)
+        semantic_class.name = nt.name
+        semantic_class.save()
+        return semantic_class
+    
+    
+class RegionParser:
+
+    @staticmethod
+    def parse(n: str) -> RegionTuple:
+        name = make_label_from_camel_case(n)
+        return RegionTuple(name=name, slug=slugify(name))
+
+    @staticmethod
+    def persist(nt: RegionTuple):
+        region, _ = Region.objects.get_or_create(slug=nt.slug)
+        region.name = nt.name
+        region.save()
+        return region
 
 
 class FileReader:

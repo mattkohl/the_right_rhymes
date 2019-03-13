@@ -31,65 +31,39 @@ class TestDictionaryParser(BaseTest):
             DictionaryParser.parse({})
 
 
-class TestEntryParser(BaseTest):
+class TestEntryParser(BaseXMLParserTest):
 
     def test_no_entry_key(self):
         with self.assertRaises(KeyError):
             EntryParser.parse({"entries": []})
 
-    entry_dict = {
-            'senses': [{
-                'forms': [
-                    {'form': [{'@freq': '6', '#text': 'zootie'}]},
-                    {'form': [{'@freq': '2', '#text': 'zooties'}]},
-                    {'form': [{'@freq': '1', '#text': 'zooty'}]},
-                ],
-                'pos': 'noun',
-                'sense': [{}]
-            }],
-            'head': {'headword': 'zootie'},
-            '@sk': 'zootie',
-            '@publish': 'yes',
-            '@eid': 'e11730',
-        }
-
-    entry_parsed = EntryTuple(headword='zootie', slug='zootie', sort_key='zootie', letter='z', publish=True, xml_dict={'senses': [{'forms': [{'form': [{'@freq': '6', '#text': 'zootie'}]}, {'form': [{'@freq': '2', '#text': 'zooties'}]}, {'form': [{'@freq': '1', '#text': 'zooty'}]}], 'pos': 'noun', 'sense': [{}]}], 'head': {'headword': 'zootie'}, '@sk': 'zootie', '@publish': 'yes', '@eid': 'e11730'})
-
-    entry_dict_updated = {
-            'senses': [{
-                'forms': [
-                    {'form': [{'@freq': '5', '#text': 'zootie'}]},
-                    {'form': [{'@freq': '1', '#text': 'zooties'}]},
-                ],
-                'pos': 'noun',
-                'sense': [{}]
-            }],
-            'head': {'headword': 'zootie'},
-            '@sk': 'zootie',
-            '@publish': 'yes',
-            '@eid': 'e11730',
-        }
-
     def test_parse(self):
-        result = EntryParser.parse(self.entry_dict)
-        self.assertEqual(result, self.entry_parsed)
+        result = EntryParser.parse(self.zootie_entry_dict)
+        self.assertEqual(result, self.zootie_entry_parsed)
 
     def test_persist(self):
-        persisted = EntryParser.persist(self.entry_parsed)
+        persisted = EntryParser.persist(self.zootie_entry_parsed)
         queried = Entry.objects.get(slug="zootie")
         self.assertEqual(persisted, queried)
 
     def test_persist_and_update(self):
-        EntryParser.persist(self.entry_parsed)
-        update_parsed = EntryParser.parse(self.entry_dict_updated)
+        EntryParser.persist(self.zootie_entry_parsed)
+        update_parsed = EntryParser.parse(self.zootie_entry_dict_forms_updated)
         update_persisted = EntryParser.persist(update_parsed)
         queried = Entry.objects.get(slug="zootie")
         self.assertEqual(update_persisted, queried)
 
     def test_extract_forms(self):
-        result = EntryParser.extract_forms(self.entry_parsed)
-        print(result)
+        result = EntryParser.extract_forms(self.zootie_entry_parsed)
+        self.assertEqual(len(result), 3)
+        self.assertEqual(result[0].slug, 'zootie')
 
+    def test_extract_sense(self):
+        entries = DictionaryParser.parse(self.xml_dict)
+        entry = EntryParser.parse(entries[0])
+        result = EntryParser.extract_senses(entry)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].slug, 'zootie')
 
 #     @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
 #     def test_construct(self, mock_process_sense):

@@ -297,6 +297,9 @@ class SynSet(models.Model):
         return self.name
 
 
+SemanticClassTuple = namedtuple("SemanticClassTuple", ["name", "slug"])
+
+
 class SemanticClass(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(primary_key=True, max_length=1000)
@@ -314,6 +317,9 @@ class SemanticClass(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
+DomainTuple = namedtuple("DomainTuple", ["name", "slug"])
+
+
 class Domain(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(primary_key=True, max_length=1000)
@@ -328,6 +334,9 @@ class Domain(models.Model):
 
     def to_dict(self):
         return {"name": self.name, "slug": self.slug}
+
+
+RegionTuple = namedtuple("RegionTuple", ["name", "slug"])
 
 
 class Region(models.Model):

@@ -3,7 +3,7 @@ import json
 
 from dictionary.management.commands.xml_parser import FileReader, JSONConverter
 from dictionary.models import Entry, Form, Artist, Domain, Collocate, Sense, Region, SemanticClass, Song, NamedEntity, \
-    LyricLink, Example, Place, Xref
+    LyricLink, Example, Place, Xref, EntryTuple
 from dictionary.management.commands.xml_handler import XMLDict
 
 
@@ -236,3 +236,110 @@ class BaseXMLParserTest(TestCase):
         self.j = JSONConverter.parse_to_dict(self.x)
         self.xml_dict = json.loads(json.dumps(self.j))
 
+        self.zootie_entry_dict = {
+                'senses': [{
+                    'forms': [
+                        {'form': [{'@freq': '6', '#text': 'zootie'}]},
+                        {'form': [{'@freq': '2', '#text': 'zooties'}]},
+                        {'form': [{'@freq': '1', '#text': 'zooty'}]},
+                    ],
+                    'pos': 'noun',
+                    'sense': [{}]
+                }],
+                'head': {'headword': 'zootie'},
+                '@sk': 'zootie',
+                '@publish': 'yes',
+                '@eid': 'e11730',
+            }
+
+        self.zootie_entry_parsed = EntryTuple(headword='zootie', slug='zootie', sort_key='zootie', letter='z', publish=True, xml_dict={'senses': [{'forms': [{'form': [{'@freq': '6', '#text': 'zootie'}]}, {'form': [{'@freq': '2', '#text': 'zooties'}]}, {'form': [{'@freq': '1', '#text': 'zooty'}]}], 'pos': 'noun', 'sense': [{}]}], 'head': {'headword': 'zootie'}, '@sk': 'zootie', '@publish': 'yes', '@eid': 'e11730'})
+
+        self.zootie_entry_dict_forms_updated = {
+                'senses': [{
+                    'forms': [
+                        {'form': [{'@freq': '5', '#text': 'zootie'}]},
+                        {'form': [{'@freq': '1', '#text': 'zooties'}]},
+                    ],
+                    'pos': 'noun',
+                    'sense': [{}]
+                }],
+                'head': {'headword': 'zootie'},
+                '@sk': 'zootie',
+                '@publish': 'yes',
+                '@eid': 'e11730',
+            }
+
+        self.zootie_sense_dict = {
+            '@id': 'e11730_n_1',
+            'collocates': {'collocate': [{'#text': 'blunted', '@freq': '1', '@target': 'e3170_adj_1'},
+                                         {'#text': 'ride', '@freq': '1', '@target': 'e9000_intrV_1'}]},
+            'definition': [{'text': 'a marijuana cigarette laced with cocaine'}],
+            'domain': [{'@type': 'drugs'}, {'@type': 'marijuana'}],
+            'examples': {'example': [{'@id': '3470', 'album': "Paul's Boutique", 'artist': 'Beastie Boys',
+                                      'date': '1989-07-25',
+                                      'lyric': {'rf': [{'#text': 'zootie',
+                                                        '@lemma': 'zootie',
+                                                        '@position': '47',
+                                                        '@target': 'e11730_n_1'}],
+                                                'rhyme': [{'#text': 'cutie',
+                                                           '@position': '15',
+                                                           '@rhymeTarget': 'e11730_n_1',
+                                                           '@rhymeTargetPosition': '47',
+                                                           '@rhymeTargetWord': 'zootie'}],
+                                                'text': 'I met a little cutie, she was '
+                                                        'all hopped up on zootie'},
+                                      'songTitle': 'Hey Ladies'},
+                                     {'@id': '5033', 'album': 'Non-Fiction', 'artist': 'Black Sheep',
+                                      'date': '1994-12-06', 'feat': ['Legion, The'],
+                                      'lyric': {'rf': [{'#text': 'zootie',
+                                                        '@lemma': 'zootie',
+                                                        '@position': '40',
+                                                        '@target': 'e11730_n_1'}],
+                                                'text': 'One love with the bang, riding '
+                                                        'with the zootie',
+                                                'xref': [{'#text': 'riding',
+                                                          '@lemma': 'ride',
+                                                          '@position': '24',
+                                                          '@target': 'e9000_intrV_1'}]},
+                                      'songTitle': 'We Boys'},
+                                     {'@id': '11290', 'album': 'Stakes Is High', 'artist': 'De La Soul',
+                                      'date': '1996-07-07',
+                                      'lyric': {'rf': [{'#text': 'zootie',
+                                                        '@lemma': 'zootie',
+                                                        '@position': '18',
+                                                        '@target': 'e11730_n_1'}],
+                                                'text': 'Big four gets the zootie for the '
+                                                        'self'},
+                                      'songTitle': 'Intro'},
+                                     {'@id': '17365', 'album': 'Full Clip', 'artist': 'Gang Starr',
+                                      'date': '1999-07-13', 'feat': ['Total'],
+                                      'lyric': {'rf': [{'#text': 'zootie',
+                                                        '@lemma': 'zootie',
+                                                        '@position': '75',
+                                                        '@target': 'e11730_n_1'}],
+                                                'rhyme': [{'#text': 'cutie',
+                                                           '@position': '53',
+                                                           '@rhymeTarget': 'e11730_n_1',
+                                                           '@rhymeTargetPosition': '75',
+                                                           '@rhymeTargetWord': 'zootie'}],
+                                                'text': 'Used to get blunted down in the '
+                                                        'hallways, I love the cutie pies, '
+                                                        'never the zootie pies',
+                                                'xref': [{'#text': 'blunted',
+                                                          '@lemma': 'blunted',
+                                                          '@position': '12',
+                                                          '@target': 'e3170_adj_1'}]},
+                                      'songTitle': 'Discipline'},
+                                     {'@id': '38936', 'album': 'Birth of A Prince', 'artist': 'RZA',
+                                      'date': '2003-10-07',
+                                      'lyric': {'rf': [{'#text': 'zootie',
+                                                        '@lemma': 'zootie',
+                                                        '@position': '16',
+                                                        '@target': 'e11730_n_1'}],
+                                                'text': 'Nigga, pass the zootie'},
+                                      'songTitle': 'A Day To God Is 1,000 Years (Stay '
+                                                   'With Me)'}]},
+            'rhymes': {'rhyme': [{'#text': 'cutie', '@freq': '2'}]},
+            'sentiment': {'@type': 'neutral'},
+            'xref': [{'#text': 'primo', '@target': 'e8630_n_1', '@type': 'hasSynonym'},
+                     {'#text': 'reefer', '@target': 'e8900_n_1', '@type': 'conceptRelatesTo'}]}
