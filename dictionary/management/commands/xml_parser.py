@@ -130,7 +130,7 @@ class FormParser:
 
 
 class SenseParser:
-
+    
     @staticmethod
     def parse(d: Dict, headword: str, pos: str, publish: bool) -> SenseTuple:
         try:
@@ -182,6 +182,13 @@ class SenseParser:
         return purged
 
     @staticmethod
+    def update_relations(sense: Sense, nt: SenseTuple):
+        sense.domains.add([DomainParser.persist(d) for d in SenseParser.extract_domains(nt.xml_dict)])
+        sense.regions.add([RegionParser.persist(r) for r in SenseParser.extract_regions(nt.xml_dict)])
+        sense.semantic_classes.add([SemanticClassParser.persist(s) for s in SenseParser.extract_semantic_classes(nt.xml_dict)])
+        return sense
+
+    @staticmethod
     def extract_domains(d: Dict) -> List[DomainTuple]:
         if 'domain' in d:
             domain_list = d['domain']
@@ -200,6 +207,17 @@ class SenseParser:
                 return [RegionParser.parse(region_name['@type']) for region_name in region_list]
             elif isinstance(region_list, OrderedDict):
                 return [RegionParser.parse(region_list['@type'])]
+            else:
+                return list()
+
+    @staticmethod
+    def extract_semantic_classes(d: Dict) -> List[SemanticClassTuple]:
+        if 'semanticClass' in d:
+            semantic_class_list = d['semanticClass']
+            if isinstance(semantic_class_list, list):
+                return [SemanticClassParser.parse(semantic_class_name['@type']) for semantic_class_name in semantic_class_list]
+            if isinstance(semantic_class_list, OrderedDict):
+                return [SemanticClassParser.parse(semantic_class_list['@type'])]
             else:
                 return list()
 
