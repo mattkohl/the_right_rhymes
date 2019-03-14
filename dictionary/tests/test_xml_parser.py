@@ -3,7 +3,7 @@ from collections import Iterator
 from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple
 from dictionary.tests.base import BaseXMLParserTest, BaseTest
 from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser, \
-    FormParser
+    FormParser, SenseParser
 
 
 class TestFileReader(BaseXMLParserTest):
@@ -13,7 +13,8 @@ class TestFileReader(BaseXMLParserTest):
             FileReader.read_xml_file("foo.xml")
 
     def test_xml_dict(self):
-        self.assertIn('<?xml version="1.0"', str(self.x))
+        result = FileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
+        self.assertIn('<?xml version="1.0"', str(result))
 
 
 class TestJSONConverter(BaseXMLParserTest):
@@ -24,7 +25,11 @@ class TestJSONConverter(BaseXMLParserTest):
             JSONConverter.parse_to_dict(x)
 
     def test_json_parse(self):
-        self.assertTrue('dictionary' in self.xml_dict)
+        file_read = FileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
+        as_dict = JSONConverter.parse_to_dict(file_read)
+        self.assertTrue('dictionary' in as_dict)
+        import json
+        print(json.dumps(as_dict, indent=4))
 
 
 class TestDictionaryParser(BaseTest):
@@ -85,7 +90,9 @@ class TestFormParser(BaseXMLParserTest):
 
 
 class TestSenseParser(BaseXMLParserTest):
-    pass
+    def test_parse(self):
+        result = SenseParser.parse(self.zootie_sense_dict, 'zootie', 'noun', True)
+        print(result)
 
 
 

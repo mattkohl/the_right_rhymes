@@ -104,6 +104,13 @@ class EntryParser:
         else:
             return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
 
+    @staticmethod
+    def process_senses(entry: Entry, senses: List[SenseTuple]) -> Generator[Sense, None, None]:
+        for nt in senses:
+            sense = SenseParser.persist(nt)
+            entry.forms.add(sense)
+            yield sense
+
 
 class FormParser:
 
@@ -190,36 +197,24 @@ class SenseParser:
 
     @staticmethod
     def extract_domains(d: Dict) -> List[DomainTuple]:
-        if 'domain' in d:
-            domain_list = d['domain']
-            if isinstance(domain_list, list):
-                return [DomainParser.parse(domain_name['@type']) for domain_name in domain_list]
-            elif isinstance(domain_list, OrderedDict):
-                return [DomainParser.parse(domain_list['@type'])]
-            else:
-                return list()
+        try:
+            return [DomainParser.parse(domain_name['@type']) for domain_name in d['domain']]
+        except KeyError as _:
+            return list()
 
     @staticmethod
     def extract_regions(d: Dict) -> List[DomainTuple]:
-        if 'region' in d:
-            region_list = d['region']
-            if isinstance(region_list, list):
-                return [RegionParser.parse(region_name['@type']) for region_name in region_list]
-            elif isinstance(region_list, OrderedDict):
-                return [RegionParser.parse(region_list['@type'])]
-            else:
-                return list()
+        try:
+            return [RegionParser.parse(region_name['@type']) for region_name in d['region']]
+        except KeyError as _:
+            return list()
 
     @staticmethod
     def extract_semantic_classes(d: Dict) -> List[SemanticClassTuple]:
-        if 'semanticClass' in d:
-            semantic_class_list = d['semanticClass']
-            if isinstance(semantic_class_list, list):
-                return [SemanticClassParser.parse(semantic_class_name['@type']) for semantic_class_name in semantic_class_list]
-            if isinstance(semantic_class_list, OrderedDict):
-                return [SemanticClassParser.parse(semantic_class_list['@type'])]
-            else:
-                return list()
+        try:
+            return [SemanticClassParser.parse(semantic_class_name['@type']) for semantic_class_name in d['semanticClass']]
+        except KeyError as _:
+            return list()
 
 
 class DomainParser:
@@ -291,6 +286,9 @@ class JSONConverter:
                       'form',
                       'sense',
                       'definition',
+                      'domain',
+                      'region',
+                      'semanticClass',
                       'collocate',
                       'xref',
                       'feat',
