@@ -467,7 +467,7 @@ class BaseXMLParserTest(TestCase):
                 '@eid': 'e11730',
             }
 
-        self.zootie_sense_dict = self.zootie_entry_dict['senses'][0]
+        self.zootie_sense_dict = self.zootie_entry_dict['senses'][0]['sense'][0]
         self.zootie_form_dict1 = {'form': [{'@freq': '6', '#text': 'zootie'}]}
         self.zootie_form_dict2 = {'form': [{'@freq': '2', '#text': 'zooties'}]}
         self.zootie_form_dict3 = {'form': [{'@freq': '1', '#text': 'zooty'}]}
