@@ -4,9 +4,9 @@ import logging
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
-from typing import List, Dict, AnyStr, Generator
+from typing import List, Dict, AnyStr, Generator, Any
 from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, SenseTuple, DomainTuple, RegionTuple, \
-    SemanticClassTuple
+    SemanticClassTuple, SynSetTuple
 
 import xmltodict
 
@@ -145,7 +145,7 @@ class SenseParser:
             etymology = '; '.join([etymology['text'] for etymology in d['etym']]) if 'etym' in d else ""
             nt = SenseTuple(
                 headword=headword,
-                slug=slugify(headword),
+                slug=f"{slugify(headword)}#{d['@id']}",
                 publish=publish,
                 xml_id=d['@id'],
                 part_of_speech=pos,
@@ -179,7 +179,7 @@ class SenseParser:
         purged = SenseParser.purge_relations(sense)
         purged.json = nt.xml_dict
         purged.headword = nt.headword
-        purged.part_of_speech = nt.pos
+        purged.part_of_speech = nt.part_of_speech
         purged.definition = nt.definition
         purged.etymology = nt.etymology
         purged.notes = nt.notes
@@ -189,10 +189,19 @@ class SenseParser:
         return purged
 
     @staticmethod
-    def update_relations(sense: Sense, nt: SenseTuple):
-        sense.domains.add([DomainParser.persist(d) for d in SenseParser.extract_domains(nt.xml_dict)])
-        sense.regions.add([RegionParser.persist(r) for r in SenseParser.extract_regions(nt.xml_dict)])
-        sense.semantic_classes.add([SemanticClassParser.persist(s) for s in SenseParser.extract_semantic_classes(nt.xml_dict)])
+    def update_relations(sense: Sense, nt: SenseTuple) -> Sense:
+        sense.domains.add(
+            *[DomainParser.persist(d) for d in SenseParser.extract_domains(nt.xml_dict)]
+        )
+        sense.regions.add(
+            *[RegionParser.persist(r) for r in SenseParser.extract_regions(nt.xml_dict)]
+        )
+        sense.semantic_classes.add(
+            *[SemanticClassParser.persist(s) for s in SenseParser.extract_semantic_classes(nt.xml_dict)]
+        )
+        sense.synset.add(
+            *[SynSetParser.persist(r) for r in SenseParser.extract_regions(nt.xml_dict)]
+        )
         return sense
 
     @staticmethod
@@ -213,6 +222,13 @@ class SenseParser:
     def extract_semantic_classes(d: Dict) -> List[SemanticClassTuple]:
         try:
             return [SemanticClassParser.parse(semantic_class_name['@type']) for semantic_class_name in d['semanticClass']]
+        except KeyError as _:
+            return list()
+
+    @staticmethod
+    def extract_synsets(d: Dict) -> List[SynSetTuple]:
+        try:
+            return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
         except KeyError as _:
             return list()
 
@@ -260,6 +276,21 @@ class RegionParser:
         region.name = nt.name
         region.save()
         return region
+
+
+class SynSetParser:
+
+    @staticmethod
+    def parse(n: str) -> SynSetTuple:
+        name = make_label_from_camel_case(n)
+        return SynSetTuple(name=name, slug=slugify(name))
+
+    @staticmethod
+    def persist(nt: SynSetTuple):
+        synset, _ = SynSet.objects.get_or_create(slug=nt.slug)
+        synset.name = nt.name
+        synset.save()
+        return synset
 
 
 class FileReader:

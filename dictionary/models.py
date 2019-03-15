@@ -258,6 +258,9 @@ class Salience(models.Model):
         }
 
 
+SongTuple = namedtuple("SongTuple", ["xml_id", "slug", "title", "artist_name", "artist_slug", "release_date", "release_date_string", "album"])
+
+
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
     xml_id = models.CharField('XML id', db_index=True, max_length=50, null=True, blank=True)
@@ -282,6 +285,9 @@ class Song(models.Model):
 
     def get_absolute_url(self):
         return reverse('song', args=[str(self.slug)])
+
+
+SynSetTuple = namedtuple("SynSetTuple", ["name", "slug"])
 
 
 class SynSet(models.Model):
@@ -355,6 +361,9 @@ class Region(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
+XrefTuple = namedtuple("XrefTuple", ["xref_word", "xref_type", "target_lemma", "target_slug", "target_id", "position", "frequency"])
+
+
 class Xref(models.Model):
     id = models.AutoField(primary_key=True)
     xref_word = models.CharField(db_index=True, max_length=1000, blank=True, null=True)
@@ -387,6 +396,9 @@ class Xref(models.Model):
         return base
 
 
+CollocateTuple = namedtuple("CollocateTuple", ["collocate_lemma", "source_sense_xml_id", "target_slug", "target_id", "frequency"])
+
+
 class Collocate(models.Model):
     id = models.AutoField(primary_key=True)
     collocate_lemma = models.CharField(max_length=1000, blank=True, null=True)
@@ -415,6 +427,9 @@ class Collocate(models.Model):
         return base
 
 
+SenseRhymeTuple = namedtuple("SenseRhymeTuple", ["rhyme", "rhyme_slug", "parent_sense_xml_id", "frequency"])
+
+
 class SenseRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     rhyme = models.CharField(max_length=1000, blank=True, null=True)
@@ -436,6 +451,9 @@ class SenseRhyme(models.Model):
             "parent_sense_xml_id": self.parent_sense_xml_id,
             "frequency": self.frequency,
         }
+
+
+ExampleTuple = namedtuple('ExampleTuple', ["artist_name", "artist_slug", "song_title", "release_date", "release_date_string", "album", "lyric_text"])
 
 
 class Example(models.Model):
@@ -463,6 +481,9 @@ class Example(models.Model):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
 
 
+ExampleRhymeTuple = namedtuple("ExampleRhymeTuple", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_one_target_id", "word_two_target_id", "word_one_position", "word_two_position"])
+
+
 class ExampleRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     word_one = models.CharField(max_length=1000, blank=True, null=True)
@@ -479,7 +500,10 @@ class ExampleRhyme(models.Model):
         ordering = ["word_one", "word_two"]
 
     def __str__(self):
-        return self.word_one + ' - ' + self.word_two
+        return f"{self.word_one}-{self.word_two}"
+
+
+LyricLinkTuple = namedtuple("LyricLinkTuple", ["link_type", "link_text", "target_lemma", "target_slug", "position"])
 
 
 class LyricLink(models.Model):
@@ -496,6 +520,9 @@ class LyricLink(models.Model):
 
     def __str__(self):
         return self.link_text
+
+
+NamedEntityTuple = namedtuple("NamedEntityTuple", ["name", "slug", "pref_label", "pref_label_slug", "entity_type"])
 
 
 class NamedEntity(models.Model):
