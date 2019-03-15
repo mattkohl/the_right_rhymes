@@ -28,8 +28,6 @@ class TestJSONConverter(BaseXMLParserTest):
         file_read = FileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
         as_dict = JSONConverter.parse_to_dict(file_read)
         self.assertTrue('dictionary' in as_dict)
-        import json
-        print(json.dumps(as_dict, indent=4))
 
 
 class TestDictionaryParser(BaseTest):
@@ -74,7 +72,7 @@ class TestEntryParser(BaseXMLParserTest):
     def test_extract_sense(self):
         result = EntryParser.extract_senses(self.zootie_entry_nt)
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].slug, 'zootie')
+        self.assertEqual(result[0].slug, 'zootie#e11730_n_1')
 
 
 class TestFormParser(BaseXMLParserTest):
