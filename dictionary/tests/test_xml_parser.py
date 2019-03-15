@@ -101,6 +101,11 @@ class TestSenseParser(BaseXMLParserTest):
         sense = SenseParser.persist(self.zootie_sense_nt)
         result = SenseParser.update_relations(sense, self.zootie_sense_nt)
         self.assertEqual(result.domains.count(), 2)
+        self.assertEqual(result.regions.count(), 0)
+        self.assertEqual(result.semantic_classes.count(), 0)
+        self.assertEqual(result.synset.count(), 1)
+
+
 
 # class TestTRRExample(BaseTest):
 #

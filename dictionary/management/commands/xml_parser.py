@@ -200,7 +200,7 @@ class SenseParser:
             *[SemanticClassParser.persist(s) for s in SenseParser.extract_semantic_classes(nt.xml_dict)]
         )
         sense.synset.add(
-            *[SynSetParser.persist(r) for r in SenseParser.extract_regions(nt.xml_dict)]
+            *[SynSetParser.persist(r) for r in SenseParser.extract_synsets(nt.xml_dict)]
         )
         return sense
 
@@ -320,6 +320,7 @@ class JSONConverter:
                       'domain',
                       'region',
                       'semanticClass',
+                      'synSetRef'
                       'collocate',
                       'xref',
                       'feat',
