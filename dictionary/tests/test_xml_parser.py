@@ -52,6 +52,11 @@ class TestEntryParser(BaseXMLParserTest):
         queried: Entry = Entry.objects.get(slug="zootie")
         self.assertEqual(persisted, queried)
 
+    def test_purge_relations(self):
+        entry = EntryParser.persist(self.zootie_entry_nt)
+        EntryParser.update_relations(entry, self.zootie_entry_nt)
+        self.assertEqual(entry.forms.count(), 3)
+
     def test_persist_and_update(self):
         EntryParser.persist(self.zootie_entry_nt)
         update_parsed: EntryTuple = EntryParser.parse(self.zootie_entry_dict_forms_updated)
@@ -104,6 +109,19 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(result.regions.count(), 0)
         self.assertEqual(result.semantic_classes.count(), 0)
         self.assertEqual(result.synset.count(), 1)
+
+    def test_purge_relations(self):
+        sense = SenseParser.persist(self.zootie_sense_nt)
+        result = SenseParser.update_relations(sense, self.zootie_sense_nt)
+        self.assertEqual(result.domains.count(), 2)
+        self.assertEqual(result.regions.count(), 0)
+        self.assertEqual(result.semantic_classes.count(), 0)
+        self.assertEqual(result.synset.count(), 1)
+        result = SenseParser.purge_relations(sense)
+        self.assertEqual(result.domains.count(), 0)
+        self.assertEqual(result.regions.count(), 0)
+        self.assertEqual(result.semantic_classes.count(), 0)
+        self.assertEqual(result.synset.count(), 0)
 
 
 

@@ -64,8 +64,19 @@ class EntryParser:
 
     @staticmethod
     def purge_relations(entry: Entry) -> Entry:
-        entry.forms.remove()
-        entry.senses.remove()
+        entry.forms.clear()
+        entry.senses.clear()
+        return entry
+
+    @staticmethod
+    def update_relations(entry: Entry, nt: EntryTuple) -> Entry:
+        entry.forms.add(
+            *[FormParser.persist(d) for d in EntryParser.extract_forms(nt)]
+        )
+        entry.senses.add(
+            *[SenseParser.persist(r) for r in EntryParser.extract_senses(nt)]
+        )
+
         return entry
 
     @staticmethod
@@ -161,16 +172,16 @@ class SenseParser:
 
     @staticmethod
     def purge_relations(sense: Sense) -> Sense:
-        sense.examples.remove()
-        sense.domains.remove()
-        sense.regions.remove()
-        sense.semantic_classes.remove()
-        sense.synset.remove()
-        sense.xrefs.remove()
-        sense.sense_rhymes.remove()
-        sense.collocates.remove()
-        sense.features_entities.remove()
-        sense.cites_artists.remove()
+        sense.examples.clear()
+        sense.domains.clear()
+        sense.regions.clear()
+        sense.semantic_classes.clear()
+        sense.synset.clear()
+        sense.xrefs.clear()
+        sense.sense_rhymes.clear()
+        sense.collocates.clear()
+        sense.features_entities.clear()
+        sense.cites_artists.clear()
         return sense
 
     @staticmethod
