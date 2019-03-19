@@ -53,9 +53,13 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(persisted, queried)
 
     def test_purge_relations(self):
+        self.assertEqual(Form.objects.count(), 0)
         entry = EntryParser.persist(self.zootie_entry_nt)
-        EntryParser.update_relations(entry, self.zootie_entry_nt)
-        self.assertEqual(entry.forms.count(), 3)
+        updated = EntryParser.update_relations(entry, self.zootie_entry_nt)
+        self.assertEqual(updated.forms.count(), 1)
+        self.assertEqual(Form.objects.count(), 1)
+        EntryParser.purge_relations(updated)
+        self.assertEqual(updated.forms.count(), 0)
 
     def test_persist_and_update(self):
         EntryParser.persist(self.zootie_entry_nt)
