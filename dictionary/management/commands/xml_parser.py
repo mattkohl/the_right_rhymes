@@ -6,7 +6,7 @@ from os import listdir
 from os.path import isfile, join
 from typing import List, Dict, AnyStr, Generator, Any
 from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, SenseTuple, DomainTuple, RegionTuple, \
-    SemanticClassTuple, SynSetTuple
+    SemanticClassTuple, SynSetTuple, Sense
 
 import xmltodict
 
@@ -69,15 +69,10 @@ class EntryParser:
         return entry
 
     @staticmethod
-    def update_relations(entry: Entry, nt: EntryTuple) -> Entry:
-        entry.forms.add(
-            *[FormParser.persist(d) for d in EntryParser.extract_forms(nt)]
-        )
-        entry.senses.add(
-            *[SenseParser.persist(r) for r in EntryParser.extract_senses(nt)]
-        )
-
-        return entry
+    def update_relations(entry: Entry, nt: EntryTuple):
+        forms: Generator[Form, None, None] = EntryParser.process_forms(entry, EntryParser.extract_forms(nt))
+        senses: Generator[Sense, None, None] = EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
+        return forms, senses
 
     @staticmethod
     def persist(nt: EntryTuple) -> Entry:
