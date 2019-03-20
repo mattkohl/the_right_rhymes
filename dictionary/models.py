@@ -88,6 +88,7 @@ class Editor(models.Model):
 
 
 EntryTuple = namedtuple("EntryTuple", ["headword", "slug", "sort_key", "letter", "publish", "xml_dict"])
+EntryRelationsTuple = namedtuple("EntryRelationsTuple", ["forms", "senses"])
 
 
 class Entry(models.Model):

@@ -4,9 +4,9 @@ import logging
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
-from typing import List, Dict, AnyStr, Generator, Any
+from typing import List, Dict, AnyStr, Generator, Any, Iterator
 from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, SenseTuple, DomainTuple, RegionTuple, \
-    SemanticClassTuple, SynSetTuple, Sense
+    SemanticClassTuple, SynSetTuple, Sense, EntryRelationsTuple
 
 import xmltodict
 
@@ -69,10 +69,10 @@ class EntryParser:
         return entry
 
     @staticmethod
-    def update_relations(entry: Entry, nt: EntryTuple):
-        forms: Generator[Form, None, None] = EntryParser.process_forms(entry, EntryParser.extract_forms(nt))
-        senses: Generator[Sense, None, None] = EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
-        return forms, senses
+    def update_relations(entry: Entry, nt: EntryTuple) -> (Entry, EntryRelationsTuple):
+        forms = EntryParser.process_forms(entry, EntryParser.extract_forms(nt))
+        senses = EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
+        return entry, EntryRelationsTuple(list(forms), list(senses))
 
     @staticmethod
     def persist(nt: EntryTuple) -> Entry:
@@ -95,7 +95,7 @@ class EntryParser:
             return [FormParser.parse(form) for lexeme in lexemes for form in lexeme['forms']]
 
     @staticmethod
-    def process_forms(entry: Entry, forms: List[FormTuple]) -> Generator[Form, None, None]:
+    def process_forms(entry: Entry, forms: List[FormTuple]) -> Iterator[Form]:
         for nt in forms:
             form = FormParser.persist(nt)
             entry.forms.add(form)
@@ -111,10 +111,10 @@ class EntryParser:
             return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
 
     @staticmethod
-    def process_senses(entry: Entry, senses: List[SenseTuple]) -> Generator[Sense, None, None]:
+    def process_senses(entry: Entry, senses: List[SenseTuple]) -> Iterator[Sense]:
         for nt in senses:
             sense = SenseParser.persist(nt)
-            entry.forms.add(sense)
+            entry.senses.add(sense)
             yield sense
 
 
