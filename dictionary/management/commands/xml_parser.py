@@ -5,8 +5,8 @@ from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
 from typing import List, Dict, AnyStr, Generator, Any, Iterator
-from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, SenseTuple, DomainTuple, RegionTuple, \
-    SemanticClassTuple, SynSetTuple, Sense, EntryRelationsTuple
+from dictionary.models import Place, Form, Entry, EntryParsed, FormParsed, SenseParsed, DomainParsed, RegionParsed, \
+    SemanticClassParsed, SynSetParsed, Sense, EntryRelations, SenseRelations
 
 import xmltodict
 
@@ -45,10 +45,10 @@ class DictionaryParser:
 class EntryParser:
 
     @staticmethod
-    def parse(d: Dict) -> EntryTuple:
+    def parse(d: Dict) -> EntryParsed:
         try:
             headword = d['head']['headword']
-            nt = EntryTuple(
+            nt = EntryParsed(
                 headword=headword,
                 slug=slugify(headword),
                 sort_key=move_definite_article_to_end(headword).lower(),
@@ -69,13 +69,14 @@ class EntryParser:
         return entry
 
     @staticmethod
-    def update_relations(entry: Entry, nt: EntryTuple) -> (Entry, EntryRelationsTuple):
-        forms = EntryParser.process_forms(entry, EntryParser.extract_forms(nt))
+    def update_relations(entry: Entry, nt: EntryParsed) -> (Entry, EntryRelations):
+        EntryParser.purge_relations(entry)
+        forms = yield from EntryParser.process_forms(entry, EntryParser.extract_forms(nt))
         senses = EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
-        return entry, EntryRelationsTuple(list(forms), list(senses))
+        return entry, EntryRelations(list(forms), list(senses))
 
     @staticmethod
-    def persist(nt: EntryTuple) -> Entry:
+    def persist(nt: EntryParsed) -> Entry:
         entry, _ = Entry.objects.get_or_create(headword=nt.headword, slug=nt.slug)
         purged = EntryParser.purge_relations(entry)
         purged.publish = nt.publish
@@ -86,7 +87,7 @@ class EntryParser:
         return purged
 
     @staticmethod
-    def extract_forms(nt: EntryTuple) -> List[FormTuple]:
+    def extract_forms(nt: EntryParsed) -> List[FormParsed]:
         try:
             lexemes = nt.xml_dict["senses"]
         except Exception as e:
@@ -95,14 +96,14 @@ class EntryParser:
             return [FormParser.parse(form) for lexeme in lexemes for form in lexeme['forms']]
 
     @staticmethod
-    def process_forms(entry: Entry, forms: List[FormTuple]) -> Iterator[Form]:
+    def process_forms(entry: Entry, forms: List[FormParsed]) -> Iterator[Form]:
         for nt in forms:
             form = FormParser.persist(nt)
             entry.forms.add(form)
             yield form
 
     @staticmethod
-    def extract_senses(nt: EntryTuple):
+    def extract_senses(nt: EntryParsed):
         try:
             lexemes = nt.xml_dict["senses"]
         except Exception as e:
@@ -111,7 +112,7 @@ class EntryParser:
             return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
 
     @staticmethod
-    def process_senses(entry: Entry, senses: List[SenseTuple]) -> Iterator[Sense]:
+    def process_senses(entry: Entry, senses: List[SenseParsed]) -> Iterator[Sense]:
         for nt in senses:
             sense = SenseParser.persist(nt)
             entry.senses.add(sense)
@@ -121,10 +122,10 @@ class EntryParser:
 class FormParser:
 
     @staticmethod
-    def parse(d: Dict) -> FormTuple:
+    def parse(d: Dict) -> FormParsed:
         try:
             label, freq = d['form'][0]['#text'], d["form"][0]["@freq"]
-            nt = FormTuple(
+            nt = FormParsed(
                 slug=slugify(label),
                 label=label,
                 frequency=int(freq)
@@ -135,7 +136,7 @@ class FormParser:
             return nt
 
     @staticmethod
-    def persist(nt: FormTuple) -> Form:
+    def persist(nt: FormParsed) -> Form:
         form, _ = Form.objects.get_or_create(slug=nt.slug)
         form.frequency = nt.frequency
         form.save()
@@ -145,11 +146,11 @@ class FormParser:
 class SenseParser:
     
     @staticmethod
-    def parse(d: Dict, headword: str, pos: str, publish: bool) -> SenseTuple:
+    def parse(d: Dict, headword: str, pos: str, publish: bool) -> SenseParsed:
         try:
             notes = '; '.join([note['#text'].strip() for note in d['note']]) if 'notes' in d else ""
             etymology = '; '.join([etymology['text'] for etymology in d['etym']]) if 'etym' in d else ""
-            nt = SenseTuple(
+            nt = SenseParsed(
                 headword=headword,
                 slug=f"{slugify(headword)}#{d['@id']}",
                 publish=publish,
@@ -180,7 +181,7 @@ class SenseParser:
         return sense
 
     @staticmethod
-    def persist(nt: SenseTuple) -> Sense:
+    def persist(nt: SenseParsed) -> Sense:
         sense, _ = Sense.objects.get_or_create(xml_id=nt.xml_id)
         purged = SenseParser.purge_relations(sense)
         purged.json = nt.xml_dict
@@ -195,44 +196,75 @@ class SenseParser:
         return purged
 
     @staticmethod
-    def update_relations(sense: Sense, nt: SenseTuple) -> Sense:
-        sense.domains.add(
-            *[DomainParser.persist(d) for d in SenseParser.extract_domains(nt.xml_dict)]
+    def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
+        domains = yield from SenseParser.process_domains(nt, sense)
+        regions = yield from SenseParser.process_regions(nt, sense)
+        semantic_classes = yield from SenseParser.process_semantic_classes(nt, sense)
+        synset = yield from SenseParser.process_synsets(nt, sense)
+        return sense, SenseRelations(
+            examples=[],
+            domains=domains,
+            regions=regions,
+            semantic_classes=semantic_classes,
+            synset=synset,
+            xrefs=[],
+            sense_rhymes=[],
+            collocates=[],
+            features_entities=[],
+            cites_artists=[]
         )
-        sense.regions.add(
-            *[RegionParser.persist(r) for r in SenseParser.extract_regions(nt.xml_dict)]
-        )
-        sense.semantic_classes.add(
-            *[SemanticClassParser.persist(s) for s in SenseParser.extract_semantic_classes(nt.xml_dict)]
-        )
-        sense.synset.add(
-            *[SynSetParser.persist(r) for r in SenseParser.extract_synsets(nt.xml_dict)]
-        )
-        return sense
 
     @staticmethod
-    def extract_domains(d: Dict) -> List[DomainTuple]:
+    def process_synsets(nt, sense):
+        for r in SenseParser.extract_synsets(nt.xml_dict):
+            synset = SynSetParser.persist(r)
+            sense.synset.add(synset)
+            yield synset
+
+    @staticmethod
+    def process_semantic_classes(nt, sense):
+        for s in SenseParser.extract_semantic_classes(nt.xml_dict):
+            semantic_class = SemanticClassParser.persist(s)
+            sense.semantic_classes.add(semantic_class)
+            yield semantic_class
+
+    @staticmethod
+    def process_regions(nt, sense):
+        for r in SenseParser.extract_regions(nt.xml_dict):
+            region = RegionParser.persist(r)
+            sense.regions.add(region)
+            yield region
+
+    @staticmethod
+    def process_domains(nt: SenseParsed, sense: Sense) -> Iterator[Domain]:
+        for d in SenseParser.extract_domains(nt.xml_dict):
+            domain = DomainParser.persist(d)
+            sense.domains.add(domain)
+            yield domain
+
+    @staticmethod
+    def extract_domains(d: Dict) -> List[DomainParsed]:
         try:
             return [DomainParser.parse(domain_name['@type']) for domain_name in d['domain']]
         except KeyError as _:
             return list()
 
     @staticmethod
-    def extract_regions(d: Dict) -> List[DomainTuple]:
+    def extract_regions(d: Dict) -> List[DomainParsed]:
         try:
             return [RegionParser.parse(region_name['@type']) for region_name in d['region']]
         except KeyError as _:
             return list()
 
     @staticmethod
-    def extract_semantic_classes(d: Dict) -> List[SemanticClassTuple]:
+    def extract_semantic_classes(d: Dict) -> List[SemanticClassParsed]:
         try:
             return [SemanticClassParser.parse(semantic_class_name['@type']) for semantic_class_name in d['semanticClass']]
         except KeyError as _:
             return list()
 
     @staticmethod
-    def extract_synsets(d: Dict) -> List[SynSetTuple]:
+    def extract_synsets(d: Dict) -> List[SynSetParsed]:
         try:
             return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
         except KeyError as _:
@@ -242,12 +274,12 @@ class SenseParser:
 class DomainParser:
 
     @staticmethod
-    def parse(n: str) -> DomainTuple:
+    def parse(n: str) -> DomainParsed:
         name = make_label_from_camel_case(n)
-        return DomainTuple(name=name, slug=slugify(name))
+        return DomainParsed(name=name, slug=slugify(name))
 
     @staticmethod
-    def persist(nt: DomainTuple):
+    def persist(nt: DomainParsed):
         domain, _ = Domain.objects.get_or_create(slug=nt.slug)
         domain.name = nt.name
         domain.save()
@@ -257,12 +289,12 @@ class DomainParser:
 class SemanticClassParser:
 
     @staticmethod
-    def parse(n: str) -> SemanticClassTuple:
+    def parse(n: str) -> SemanticClassParsed:
         name = make_label_from_camel_case(n)
-        return SemanticClassTuple(name=name, slug=slugify(name))
+        return SemanticClassParsed(name=name, slug=slugify(name))
 
     @staticmethod
-    def persist(nt: SemanticClassTuple):
+    def persist(nt: SemanticClassParsed):
         semantic_class, _ = SemanticClass.objects.get_or_create(slug=nt.slug)
         semantic_class.name = nt.name
         semantic_class.save()
@@ -272,12 +304,12 @@ class SemanticClassParser:
 class RegionParser:
 
     @staticmethod
-    def parse(n: str) -> RegionTuple:
+    def parse(n: str) -> RegionParsed:
         name = make_label_from_camel_case(n)
-        return RegionTuple(name=name, slug=slugify(name))
+        return RegionParsed(name=name, slug=slugify(name))
 
     @staticmethod
-    def persist(nt: RegionTuple):
+    def persist(nt: RegionParsed):
         region, _ = Region.objects.get_or_create(slug=nt.slug)
         region.name = nt.name
         region.save()
@@ -287,12 +319,12 @@ class RegionParser:
 class SynSetParser:
 
     @staticmethod
-    def parse(n: str) -> SynSetTuple:
+    def parse(n: str) -> SynSetParsed:
         name = make_label_from_camel_case(n)
-        return SynSetTuple(name=name, slug=slugify(name))
+        return SynSetParsed(name=name, slug=slugify(name))
 
     @staticmethod
-    def persist(nt: SynSetTuple):
+    def persist(nt: SynSetParsed):
         synset, _ = SynSet.objects.get_or_create(slug=nt.slug)
         synset.name = nt.name
         synset.save()

@@ -13,7 +13,7 @@ from dictionary.utils import slugify, extract_short_name
 logger = logging.getLogger(__name__)
 
 
-ArtistTuple = namedtuple("Artist", ["name", "slug"])
+ArtistParsed = namedtuple("Artist", ["name", "slug"])
 
 
 class Artist(models.Model):
@@ -87,8 +87,8 @@ class Editor(models.Model):
         return self.name
 
 
-EntryTuple = namedtuple("EntryTuple", ["headword", "slug", "sort_key", "letter", "publish", "xml_dict"])
-EntryRelationsTuple = namedtuple("EntryRelationsTuple", ["forms", "senses"])
+EntryParsed = namedtuple("EntryParsed", ["headword", "slug", "sort_key", "letter", "publish", "xml_dict"])
+EntryRelations = namedtuple("EntryRelations", ["forms", "senses"])
 
 
 class Entry(models.Model):
@@ -117,7 +117,7 @@ class Entry(models.Model):
         return reverse('entry', args=[str(self.slug)])
 
 
-FormTuple = namedtuple("FormTuple", ["slug", "label", "frequency"])
+FormParsed = namedtuple("FormParsed", ["slug", "label", "frequency"])
 
 
 class Form(models.Model):
@@ -127,7 +127,7 @@ class Form(models.Model):
     frequency = models.IntegerField(blank=True, null=True)
 
 
-PlaceTuple = namedtuple("PlaceTuple", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
+PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
 
 
 class Place(models.Model):
@@ -158,7 +158,11 @@ class Place(models.Model):
         return place
 
 
-SenseTuple = namedtuple("SenseTuple", ["headword", "slug", "publish", "xml_id", "part_of_speech", "xml_dict", "definition", "notes", "etymology"])
+SenseParsed = namedtuple("SenseParsed", ["headword", "slug", "publish", "xml_id", "part_of_speech", "xml_dict", "definition", "notes", "etymology"])
+SenseRelations = namedtuple("SenseRelations",
+                            ["examples", "domains", "regions", "semantic_classes",
+                             "synset", "xrefs", "sense_rhymes", "collocates",
+                             "features_entities", "cites_artists"])
 
 
 class Sense(models.Model):
@@ -259,7 +263,7 @@ class Salience(models.Model):
         }
 
 
-SongTuple = namedtuple("SongTuple", ["xml_id", "slug", "title", "artist_name", "artist_slug", "release_date", "release_date_string", "album"])
+SongParsed = namedtuple("SongParsed", ["xml_id", "slug", "title", "artist_name", "artist_slug", "release_date", "release_date_string", "album"])
 
 
 class Song(models.Model):
@@ -288,7 +292,7 @@ class Song(models.Model):
         return reverse('song', args=[str(self.slug)])
 
 
-SynSetTuple = namedtuple("SynSetTuple", ["name", "slug"])
+SynSetParsed = namedtuple("SynSetParsed", ["name", "slug"])
 
 
 class SynSet(models.Model):
@@ -304,7 +308,7 @@ class SynSet(models.Model):
         return self.name
 
 
-SemanticClassTuple = namedtuple("SemanticClassTuple", ["name", "slug"])
+SemanticClassParsed = namedtuple("SemanticClassParsed", ["name", "slug"])
 
 
 class SemanticClass(models.Model):
@@ -324,7 +328,7 @@ class SemanticClass(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
-DomainTuple = namedtuple("DomainTuple", ["name", "slug"])
+DomainParsed = namedtuple("DomainParsed", ["name", "slug"])
 
 
 class Domain(models.Model):
@@ -343,7 +347,7 @@ class Domain(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
-RegionTuple = namedtuple("RegionTuple", ["name", "slug"])
+RegionParsed = namedtuple("RegionParsed", ["name", "slug"])
 
 
 class Region(models.Model):
@@ -362,7 +366,7 @@ class Region(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
-XrefTuple = namedtuple("XrefTuple", ["xref_word", "xref_type", "target_lemma", "target_slug", "target_id", "position", "frequency"])
+XrefParsed = namedtuple("XrefParsed", ["xref_word", "xref_type", "target_lemma", "target_slug", "target_id", "position", "frequency"])
 
 
 class Xref(models.Model):
@@ -397,7 +401,7 @@ class Xref(models.Model):
         return base
 
 
-CollocateTuple = namedtuple("CollocateTuple", ["collocate_lemma", "source_sense_xml_id", "target_slug", "target_id", "frequency"])
+CollocateParsed = namedtuple("CollocateParsed", ["collocate_lemma", "source_sense_xml_id", "target_slug", "target_id", "frequency"])
 
 
 class Collocate(models.Model):
@@ -428,7 +432,7 @@ class Collocate(models.Model):
         return base
 
 
-SenseRhymeTuple = namedtuple("SenseRhymeTuple", ["rhyme", "rhyme_slug", "parent_sense_xml_id", "frequency"])
+SenseRhymeParsed = namedtuple("SenseRhymeParsed", ["rhyme", "rhyme_slug", "parent_sense_xml_id", "frequency"])
 
 
 class SenseRhyme(models.Model):
@@ -454,7 +458,7 @@ class SenseRhyme(models.Model):
         }
 
 
-ExampleTuple = namedtuple('ExampleTuple', ["artist_name", "artist_slug", "song_title", "release_date", "release_date_string", "album", "lyric_text"])
+ExampleParsed = namedtuple('ExampleParsed', ["artist_name", "artist_slug", "song_title", "release_date", "release_date_string", "album", "lyric_text"])
 
 
 class Example(models.Model):
@@ -482,7 +486,7 @@ class Example(models.Model):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
 
 
-ExampleRhymeTuple = namedtuple("ExampleRhymeTuple", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_one_target_id", "word_two_target_id", "word_one_position", "word_two_position"])
+ExampleRhymeParsed = namedtuple("ExampleRhymeParsed", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_one_target_id", "word_two_target_id", "word_one_position", "word_two_position"])
 
 
 class ExampleRhyme(models.Model):
@@ -504,7 +508,7 @@ class ExampleRhyme(models.Model):
         return f"{self.word_one}-{self.word_two}"
 
 
-LyricLinkTuple = namedtuple("LyricLinkTuple", ["link_type", "link_text", "target_lemma", "target_slug", "position"])
+LyricLinkParsed = namedtuple("LyricLinkParsed", ["link_type", "link_text", "target_lemma", "target_slug", "position"])
 
 
 class LyricLink(models.Model):
@@ -523,7 +527,7 @@ class LyricLink(models.Model):
         return self.link_text
 
 
-NamedEntityTuple = namedtuple("NamedEntityTuple", ["name", "slug", "pref_label", "pref_label_slug", "entity_type"])
+NamedEntityParsed = namedtuple("NamedEntityParsed", ["name", "slug", "pref_label", "pref_label_slug", "entity_type"])
 
 
 class NamedEntity(models.Model):

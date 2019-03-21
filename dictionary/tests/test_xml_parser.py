@@ -1,6 +1,6 @@
 from collections import Iterator
 
-from dictionary.models import Place, Form, Entry, EntryTuple, FormTuple, Sense
+from dictionary.models import Place, Form, Entry, EntryParsed, FormParsed, Sense
 from dictionary.tests.base import BaseXMLParserTest, BaseTest
 from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser, \
     FormParser, SenseParser
@@ -63,13 +63,13 @@ class TestEntryParser(BaseXMLParserTest):
 
     def test_persist_and_update(self):
         EntryParser.persist(self.zootie_entry_nt)
-        update_parsed: EntryTuple = EntryParser.parse(self.zootie_entry_dict_forms_updated)
+        update_parsed: EntryParsed = EntryParser.parse(self.zootie_entry_dict_forms_updated)
         update_persisted: Entry = EntryParser.persist(update_parsed)
         queried: Entry = Entry.objects.get(slug="zootie")
         self.assertEqual(update_persisted, queried)
 
     def test_extract_forms(self):
-        result: EntryTuple = EntryParser.extract_forms(self.zootie_entry_nt)
+        result: EntryParsed = EntryParser.extract_forms(self.zootie_entry_nt)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].slug, 'zootie')
 
