@@ -1,5 +1,7 @@
 from collections import Iterator
 
+from typing import List
+
 from dictionary.models import Place, Form, Entry, EntryParsed, FormParsed, Sense
 from dictionary.tests.base import BaseXMLParserTest, BaseTest
 from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser, \
@@ -74,9 +76,11 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(result[0].slug, 'zootie')
 
     def test_process_forms(self):
+        self.assertEqual(Form.objects.count(), 0)
         zootie: Entry = EntryParser.persist(self.zootie_entry_nt)
-        forms: Iterator[Form] = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
-        self.assertEqual(next(forms), zootie.forms.first())
+        forms: List[Form] = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
+        self.assertEqual(forms[0], zootie.forms.first())
+        self.assertEqual(Form.objects.count(), 1)
 
     def test_extract_sense(self):
         result = EntryParser.extract_senses(self.zootie_entry_nt)
@@ -108,24 +112,24 @@ class TestSenseParser(BaseXMLParserTest):
 
     def test_update_relations(self):
         sense = SenseParser.persist(self.zootie_sense_nt)
-        result = SenseParser.update_relations(sense, self.zootie_sense_nt)
-        self.assertEqual(result.domains.count(), 2)
-        self.assertEqual(result.regions.count(), 0)
-        self.assertEqual(result.semantic_classes.count(), 0)
-        self.assertEqual(result.synset.count(), 1)
+        sense_updated, relations = SenseParser.update_relations(sense, self.zootie_sense_nt)
+        self.assertEqual(sense_updated.domains.count(), 2)
+        self.assertEqual(sense_updated.regions.count(), 0)
+        self.assertEqual(sense_updated.semantic_classes.count(), 0)
+        self.assertEqual(sense_updated.synset.count(), 1)
 
     def test_purge_relations(self):
         sense = SenseParser.persist(self.zootie_sense_nt)
-        result = SenseParser.update_relations(sense, self.zootie_sense_nt)
-        self.assertEqual(result.domains.count(), 2)
-        self.assertEqual(result.regions.count(), 0)
-        self.assertEqual(result.semantic_classes.count(), 0)
-        self.assertEqual(result.synset.count(), 1)
-        result = SenseParser.purge_relations(sense)
-        self.assertEqual(result.domains.count(), 0)
-        self.assertEqual(result.regions.count(), 0)
-        self.assertEqual(result.semantic_classes.count(), 0)
-        self.assertEqual(result.synset.count(), 0)
+        sense_updated, relations = SenseParser.update_relations(sense, self.zootie_sense_nt)
+        self.assertEqual(sense_updated.domains.count(), 2)
+        self.assertEqual(sense_updated.regions.count(), 0)
+        self.assertEqual(sense_updated.semantic_classes.count(), 0)
+        self.assertEqual(sense_updated.synset.count(), 1)
+        sense_updated = SenseParser.purge_relations(sense)
+        self.assertEqual(sense_updated.domains.count(), 0)
+        self.assertEqual(sense_updated.regions.count(), 0)
+        self.assertEqual(sense_updated.semantic_classes.count(), 0)
+        self.assertEqual(sense_updated.synset.count(), 0)
 
 
 

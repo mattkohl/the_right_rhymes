@@ -5,8 +5,10 @@ from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
 from typing import List, Dict, AnyStr, Generator, Any, Iterator
+
+from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import Place, Form, Entry, EntryParsed, FormParsed, SenseParsed, DomainParsed, RegionParsed, \
-    SemanticClassParsed, SynSetParsed, Sense, EntryRelations, SenseRelations
+    SemanticClassParsed, SynSetParsed, Sense, EntryRelations, SenseRelations, ExampleParsed
 
 import xmltodict
 
@@ -71,9 +73,10 @@ class EntryParser:
     @staticmethod
     def update_relations(entry: Entry, nt: EntryParsed) -> (Entry, EntryRelations):
         EntryParser.purge_relations(entry)
-        forms = yield from EntryParser.process_forms(entry, EntryParser.extract_forms(nt))
-        senses = EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
-        return entry, EntryRelations(list(forms), list(senses))
+        return entry, EntryRelations(
+            forms=EntryParser.process_forms(entry, EntryParser.extract_forms(nt)),
+            senses=EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
+        )
 
     @staticmethod
     def persist(nt: EntryParsed) -> Entry:
@@ -96,11 +99,11 @@ class EntryParser:
             return [FormParser.parse(form) for lexeme in lexemes for form in lexeme['forms']]
 
     @staticmethod
-    def process_forms(entry: Entry, forms: List[FormParsed]) -> Iterator[Form]:
-        for nt in forms:
-            form = FormParser.persist(nt)
+    def process_forms(entry: Entry, forms: List[FormParsed]) -> List[Form]:
+        def process_form(form: Form) -> Form:
             entry.forms.add(form)
-            yield form
+            return form
+        return [process_form(FormParser.persist(nt)) for nt in forms]
 
     @staticmethod
     def extract_senses(nt: EntryParsed):
@@ -112,12 +115,11 @@ class EntryParser:
             return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
 
     @staticmethod
-    def process_senses(entry: Entry, senses: List[SenseParsed]) -> Iterator[Sense]:
-        for nt in senses:
-            sense = SenseParser.persist(nt)
+    def process_senses(entry: Entry, senses: List[SenseParsed]) -> List[Sense]:
+        def process_sense(sense: Sense) -> Sense:
             entry.senses.add(sense)
-            yield sense
-
+            return sense
+        return [process_sense(SenseParser.persist(nt)) for nt in senses]
 
 class FormParser:
 
@@ -197,11 +199,12 @@ class SenseParser:
 
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
+        _ = SenseParser.purge_relations(sense)
         domains = yield from SenseParser.process_domains(nt, sense)
         regions = yield from SenseParser.process_regions(nt, sense)
         semantic_classes = yield from SenseParser.process_semantic_classes(nt, sense)
         synset = yield from SenseParser.process_synsets(nt, sense)
-        return sense, SenseRelations(
+        relations = SenseRelations(
             examples=[],
             domains=domains,
             regions=regions,
@@ -213,6 +216,7 @@ class SenseParser:
             features_entities=[],
             cites_artists=[]
         )
+        return sense, relations
 
     @staticmethod
     def process_synsets(nt, sense):
@@ -269,6 +273,40 @@ class SenseParser:
             return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
         except KeyError as _:
             return list()
+
+
+class ExampleParser:
+
+    @staticmethod
+    def parse(d: Dict) -> ExampleParsed:
+        try:
+            artist_name = d['artist']['#text'] if isinstance(d['artist'], OrderedDict) else d['artist']
+            nt = ExampleParsed(
+                artist_name=artist_name,
+                artist_slug=slugify(artist_name),
+                song_title=d['songTitle'],
+                release_date=clean_up_date(d['date']),
+                release_date_string=d['date'],
+                album=d['album'],
+                lyric_text=d['lyric']['text'],
+                xml_id=d["@id"]
+            )
+        except Exception as e:
+            raise KeyError(f"Example parse failed: {e}")
+        else:
+            return nt
+
+    @staticmethod
+    def persist(nt: ExampleParsed):
+        example, _ = Example.objects.get_or_create(song_title=nt.song_title,
+                                                   artist_name=nt.artist_name,
+                                                   release_date=nt.release_date,
+                                                   release_date_string=nt.release_date_string,
+                                                   album=nt.album,
+                                                   lyric_text=nt.lyric_text)
+        example.artist_slug = nt.artist_slug
+        example.save()
+        return example
 
 
 class DomainParser:
