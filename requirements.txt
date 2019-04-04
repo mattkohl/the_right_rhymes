@@ -3,7 +3,7 @@ bcrypt==3.1.4
 cffi==1.11.2
 click==6.7
 cryptography==2.3.1
-Django==2.1
+Django>=2.1.6
 django-crispy-forms==1.7.2
 django-extensions==2.1.1
 djangorestframework==3.8.2
@@ -12,7 +12,7 @@ geographiclib==1.49
 geopy==1.16.0
 gunicorn==19.7.1
 idna==2.6
-paramiko==2.4.1
+paramiko>=2.4.2
 psycopg2==2.7.5
 psycopg2-binary==2.7.5
 pyasn1==0.4.2
