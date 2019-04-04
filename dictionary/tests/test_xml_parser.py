@@ -4,18 +4,22 @@ from typing import List
 
 from dictionary.models import Place, Form, Entry, EntryParsed, FormParsed, Sense
 from dictionary.tests.base import BaseXMLParserTest, BaseTest
-from dictionary.management.commands.xml_parser import FileReader, JSONConverter, DictionaryParser, EntryParser, \
-    FormParser, SenseParser
+from dictionary.ingestion.json_converter import JSONConverter
+from dictionary.ingestion.xml_file_reader import XmlFileReader
+from dictionary.ingestion.sense_parser import SenseParser
+from dictionary.ingestion.form_parser import FormParser
+from dictionary.ingestion.entry_parser import EntryParser
+from dictionary.ingestion.dictionary_parser import DictionaryParser
 
 
 class TestFileReader(BaseXMLParserTest):
 
     def test_cannot_read_file(self):
         with self.assertRaises(Exception):
-            FileReader.read_xml_file("foo.xml")
+            XmlFileReader.read_xml_file("foo.xml")
 
     def test_xml_dict(self):
-        result = FileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
+        result = XmlFileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
         self.assertIn('<?xml version="1.0"', str(result))
 
 
@@ -23,11 +27,11 @@ class TestJSONConverter(BaseXMLParserTest):
 
     def test_malformed_file(self):
         with self.assertRaises(Exception):
-            x = FileReader.read_xml_file("dictionary/tests/resources/malformed.xml")
+            x = XmlFileReader.read_xml_file("dictionary/tests/resources/malformed.xml")
             JSONConverter.parse_to_dict(x)
 
     def test_json_parse(self):
-        file_read = FileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
+        file_read = XmlFileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
         as_dict = JSONConverter.parse_to_dict(file_read)
         self.assertTrue('dictionary' in as_dict)
 
@@ -117,19 +121,22 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(sense_updated.regions.count(), 0)
         self.assertEqual(sense_updated.semantic_classes.count(), 0)
         self.assertEqual(sense_updated.synset.count(), 1)
+        self.assertEqual(sense_updated.examples.count(), 5)
 
     def test_purge_relations(self):
         sense = SenseParser.persist(self.zootie_sense_nt)
-        sense_updated, *_ = SenseParser.update_relations(sense, self.zootie_sense_nt)
+        sense_updated, relations = SenseParser.update_relations(sense, self.zootie_sense_nt)
         self.assertEqual(sense_updated.domains.count(), 2)
         self.assertEqual(sense_updated.regions.count(), 0)
         self.assertEqual(sense_updated.semantic_classes.count(), 0)
         self.assertEqual(sense_updated.synset.count(), 1)
+        self.assertEqual(sense_updated.examples.count(), 5)
         sense_updated = SenseParser.purge_relations(sense)
         self.assertEqual(sense_updated.domains.count(), 0)
         self.assertEqual(sense_updated.regions.count(), 0)
         self.assertEqual(sense_updated.semantic_classes.count(), 0)
         self.assertEqual(sense_updated.synset.count(), 0)
+        self.assertEqual(sense_updated.examples.count(), 0)
 
 
 
