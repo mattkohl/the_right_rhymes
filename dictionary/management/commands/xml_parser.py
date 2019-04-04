@@ -121,6 +121,7 @@ class EntryParser:
             return sense
         return [process_sense(SenseParser.persist(nt)) for nt in senses]
 
+
 class FormParser:
 
     @staticmethod
@@ -200,16 +201,12 @@ class SenseParser:
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
         _ = SenseParser.purge_relations(sense)
-        domains: Iterator[Domain] = SenseParser.process_domains(nt, sense)
-        regions = yield from SenseParser.process_regions(nt, sense)
-        semantic_classes = yield from SenseParser.process_semantic_classes(nt, sense)
-        synset = yield from SenseParser.process_synsets(nt, sense)
         relations = SenseRelations(
             examples=[],
-            domains=domains,
-            regions=regions,
-            semantic_classes=semantic_classes,
-            synset=synset,
+            domains=SenseParser.process_domains(nt, sense),
+            regions=SenseParser.process_regions(nt, sense),
+            semantic_classes=SenseParser.process_semantic_classes(nt, sense),
+            synset=SenseParser.process_synsets(nt, sense),
             xrefs=[],
             sense_rhymes=[],
             collocates=[],
@@ -220,31 +217,31 @@ class SenseParser:
 
     @staticmethod
     def process_synsets(nt, sense):
-        for r in SenseParser.extract_synsets(nt.xml_dict):
-            synset = SynSetParser.persist(r)
+        def process_synset(synset: SynSet) -> SynSet:
             sense.synset.add(synset)
-            yield synset
+            return synset
+        return [process_synset(SynSetParser.persist(d)) for d in SenseParser.extract_synsets(nt.xml_dict)]
 
     @staticmethod
     def process_semantic_classes(nt, sense):
-        for s in SenseParser.extract_semantic_classes(nt.xml_dict):
-            semantic_class = SemanticClassParser.persist(s)
-            sense.semantic_classes.add(semantic_class)
-            yield semantic_class
+        def process_semantic_class(semantic_class: SemanticClass) -> SemanticClass:
+            sense.semantic_classs.add(semantic_class)
+            return semantic_class
+        return [process_semantic_class(SemanticClassParser.persist(d)) for d in SenseParser.extract_semantic_classes(nt.xml_dict)]
 
     @staticmethod
     def process_regions(nt, sense):
-        for r in SenseParser.extract_regions(nt.xml_dict):
-            region = RegionParser.persist(r)
+        def process_region(region: Region) -> Region:
             sense.regions.add(region)
-            yield region
+            return region
+        return [process_region(RegionParser.persist(d)) for d in SenseParser.extract_regions(nt.xml_dict)]
 
     @staticmethod
-    def process_domains(nt: SenseParsed, sense: Sense) -> Iterator[Domain]:
-        for d in SenseParser.extract_domains(nt.xml_dict):
-            domain = DomainParser.persist(d)
+    def process_domains(nt: SenseParsed, sense: Sense) -> List[Domain]:
+        def process_domain(domain: Domain) -> Domain:
             sense.domains.add(domain)
-            yield domain
+            return domain
+        return [process_domain(DomainParser.persist(d)) for d in SenseParser.extract_domains(nt.xml_dict)]
 
     @staticmethod
     def extract_domains(d: Dict) -> List[DomainParsed]:
