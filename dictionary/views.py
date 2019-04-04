@@ -6,7 +6,7 @@ from operator import itemgetter
 from django.core.cache import cache
 from django.db.models import Q, Count
 from django.db.models.functions import Lower
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import redirect, get_object_or_404, get_list_or_404
 from django.template import loader
 from django.views.decorators.http import require_http_methods
@@ -333,7 +333,10 @@ def place(request, place_slug):
 
 def random_entry(request):
     rand_entry = Entry.objects.filter(publish=True).order_by('?').first()
-    return redirect('entry', headword_slug=rand_entry.slug)
+    if rand_entry:
+        return redirect('entry', headword_slug=rand_entry.slug)
+    else:
+        return redirect('/')
 
 
 @cache_control(max_age=3600)
@@ -548,13 +551,13 @@ def stats(request):
     return HttpResponse(template.render(context, request))
 
 
-def handler404(request):
+def handler404(request, exception):
     template = loader.get_template('dictionary/404.html')
     context = {}
-    return HttpResponse(template.render(context, request), status=404)
+    return HttpResponseNotFound(template.render(context, request))
 
 
 def handler500(request):
     template = loader.get_template('dictionary/500.html')
     context = {}
-    return HttpResponse(template.render(context, request), status=500)
+    return HttpResponseServerError(template.render(context, request))
