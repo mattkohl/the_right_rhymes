@@ -200,7 +200,7 @@ class SenseParser:
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
         _ = SenseParser.purge_relations(sense)
-        domains = yield from SenseParser.process_domains(nt, sense)
+        domains: Iterator[Domain] = SenseParser.process_domains(nt, sense)
         regions = yield from SenseParser.process_regions(nt, sense)
         semantic_classes = yield from SenseParser.process_semantic_classes(nt, sense)
         synset = yield from SenseParser.process_synsets(nt, sense)

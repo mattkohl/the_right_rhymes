@@ -120,7 +120,7 @@ class TestSenseParser(BaseXMLParserTest):
 
     def test_purge_relations(self):
         sense = SenseParser.persist(self.zootie_sense_nt)
-        sense_updated, _ = SenseParser.update_relations(sense, self.zootie_sense_nt)
+        sense_updated, *_ = SenseParser.update_relations(sense, self.zootie_sense_nt)
         self.assertEqual(sense_updated.domains.count(), 2)
         self.assertEqual(sense_updated.regions.count(), 0)
         self.assertEqual(sense_updated.semantic_classes.count(), 0)
