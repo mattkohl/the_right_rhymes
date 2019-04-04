@@ -333,7 +333,10 @@ def place(request, place_slug):
 
 def random_entry(request):
     rand_entry = Entry.objects.filter(publish=True).order_by('?').first()
-    return redirect('entry', headword_slug=rand_entry.slug)
+    if rand_entry:
+        return redirect('entry', headword_slug=rand_entry.slug)
+    else:
+        return redirect('/')
 
 
 @cache_control(max_age=3600)
