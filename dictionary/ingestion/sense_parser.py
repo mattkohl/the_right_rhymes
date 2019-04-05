@@ -1,4 +1,6 @@
-from typing import Dict, List
+from typing import Dict, List, Callable, Any
+
+from django.db.models import ManyToManyField, Model
 
 from dictionary.ingestion.synset_parser import SynSetParser
 from dictionary.ingestion.region_parser import RegionParser
@@ -80,53 +82,18 @@ class SenseParser:
         return sense, relations
 
     @staticmethod
+    def extract_synsets(d: Dict) -> List[SynSetParsed]:
+        try:
+            return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
+        except KeyError as _:
+            return list()
+
+    @staticmethod
     def process_synsets(nt, sense):
         def process_synset(synset: SynSet) -> SynSet:
             sense.synset.add(synset)
             return synset
         return [process_synset(SynSetParser.persist(d)) for d in SenseParser.extract_synsets(nt.xml_dict)]
-
-    @staticmethod
-    def process_semantic_classes(nt, sense):
-        def process_semantic_class(semantic_class: SemanticClass) -> SemanticClass:
-            sense.semantic_classs.add(semantic_class)
-            return semantic_class
-        return [process_semantic_class(SemanticClassParser.persist(d)) for d in SenseParser.extract_semantic_classes(nt.xml_dict)]
-
-    @staticmethod
-    def process_regions(nt, sense):
-        def process_region(region: Region) -> Region:
-            sense.regions.add(region)
-            return region
-        return [process_region(RegionParser.persist(d)) for d in SenseParser.extract_regions(nt.xml_dict)]
-
-    @staticmethod
-    def process_domains(nt: SenseParsed, sense: Sense) -> List[Domain]:
-        def process_domain(domain: Domain) -> Domain:
-            sense.domains.add(domain)
-            return domain
-        return [process_domain(DomainParser.persist(d)) for d in SenseParser.extract_domains(nt.xml_dict)]
-
-    @staticmethod
-    def process_examples(nt: SenseParsed, sense: Sense) -> List[Example]:
-        def process_example(example: Example) -> Example:
-            sense.examples.add(example)
-            return example
-        return [process_example(ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]
-
-    @staticmethod
-    def extract_domains(d: Dict) -> List[DomainParsed]:
-        try:
-            return [DomainParser.parse(domain_name['@type']) for domain_name in d['domain']]
-        except KeyError as _:
-            return list()
-
-    @staticmethod
-    def extract_regions(d: Dict) -> List[DomainParsed]:
-        try:
-            return [RegionParser.parse(region_name['@type']) for region_name in d['region']]
-        except KeyError as _:
-            return list()
 
     @staticmethod
     def extract_semantic_classes(d: Dict) -> List[SemanticClassParsed]:
@@ -136,11 +103,39 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def extract_synsets(d: Dict) -> List[SynSetParsed]:
+    def process_semantic_classes(nt, sense):
+        def process_semantic_class(semantic_class: SemanticClass) -> SemanticClass:
+            sense.semantic_classs.add(semantic_class)
+            return semantic_class
+        return [process_semantic_class(SemanticClassParser.persist(d)) for d in SenseParser.extract_semantic_classes(nt.xml_dict)]
+
+    @staticmethod
+    def extract_regions(d: Dict) -> List[DomainParsed]:
         try:
-            return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
+            return [RegionParser.parse(region_name['@type']) for region_name in d['region']]
         except KeyError as _:
             return list()
+
+    @staticmethod
+    def process_regions(nt, sense):
+        def process_region(region: Region) -> Region:
+            sense.regions.add(region)
+            return region
+        return [process_region(RegionParser.persist(d)) for d in SenseParser.extract_regions(nt.xml_dict)]
+
+    @staticmethod
+    def extract_domains(d: Dict) -> List[DomainParsed]:
+        try:
+            return [DomainParser.parse(domain_name['@type']) for domain_name in d['domain']]
+        except KeyError as _:
+            return list()
+
+    @staticmethod
+    def process_domains(nt: SenseParsed, sense: Sense) -> List[Domain]:
+        def process_domain(domain: Domain) -> Domain:
+            sense.domains.add(domain)
+            return domain
+        return [process_domain(DomainParser.persist(d)) for d in SenseParser.extract_domains(nt.xml_dict)]
 
     @staticmethod
     def extract_examples(d: Dict) -> List[ExampleParsed]:
@@ -149,3 +144,10 @@ class SenseParser:
             return [ExampleParser.parse(example) for example in examples]
         except KeyError as _:
             return list()
+
+    @staticmethod
+    def process_examples(nt: SenseParsed, sense: Sense) -> List[Example]:
+        def process_example(example: Example) -> Example:
+            sense.examples.add(example)
+            return example
+        return [process_example(ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]

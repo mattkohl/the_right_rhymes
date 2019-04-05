@@ -1,8 +1,9 @@
 from collections import OrderedDict
-from typing import Dict
+from typing import Dict, List, Iterator
 
+from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
-from dictionary.models import ExampleParsed, Example
+from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed
 from dictionary.utils import slugify
 
 
@@ -38,3 +39,38 @@ class ExampleParser:
         example.artist_slug = nt.artist_slug
         example.save()
         return example
+
+    @staticmethod
+    def update_relations(example: Example, nt: ExampleParsed) -> (Example, ExampleRelations):
+        _ = ExampleParser.purge_relations(example)
+        relations = ExampleRelations(
+            artist=[],
+            from_song=ExampleParser.process_songs(nt, example),
+            feat_artist=[],
+            example_rhymes=[],
+            illustrates_senses=[],
+            features_entities=[],
+            lyric_links=[]
+        )
+        return example, relations
+
+    @staticmethod
+    def purge_relations(example: Example) -> Example:
+        example.artist.clear()
+        example.from_song.clear()
+        example.feat_artist.clear(),
+        example.example_rhymes.clear(),
+        example.illustrates_senses.clear(),
+        example.features_entities.clear(),
+        example.lyric_links.clear()
+        return example
+
+    @staticmethod
+    def extract_songs(nt: ExampleParsed) -> Iterator[SongParsed]:
+        yield SongParser.parse(nt)
+
+    @staticmethod
+    def process_songs(nt: ExampleParsed, example: Example) -> List[Song]:
+        def process_song(song: Song) -> Song:
+            return example.from_song.add(song)
+        return [process_song(SongParser.persist(d)) for d in ExampleParser.extract_songs(nt)]

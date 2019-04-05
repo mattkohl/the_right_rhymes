@@ -4,7 +4,7 @@ import math
 import logging
 from collections import namedtuple
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, ManyToManyField
 from django.contrib.postgres.fields import JSONField
 from django.urls import reverse
 
@@ -459,6 +459,7 @@ class SenseRhyme(models.Model):
 
 
 ExampleParsed = namedtuple('ExampleParsed', ["artist_name", "artist_slug", "song_title", "release_date", "release_date_string", "album", "lyric_text", "xml_id"])
+ExampleRelations = namedtuple("ExampleRelations", ["artist", "from_song", "feat_artist", "example_rhymes", "illustrates_senses", "features_entities", "lyric_links"])
 
 
 class Example(models.Model):
