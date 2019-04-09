@@ -1,6 +1,4 @@
-from typing import Dict, List, Callable, Any
-
-from django.db.models import ManyToManyField, Model
+from typing import Dict, List
 
 from dictionary.ingestion.synset_parser import SynSetParser
 from dictionary.ingestion.region_parser import RegionParser

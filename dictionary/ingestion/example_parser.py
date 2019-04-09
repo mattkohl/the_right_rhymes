@@ -3,7 +3,7 @@ from typing import Dict, List, Iterator
 
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
-from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed
+from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist
 from dictionary.utils import slugify
 
 
@@ -13,6 +13,9 @@ class ExampleParser:
     def parse(d: Dict) -> ExampleParsed:
         try:
             artist_name = d['artist']['#text'] if isinstance(d['artist'], OrderedDict) else d['artist']
+            print(d['artist'])
+            from pprint import pprint
+            pprint(d)
             nt = ExampleParsed(
                 artist_name=artist_name,
                 artist_slug=slugify(artist_name),
@@ -74,3 +77,24 @@ class ExampleParser:
         def process_song(song: Song) -> Song:
             return example.from_song.add(song)
         return [process_song(SongParser.persist(d)) for d in ExampleParser.extract_songs(nt)]
+
+    @staticmethod
+    def extract_artists(nt: ExampleParsed, artist_type: str) -> List[Artist]:
+        pass
+
+    @staticmethod
+    def extract_featured_artists(nt: ExampleParsed) -> List[Artist]:
+        pass
+
+    @staticmethod
+    def process_primary_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
+        def process_primary_artist(artist: Artist) -> Artist:
+            return example.artist.add(artist)
+        return [process_primary_artist(a) for a in ExampleParser.extract_primary_artists(nt)]
+
+    @staticmethod
+    def process_featured_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
+        def process_featured_artist(artist: Artist) -> Artist:
+            return example.feat_artist.add(artist)
+        return [process_featured_artist(a) for a in ExampleParser.extract_featured_artists(nt)]
+

@@ -9,8 +9,8 @@ class SongParser:
         try:
             nt = SongParsed(
                 xml_id=nt.xml_id,
-                slug=slugify(nt.artist_name + ' ' + nt.title),
-                title=nt.song_titletitle,
+                slug=slugify(nt.artist_name + ' ' + nt.song_title),
+                title=nt.song_title,
                 artist_name=nt.artist_name,
                 artist_slug=nt.artist_slug,
                 release_date=nt.release_date,
