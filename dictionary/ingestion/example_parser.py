@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import Dict, List, Iterator
 
+from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist
@@ -12,14 +13,12 @@ class ExampleParser:
     @staticmethod
     def parse(d: Dict) -> ExampleParsed:
         try:
-            artist_name = d['artist']['#text'] if isinstance(d['artist'], OrderedDict) else d['artist']
-            print(d['artist'])
+            primary_artists = [d['artist']['#text'] if isinstance(d['artist'], OrderedDict) else d['artist']]
             from pprint import pprint
-            pprint(d)
             nt = ExampleParsed(
-                artist_name=artist_name,
-                artist_slug=slugify(artist_name),
+                primary_artists=primary_artists,
                 song_title=d['songTitle'],
+                featured_artists=d['feat'] if 'feat' in d else [],
                 release_date=clean_up_date(d['date']),
                 release_date_string=d['date'],
                 album=d['album'],
@@ -33,13 +32,14 @@ class ExampleParser:
 
     @staticmethod
     def persist(nt: ExampleParsed):
+        artist_name = nt.primary_artists[0]
         example, _ = Example.objects.get_or_create(song_title=nt.song_title,
-                                                   artist_name=nt.artist_name,
+                                                   artist_name=artist_name,
                                                    release_date=nt.release_date,
                                                    release_date_string=nt.release_date_string,
                                                    album=nt.album,
                                                    lyric_text=nt.lyric_text)
-        example.artist_slug = nt.artist_slug
+        example.artist_slug = slugify(artist_name)
         example.save()
         return example
 
@@ -47,9 +47,9 @@ class ExampleParser:
     def update_relations(example: Example, nt: ExampleParsed) -> (Example, ExampleRelations):
         _ = ExampleParser.purge_relations(example)
         relations = ExampleRelations(
-            artist=[],
+            artist=ExampleParser.process_primary_artists(nt, example),
             from_song=ExampleParser.process_songs(nt, example),
-            feat_artist=[],
+            feat_artist=ExampleParser.process_featured_artists(nt, example),
             example_rhymes=[],
             illustrates_senses=[],
             features_entities=[],
@@ -79,10 +79,6 @@ class ExampleParser:
         return [process_song(SongParser.persist(d)) for d in ExampleParser.extract_songs(nt)]
 
     @staticmethod
-    def extract_artists(nt: ExampleParsed, artist_type: str) -> List[Artist]:
-        pass
-
-    @staticmethod
     def extract_featured_artists(nt: ExampleParsed) -> List[Artist]:
         pass
 
@@ -90,11 +86,11 @@ class ExampleParser:
     def process_primary_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
         def process_primary_artist(artist: Artist) -> Artist:
             return example.artist.add(artist)
-        return [process_primary_artist(a) for a in ExampleParser.extract_primary_artists(nt)]
+        return [process_primary_artist(ArtistParser.persist(ArtistParser.parse(a))) for a in nt.primary_artists]
 
     @staticmethod
     def process_featured_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
         def process_featured_artist(artist: Artist) -> Artist:
             return example.feat_artist.add(artist)
-        return [process_featured_artist(a) for a in ExampleParser.extract_featured_artists(nt)]
+        return [process_featured_artist(ArtistParser.persist(ArtistParser.parse(a))) for a in nt.featured_artists]
 

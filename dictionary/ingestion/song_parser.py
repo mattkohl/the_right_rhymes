@@ -7,12 +7,13 @@ class SongParser:
     @staticmethod
     def parse(nt: ExampleParsed) -> SongParsed:
         try:
+            artist_name = nt.primary_artists[0]
             nt = SongParsed(
                 xml_id=nt.xml_id,
-                slug=slugify(nt.artist_name + ' ' + nt.song_title),
+                slug=slugify(artist_name + ' ' + nt.song_title),
                 title=nt.song_title,
-                artist_name=nt.artist_name,
-                artist_slug=nt.artist_slug,
+                artist_name=artist_name,
+                artist_slug=slugify(artist_name),
                 release_date=nt.release_date,
                 release_date_string=nt.release_date_string,
                 album=nt.album
