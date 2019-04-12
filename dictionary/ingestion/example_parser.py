@@ -4,7 +4,7 @@ from typing import Dict, List, Iterator
 from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
-from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist
+from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed
 from dictionary.utils import slugify
 
 
@@ -75,22 +75,29 @@ class ExampleParser:
     @staticmethod
     def process_songs(nt: ExampleParsed, example: Example) -> List[Song]:
         def process_song(song: Song) -> Song:
-            return example.from_song.add(song)
+            example.from_song.add(song)
+            return song
         return [process_song(SongParser.persist(d)) for d in ExampleParser.extract_songs(nt)]
 
     @staticmethod
-    def extract_featured_artists(nt: ExampleParsed) -> List[Artist]:
-        pass
+    def extract_featured_artists(nt: ExampleParsed) -> List[ArtistParsed]:
+        return [ArtistParser.parse(a) for a in nt.featured_artists]
+
+    @staticmethod
+    def extract_primary_artists(nt: ExampleParsed) -> List[ArtistParsed]:
+        return [ArtistParser.parse(a) for a in nt.primary_artists]
 
     @staticmethod
     def process_primary_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
         def process_primary_artist(artist: Artist) -> Artist:
-            return example.artist.add(artist)
-        return [process_primary_artist(ArtistParser.persist(ArtistParser.parse(a))) for a in nt.primary_artists]
+            example.artist.add(artist)
+            return artist
+        return [process_primary_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_primary_artists(nt)]
 
     @staticmethod
     def process_featured_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
         def process_featured_artist(artist: Artist) -> Artist:
-            return example.feat_artist.add(artist)
-        return [process_featured_artist(ArtistParser.persist(ArtistParser.parse(a))) for a in nt.featured_artists]
+            example.feat_artist.add(artist)
+            return artist
+        return [process_featured_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_featured_artists(nt)]
 

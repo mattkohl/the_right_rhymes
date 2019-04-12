@@ -14,17 +14,23 @@ class TestExampleParser(BaseXMLParserTest):
         self.assertEqual(result, example)
 
     def test_update_relations(self):
-        example = ExampleParser.persist(self.zootie_example_nt)
-        example_updated, _ = ExampleParser.update_relations(example, self.zootie_example_nt)
+        example = ExampleParser.persist(self.zootie_example_nt1)
+        example_updated, _ = ExampleParser.update_relations(example, self.zootie_example_nt1)
         self.assertEqual(example_updated.from_song.count(), 1)
         self.assertEqual(example_updated.artist.count(), 1)
-        self.assertEqual(example_updated.feat_artist.count(), 0)
+        self.assertEqual(example_updated.feat_artist.count(), 1)
 
     def test_purge_relations(self):
         example = ExampleParser.persist(self.zootie_example_nt)
-        example_updated, relations = ExampleParser.update_relations(example, self.zootie_example_nt)
+
+        example_updated, _ = ExampleParser.update_relations(example, self.zootie_example_nt1)
         self.assertEqual(example_updated.from_song.count(), 1)
-        example_updated = ExampleParser.purge_relations(example)
-        self.assertEqual(example_updated.from_song.count(), 0)
+        self.assertEqual(example_updated.artist.count(), 1)
+        self.assertEqual(example_updated.feat_artist.count(), 1)
+
+        example_purged = ExampleParser.purge_relations(example_updated)
+        self.assertEqual(example_purged.from_song.count(), 0)
+        self.assertEqual(example_purged.artist.count(), 0)
+        self.assertEqual(example_purged.feat_artist.count(), 0)
 
 
