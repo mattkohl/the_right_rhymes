@@ -1,5 +1,5 @@
 from dictionary.ingestion.sense_parser import SenseParser
-from dictionary.models import Sense
+from dictionary.models import Sense, SynSet
 from dictionary.tests.base import BaseXMLParserTest
 
 
@@ -15,24 +15,21 @@ class TestSenseParser(BaseXMLParserTest):
 
     def test_update_relations(self):
         sense = SenseParser.persist(self.zootie_sense_nt)
-        sense_updated, _ = SenseParser.update_relations(sense, self.zootie_sense_nt)
-        self.assertEqual(sense_updated.domains.count(), 2)
-        self.assertEqual(sense_updated.regions.count(), 0)
-        self.assertEqual(sense_updated.semantic_classes.count(), 0)
-        self.assertEqual(sense_updated.synset.count(), 1)
-        self.assertEqual(sense_updated.examples.count(), 5)
+        self.assertEqual(sense.domains.count(), 2)
+        self.assertEqual(sense.regions.count(), 0)
+        self.assertEqual(sense.semantic_classes.count(), 0)
+        self.assertEqual(sense.synset.count(), 1)
+        self.assertEqual(sense.examples.count(), 5)
 
     def test_purge_relations(self):
         sense = SenseParser.persist(self.zootie_sense_nt)
+        self.assertEqual(sense.domains.count(), 2)
+        self.assertEqual(sense.regions.count(), 0)
+        self.assertEqual(sense.semantic_classes.count(), 0)
+        self.assertEqual(sense.synset.count(), 1)
+        self.assertEqual(sense.examples.count(), 5)
 
-        sense_updated, relations = SenseParser.update_relations(sense, self.zootie_sense_nt)
-        self.assertEqual(sense_updated.domains.count(), 2)
-        self.assertEqual(sense_updated.regions.count(), 0)
-        self.assertEqual(sense_updated.semantic_classes.count(), 0)
-        self.assertEqual(sense_updated.synset.count(), 1)
-        self.assertEqual(sense_updated.examples.count(), 5)
-
-        sense_purged = SenseParser.purge_relations(sense_updated)
+        sense_purged = SenseParser.purge_relations(sense)
         self.assertEqual(sense_purged.domains.count(), 0)
         self.assertEqual(sense_purged.regions.count(), 0)
         self.assertEqual(sense_purged.semantic_classes.count(), 0)

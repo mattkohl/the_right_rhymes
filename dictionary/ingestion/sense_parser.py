@@ -1,4 +1,5 @@
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Optional
+from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.ingestion.synset_parser import SynSetParser
 from dictionary.ingestion.region_parser import RegionParser
@@ -35,35 +36,53 @@ class SenseParser:
 
     @staticmethod
     def persist(nt: SenseParsed) -> Sense:
-        sense, _ = Sense.objects.get_or_create(xml_id=nt.xml_id)
-        sense.json = nt.xml_dict
-        sense.headword = nt.headword
-        sense.part_of_speech = nt.part_of_speech
-        sense.definition = nt.definition
-        sense.etymology = nt.etymology
-        sense.notes = nt.notes
-        sense.slug = nt.slug
-        sense.publish = nt.publish
-        sense.save()
-        _, sense_relations = SenseParser.update_relations(sense, nt)
-        return sense
+        try:
+            sense = Sense.objects.get(xml_id=nt.xml_id)
+        except ObjectDoesNotExist:
+            sense = Sense(
+                xml_id=nt.xml_id,
+                json=nt.xml_dict,
+                headword=nt.headword,
+                part_of_speech=nt.part_of_speech,
+                definition=nt.definition,
+                etymology=nt.etymology,
+                notes=nt.notes,
+                slug=nt.slug,
+                publish=nt.publish,
+            )
+            sense.save()
+            _, sense_relations = SenseParser.update_relations(sense, nt)
+            return sense
+        else:
+            sense.json = nt.xml_dict
+            sense.headword = nt.headword
+            sense.part_of_speech = nt.part_of_speech
+            sense.definition = nt.definition
+            sense.etymology = nt.etymology
+            sense.notes = nt.notes
+            sense.slug = nt.slug
+            sense.publish = nt.publish
+            sense.save()
+            _, sense_relations = SenseParser.update_relations(sense, nt)
+            return sense
 
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
-        _ = SenseParser.purge_relations(sense)
+        purged = SenseParser.purge_relations(sense)
+        ss = SenseParser.process_synsets(nt, purged)
         relations = SenseRelations(
-            examples=SenseParser.process_examples(nt, sense),
-            domains=SenseParser.process_domains(nt, sense),
-            regions=SenseParser.process_regions(nt, sense),
-            semantic_classes=SenseParser.process_semantic_classes(nt, sense),
-            synset=SenseParser.process_synsets(nt, sense),
+            examples=SenseParser.process_examples(nt, purged),
+            domains=SenseParser.process_domains(nt, purged),
+            regions=SenseParser.process_regions(nt, purged),
+            semantic_classes=SenseParser.process_semantic_classes(nt, purged),
+            synset=ss,
             xrefs=[],
             sense_rhymes=[],
             collocates=[],
             features_entities=[],
             cites_artists=[]
         )
-        return sense, relations
+        return purged, relations
 
     @staticmethod
     def purge_relations(sense: Sense) -> Sense:
