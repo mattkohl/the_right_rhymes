@@ -1,6 +1,6 @@
 from typing import Dict
 
-from dictionary.models import FormParsed, Form
+from dictionary.models import FormParsed, Form, FormRelations
 from dictionary.utils import slugify
 
 
@@ -25,4 +25,17 @@ class FormParser:
         form, _ = Form.objects.get_or_create(slug=nt.slug)
         form.frequency = nt.frequency
         form.save()
+        return form
+
+    @staticmethod
+    def update_relations(form: Form) -> (Form, FormRelations):
+        _ = FormParser.purge_relations(form)
+        relations = FormRelations(
+            parent_entry=[]
+        )
+        return form, relations
+
+    @staticmethod
+    def purge_relations(form: Form) -> Form:
+        form.parent_entry.clear()
         return form

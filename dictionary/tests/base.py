@@ -4,7 +4,7 @@ import json
 from dictionary.ingestion.json_converter import JSONConverter
 from dictionary.ingestion.xml_file_reader import XmlFileReader
 from dictionary.models import Entry, Form, Artist, Domain, Collocate, Sense, Region, SemanticClass, Song, NamedEntity, \
-    LyricLink, Example, Place, Xref, EntryParsed, FormParsed, SenseParsed, ExampleParsed
+    LyricLink, Example, Place, Xref, EntryParsed, FormParsed, SenseParsed, ExampleParsed, SongParsed
 from dictionary.management.commands.xml_handler import XMLDict
 
 
@@ -487,4 +487,6 @@ class BaseXMLParserTest(TestCase):
 
         self.zootie_example_dict1 = self.zootie_sense_dict['examples']['example'][1]
         self.zootie_example_nt1 = ExampleParsed(primary_artists=['Black Sheep'], song_title='We Boys', featured_artists=['Legion, The'], release_date='1994-12-06', release_date_string='1994-12-06', album='Non-Fiction', lyric_text='One love with the bang, riding with the zootie', xml_id='5033')
+
+        self.zootie_song_nt = SongParsed(xml_id='3470', slug='beastie-boys-hey-ladies', title='Hey Ladies', artist_name='Beastie Boys', artist_slug='beastie-boys', release_date='1989-07-25', release_date_string='1989-07-25', album="Paul's Boutique")
 

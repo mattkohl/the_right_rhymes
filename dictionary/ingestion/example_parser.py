@@ -41,6 +41,7 @@ class ExampleParser:
                                                    lyric_text=nt.lyric_text)
         example.artist_slug = slugify(artist_name)
         example.save()
+        _, example_relations = ExampleParser.update_relations(example, nt)
         return example
 
     @staticmethod

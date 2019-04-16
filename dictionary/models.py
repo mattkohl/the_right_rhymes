@@ -14,6 +14,9 @@ logger = logging.getLogger(__name__)
 
 
 ArtistParsed = namedtuple("Artist", ["name", "slug"])
+ArtistRelations = namedtuple("ArtistRelations", ["origin", "primary_examples", "primary_senses", "featured_examples",
+                                                 "featured_senses", "primary_songs", "featured_songs", "also_known_as",
+                                                 "member_of"])
 
 
 class Artist(models.Model):
@@ -118,6 +121,7 @@ class Entry(models.Model):
 
 
 FormParsed = namedtuple("FormParsed", ["slug", "label", "frequency"])
+FormRelations = namedtuple("FormRelations", ["parent_entry"])
 
 
 class Form(models.Model):
@@ -128,6 +132,7 @@ class Form(models.Model):
 
 
 PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
+PlaceRelations = namedtuple("PlaceRelations", ["artist", "contains"])
 
 
 class Place(models.Model):
@@ -264,6 +269,7 @@ class Salience(models.Model):
 
 
 SongParsed = namedtuple("SongParsed", ["xml_id", "slug", "title", "artist_name", "artist_slug", "release_date", "release_date_string", "album"])
+SongRelations = namedtuple("SongRelations", ["artist", "feat_artist", "examples"])
 
 
 class Song(models.Model):
@@ -293,6 +299,7 @@ class Song(models.Model):
 
 
 SynSetParsed = namedtuple("SynSetParsed", ["name", "slug"])
+SynSetRelations = namedtuple("SynSetRelations", ["senses"])
 
 
 class SynSet(models.Model):
@@ -309,6 +316,7 @@ class SynSet(models.Model):
 
 
 SemanticClassParsed = namedtuple("SemanticClassParsed", ["name", "slug"])
+SemanticClassRelations = namedtuple("SemanticClassRelations", ["senses", "broader"])
 
 
 class SemanticClass(models.Model):
@@ -329,6 +337,7 @@ class SemanticClass(models.Model):
 
 
 DomainParsed = namedtuple("DomainParsed", ["name", "slug"])
+DomainRelations = namedtuple("DomainRelations", ["senses", "broader"])
 
 
 class Domain(models.Model):
@@ -348,6 +357,7 @@ class Domain(models.Model):
 
 
 RegionParsed = namedtuple("RegionParsed", ["name", "slug"])
+RegionRelations = namedtuple("RegionRelations", ["senses", "broader"])
 
 
 class Region(models.Model):
@@ -367,6 +377,7 @@ class Region(models.Model):
 
 
 XrefParsed = namedtuple("XrefParsed", ["xref_word", "xref_type", "target_lemma", "target_slug", "target_id", "position", "frequency"])
+XrefRelations = namedtuple("XrefRelations", "parent_sense")
 
 
 class Xref(models.Model):
@@ -402,6 +413,7 @@ class Xref(models.Model):
 
 
 CollocateParsed = namedtuple("CollocateParsed", ["collocate_lemma", "source_sense_xml_id", "target_slug", "target_id", "frequency"])
+CollocateRelations = namedtuple("CollocateRelations", ["parent_sense"])
 
 
 class Collocate(models.Model):
@@ -433,6 +445,7 @@ class Collocate(models.Model):
 
 
 SenseRhymeParsed = namedtuple("SenseRhymeParsed", ["rhyme", "rhyme_slug", "parent_sense_xml_id", "frequency"])
+SenseRhymeRelations = namedtuple("SenseRhymeRelations", ["parent_sense"])
 
 
 class SenseRhyme(models.Model):
@@ -488,6 +501,7 @@ class Example(models.Model):
 
 
 ExampleRhymeParsed = namedtuple("ExampleRhymeParsed", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_one_target_id", "word_two_target_id", "word_one_position", "word_two_position"])
+ExampleRhymeRelations = namedtuple("ExampleRhymeRelations", ["parent_example"])
 
 
 class ExampleRhyme(models.Model):
@@ -510,6 +524,7 @@ class ExampleRhyme(models.Model):
 
 
 LyricLinkParsed = namedtuple("LyricLinkParsed", ["link_type", "link_text", "target_lemma", "target_slug", "position"])
+LyricLinkRelations = namedtuple("LyricLinkRelations", ["parent_example"])
 
 
 class LyricLink(models.Model):
@@ -529,6 +544,7 @@ class LyricLink(models.Model):
 
 
 NamedEntityParsed = namedtuple("NamedEntityParsed", ["name", "slug", "pref_label", "pref_label_slug", "entity_type"])
+NamedEntityRelations = namedtuple("NamedEntityRelations", ["mentioned_at_senses", "examples"])
 
 
 class NamedEntity(models.Model):

@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Set
 
 from dictionary.ingestion.synset_parser import SynSetParser
 from dictionary.ingestion.region_parser import RegionParser
@@ -34,33 +34,19 @@ class SenseParser:
             return nt
 
     @staticmethod
-    def purge_relations(sense: Sense) -> Sense:
-        sense.examples.clear()
-        sense.domains.clear()
-        sense.regions.clear()
-        sense.semantic_classes.clear()
-        sense.synset.clear()
-        sense.xrefs.clear()
-        sense.sense_rhymes.clear()
-        sense.collocates.clear()
-        sense.features_entities.clear()
-        sense.cites_artists.clear()
-        return sense
-
-    @staticmethod
     def persist(nt: SenseParsed) -> Sense:
         sense, _ = Sense.objects.get_or_create(xml_id=nt.xml_id)
-        purged = SenseParser.purge_relations(sense)
-        purged.json = nt.xml_dict
-        purged.headword = nt.headword
-        purged.part_of_speech = nt.part_of_speech
-        purged.definition = nt.definition
-        purged.etymology = nt.etymology
-        purged.notes = nt.notes
-        purged.slug = nt.slug
-        purged.publish = nt.publish
-        purged.save()
-        return purged
+        sense.json = nt.xml_dict
+        sense.headword = nt.headword
+        sense.part_of_speech = nt.part_of_speech
+        sense.definition = nt.definition
+        sense.etymology = nt.etymology
+        sense.notes = nt.notes
+        sense.slug = nt.slug
+        sense.publish = nt.publish
+        sense.save()
+        _, sense_relations = SenseParser.update_relations(sense, nt)
+        return sense
 
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
@@ -80,14 +66,28 @@ class SenseParser:
         return sense, relations
 
     @staticmethod
-    def extract_synsets(d: Dict) -> List[SynSetParsed]:
-        try:
-            return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
-        except KeyError as _:
-            return list()
+    def purge_relations(sense: Sense) -> Sense:
+        sense.examples.clear()
+        sense.domains.clear()
+        sense.regions.clear()
+        sense.semantic_classes.clear()
+        sense.synset.clear()
+        sense.xrefs.clear()
+        sense.sense_rhymes.clear()
+        sense.collocates.clear()
+        sense.features_entities.clear()
+        sense.cites_artists.clear()
+        return sense
 
     @staticmethod
-    def process_synsets(nt, sense):
+    def extract_synsets(d: Dict) -> Set[SynSetParsed]:
+        try:
+            return {SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']}
+        except KeyError as _:
+            return set()
+
+    @staticmethod
+    def process_synsets(nt, sense) -> List[SynSet]:
         def process_synset(synset: SynSet) -> SynSet:
             sense.synset.add(synset)
             return synset

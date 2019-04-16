@@ -64,6 +64,7 @@ class EntryParser:
     @staticmethod
     def process_forms(entry: Entry, forms: List[FormParsed]) -> List[Form]:
         def process_form(form: Form) -> Form:
+            _, _ = FormParser.update_relations(form)
             entry.forms.add(form)
             return form
         return [process_form(FormParser.persist(nt)) for nt in forms]
