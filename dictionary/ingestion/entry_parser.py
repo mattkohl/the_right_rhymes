@@ -30,7 +30,7 @@ class EntryParser:
             return nt
 
     @staticmethod
-    def persist(nt: EntryParsed) -> (Entry, EntryRelations):
+    def persist(nt: EntryParsed) -> Tuple[Entry, EntryRelations]:
         try:
             entry = Entry.objects.get(headword=nt.headword, slug=nt.slug)
 
@@ -53,7 +53,7 @@ class EntryParser:
         return entry
 
     @staticmethod
-    def update_relations(entry: Entry, nt: EntryParsed) -> (Entry, EntryRelations):
+    def update_relations(entry: Entry, nt: EntryParsed) -> Tuple[Entry, EntryRelations]:
         EntryParser.purge_relations(entry)
         return entry, EntryRelations(
             forms=EntryParser.process_forms(entry, EntryParser.extract_forms(nt)),
@@ -87,8 +87,8 @@ class EntryParser:
             return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
 
     @staticmethod
-    def process_senses(entry: Entry, senses: List[SenseParsed]):
-        def process_sense(sense: Sense, relations: SenseRelations) -> (Sense, SenseRelations):
+    def process_senses(entry: Entry, senses: List[SenseParsed]) -> List[Tuple[Sense, SenseRelations]]:
+        def process_sense(sense: Sense, relations: SenseRelations) -> Tuple[Sense, SenseRelations]:
             entry.senses.add(sense)
             return sense, relations
         return [process_sense(*SenseParser.persist(nt)) for nt in senses]

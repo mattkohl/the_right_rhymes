@@ -7,7 +7,7 @@ from dictionary.ingestion.semantic_class_parser import SemanticClassParser
 from dictionary.ingestion.domain_parser import DomainParser
 from dictionary.ingestion.example_parser import ExampleParser
 from dictionary.models import SenseParsed, Sense, SenseRelations, SynSet, SemanticClass, Region, Domain, DomainParsed, \
-    SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations
+    SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations, RegionParsed
 from dictionary.utils import slugify
 
 
@@ -127,7 +127,7 @@ class SenseParser:
         return [process_semantic_class(SemanticClassParser.persist(d)) for d in SenseParser.extract_semantic_classes(nt.xml_dict)]
 
     @staticmethod
-    def extract_regions(d: Dict) -> List[DomainParsed]:
+    def extract_regions(d: Dict) -> List[RegionParsed]:
         try:
             return [RegionParser.parse(region_name['@type']) for region_name in d['region']]
         except KeyError as _:
