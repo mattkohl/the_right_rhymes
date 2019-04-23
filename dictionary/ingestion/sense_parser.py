@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Optional
+from typing import Dict, List, Set, Optional, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.ingestion.synset_parser import SynSetParser
@@ -35,7 +35,7 @@ class SenseParser:
             return nt
 
     @staticmethod
-    def persist(nt: SenseParsed) -> (Sense, SenseRelations):
+    def persist(nt: SenseParsed) -> Tuple[Sense, SenseRelations]:
         try:
             sense = Sense.objects.get(xml_id=nt.xml_id)
         except ObjectDoesNotExist:
@@ -67,7 +67,7 @@ class SenseParser:
             return SenseParser.update_relations(sense, nt)
 
     @staticmethod
-    def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
+    def update_relations(sense: Sense, nt: SenseParsed) -> Tuple[Sense, SenseRelations]:
         purged = SenseParser.purge_relations(sense)
         ss = SenseParser.process_synsets(nt, purged)
         relations = SenseRelations(
@@ -164,7 +164,7 @@ class SenseParser:
 
     @staticmethod
     def process_examples(nt: SenseParsed, sense: Sense):
-        def process_example(example: Example, example_relations: ExampleRelations) -> (Example, ExampleRelations):
+        def process_example(example: Example, example_relations: ExampleRelations) -> Tuple[Example, ExampleRelations]:
             sense.examples.add(example)
             return example, example_relations
         return [process_example(*ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]

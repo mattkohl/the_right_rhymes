@@ -1,10 +1,11 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from django.core.exceptions import ObjectDoesNotExist
 from dictionary.management.commands.xml_parser import logger
 from dictionary.ingestion.sense_parser import SenseParser
 from dictionary.ingestion.form_parser import FormParser
-from dictionary.models import EntryParsed, Entry, EntryRelations, FormParsed, Form, SenseParsed, Sense, SenseRelations
+from dictionary.models import EntryParsed, Entry, EntryRelations, FormParsed, Form, SenseParsed, Sense, SenseRelations, \
+    FormRelations
 from dictionary.utils import slugify, move_definite_article_to_end, get_letter
 
 
@@ -69,12 +70,12 @@ class EntryParser:
             return [FormParser.parse(form) for lexeme in lexemes for form in lexeme['forms']]
 
     @staticmethod
-    def process_forms(entry: Entry, forms: List[FormParsed]) -> List[Form]:
-        def process_form(form: Form) -> Form:
+    def process_forms(entry: Entry, forms: List[FormParsed]) -> List[Tuple[Form, FormRelations]]:
+        def process_form(form: Form, relations: FormRelations) -> Tuple[Form, FormRelations]:
             _, _ = FormParser.update_relations(form)
             entry.forms.add(form)
-            return form
-        return [process_form(FormParser.persist(nt)) for nt in forms]
+            return form, relations
+        return [process_form(*FormParser.persist(nt)) for nt in forms]
 
     @staticmethod
     def extract_senses(nt: EntryParsed) -> List[SenseParsed]:

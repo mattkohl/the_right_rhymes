@@ -10,6 +10,6 @@ class TestFormParser(BaseXMLParserTest):
         self.assertEqual(result, self.zootie_form_nt1)
 
     def test_persist(self):
-        result = FormParser.persist(self.zootie_form_nt1)
+        result, relations = FormParser.persist(self.zootie_form_nt1)
         form = Form.objects.get(slug="zootie")
         self.assertEqual(result, form)

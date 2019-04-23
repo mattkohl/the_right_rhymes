@@ -1,7 +1,7 @@
-from typing import List
+from typing import List, Tuple
 
 from dictionary.ingestion.entry_parser import EntryParser
-from dictionary.models import Entry, Form, EntryParsed, FormParsed
+from dictionary.models import Entry, Form, EntryParsed, FormParsed, FormRelations
 from dictionary.tests.base import BaseXMLParserTest
 
 
@@ -46,8 +46,8 @@ class TestEntryParser(BaseXMLParserTest):
     def test_process_forms(self):
         self.assertEqual(Form.objects.count(), 0)
         zootie, relations = EntryParser.persist(self.zootie_entry_nt)
-        forms: List[Form] = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
-        self.assertEqual(forms[0], zootie.forms.first())
+        forms = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
+        self.assertEqual(forms[0][0], zootie.forms.first())
         self.assertEqual(Form.objects.count(), 1)
 
     def test_extract_sense(self):

@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from typing import List
+from typing import List, Tuple
 
 from dictionary.models import SongParsed, Song, ExampleParsed, SongRelations, Artist
 from dictionary.utils import slugify
@@ -27,7 +27,7 @@ class SongParser:
             return d
 
     @staticmethod
-    def persist(nt: SongParsed, primary_artists: List[Artist], featured_artists: List[Artist]) -> (Song, SongRelations):
+    def persist(nt: SongParsed, primary_artists: List[Artist], featured_artists: List[Artist]) -> Tuple[Song, SongRelations]:
         try:
             song = Song.objects.get(xml_id=nt.xml_id)
         except ObjectDoesNotExist:
@@ -55,7 +55,7 @@ class SongParser:
             return SongParser.update_relations(song, primary_artists, featured_artists)
 
     @staticmethod
-    def update_relations(song: Song, primary_artists: List[Artist], featured_artists: List[Artist]) -> (Song, SongRelations):
+    def update_relations(song: Song, primary_artists: List[Artist], featured_artists: List[Artist]) -> Tuple[Song, SongRelations]:
         purged = SongParser.purge_relations(song)
         purged.artist.add(*primary_artists)
         purged.feat_artist.add(*featured_artists)
