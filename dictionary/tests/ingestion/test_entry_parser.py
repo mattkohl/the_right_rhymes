@@ -1,7 +1,7 @@
 from typing import List
 
 from dictionary.ingestion.entry_parser import EntryParser
-from dictionary.models import Entry, Form, EntryParsed
+from dictionary.models import Entry, Form, EntryParsed, FormParsed
 from dictionary.tests.base import BaseXMLParserTest
 
 
@@ -39,7 +39,7 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(update_persisted, queried)
 
     def test_extract_forms(self):
-        result: EntryParsed = EntryParser.extract_forms(self.zootie_entry_nt)
+        result: List[FormParsed] = EntryParser.extract_forms(self.zootie_entry_nt)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].slug, 'zootie')
 
