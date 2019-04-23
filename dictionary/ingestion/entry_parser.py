@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+from django.core.exceptions import ObjectDoesNotExist
 from dictionary.management.commands.xml_parser import logger
 from dictionary.ingestion.sense_parser import SenseParser
 from dictionary.ingestion.form_parser import FormParser
@@ -28,6 +29,23 @@ class EntryParser:
             return nt
 
     @staticmethod
+    def persist(nt: EntryParsed) -> (Entry, EntryRelations):
+        try:
+            entry = Entry.objects.get(headword=nt.headword, slug=nt.slug)
+
+        except ObjectDoesNotExist:
+            entry = Entry(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict, letter=nt.letter, sort_key=nt.sort_key)
+            entry.save()
+            return EntryParser.update_relations(entry, nt)
+        else:
+            entry.publish = nt.publish
+            entry.json = nt.xml_dict
+            entry.letter = nt.letter
+            entry.sort_key = nt.sort_key
+            entry.save()
+            return EntryParser.update_relations(entry, nt)
+
+    @staticmethod
     def purge_relations(entry: Entry) -> Entry:
         entry.forms.clear()
         entry.senses.clear()
@@ -40,17 +58,6 @@ class EntryParser:
             forms=EntryParser.process_forms(entry, EntryParser.extract_forms(nt)),
             senses=EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
         )
-
-    @staticmethod
-    def persist(nt: EntryParsed) -> Entry:
-        entry, _ = Entry.objects.get_or_create(headword=nt.headword, slug=nt.slug)
-        purged = EntryParser.purge_relations(entry)
-        purged.publish = nt.publish
-        purged.json = nt.xml_dict
-        purged.letter = nt.letter
-        purged.sort_key = nt.sort_key
-        purged.save()
-        return purged
 
     @staticmethod
     def extract_forms(nt: EntryParsed) -> List[FormParsed]:

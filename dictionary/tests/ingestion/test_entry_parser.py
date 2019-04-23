@@ -16,13 +16,13 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(result, self.zootie_entry_nt)
 
     def test_persist(self):
-        persisted: Entry = EntryParser.persist(self.zootie_entry_nt)
+        entry, relations = EntryParser.persist(self.zootie_entry_nt)
         queried: Entry = Entry.objects.get(slug="zootie")
-        self.assertEqual(persisted, queried)
+        self.assertEqual(entry, queried)
 
     def test_purge_relations(self):
         self.assertEqual(Form.objects.count(), 0)
-        entry = EntryParser.persist(self.zootie_entry_nt)
+        entry, relations = EntryParser.persist(self.zootie_entry_nt)
 
         entry_updated, _ = EntryParser.update_relations(entry, self.zootie_entry_nt)
         self.assertEqual(entry_updated.forms.count(), 1)
@@ -32,9 +32,9 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(entry_purged.forms.count(), 0)
 
     def test_persist_and_update(self):
-        EntryParser.persist(self.zootie_entry_nt)
+        _, _ = EntryParser.persist(self.zootie_entry_nt)
         update_parsed: EntryParsed = EntryParser.parse(self.zootie_entry_dict_forms_updated)
-        update_persisted: Entry = EntryParser.persist(update_parsed)
+        update_persisted, update_relations = EntryParser.persist(update_parsed)
         queried: Entry = Entry.objects.get(slug="zootie")
         self.assertEqual(update_persisted, queried)
 
@@ -45,7 +45,7 @@ class TestEntryParser(BaseXMLParserTest):
 
     def test_process_forms(self):
         self.assertEqual(Form.objects.count(), 0)
-        zootie: Entry = EntryParser.persist(self.zootie_entry_nt)
+        zootie, relations = EntryParser.persist(self.zootie_entry_nt)
         forms: List[Form] = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
         self.assertEqual(forms[0], zootie.forms.first())
         self.assertEqual(Form.objects.count(), 1)
