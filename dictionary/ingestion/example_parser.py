@@ -1,10 +1,13 @@
 from collections import OrderedDict
 from typing import Dict, List, Iterator
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
-from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed
+from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed, \
+    SongRelations
 from dictionary.utils import slugify
 
 
@@ -31,32 +34,46 @@ class ExampleParser:
             return nt
 
     @staticmethod
-    def persist(nt: ExampleParsed):
+    def persist(nt: ExampleParsed) -> (Example, ExampleRelations):
         artist_name = nt.primary_artists[0]
-        example, _ = Example.objects.get_or_create(song_title=nt.song_title,
-                                                   artist_name=artist_name,
-                                                   release_date=nt.release_date,
-                                                   release_date_string=nt.release_date_string,
-                                                   album=nt.album,
-                                                   lyric_text=nt.lyric_text)
-        example.artist_slug = slugify(artist_name)
-        example.save()
-        _, example_relations = ExampleParser.update_relations(example, nt)
-        return example
+        artist_slug = slugify(artist_name)
+        try:
+            example = Example.objects.get(song_title=nt.song_title,
+                                          artist_name=artist_name,
+                                          artist_slug=artist_slug,
+                                          release_date=nt.release_date,
+                                          release_date_string=nt.release_date_string,
+                                          album=nt.album,
+                                          lyric_text=nt.lyric_text)
+
+        except ObjectDoesNotExist:
+            example = Example(song_title=nt.song_title,
+                              artist_name=artist_name,
+                              artist_slug=artist_slug,
+                              release_date=nt.release_date,
+                              release_date_string=nt.release_date_string,
+                              album=nt.album,
+                              lyric_text=nt.lyric_text)
+            example.save()
+            return ExampleParser.update_relations(example, nt)
+        else:
+            return ExampleParser.update_relations(example, nt)
 
     @staticmethod
     def update_relations(example: Example, nt: ExampleParsed) -> (Example, ExampleRelations):
-        _ = ExampleParser.purge_relations(example)
+        purged = ExampleParser.purge_relations(example)
+        primary_artists = ExampleParser.process_primary_artists(nt, purged)
+        featured_artists = ExampleParser.process_featured_artists(nt, purged)
         relations = ExampleRelations(
-            artist=ExampleParser.process_primary_artists(nt, example),
-            from_song=ExampleParser.process_songs(nt, example),
-            feat_artist=ExampleParser.process_featured_artists(nt, example),
+            artist=primary_artists,
+            from_song=ExampleParser.process_songs(nt, example, primary_artists, featured_artists),
+            feat_artist=featured_artists,
             example_rhymes=[],
             illustrates_senses=[],
             features_entities=[],
             lyric_links=[]
         )
-        return example, relations
+        return purged, relations
 
     @staticmethod
     def purge_relations(example: Example) -> Example:
@@ -74,11 +91,11 @@ class ExampleParser:
         yield SongParser.parse(nt)
 
     @staticmethod
-    def process_songs(nt: ExampleParsed, example: Example) -> List[Song]:
-        def process_song(song: Song) -> Song:
+    def process_songs(nt: ExampleParsed, example: Example, primary_artists: List[Artist], featured_artists: List[Artist]):
+        def process_song(song: Song, relations: SongRelations) -> (Song, SongRelations):
             example.from_song.add(song)
-            return song
-        return [process_song(SongParser.persist(d)) for d in ExampleParser.extract_songs(nt)]
+            return song, relations
+        return [process_song(*SongParser.persist(d, primary_artists, featured_artists)) for d in ExampleParser.extract_songs(nt)]
 
     @staticmethod
     def extract_featured_artists(nt: ExampleParsed) -> List[ArtistParsed]:

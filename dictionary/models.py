@@ -269,7 +269,7 @@ class Salience(models.Model):
 
 
 SongParsed = namedtuple("SongParsed", ["xml_id", "slug", "title", "artist_name", "artist_slug", "release_date", "release_date_string", "album"])
-SongRelations = namedtuple("SongRelations", ["artist", "feat_artist", "examples"])
+SongRelations = namedtuple("SongRelations", ["artist", "feat_artist"])
 
 
 class Song(models.Model):

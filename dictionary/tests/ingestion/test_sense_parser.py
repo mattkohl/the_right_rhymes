@@ -9,12 +9,12 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(result, self.zootie_sense_nt)
 
     def test_persist(self):
-        result = SenseParser.persist(self.zootie_sense_nt)
+        result, relations = SenseParser.persist(self.zootie_sense_nt)
         sense = Sense.objects.get(slug=self.zootie_sense_nt.slug)
         self.assertEqual(result, sense)
 
     def test_update_relations(self):
-        sense = SenseParser.persist(self.zootie_sense_nt)
+        sense, relations = SenseParser.persist(self.zootie_sense_nt)
         self.assertEqual(sense.domains.count(), 2)
         self.assertEqual(sense.regions.count(), 0)
         self.assertEqual(sense.semantic_classes.count(), 0)
@@ -22,7 +22,7 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(sense.examples.count(), 5)
 
     def test_purge_relations(self):
-        sense = SenseParser.persist(self.zootie_sense_nt)
+        sense, relations = SenseParser.persist(self.zootie_sense_nt)
         self.assertEqual(sense.domains.count(), 2)
         self.assertEqual(sense.regions.count(), 0)
         self.assertEqual(sense.semantic_classes.count(), 0)

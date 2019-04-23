@@ -9,19 +9,19 @@ class TestExampleParser(BaseXMLParserTest):
         self.assertEqual(result, self.zootie_example_nt)
 
     def test_persist(self):
-        result = ExampleParser.persist(self.zootie_example_nt)
+        result, relations = ExampleParser.persist(self.zootie_example_nt)
         example = Example.objects.get(artist_name=self.zootie_example_nt.primary_artists[0], song_title=self.zootie_example_nt.song_title, lyric_text=self.zootie_example_nt.lyric_text)
         self.assertEqual(result, example)
 
     def test_update_relations(self):
-        example = ExampleParser.persist(self.zootie_example_nt1)
+        example, relations = ExampleParser.persist(self.zootie_example_nt1)
         example_updated, _ = ExampleParser.update_relations(example, self.zootie_example_nt1)
         self.assertEqual(example_updated.from_song.count(), 1)
         self.assertEqual(example_updated.artist.count(), 1)
         self.assertEqual(example_updated.feat_artist.count(), 1)
 
     def test_purge_relations(self):
-        example = ExampleParser.persist(self.zootie_example_nt)
+        example, relations = ExampleParser.persist(self.zootie_example_nt)
 
         example_updated, _ = ExampleParser.update_relations(example, self.zootie_example_nt1)
         self.assertEqual(example_updated.from_song.count(), 1)

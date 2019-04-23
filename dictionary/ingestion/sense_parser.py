@@ -7,7 +7,7 @@ from dictionary.ingestion.semantic_class_parser import SemanticClassParser
 from dictionary.ingestion.domain_parser import DomainParser
 from dictionary.ingestion.example_parser import ExampleParser
 from dictionary.models import SenseParsed, Sense, SenseRelations, SynSet, SemanticClass, Region, Domain, DomainParsed, \
-    SemanticClassParsed, SynSetParsed, ExampleParsed, Example
+    SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations
 from dictionary.utils import slugify
 
 
@@ -35,7 +35,7 @@ class SenseParser:
             return nt
 
     @staticmethod
-    def persist(nt: SenseParsed) -> Sense:
+    def persist(nt: SenseParsed) -> (Sense, SenseRelations):
         try:
             sense = Sense.objects.get(xml_id=nt.xml_id)
         except ObjectDoesNotExist:
@@ -52,7 +52,7 @@ class SenseParser:
             )
             sense.save()
             _, sense_relations = SenseParser.update_relations(sense, nt)
-            return sense
+            return SenseParser.update_relations(sense, nt)
         else:
             sense.json = nt.xml_dict
             sense.headword = nt.headword
@@ -64,7 +64,7 @@ class SenseParser:
             sense.publish = nt.publish
             sense.save()
             _, sense_relations = SenseParser.update_relations(sense, nt)
-            return sense
+            return SenseParser.update_relations(sense, nt)
 
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> (Sense, SenseRelations):
@@ -163,8 +163,8 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def process_examples(nt: SenseParsed, sense: Sense) -> List[Example]:
-        def process_example(example: Example) -> Example:
+    def process_examples(nt: SenseParsed, sense: Sense):
+        def process_example(example: Example, example_relations: ExampleRelations) -> (Example, ExampleRelations):
             sense.examples.add(example)
-            return example
-        return [process_example(ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]
+            return example, example_relations
+        return [process_example(*ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]

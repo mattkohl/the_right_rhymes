@@ -3,7 +3,7 @@ from typing import Dict, List
 from dictionary.management.commands.xml_parser import logger
 from dictionary.ingestion.sense_parser import SenseParser
 from dictionary.ingestion.form_parser import FormParser
-from dictionary.models import EntryParsed, Entry, EntryRelations, FormParsed, Form, SenseParsed, Sense
+from dictionary.models import EntryParsed, Entry, EntryRelations, FormParsed, Form, SenseParsed, Sense, SenseRelations
 from dictionary.utils import slugify, move_definite_article_to_end, get_letter
 
 
@@ -79,8 +79,8 @@ class EntryParser:
             return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
 
     @staticmethod
-    def process_senses(entry: Entry, senses: List[SenseParsed]) -> List[Sense]:
-        def process_sense(sense: Sense) -> Sense:
+    def process_senses(entry: Entry, senses: List[SenseParsed]):
+        def process_sense(sense: Sense, relations: SenseRelations) -> (Sense, SenseRelations):
             entry.senses.add(sense)
-            return sense
-        return [process_sense(SenseParser.persist(nt)) for nt in senses]
+            return sense, relations
+        return [process_sense(*SenseParser.persist(nt)) for nt in senses]

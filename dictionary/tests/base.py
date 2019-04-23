@@ -489,4 +489,5 @@ class BaseXMLParserTest(TestCase):
         self.zootie_example_nt1 = ExampleParsed(primary_artists=['Black Sheep'], song_title='We Boys', featured_artists=['Legion, The'], release_date='1994-12-06', release_date_string='1994-12-06', album='Non-Fiction', lyric_text='One love with the bang, riding with the zootie', xml_id='5033')
 
         self.zootie_song_nt = SongParsed(xml_id='3470', slug='beastie-boys-hey-ladies', title='Hey Ladies', artist_name='Beastie Boys', artist_slug='beastie-boys', release_date='1989-07-25', release_date_string='1989-07-25', album="Paul's Boutique")
+        self.zootie_song_nt1 = SongParsed(xml_id='5033', slug='black-sheep-we-boys', title="We Boys", artist_name="Black Sheep", artist_slug='black-sheep', release_date='1994-12-06', release_date_string='1994-12-06', album='Non-Fiction')
 
