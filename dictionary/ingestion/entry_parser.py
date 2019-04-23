@@ -77,7 +77,7 @@ class EntryParser:
         return [process_form(FormParser.persist(nt)) for nt in forms]
 
     @staticmethod
-    def extract_senses(nt: EntryParsed):
+    def extract_senses(nt: EntryParsed) -> List[SenseParsed]:
         try:
             lexemes = nt.xml_dict["senses"]
         except Exception as e:
