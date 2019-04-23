@@ -4,7 +4,6 @@ import logging
 from collections import OrderedDict
 from os import listdir
 from os.path import isfile, join
-from typing import List
 
 import xmltodict
 from geopy.geocoders import Nominatim
