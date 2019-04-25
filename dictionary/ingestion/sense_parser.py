@@ -7,9 +7,10 @@ from dictionary.ingestion.region_parser import RegionParser
 from dictionary.ingestion.semantic_class_parser import SemanticClassParser
 from dictionary.ingestion.domain_parser import DomainParser
 from dictionary.ingestion.example_parser import ExampleParser
+from dictionary.ingestion.xref_parser import XrefParser
 from dictionary.models import SenseParsed, Sense, SenseRelations, SynSet, SemanticClass, Region, Domain, DomainParsed, \
     SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations, RegionParsed, CollocateParsed, \
-    Collocate
+    Collocate, XrefParsed, Xref
 from dictionary.utils import slugify
 
 
@@ -72,7 +73,7 @@ class SenseParser:
             regions=SenseParser.process_regions(nt, purged),
             semantic_classes=SenseParser.process_semantic_classes(nt, purged),
             synset=SenseParser.process_synsets(nt, purged),
-            xrefs=[],
+            xrefs=SenseParser.process_xrefs(nt, purged),
             sense_rhymes=[],
             collocates=SenseParser.process_collocates(nt, purged),
             features_entities=[],
@@ -178,3 +179,18 @@ class SenseParser:
             sense.examples.add(example)
             return example, example_relations
         return [process_example(*ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]
+
+    @staticmethod
+    def extract_xrefs(d: Dict) -> List[XrefParsed]:
+        try:
+            xrefs = d["xref"]
+            return [XrefParser.parse(xref) for xref in xrefs]
+        except KeyError as _:
+            return list()
+
+    @staticmethod
+    def process_xrefs(nt: SenseParsed, sense: Sense):
+        def process_xref(xref: Xref) -> Xref:
+            sense.xrefs.add(xref)
+            return xref
+        return [process_xref(XrefParser.persist(d)) for d in SenseParser.extract_xrefs(nt.xml_dict)]

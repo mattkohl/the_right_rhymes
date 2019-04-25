@@ -21,6 +21,7 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(sense.synset.count(), 1)
         self.assertEqual(sense.examples.count(), 5)
         self.assertEqual(sense.collocates.count(), 2)
+        self.assertEqual(sense.xrefs.count(), 2)
 
     def test_purge_relations(self):
         sense, relations = SenseParser.persist(self.zootie_sense_nt)

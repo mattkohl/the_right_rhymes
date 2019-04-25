@@ -916,10 +916,10 @@ class TRRXref:
 
     def add_to_db(self):
         xref_object, _ = Xref.objects.get_or_create(xref_word=self.xref_word,
-                                                          xref_type=self.xref_type,
-                                                          target_id=self.target_id,
-                                                          target_lemma=self.target_lemma,
-                                                          target_slug=self.target_slug)
+                                                    xref_type=self.xref_type,
+                                                    target_id=self.target_id,
+                                                    target_lemma=self.target_lemma,
+                                                    target_slug=self.target_slug)
         return xref_object
 
     def update_xref_object(self):
