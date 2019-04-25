@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from dictionary.models import RegionParsed, Region
 from dictionary.utils import make_label_from_camel_case, slugify
 
@@ -11,7 +13,13 @@ class RegionParser:
 
     @staticmethod
     def persist(nt: RegionParsed):
-        region, _ = Region.objects.get_or_create(slug=nt.slug)
-        region.name = nt.name
-        region.save()
-        return region
+        try:
+            region = Region.objects.get(slug=nt.slug)
+        except ObjectDoesNotExist:
+            region = Region(slug=nt.slug, name=nt.name)
+            region.save()
+            return region
+        else:
+            region.name = nt.name
+            region.save()
+            return region

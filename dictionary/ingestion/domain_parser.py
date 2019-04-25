@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from dictionary.models import DomainParsed, Domain
 from dictionary.utils import make_label_from_camel_case, slugify
 
@@ -11,7 +13,13 @@ class DomainParser:
 
     @staticmethod
     def persist(nt: DomainParsed):
-        domain, _ = Domain.objects.get_or_create(slug=nt.slug)
-        domain.name = nt.name
-        domain.save()
-        return domain
+        try:
+            domain = Domain.objects.get(slug=nt.slug)
+        except ObjectDoesNotExist:
+            domain = Domain(slug=nt.slug, name=nt.name)
+            domain.save()
+            return domain
+        else:
+            domain.name = nt.name
+            domain.save()
+            return domain
