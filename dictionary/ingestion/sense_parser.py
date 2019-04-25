@@ -1,13 +1,15 @@
 from typing import Dict, List, Set, Optional, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
+from dictionary.ingestion.collocate_parser import CollocateParser
 from dictionary.ingestion.synset_parser import SynSetParser
 from dictionary.ingestion.region_parser import RegionParser
 from dictionary.ingestion.semantic_class_parser import SemanticClassParser
 from dictionary.ingestion.domain_parser import DomainParser
 from dictionary.ingestion.example_parser import ExampleParser
 from dictionary.models import SenseParsed, Sense, SenseRelations, SynSet, SemanticClass, Region, Domain, DomainParsed, \
-    SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations, RegionParsed
+    SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations, RegionParsed, CollocateParsed, \
+    Collocate
 from dictionary.utils import slugify
 
 
@@ -69,16 +71,15 @@ class SenseParser:
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> Tuple[Sense, SenseRelations]:
         purged = SenseParser.purge_relations(sense)
-        ss = SenseParser.process_synsets(nt, purged)
         relations = SenseRelations(
             examples=SenseParser.process_examples(nt, purged),
             domains=SenseParser.process_domains(nt, purged),
             regions=SenseParser.process_regions(nt, purged),
             semantic_classes=SenseParser.process_semantic_classes(nt, purged),
-            synset=ss,
+            synset=SenseParser.process_synsets(nt, purged),
             xrefs=[],
             sense_rhymes=[],
-            collocates=[],
+            collocates=SenseParser.process_collocates(nt, purged),
             features_entities=[],
             cites_artists=[]
         )
@@ -99,11 +100,11 @@ class SenseParser:
         return sense
 
     @staticmethod
-    def extract_synsets(d: Dict) -> Set[SynSetParsed]:
+    def extract_synsets(d: Dict) -> List[SynSetParsed]:
         try:
-            return {SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']}
+            return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
         except KeyError as _:
-            return set()
+            return list()
 
     @staticmethod
     def process_synsets(nt, sense) -> List[SynSet]:
@@ -111,6 +112,20 @@ class SenseParser:
             sense.synset.add(synset)
             return synset
         return [process_synset(SynSetParser.persist(d)) for d in SenseParser.extract_synsets(nt.xml_dict)]
+
+    @staticmethod
+    def extract_collocates(d: Dict, sense_id: str) -> List[CollocateParsed]:
+        try:
+            return [CollocateParser.parse(collocate, sense_id) for collocate in d['collocates']['collocate']]
+        except KeyError as _:
+            return list()
+
+    @staticmethod
+    def process_collocates(nt, sense) -> List[Collocate]:
+        def process_collocate(collocate: Collocate) -> Collocate:
+            sense.collocates.add(collocate)
+            return collocate
+        return [process_collocate(CollocateParser.persist(d)) for d in SenseParser.extract_collocates(nt.xml_dict, nt.xml_id)]
 
     @staticmethod
     def extract_semantic_classes(d: Dict) -> List[SemanticClassParsed]:

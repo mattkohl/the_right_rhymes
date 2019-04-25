@@ -20,6 +20,7 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(sense.semantic_classes.count(), 0)
         self.assertEqual(sense.synset.count(), 1)
         self.assertEqual(sense.examples.count(), 5)
+        self.assertEqual(sense.collocates.count(), 2)
 
     def test_purge_relations(self):
         sense, relations = SenseParser.persist(self.zootie_sense_nt)
@@ -28,6 +29,7 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(sense.semantic_classes.count(), 0)
         self.assertEqual(sense.synset.count(), 1)
         self.assertEqual(sense.examples.count(), 5)
+        self.assertEqual(sense.collocates.count(), 2)
 
         sense_purged = SenseParser.purge_relations(sense)
         self.assertEqual(sense_purged.domains.count(), 0)
@@ -35,3 +37,4 @@ class TestSenseParser(BaseXMLParserTest):
         self.assertEqual(sense_purged.semantic_classes.count(), 0)
         self.assertEqual(sense_purged.synset.count(), 0)
         self.assertEqual(sense_purged.examples.count(), 0)
+        self.assertEqual(sense.collocates.count(), 0)
