@@ -16,8 +16,7 @@ class RegionParser:
         try:
             region = Region.objects.get(slug=nt.slug)
         except ObjectDoesNotExist:
-            region = Region(slug=nt.slug, name=nt.name)
-            region.save()
+            region = Region.objects.create(slug=nt.slug, name=nt.name)
             return region
         else:
             region.name = nt.name
