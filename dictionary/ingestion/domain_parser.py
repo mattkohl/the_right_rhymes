@@ -15,11 +15,8 @@ class DomainParser:
     def persist(nt: DomainParsed):
         try:
             domain = Domain.objects.get(slug=nt.slug)
-        except ObjectDoesNotExist:
-            domain = Domain(slug=nt.slug, name=nt.name)
-            domain.save()
-            return domain
-        else:
             domain.name = nt.name
             domain.save()
-            return domain
+        except ObjectDoesNotExist:
+            domain = Domain.objects.create(slug=nt.slug, name=nt.name)
+        return domain

@@ -15,11 +15,8 @@ class SemanticClassParser:
     def persist(nt: SemanticClassParsed):
         try:
             semantic_class = SemanticClass.objects.get(slug=nt.slug)
-        except ObjectDoesNotExist:
-            semantic_class = SemanticClass(slug=nt.slug, name=nt.name)
-            semantic_class.save()
-            return semantic_class
-        else:
             semantic_class.name = nt.name
             semantic_class.save()
-            return semantic_class
+        except ObjectDoesNotExist:
+            semantic_class = SemanticClass.objects.create(slug=nt.slug, name=nt.name)
+        return semantic_class

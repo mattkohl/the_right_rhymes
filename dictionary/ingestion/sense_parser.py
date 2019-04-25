@@ -40,8 +40,17 @@ class SenseParser:
     def persist(nt: SenseParsed) -> Tuple[Sense, SenseRelations]:
         try:
             sense = Sense.objects.get(xml_id=nt.xml_id)
+            sense.json = nt.xml_dict
+            sense.headword = nt.headword
+            sense.part_of_speech = nt.part_of_speech
+            sense.definition = nt.definition
+            sense.etymology = nt.etymology
+            sense.notes = nt.notes
+            sense.slug = nt.slug
+            sense.publish = nt.publish
+            sense.save()
         except ObjectDoesNotExist:
-            sense = Sense(
+            sense = Sense.objects.create(
                 xml_id=nt.xml_id,
                 json=nt.xml_dict,
                 headword=nt.headword,
@@ -52,21 +61,7 @@ class SenseParser:
                 slug=nt.slug,
                 publish=nt.publish,
             )
-            sense.save()
-            _, sense_relations = SenseParser.update_relations(sense, nt)
-            return SenseParser.update_relations(sense, nt)
-        else:
-            sense.json = nt.xml_dict
-            sense.headword = nt.headword
-            sense.part_of_speech = nt.part_of_speech
-            sense.definition = nt.definition
-            sense.etymology = nt.etymology
-            sense.notes = nt.notes
-            sense.slug = nt.slug
-            sense.publish = nt.publish
-            sense.save()
-            _, sense_relations = SenseParser.update_relations(sense, nt)
-            return SenseParser.update_relations(sense, nt)
+        return SenseParser.update_relations(sense, nt)
 
     @staticmethod
     def update_relations(sense: Sense, nt: SenseParsed) -> Tuple[Sense, SenseRelations]:

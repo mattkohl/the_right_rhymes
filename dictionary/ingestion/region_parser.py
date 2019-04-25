@@ -15,10 +15,8 @@ class RegionParser:
     def persist(nt: RegionParsed):
         try:
             region = Region.objects.get(slug=nt.slug)
-        except ObjectDoesNotExist:
-            region = Region.objects.create(slug=nt.slug, name=nt.name)
-            return region
-        else:
             region.name = nt.name
             region.save()
-            return region
+        except ObjectDoesNotExist:
+            region = Region.objects.create(slug=nt.slug, name=nt.name)
+        return region

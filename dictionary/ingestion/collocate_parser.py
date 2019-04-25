@@ -24,17 +24,15 @@ class CollocateParser:
             collocate = Collocate.objects.get(collocate_lemma=nt.collocate_lemma,
                                               source_sense_xml_id=nt.source_sense_xml_id,
                                               target_id=nt.target_id)
-            collocate.save()
-
         except ObjectDoesNotExist:
-            collocate = Collocate(collocate_lemma=nt.collocate_lemma,
-                                  source_sense_xml_id=nt.source_sense_xml_id,
-                                  target_id=nt.target_id,
-                                  target_slug=nt.target_slug,
-                                  frequency=nt.frequency)
-            collocate.save()
+            collocate = Collocate.objects.create(collocate_lemma=nt.collocate_lemma,
+                                                 source_sense_xml_id=nt.source_sense_xml_id,
+                                                 target_id=nt.target_id,
+                                                 target_slug=nt.target_slug,
+                                                 frequency=nt.frequency)
             return collocate
         else:
             collocate.target_slug = nt.target_slug,
             collocate.frequency = nt.frequency
+            collocate.save()
             return collocate

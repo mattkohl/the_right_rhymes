@@ -33,18 +33,15 @@ class EntryParser:
     def persist(nt: EntryParsed) -> Tuple[Entry, EntryRelations]:
         try:
             entry = Entry.objects.get(headword=nt.headword, slug=nt.slug)
-
-        except ObjectDoesNotExist:
-            entry = Entry(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict, letter=nt.letter, sort_key=nt.sort_key)
-            entry.save()
-            return EntryParser.update_relations(entry, nt)
-        else:
             entry.publish = nt.publish
             entry.json = nt.xml_dict
             entry.letter = nt.letter
             entry.sort_key = nt.sort_key
             entry.save()
-            return EntryParser.update_relations(entry, nt)
+        except ObjectDoesNotExist:
+            entry = Entry.objects.create(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict,
+                                         letter=nt.letter, sort_key=nt.sort_key)
+        return EntryParser.update_relations(entry, nt)
 
     @staticmethod
     def purge_relations(entry: Entry) -> Entry:
@@ -75,6 +72,7 @@ class EntryParser:
             _, _ = FormParser.update_relations(form)
             entry.forms.add(form)
             return form, relations
+
         return [process_form(*FormParser.persist(nt)) for nt in forms]
 
     @staticmethod
@@ -84,11 +82,13 @@ class EntryParser:
         except Exception as e:
             raise KeyError(f"Could not access ['senses'] in {nt.xml_dict}: {e}")
         else:
-            return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in lexeme['sense']]
+            return [SenseParser.parse(sense, nt.headword, lexeme['pos'], nt.publish) for lexeme in lexemes for sense in
+                    lexeme['sense']]
 
     @staticmethod
     def process_senses(entry: Entry, senses: List[SenseParsed]) -> List[Tuple[Sense, SenseRelations]]:
         def process_sense(sense: Sense, relations: SenseRelations) -> Tuple[Sense, SenseRelations]:
             entry.senses.add(sense)
             return sense, relations
+
         return [process_sense(*SenseParser.persist(nt)) for nt in senses]

@@ -26,13 +26,10 @@ class FormParser:
     def persist(nt: FormParsed) -> Tuple[Form, FormRelations]:
         try:
             form = Form.objects.get(slug=nt.slug)
-        except ObjectDoesNotExist:
-            form = Form(slug=nt.slug, frequency=nt.frequency)
-            form.save()
-            return FormParser.update_relations(form)
-        else:
             form.frequency = nt.frequency
             form.save()
+        except ObjectDoesNotExist:
+            form = Form.objects.create(slug=nt.slug, frequency=nt.frequency)
         return FormParser.update_relations(form)
 
     @staticmethod

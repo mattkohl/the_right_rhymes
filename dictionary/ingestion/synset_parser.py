@@ -17,8 +17,6 @@ class SynSetParser:
             synset = SynSet.objects.get(slug=nt.slug)
             synset.name = nt.name
             synset.save()
-            return synset
         except ObjectDoesNotExist:
-            synset = SynSet(name=nt.name, slug=nt.slug)
-            synset.save()
-            return synset
+            synset = SynSet.objects.create(name=nt.name, slug=nt.slug)
+        return synset
