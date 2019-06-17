@@ -1,5 +1,5 @@
 from dictionary.models import Sense
-from dictionary.management.commands.utils import print_progress, is_ascii
+from dictionary.management.commands.utils import print_progress
 import logging
 
 
