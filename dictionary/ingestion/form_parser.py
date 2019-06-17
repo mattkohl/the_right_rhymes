@@ -1,4 +1,6 @@
-from typing import Dict
+from typing import Dict, Tuple
+
+from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.models import FormParsed, Form, FormRelations
 from dictionary.utils import slugify
@@ -21,14 +23,17 @@ class FormParser:
             return nt
 
     @staticmethod
-    def persist(nt: FormParsed) -> Form:
-        form, _ = Form.objects.get_or_create(slug=nt.slug)
-        form.frequency = nt.frequency
-        form.save()
-        return form
+    def persist(nt: FormParsed) -> Tuple[Form, FormRelations]:
+        try:
+            form = Form.objects.get(slug=nt.slug)
+            form.frequency = nt.frequency
+            form.save()
+        except ObjectDoesNotExist:
+            form = Form.objects.create(slug=nt.slug, frequency=nt.frequency)
+        return FormParser.update_relations(form)
 
     @staticmethod
-    def update_relations(form: Form) -> (Form, FormRelations):
+    def update_relations(form: Form) -> Tuple[Form, FormRelations]:
         _ = FormParser.purge_relations(form)
         relations = FormRelations(
             parent_entry=[]

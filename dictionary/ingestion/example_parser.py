@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from typing import Dict, List, Iterator
+from typing import Dict, List, Iterator, Tuple
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -34,7 +34,7 @@ class ExampleParser:
             return nt
 
     @staticmethod
-    def persist(nt: ExampleParsed) -> (Example, ExampleRelations):
+    def persist(nt: ExampleParsed) -> Tuple[Example, ExampleRelations]:
         artist_name = nt.primary_artists[0]
         artist_slug = slugify(artist_name)
         try:
@@ -47,20 +47,17 @@ class ExampleParser:
                                           lyric_text=nt.lyric_text)
 
         except ObjectDoesNotExist:
-            example = Example(song_title=nt.song_title,
-                              artist_name=artist_name,
-                              artist_slug=artist_slug,
-                              release_date=nt.release_date,
-                              release_date_string=nt.release_date_string,
-                              album=nt.album,
-                              lyric_text=nt.lyric_text)
-            example.save()
-            return ExampleParser.update_relations(example, nt)
-        else:
-            return ExampleParser.update_relations(example, nt)
+            example = Example.objects.create(song_title=nt.song_title,
+                                             artist_name=artist_name,
+                                             artist_slug=artist_slug,
+                                             release_date=nt.release_date,
+                                             release_date_string=nt.release_date_string,
+                                             album=nt.album,
+                                             lyric_text=nt.lyric_text)
+        return ExampleParser.update_relations(example, nt)
 
     @staticmethod
-    def update_relations(example: Example, nt: ExampleParsed) -> (Example, ExampleRelations):
+    def update_relations(example: Example, nt: ExampleParsed) -> Tuple[Example, ExampleRelations]:
         purged = ExampleParser.purge_relations(example)
         primary_artists = ExampleParser.process_primary_artists(nt, purged)
         featured_artists = ExampleParser.process_featured_artists(nt, purged)
@@ -91,11 +88,14 @@ class ExampleParser:
         yield SongParser.parse(nt)
 
     @staticmethod
-    def process_songs(nt: ExampleParsed, example: Example, primary_artists: List[Artist], featured_artists: List[Artist]):
-        def process_song(song: Song, relations: SongRelations) -> (Song, SongRelations):
+    def process_songs(nt: ExampleParsed, example: Example, primary_artists: List[Artist],
+                      featured_artists: List[Artist]):
+        def process_song(song: Song, relations: SongRelations) -> Tuple[Song, SongRelations]:
             example.from_song.add(song)
             return song, relations
-        return [process_song(*SongParser.persist(d, primary_artists, featured_artists)) for d in ExampleParser.extract_songs(nt)]
+
+        return [process_song(*SongParser.persist(d, primary_artists, featured_artists)) for d in
+                ExampleParser.extract_songs(nt)]
 
     @staticmethod
     def extract_featured_artists(nt: ExampleParsed) -> List[ArtistParsed]:
@@ -110,6 +110,7 @@ class ExampleParser:
         def process_primary_artist(artist: Artist) -> Artist:
             example.artist.add(artist)
             return artist
+
         return [process_primary_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_primary_artists(nt)]
 
     @staticmethod
@@ -117,5 +118,5 @@ class ExampleParser:
         def process_featured_artist(artist: Artist) -> Artist:
             example.feat_artist.add(artist)
             return artist
-        return [process_featured_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_featured_artists(nt)]
 
+        return [process_featured_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_featured_artists(nt)]
