@@ -1,7 +1,6 @@
 from typing import Dict, List, Tuple
 
 from django.core.exceptions import ObjectDoesNotExist
-from dictionary.management.commands.xml_parser import logger
 from dictionary.ingestion.sense_parser import SenseParser
 from dictionary.ingestion.form_parser import FormParser
 from dictionary.models import EntryParsed, Entry, EntryRelations, FormParsed, Form, SenseParsed, Sense, SenseRelations, \
@@ -26,7 +25,7 @@ class EntryParser:
         except Exception as e:
             raise KeyError(f"Entry parse failed: {e}")
         else:
-            logger.info(f"------ Processing: '{headword}' ------")
+            print(f"------ Processing: '{headword}' ------")
             return nt
 
     @staticmethod

@@ -409,12 +409,12 @@ def build_stats():
     nineties = dictionary.models.Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
     noughties = dictionary.models.Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"]).count()
     twenty_tens = dictionary.models.Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
-    decade_max = max([seventies, eighties, nineties, noughties, twenty_tens])
+    decade_max = max([seventies, eighties, nineties, noughties, twenty_tens]) if max([seventies, eighties, nineties, noughties, twenty_tens]) > 0 else 1
     places = [place for place in dictionary.models.Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')[:LIST_LENGTH]]
 
     domain_count = best_attested_domains[0].num_senses if best_attested_domains else 0
     semantic_class_count = best_attested_semantic_classes[0].num_senses if best_attested_semantic_classes else 0
-    place_count = count_place_artists(places[0], [0])
+    place_count = count_place_artists(places[0], [0]) if places else 0
     place_mention_count = most_mentioned_places[0].num_examples if most_mentioned_places else 0
     artist_mention_count = most_mentioned_artists[0].num_examples if most_mentioned_artists else 0
     artist_cite_count = most_cited_artists[0].num_cites if most_cited_artists else 0
@@ -626,7 +626,7 @@ def collect_place_artists(place_object, artists):
     return sorted(artists, key=itemgetter('name'))
 
 
-def count_place_artists(place_object, counts=[]):
+def count_place_artists(place_object, counts=[0]):
     counts.extend([place_object.artists.all().count()])
     contains = place_object.contains.all()
     if contains:

@@ -17,7 +17,8 @@ geocache = []
 CHECK_FOR_UPDATES = True
 
 
-def main(directory='../tRR/XML/tRR_Django'):
+def main(directory):
+    print(f"Parsing directory {directory}")
     start = time.time()
     xml_files = sorted(DirectoryLoader.collect_files(directory), key=lambda f: f.lower())
     DirectoryLoader.process(xml_files)

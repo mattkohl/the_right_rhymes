@@ -98,7 +98,7 @@ class SenseParser:
     @staticmethod
     def extract_synsets(d: Dict) -> List[SynSetParsed]:
         try:
-            return [SynSetParser.parse(synset_name['@target']) for synset_name in d['synSetRef']]
+            return [SynSetParser.parse(d['synSetRef']['@target'])]
         except KeyError as _:
             return list()
 
