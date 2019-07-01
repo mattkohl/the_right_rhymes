@@ -1,7 +1,7 @@
 from genericpath import isfile
 from os import listdir
 from os.path import join
-from typing import AnyStr, List, Generator, Dict
+from typing import AnyStr, List, Dict
 
 from dictionary.ingestion.dictionary_parser import DictionaryParser
 from dictionary.ingestion.json_converter import JSONConverter

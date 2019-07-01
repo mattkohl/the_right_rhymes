@@ -5,9 +5,10 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.song_parser import SongParser
+from dictionary.ingestion.xref_parser import XrefParser
 from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed, \
-    SongRelations
+    SongRelations, Xref, XrefRelations
 from dictionary.utils import slugify
 
 
@@ -65,9 +66,9 @@ class ExampleParser:
             artist=primary_artists,
             from_song=ExampleParser.process_songs(nt, example, primary_artists, featured_artists),
             feat_artist=featured_artists,
-            example_rhymes=[],
+            example_rhymes=ExampleParser.extract_rhymes(nt),
             illustrates_senses=[],
-            features_entities=[],
+            features_entities=ExampleParser.extract_entities(nt),
             lyric_links=[]
         )
         return purged, relations
@@ -120,3 +121,26 @@ class ExampleParser:
             return artist
 
         return [process_featured_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_featured_artists(nt)]
+
+    @staticmethod
+    def extract_entities(nt: ExampleParsed) -> List:
+        return list()
+
+    @staticmethod
+    def extract_rhymes(nt: ExampleParsed) -> List:
+        return list()
+
+    @staticmethod
+    def extract_rf(nt: ExampleParsed) -> List:
+        return list()
+
+    @staticmethod
+    def extract_xrefs(nt: ExampleParsed) -> List:
+        return list()
+
+    @staticmethod
+    def process_xrefs(nt: ExampleParsed, example: Example):
+        def process_xref(xref: Xref) -> Xref:
+            return xref
+
+        return [process_xref(XrefParser.persist(d)) for d in ExampleParser.extract_xrefs(nt)]

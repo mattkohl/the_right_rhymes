@@ -14,11 +14,8 @@ class ArtistParser:
     def persist(nt: ArtistParsed) -> Artist:
         try:
             artist = Artist.objects.get(slug=nt.slug)
-        except ObjectDoesNotExist:
-            artist = Artist(slug=nt.slug, name=nt.name)
-            artist.save()
-            return artist
-        else:
             artist.name = nt.name
             artist.save()
-            return artist
+        except ObjectDoesNotExist:
+            artist = Artist.objects.create(slug=nt.slug, name=nt.name)
+        return artist
