@@ -2,7 +2,7 @@ from typing import Dict
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from dictionary.models import Xref, XrefParsed, Sense, Example
+from dictionary.models import Xref, XrefParsed
 from dictionary.utils import slugify
 
 
@@ -30,32 +30,14 @@ class XrefParser:
             xref_word=d['#text'],
             xref_type=type_map[d["@type"]] if "@type" in d else "Related Concept",
             target_lemma=target_lemma,
-            target_slug=slugify(target_lemma),
+            target_slug=XrefParser.extract_target_slug(d),
             target_id=d['@target'],
             position=d["@position"] if "@position" in d else None,
             frequency=d['@freq'] if "@freq" in d else None
         )
 
     @staticmethod
-    def persist(nt: XrefParsed, example: Example) -> Xref:
-        # xref_sense_object, _ = Sense.objects.get_or_create(xml_id=xref['@target'])
-        # self.example_object.illustrates_senses.add(xref_sense_object)
-        # for artist in self.primary_artists:
-        #     artist.artist_object.primary_senses.add(xref_sense_object)
-        # self.lyric_links.append(TRRLyricLink(link_dict=xref, link_type='xref', example_text=self.lyric_text))
-        # if '@rhymeTarget' in xref:
-        #     self.example_rhymes.append(TRRExampleRhyme(xref))
-        try:
-            sense = Sense.objects.get(xml_id=nt.target_id)
-        except ObjectDoesNotExist:
-            sense = Sense.objects.create(xml_id=nt.target_id)
-        finally:
-            example.illustrates_senses(sense)
-            for artist in example.artist:
-                artist.primary_senses.add(sense)
-            for artist in example.feat_artist:
-                artist.featured_senses.add(sense)
-
+    def persist(nt: XrefParsed) -> Xref:
         try:
             xref = Xref.objects.get(xref_word=nt.xref_word,
                                     xref_type=nt.xref_type,
@@ -74,3 +56,12 @@ class XrefParser:
                                        position=nt.position,
                                        frequency=nt.frequency)
         return xref
+
+    @staticmethod
+    def extract_target_slug(d):
+        if '@target' in d and '@lemma' in d:
+            return slugify(d['@lemma']) + '#' + d['@target']
+        elif '@prefLabel' in d:
+            return slugify(d['@prefLabel'])
+        else:
+            return slugify(d['#text'])
