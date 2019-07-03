@@ -2,7 +2,7 @@ from typing import Dict
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from dictionary.models import Xref, XrefParsed
+from dictionary.models import Xref, XrefParsed, Sense, Example
 from dictionary.utils import slugify
 
 
@@ -37,7 +37,25 @@ class XrefParser:
         )
 
     @staticmethod
-    def persist(nt: XrefParsed) -> Xref:
+    def persist(nt: XrefParsed, example: Example) -> Xref:
+        # xref_sense_object, _ = Sense.objects.get_or_create(xml_id=xref['@target'])
+        # self.example_object.illustrates_senses.add(xref_sense_object)
+        # for artist in self.primary_artists:
+        #     artist.artist_object.primary_senses.add(xref_sense_object)
+        # self.lyric_links.append(TRRLyricLink(link_dict=xref, link_type='xref', example_text=self.lyric_text))
+        # if '@rhymeTarget' in xref:
+        #     self.example_rhymes.append(TRRExampleRhyme(xref))
+        try:
+            sense = Sense.objects.get(xml_id=nt.target_id)
+        except ObjectDoesNotExist:
+            sense = Sense.objects.create(xml_id=nt.target_id)
+        finally:
+            example.illustrates_senses(sense)
+            for artist in example.artist:
+                artist.primary_senses.add(sense)
+            for artist in example.feat_artist:
+                artist.featured_senses.add(sense)
+
         try:
             xref = Xref.objects.get(xref_word=nt.xref_word,
                                     xref_type=nt.xref_type,

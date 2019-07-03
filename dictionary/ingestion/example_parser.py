@@ -27,7 +27,11 @@ class ExampleParser:
                 release_date_string=d['date'],
                 album=d['album'],
                 lyric_text=d['lyric']['text'],
-                xml_id=d["@id"]
+                xml_id=d["@id"],
+                rhymes=d["rhyme"] if "rhyme" in d else [],
+                rfs=d["rf"] if "rf" in d else [],
+                xrefs=d["xref"] if "xref" in d else [],
+                entities=d["entity"] if "entity" in d else []
             )
         except Exception as e:
             raise KeyError(f"Example parse failed: {e}")
@@ -136,11 +140,10 @@ class ExampleParser:
 
     @staticmethod
     def extract_xrefs(nt: ExampleParsed) -> List:
-        return list()
+        return [XrefParser.parse(a) for a in nt.xrefs]
 
     @staticmethod
     def process_xrefs(nt: ExampleParsed, example: Example):
         def process_xref(xref: Xref) -> Xref:
             return xref
-
-        return [process_xref(XrefParser.persist(d)) for d in ExampleParser.extract_xrefs(nt)]
+        return [process_xref(XrefParser.persist(d, example)) for d in ExampleParser.extract_xrefs(nt)]

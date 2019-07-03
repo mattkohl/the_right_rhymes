@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Optional, Tuple
+from typing import Dict, List, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.ingestion.collocate_parser import CollocateParser
@@ -98,7 +98,8 @@ class SenseParser:
     @staticmethod
     def extract_synsets(d: Dict) -> List[SynSetParsed]:
         try:
-            return [SynSetParser.parse(d['synSetRef']['@target'])]
+            synset_refs = d["synSetRef"]
+            return [SynSetParser.parse(synset['@target']) for synset in synset_refs if '@target' in synset]
         except KeyError as _:
             return list()
 

@@ -1,7 +1,7 @@
-from typing import List, Tuple
+from typing import List
 
 from dictionary.ingestion.entry_parser import EntryParser
-from dictionary.models import Entry, Form, EntryParsed, FormParsed, FormRelations
+from dictionary.models import Entry, Form, EntryParsed, FormParsed
 from dictionary.tests.base import BaseXMLParserTest
 
 
