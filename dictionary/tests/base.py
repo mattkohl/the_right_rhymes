@@ -483,7 +483,7 @@ class BaseXMLParserTest(TestCase):
         self.zootie_form_nt3 = FormParsed(slug='zooty', label='zooty', frequency=1)
 
         self.zootie_example_dict = self.zootie_sense_dict['examples']['example'][0]
-        self.zootie_example_nt = ExampleParsed(primary_artists=['Beastie Boys'], song_title='Hey Ladies', featured_artists=[], release_date='1989-07-25', release_date_string='1989-07-25', album="Paul's Boutique", lyric_text='I met a little cutie, she was all hopped up on zootie', xml_id='3470', xrefs=[], rfs=[], entities=[], rhymes=[])
+        self.zootie_example_nt = ExampleParsed(primary_artists=['Beastie Boys'], song_title='Hey Ladies', featured_artists=[], release_date='1989-07-25', release_date_string='1989-07-25', album="Paul's Boutique", lyric_text='I met a little cutie, she was all hopped up on zootie', xml_id='3470', xrefs=[], rfs=[{'@target': 'e11730_n_1', '@position': '47', '@lemma': 'zootie', '#text': 'zootie'}], entities=[], rhymes=[{'@rhymeTarget': 'e11730_n_1', '@position': '15', '@rhymeTargetWord': 'zootie', '@rhymeTargetPosition': '47', '#text': 'cutie'}])
 
         self.zootie_example_dict1 = self.zootie_sense_dict['examples']['example'][1]
         self.zootie_example_nt1 = ExampleParsed(primary_artists=['Black Sheep'], song_title='We Boys', featured_artists=['Legion, The'], release_date='1994-12-06', release_date_string='1994-12-06', album='Non-Fiction', lyric_text='One love with the bang, riding with the zootie', xml_id='5033', xrefs=[], rfs=[], entities=[], rhymes=[])

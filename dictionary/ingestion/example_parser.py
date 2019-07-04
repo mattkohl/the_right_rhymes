@@ -142,10 +142,6 @@ class ExampleParser:
         return list()
 
     @staticmethod
-    def extract_rf(nt: ExampleParsed) -> List:
-        return list()
-
-    @staticmethod
     def extract_lyric_links(nt: ExampleParsed) -> List[LyricLinkParsed]:
         def _extract_lyric_links():
             for xref in nt.xrefs:
