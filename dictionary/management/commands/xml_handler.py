@@ -13,13 +13,10 @@ from dictionary.models import Entry, Sense, Example, Artist, Domain, SynSet, \
 from dictionary.utils import slugify, make_label_from_camel_case, geocode_place, move_definite_article_to_end, \
     update_stats, get_letter
 
-
 logger = logging.getLogger(__name__)
-
 
 geolocator = Nominatim(user_agent=__name__)
 geocache = []
-
 
 CHECK_FOR_UPDATES = True
 
@@ -91,7 +88,7 @@ class TRRDict:
         except Exception as e:
             raise KeyError(f"No 'entry' key in xml_dict: {e}")
         else:
-            return[TRREntry(entry_dict) for entry_dict in entry_list]
+            return [TRREntry(entry_dict) for entry_dict in entry_list]
 
     def print_stats(self):
         m, s = divmod(self.total_time, 60)
@@ -325,9 +322,9 @@ class TRRSense:
             example_list = examples['example']
             if isinstance(example_list, list):
                 for example in example_list:
-                    yield(TRRExample(self.sense_object, example))
+                    yield (TRRExample(self.sense_object, example))
             if isinstance(example_list, OrderedDict):
-                yield(TRRExample(self.sense_object, example_list))
+                yield (TRRExample(self.sense_object, example_list))
 
     def add_relations(self):
         self.sense_object.parent_entry.add(self.parent_entry)
@@ -350,7 +347,8 @@ class TRRSense:
 
 class TRRSong:
 
-    def __init__(self, xml_id, release_date, release_date_string, song_title, artist_name, artist_slug, primary_artists, feat_artists, album):
+    def __init__(self, xml_id, release_date, release_date_string, song_title, artist_name, artist_slug, primary_artists,
+                 feat_artists, album):
         self.xml_id = xml_id
         self.release_date = release_date
         self.release_date_string = release_date_string
@@ -420,8 +418,8 @@ class TRRExample:
         self.featured_artists = self.get_featured_artists()
         self.extract_xrefs()
         self.song = TRRSong(self.xml_id, self.release_date, self.release_date_string,
-                                   self.song_title, self.artist_name, self.artist_slug,
-                                   self.primary_artists, self.featured_artists, self.album)
+                            self.song_title, self.artist_name, self.artist_slug,
+                            self.primary_artists, self.featured_artists, self.album)
         self.add_relations()
 
     def get_artist_name(self):
@@ -496,13 +494,15 @@ class TRRExample:
             for entity in entities:
                 self.entities.append(TRREntity(entity))
                 if '@type' in entity and entity['@type'] == 'artist':
-                    self.lyric_links.append(TRRLyricLink(link_dict=entity, link_type='artist', example_text=self.lyric_text))
+                    self.lyric_links.append(
+                        TRRLyricLink(link_dict=entity, link_type='artist', example_text=self.lyric_text))
                     if '@prefLabel' in entity:
                         TRRArtist(entity['@prefLabel'])
                     else:
                         TRRArtist(entity['#text'])
                 else:
-                    self.lyric_links.append(TRRLyricLink(link_dict=entity, link_type='entity', example_text=self.lyric_text))
+                    self.lyric_links.append(
+                        TRRLyricLink(link_dict=entity, link_type='entity', example_text=self.lyric_text))
                 if '@rhymeTarget' in entity:
                     self.example_rhymes.append(TRRExampleRhyme(entity))
 
@@ -738,7 +738,7 @@ class TRREntity:
 
     def add_to_db(self):
         entity_object, _ = NamedEntity.objects.get_or_create(pref_label_slug=self.pref_label_slug,
-                                                                   entity_type=self.entity_type)
+                                                             entity_type=self.entity_type)
         # if self.entity_type == 'place':
         #     TRRPlace(self.pref_label)
         return entity_object
@@ -773,8 +773,8 @@ class TRRCollocate:
 
     def add_to_db(self):
         collocate_object, _ = Collocate.objects.get_or_create(collocate_lemma=self.collocate_lemma,
-                                                                    source_sense_xml_id=self.source_sense_xml_id,
-                                                                    target_id=self.target_id)
+                                                              source_sense_xml_id=self.source_sense_xml_id,
+                                                              target_id=self.target_id)
         return collocate_object
 
     def update_collocate_object(self):
@@ -805,7 +805,7 @@ class TRRSenseRhyme:
 
     def add_to_db(self):
         rhyme_object, _ = SenseRhyme.objects.get_or_create(rhyme=self.rhyme,
-                                                                 parent_sense_xml_id=self.source_sense_xml_id)
+                                                           parent_sense_xml_id=self.source_sense_xml_id)
         return rhyme_object
 
     def update_rhyme_object(self):
@@ -837,9 +837,9 @@ class TRRExampleRhyme:
     def add_to_db(self):
         if self.word_two_position:
             rhyme_object, _ = ExampleRhyme.objects.get_or_create(word_one=self.word_one,
-                                                                       word_two=self.word_two,
-                                                                       word_one_position=self.word_one_position,
-                                                                       word_two_position=self.word_two_position)
+                                                                 word_two=self.word_two,
+                                                                 word_one_position=self.word_one_position,
+                                                                 word_two_position=self.word_two_position)
             return rhyme_object
         else:
             logger.warning('Unable to find word position for' + self.word_two + ' in rhyme ' + self.word_one)
@@ -1011,7 +1011,7 @@ def process_xml(xml_list):
     for i, xml in enumerate(xml_list):
         x = XMLDict(xml)
         launch_trr_dict(x)
-        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete ({})'.format(xml))
+        print_progress(i + 1, iterations, prefix='Progress:', suffix='Complete ({})'.format(xml))
 
 
 def main(directory='../tRR/XML/tRR_Django'):

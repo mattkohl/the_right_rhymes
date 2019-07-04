@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.lyric_link_parser import LyricLinkParser
+from dictionary.ingestion.named_entity_parser import NamedEntityParser
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed, \
@@ -128,24 +129,14 @@ class ExampleParser:
 
     @staticmethod
     def extract_entities(nt: ExampleParsed) -> List[LyricLinkParsed]:
-        def _extract_entities():
-            for entity in nt.entities:
-                if '@type' in entity and entity['@type'] == 'artist':
-                    n = entity['@prefLabel'] if 'prefLabel' in entity else entity['#text']
-                    _ = ArtistParser.persist(ArtistParser.parse(n))
-                    yield LyricLinkParser.parse(entity, 'artist', nt.lyric_text)
-                else:
-                    yield LyricLinkParser.parse(entity, 'entity', nt.lyric_text)
-        return [l for l in _extract_entities()]
+        return [NamedEntityParser.parse(a) for a in nt.entities]
 
     @staticmethod
     def process_entities(nt: ExampleParsed, example: Example):
         def process_entity(entity):
             example.features_entities.add(entity)
             return entity
-
-        # TODO: NamedEntityParser
-        return [process_entity(LyricLinkParser.persist(ll) for ll in ExampleParser.extract_entities(nt))]
+        return [process_entity(NamedEntityParser.persist(ll)) for ll in ExampleParser.extract_entities(nt)]
 
     @staticmethod
     def extract_rhymes(nt: ExampleParsed) -> List:
@@ -157,7 +148,17 @@ class ExampleParser:
 
     @staticmethod
     def extract_lyric_links(nt: ExampleParsed) -> List[LyricLinkParsed]:
-        return [LyricLinkParser.parse(a, 'xref', nt.lyric_text) for a in nt.xrefs]
+        def _extract_lyric_links():
+            for xref in nt.xrefs:
+                yield LyricLinkParser.parse(xref, 'xref', nt.lyric_text)
+            for entity in nt.entities:
+                if '@type' in entity and entity['@type'] == 'artist':
+                    n = entity['@prefLabel'] if 'prefLabel' in entity else entity['#text']
+                    _ = ArtistParser.persist(ArtistParser.parse(n))
+                    yield LyricLinkParser.parse(entity, 'artist', nt.lyric_text)
+                else:
+                    yield LyricLinkParser.parse(entity, 'entity', nt.lyric_text)
+        return list(_extract_lyric_links())
 
     @staticmethod
     def process_lyric_links(nt: ExampleParsed, example: Example) -> List[LyricLink]:
