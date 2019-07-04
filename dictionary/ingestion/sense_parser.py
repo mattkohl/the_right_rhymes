@@ -100,11 +100,8 @@ class SenseParser:
     def extract_synsets(d: Dict) -> List[SynSetParsed]:
         try:
             synset_refs = d["synSetRef"]
-            if isinstance(synset_refs, OrderedDict):
-                target = synset_refs['@target']
-                return [SynSetParser.parse(target)]
-            else:
-                return [SynSetParser.parse(synset['@target']) for synset in synset_refs if '@target' in synset]
+            target = synset_refs['@target']
+            return [SynSetParser.parse(target)]
         except KeyError as _:
             return list()
 
@@ -139,7 +136,7 @@ class SenseParser:
     @staticmethod
     def process_semantic_classes(nt, sense):
         def process_semantic_class(semantic_class: SemanticClass) -> SemanticClass:
-            sense.semantic_classs.add(semantic_class)
+            sense.semantic_classes.add(semantic_class)
             return semantic_class
         return [process_semantic_class(SemanticClassParser.persist(d)) for d in SenseParser.extract_semantic_classes(nt.xml_dict)]
 

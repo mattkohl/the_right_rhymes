@@ -17,6 +17,7 @@ class JSONConverter:
                       'region',
                       'semanticClass',
                       'synSetRef'
+                      'collocates',
                       'collocate',
                       'xref',
                       'feat',

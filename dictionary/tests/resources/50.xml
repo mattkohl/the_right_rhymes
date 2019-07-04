@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><dictionary><entry sk="5-0" eid="e2260" publish="yes">
+      <head>
+         <headword>5-0</headword>
+      </head>
+      <senses id="e2260_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="161">5-0</form>
+            <form freq="47">five-oh</form>
+            <form freq="31">five-o</form>
+            <form freq="16">Five-oh</form>
+            <form freq="13">5-0's</form>
+            <form freq="7">five o</form>
+            <form freq="5">Five-o</form>
+            <form freq="4">five oh</form>
+            <form freq="3">5 0</form>
+            <form freq="2">Five-O</form>
+            <form freq="2">Five o</form>
+         </forms>
+         <sense id="e2260_n_1" freq="16">
+            <rhymes>
+               <rhyme freq="9">go</rhyme>
+            </rhymes>
+            <collocates>
+               <collocate freq="1" target="e2045_n_1">12</collocate>
+               <collocate freq="1" target="e11670_int_2">yo</collocate>
+            </collocates>
+            <domain type="lawEnforcement"/>
+            <semanticClass type="numbers"/>
+            <sentiment type="neutral"/>
+            <definition><text>the police</text></definition>
+            <definition><text>a police officer</text></definition>
+            <synSetRef target="police"/>
+            <examples>
+               <example id="14956">
+                  <date>1988-06-07</date>
+                  <artist>EPMD</artist>
+                  <songTitle>Get Off The Bandwagon</songTitle>
+                  <album>Strictly Business</album>
+                  <lyric><text>I roll into the party as if I was five-o</text><xref target="e9070_intrV_1" position="2" lemma="roll">roll</xref><rf target="e2260_n_1" position="34" lemma="5-0">five-o</rf></lyric>
+               </example>
+               <example id="74381">
+                  <date>2017-04-17</date>
+                  <artist>Kendrick Lamar</artist>
+                  <songTitle>DUCKWORTH.</songTitle>
+                  <feat>Bekon</feat>
+                  <feat>Kid Capri</feat>
+                  <album>DAMN.</album>
+                  <lyric><text>They say 5-0 came circlin' parkin' lots and parkin' spots</text><rf target="e2260_n_1" position="9" lemma="5-0">5-0</rf></lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry>
+</dictionary>
