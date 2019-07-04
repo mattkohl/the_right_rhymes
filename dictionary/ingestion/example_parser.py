@@ -175,7 +175,7 @@ class ExampleParser:
                 try:
                     sense = Sense.objects.get(xml_id=xml_id)
                 except ObjectDoesNotExist:
-                    sense = Sense.objects.create(xml_id=lyric_link.target_slug)
+                    sense = Sense.objects.create(xml_id=xml_id, headword=lyric_link.target_lemma)
                 example.illustrates_senses.add(sense)
                 for artist in example.artist.all():
                     artist.primary_senses.add(sense)
