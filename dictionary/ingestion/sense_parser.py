@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from typing import Dict, List, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -24,7 +23,7 @@ class SenseParser:
             etymology = '; '.join([etymology['text'] for etymology in d['etym']]) if 'etym' in d else ""
             nt = SenseParsed(
                 headword=headword,
-                slug=f"{slugify(headword)}#{d['@id']}",
+                slug=slugify(headword),
                 publish=publish,
                 xml_id=d['@id'],
                 part_of_speech=pos,
@@ -134,7 +133,7 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def process_semantic_classes(nt, sense):
+    def process_semantic_classes(nt, sense) -> List[SemanticClass]:
         def process_semantic_class(semantic_class: SemanticClass) -> SemanticClass:
             sense.semantic_classes.add(semantic_class)
             return semantic_class
@@ -148,7 +147,7 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def process_regions(nt, sense):
+    def process_regions(nt, sense) -> List[Region]:
         def process_region(region: Region) -> Region:
             sense.regions.add(region)
             return region
@@ -177,9 +176,15 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def process_examples(nt: SenseParsed, sense: Sense):
+    def process_examples(nt: SenseParsed, sense: Sense) -> List[Tuple[Example, ExampleRelations]]:
         def process_example(example: Example, example_relations: ExampleRelations) -> Tuple[Example, ExampleRelations]:
             sense.examples.add(example)
+            for a in example_relations.artist:
+                a.primary_senses.add(sense)
+            for a in example_relations.feat_artist:
+                a.featured_senses.add(sense)
+            for e in example_relations.features_entities:
+                e.mentioned_at_senses.add(sense)
             return example, example_relations
         return [process_example(*ExampleParser.persist(d)) for d in SenseParser.extract_examples(nt.xml_dict)]
 
@@ -192,7 +197,7 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def process_xrefs(nt: SenseParsed, sense: Sense):
+    def process_xrefs(nt: SenseParsed, sense: Sense) -> List[Xref]:
         def process_xref(xref: Xref) -> Xref:
             sense.xrefs.add(xref)
             return xref

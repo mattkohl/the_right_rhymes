@@ -10,7 +10,7 @@ from dictionary.ingestion.named_entity_parser import NamedEntityParser
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed, \
-    SongRelations, LyricLink, LyricLinkParsed, Sense, NamedEntity
+    SongRelations, LyricLink, LyricLinkParsed, Sense, NamedEntity, ExampleRhyme, ExampleRhymeParsed
 from dictionary.utils import slugify
 
 
@@ -72,7 +72,6 @@ class ExampleParser:
             from_song=ExampleParser.process_songs(nt, example, primary_artists, featured_artists),
             feat_artist=featured_artists,
             example_rhymes=ExampleParser.process_example_rhymes(nt, example),
-            illustrates_senses=[],
             features_entities=ExampleParser.process_entities(nt, example),
             lyric_links=ExampleParser.process_lyric_links(nt, example)
         )
@@ -132,22 +131,22 @@ class ExampleParser:
         return [NamedEntityParser.parse(a) for a in nt.entities]
 
     @staticmethod
-    def process_entities(nt: ExampleParsed, example: Example):
-        def process_entity(entity):
+    def process_entities(nt: ExampleParsed, example: Example) -> List[NamedEntity]:
+        def process_entity(entity) -> NamedEntity:
             example.features_entities.add(entity)
             return entity
         return [process_entity(NamedEntityParser.persist(ll)) for ll in ExampleParser.extract_entities(nt)]
 
     @staticmethod
-    def extract_rhymes(nt: ExampleParsed) -> List:
+    def extract_example_rhymes(nt: ExampleParsed) -> List[ExampleRhymeParsed]:
         return [ExampleRhymeParser.parse(a) for a in nt.rhymes]
 
     @staticmethod
-    def process_example_rhymes(nt: ExampleParsed, example: Example):
-        def process_example_rhyme(example_rhyme):
+    def process_example_rhymes(nt: ExampleParsed, example: Example) -> List[ExampleRhyme]:
+        def process_example_rhyme(example_rhyme) -> ExampleRhyme:
             example.example_rhymes.add(example_rhyme)
             return example_rhyme
-        return [process_example_rhyme(ExampleRhymeParser.persist(r)) for r in ExampleParser.extract_rhymes(nt)]
+        return [process_example_rhyme(ExampleRhymeParser.persist(r)) for r in ExampleParser.extract_example_rhymes(nt)]
 
     @staticmethod
     def extract_lyric_links(nt: ExampleParsed) -> List[LyricLinkParsed]:

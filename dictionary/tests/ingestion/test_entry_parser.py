@@ -53,4 +53,4 @@ class TestEntryParser(BaseXMLParserTest):
     def test_extract_sense(self):
         result = EntryParser.extract_senses(self.zootie_entry_nt)
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].slug, 'zootie#e11730_n_1')
+        self.assertEqual(f"{result[0].slug}#{result[0].xml_id}", 'zootie#e11730_n_1')

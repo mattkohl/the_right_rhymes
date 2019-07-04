@@ -472,7 +472,7 @@ class SenseRhyme(models.Model):
 
 
 ExampleParsed = namedtuple('ExampleParsed', ["primary_artists", "song_title", "featured_artists", "release_date", "release_date_string", "album", "lyric_text", "xml_id", "xrefs", "rfs", "entities", "rhymes"])
-ExampleRelations = namedtuple("ExampleRelations", ["artist", "from_song", "feat_artist", "example_rhymes", "illustrates_senses", "features_entities", "lyric_links"])
+ExampleRelations = namedtuple("ExampleRelations", ["artist", "from_song", "feat_artist", "example_rhymes", "features_entities", "lyric_links"])
 
 
 class Example(models.Model):

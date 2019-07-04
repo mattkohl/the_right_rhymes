@@ -37,7 +37,7 @@ class LyricLinkParser:
         return lyric_link
 
     @staticmethod
-    def extract_target_slug(d):
+    def extract_target_slug(d) -> str:
         if '@target' in d and '@lemma' in d:
             return slugify(d['@lemma']) + '#' + d['@target']
         elif '@prefLabel' in d:
@@ -46,7 +46,7 @@ class LyricLinkParser:
             return slugify(d['#text'])
 
     @staticmethod
-    def confirm_position(link_text: str, example_text: str, position: Optional[int]):
+    def confirm_position(link_text: str, example_text: str, position: Optional[int]) -> int:
         try:
             pos = int(position)
             i = example_text.index(link_text)
