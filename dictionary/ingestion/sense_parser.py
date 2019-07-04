@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from typing import Dict, List, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -99,7 +100,11 @@ class SenseParser:
     def extract_synsets(d: Dict) -> List[SynSetParsed]:
         try:
             synset_refs = d["synSetRef"]
-            return [SynSetParser.parse(synset['@target']) for synset in synset_refs if '@target' in synset]
+            if isinstance(synset_refs, OrderedDict):
+                target = synset_refs['@target']
+                return [SynSetParser.parse(target)]
+            else:
+                return [SynSetParser.parse(synset['@target']) for synset in synset_refs if '@target' in synset]
         except KeyError as _:
             return list()
 
