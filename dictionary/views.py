@@ -250,7 +250,7 @@ def entry(request, headword_slug):
     slugs = list(published)
     include_form = request.user.is_authenticated
     include_all_senses = False
-    senses = [build_sense(sense, published, include_all_senses, include_form) for sense in entry.get_senses_ordered_by_example_count()]
+    senses = [build_sense(sense, published, include_all_senses, include_form) for sense in _entry.get_senses_ordered_by_example_count()]
     _index = slugs.index(slug)
     preceding = slugs[_index-1] if _index-1 >= 0 else None
     following = slugs[_index+1] if _index+1 < len(published) else None
