@@ -4,6 +4,7 @@ from typing import Dict, List, Iterator, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.ingestion.artist_parser import ArtistParser
+from dictionary.ingestion.example_rhyme_parser import ExampleRhymeParser
 from dictionary.ingestion.lyric_link_parser import LyricLinkParser
 from dictionary.ingestion.named_entity_parser import NamedEntityParser
 from dictionary.ingestion.song_parser import SongParser
@@ -70,7 +71,7 @@ class ExampleParser:
             artist=primary_artists,
             from_song=ExampleParser.process_songs(nt, example, primary_artists, featured_artists),
             feat_artist=featured_artists,
-            example_rhymes=ExampleParser.extract_rhymes(nt),
+            example_rhymes=ExampleParser.process_example_rhymes(nt, example),
             illustrates_senses=[],
             features_entities=ExampleParser.process_entities(nt, example),
             lyric_links=ExampleParser.process_lyric_links(nt, example)
@@ -139,7 +140,14 @@ class ExampleParser:
 
     @staticmethod
     def extract_rhymes(nt: ExampleParsed) -> List:
-        return list()
+        return [ExampleRhymeParser.parse(a) for a in nt.rhymes]
+
+    @staticmethod
+    def process_example_rhymes(nt: ExampleParsed, example: Example):
+        def process_example_rhyme(example_rhyme):
+            example.example_rhymes.add(example_rhyme)
+            return example_rhyme
+        return [process_example_rhyme(ExampleRhymeParser.persist(r)) for r in ExampleParser.extract_rhymes(nt)]
 
     @staticmethod
     def extract_lyric_links(nt: ExampleParsed) -> List[LyricLinkParsed]:
@@ -148,6 +156,8 @@ class ExampleParser:
                 yield LyricLinkParser.parse(xref, 'xref', nt.lyric_text)
             for rf in nt.rfs:
                 yield LyricLinkParser.parse(rf, 'xref', nt.lyric_text)
+            for rf in nt.rhymes:
+                yield LyricLinkParser.parse(rf, 'rhyme', nt.lyric_text)
             for entity in nt.entities:
                 if '@type' in entity and entity['@type'] == 'artist':
                     n = entity['@prefLabel'] if 'prefLabel' in entity else entity['#text']

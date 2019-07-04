@@ -500,7 +500,7 @@ class Example(models.Model):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
 
 
-ExampleRhymeParsed = namedtuple("ExampleRhymeParsed", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_one_target_id", "word_two_target_id", "word_one_position", "word_two_position"])
+ExampleRhymeParsed = namedtuple("ExampleRhymeParsed", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_two_target_id", "word_one_position", "word_two_position"])
 ExampleRhymeRelations = namedtuple("ExampleRhymeRelations", ["parent_example"])
 
 
