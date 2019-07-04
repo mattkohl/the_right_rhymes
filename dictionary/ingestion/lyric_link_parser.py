@@ -8,6 +8,11 @@ from dictionary.utils import slugify
 
 class LyricLinkParser:
 
+    XREF = 'xref'
+    RHYME = 'rhyme'
+    ARTIST = 'artist'
+    ENTITY = 'entity'
+
     @staticmethod
     def parse(d: Dict, link_type: str, example_text: str) -> LyricLinkParsed:
         target_lemma = d["@lemma"] if "@lemma" in d else d["#text"]

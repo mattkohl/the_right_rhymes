@@ -60,7 +60,7 @@ class XrefParser:
     @staticmethod
     def extract_target_slug(d):
         if '@target' in d and '@lemma' in d:
-            return slugify(d['@lemma']) + '#' + d['@target']
+            return slugify(d['@lemma'])
         elif '@prefLabel' in d:
             return slugify(d['@prefLabel'])
         else:

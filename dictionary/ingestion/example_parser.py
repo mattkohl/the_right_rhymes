@@ -152,32 +152,34 @@ class ExampleParser:
     def extract_lyric_links(nt: ExampleParsed) -> List[LyricLinkParsed]:
         def _extract_lyric_links():
             for xref in nt.xrefs:
-                yield LyricLinkParser.parse(xref, 'xref', nt.lyric_text)
+                yield LyricLinkParser.parse(xref, LyricLinkParser.XREF, nt.lyric_text)
             for rf in nt.rfs:
-                yield LyricLinkParser.parse(rf, 'xref', nt.lyric_text)
-            for rf in nt.rhymes:
-                yield LyricLinkParser.parse(rf, 'rhyme', nt.lyric_text)
+                yield LyricLinkParser.parse(rf, LyricLinkParser.XREF, nt.lyric_text)
+            for rhyme in nt.rhymes:
+                yield LyricLinkParser.parse(rhyme, LyricLinkParser.RHYME, nt.lyric_text)
             for entity in nt.entities:
                 if '@type' in entity and entity['@type'] == 'artist':
                     n = entity['@prefLabel'] if 'prefLabel' in entity else entity['#text']
                     _ = ArtistParser.persist(ArtistParser.parse(n))
-                    yield LyricLinkParser.parse(entity, 'artist', nt.lyric_text)
+                    yield LyricLinkParser.parse(entity, LyricLinkParser.ARTIST, nt.lyric_text)
                 else:
-                    yield LyricLinkParser.parse(entity, 'entity', nt.lyric_text)
+                    yield LyricLinkParser.parse(entity, LyricLinkParser.ENTITY, nt.lyric_text)
         return list(_extract_lyric_links())
 
     @staticmethod
     def process_lyric_links(nt: ExampleParsed, example: Example) -> List[LyricLink]:
         def process_lyric_link(lyric_link: LyricLink) -> LyricLink:
             example.lyric_links.add(lyric_link)
-            try:
-                sense = Sense.objects.get(xml_id=lyric_link.target_slug)
-            except ObjectDoesNotExist:
-                sense = Sense.objects.create(xml_id=lyric_link.target_slug)
-            example.illustrates_senses.add(sense)
-            for artist in example.artist.all():
-                artist.primary_senses.add(sense)
-            for artist in example.feat_artist.all():
-                artist.featured_senses.add(sense)
+            if lyric_link.link_type == LyricLinkParser.XREF:
+                hw, xml_id = lyric_link.target_slug.split("#")
+                try:
+                    sense = Sense.objects.get(xml_id=xml_id)
+                except ObjectDoesNotExist:
+                    sense = Sense.objects.create(xml_id=lyric_link.target_slug)
+                example.illustrates_senses.add(sense)
+                for artist in example.artist.all():
+                    artist.primary_senses.add(sense)
+                for artist in example.feat_artist.all():
+                    artist.featured_senses.add(sense)
             return lyric_link
         return [process_lyric_link(LyricLinkParser.persist(lyric_link_parsed)) for lyric_link_parsed in ExampleParser.extract_lyric_links(nt)]

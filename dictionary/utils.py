@@ -393,31 +393,36 @@ def build_stats():
     sense_count = dictionary.models.Sense.objects.filter(publish=True).count()
     example_count = dictionary.models.Example.objects.all().count()
     most_recent_entries = [entry for entry in dictionary.models.Entry.objects.filter(publish=True).order_by('-pub_date')[:LIST_LENGTH]]
+
     best_attested_senses = [sense for sense in dictionary.models.Sense.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
-    best_attested_sense_count = best_attested_senses[0].num_examples if best_attested_senses else 0
+    best_attested_sense_count = best_attested_senses[0].num_examples if best_attested_senses else 1
     best_attested_domains = [domain for domain in dictionary.models.Domain.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')[:LIST_LENGTH]]
     best_attested_semantic_classes = [semantic_class for semantic_class in dictionary.models.SemanticClass.objects.annotate(num_senses=Count('senses')).order_by('-num_senses')[:LIST_LENGTH]]
+
     most_cited_songs = [song for song in dictionary.models.Song.objects.annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
-    most_cited_song_count = most_cited_songs[0].num_examples if most_cited_songs else 0
     most_mentioned_places = [e for e in dictionary.models.NamedEntity.objects.filter(entity_type='place').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_mentioned_artists = [e for e in dictionary.models.NamedEntity.objects.filter(entity_type='artist').annotate(num_examples=Count('examples')).order_by('-num_examples')[:LIST_LENGTH]]
     most_cited_artists = [artist for artist in dictionary.models.Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')[:LIST_LENGTH]]
+
     examples_date_ascending = dictionary.models.Example.objects.order_by('release_date')
     examples_date_descending = dictionary.models.Example.objects.extra(where=["CHAR_LENGTH(release_date_string) > 4"]).order_by('-release_date')
-    seventies = dictionary.models.Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
-    eighties = dictionary.models.Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"]).count()
-    nineties = dictionary.models.Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
-    noughties = dictionary.models.Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"]).count()
-    twenty_tens = dictionary.models.Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
-    decade_max = max([seventies, eighties, nineties, noughties, twenty_tens]) if max([seventies, eighties, nineties, noughties, twenty_tens]) > 0 else 1
+
+    seventies_count = dictionary.models.Example.objects.filter(release_date__range=["1970-01-01", "1979-12-31"]).count()
+    eighties_count = dictionary.models.Example.objects.filter(release_date__range=["1980-01-01", "1989-12-31"]).count()
+    nineties_count = dictionary.models.Example.objects.filter(release_date__range=["1990-01-01", "1999-12-31"]).count()
+    noughties_count = dictionary.models.Example.objects.filter(release_date__range=["2000-01-01", "2009-12-31"]).count()
+    twenty_tens_count = dictionary.models.Example.objects.filter(release_date__range=["2010-01-01", "2019-12-31"]).count()
+    decade_max = max([seventies_count, eighties_count, nineties_count, noughties_count, twenty_tens_count]) if max([seventies_count, eighties_count, nineties_count, noughties_count, twenty_tens_count]) > 0 else 1
+
     places = [place for place in dictionary.models.Place.objects.annotate(num_artists=Count('artists')).order_by('-num_artists')[:LIST_LENGTH]]
 
-    domain_count = best_attested_domains[0].num_senses if best_attested_domains else 0
-    semantic_class_count = best_attested_semantic_classes[0].num_senses if best_attested_semantic_classes else 0
-    place_count = count_place_artists(places[0], [0]) if places else 0
-    place_mention_count = most_mentioned_places[0].num_examples if most_mentioned_places else 0
-    artist_mention_count = most_mentioned_artists[0].num_examples if most_mentioned_artists else 0
-    artist_cite_count = most_cited_artists[0].num_cites if most_cited_artists else 0
+    domain_count = (best_attested_domains[0].num_senses if best_attested_domains else 1) or 1
+    semantic_class_count = (best_attested_semantic_classes[0].num_senses if best_attested_semantic_classes else 1) or 1
+    place_count = (count_place_artists(places[0], [0]) if places else 1) or 1
+    place_mention_count = (most_mentioned_places[0].num_examples if most_mentioned_places else 1) or 1
+    artist_mention_count = (most_mentioned_artists[0].num_examples if most_mentioned_artists else 1) or 1
+    artist_cite_count = (most_cited_artists[0].num_cites if most_cited_artists else 1) or 1
+    most_cited_song_count = (most_cited_songs[0].num_examples if most_cited_songs else 1) or 1
 
     return {
         'num_entries': entry_count,
@@ -511,16 +516,16 @@ def build_stats():
         ],
         'earliest_date': {'example': [build_example(date, published_headwords) for date in examples_date_ascending[:LIST_LENGTH]]},
         'latest_date': {'example': [build_example(date, published_headwords) for date in examples_date_descending[:LIST_LENGTH]]},
-        'num_seventies': seventies,
-        'seventies_width': (seventies / decade_max) * 100,
-        'num_eighties': eighties,
-        'eighties_width': (eighties / decade_max) * 100 - WIDTH_ADJUSTMENT,
-        'num_nineties': nineties,
-        'nineties_width': (nineties / decade_max) * 100 - WIDTH_ADJUSTMENT,
-        'num_noughties': noughties,
-        'noughties_width': (noughties / decade_max) * 100 - WIDTH_ADJUSTMENT,
-        'num_twenty_tens': twenty_tens,
-        'twenty_tens_width': (twenty_tens / decade_max) * 100 - WIDTH_ADJUSTMENT,
+        'num_seventies': seventies_count,
+        'seventies_width': (seventies_count / decade_max) * 100,
+        'num_eighties': eighties_count,
+        'eighties_width': (eighties_count / decade_max) * 100 - WIDTH_ADJUSTMENT,
+        'num_nineties': nineties_count,
+        'nineties_width': (nineties_count / decade_max) * 100 - WIDTH_ADJUSTMENT,
+        'num_noughties': noughties_count,
+        'noughties_width': (noughties_count / decade_max) * 100 - WIDTH_ADJUSTMENT,
+        'num_twenty_tens': twenty_tens_count,
+        'twenty_tens_width': (twenty_tens_count / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'google_maps_key': GMKV
     }
 
