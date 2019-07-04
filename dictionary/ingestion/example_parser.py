@@ -19,7 +19,6 @@ class ExampleParser:
     def parse(d: Dict) -> ExampleParsed:
         try:
             primary_artists = [d['artist']['#text'] if isinstance(d['artist'], OrderedDict) else d['artist']]
-            from pprint import pprint
             nt = ExampleParsed(
                 primary_artists=primary_artists,
                 song_title=d['songTitle'],
@@ -29,10 +28,10 @@ class ExampleParser:
                 album=d['album'],
                 lyric_text=d['lyric']['text'],
                 xml_id=d["@id"],
-                rhymes=d["rhyme"] if "rhyme" in d else [],
-                rfs=d["rf"] if "rf" in d else [],
-                xrefs=d["xref"] if "xref" in d else [],
-                entities=d["entity"] if "entity" in d else []
+                rhymes=d['lyric']["rhyme"] if "rhyme" in d['lyric'] else [],
+                rfs=d['lyric']["rf"] if "rf" in d['lyric'] else [],
+                xrefs=d['lyric']["xref"] if "xref" in d['lyric'] else [],
+                entities=d['lyric']["entity"] if "entity" in d['lyric'] else []
             )
         except Exception as e:
             raise KeyError(f"Example parse failed: {e}")
@@ -74,7 +73,7 @@ class ExampleParser:
             example_rhymes=ExampleParser.extract_rhymes(nt),
             illustrates_senses=[],
             features_entities=ExampleParser.process_entities(nt, example),
-            lyric_links=ExampleParser.extract_lyric_links(nt)
+            lyric_links=ExampleParser.process_lyric_links(nt, example)
         )
         return purged, relations
 
@@ -151,6 +150,8 @@ class ExampleParser:
         def _extract_lyric_links():
             for xref in nt.xrefs:
                 yield LyricLinkParser.parse(xref, 'xref', nt.lyric_text)
+            for rf in nt.rfs:
+                yield LyricLinkParser.parse(rf, 'xref', nt.lyric_text)
             for entity in nt.entities:
                 if '@type' in entity and entity['@type'] == 'artist':
                     n = entity['@prefLabel'] if 'prefLabel' in entity else entity['#text']
@@ -163,15 +164,15 @@ class ExampleParser:
     @staticmethod
     def process_lyric_links(nt: ExampleParsed, example: Example) -> List[LyricLink]:
         def process_lyric_link(lyric_link: LyricLink) -> LyricLink:
+            example.lyric_links.add(lyric_link)
             try:
                 sense = Sense.objects.get(xml_id=lyric_link.target_slug)
             except ObjectDoesNotExist:
-                sense = Sense.objects.create(xml_id=nt.target_slug)
-            finally:
-                example.illustrates_senses(sense)
-                for artist in example.artist:
-                    artist.primary_senses.add(sense)
-                for artist in example.feat_artist:
-                    artist.featured_senses.add(sense)
+                sense = Sense.objects.create(xml_id=lyric_link.target_slug)
+            example.illustrates_senses.add(sense)
+            for artist in example.artist.all():
+                artist.primary_senses.add(sense)
+            for artist in example.feat_artist.all():
+                artist.featured_senses.add(sense)
             return lyric_link
         return [process_lyric_link(LyricLinkParser.persist(lyric_link_parsed)) for lyric_link_parsed in ExampleParser.extract_lyric_links(nt)]

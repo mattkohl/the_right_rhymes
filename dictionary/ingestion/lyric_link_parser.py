@@ -11,13 +11,13 @@ class LyricLinkParser:
     @staticmethod
     def parse(d: Dict, link_type: str, example_text: str) -> LyricLinkParsed:
         target_lemma = d["@lemma"] if "@lemma" in d else d["#text"]
-
+        link_text = d['#text']
         return LyricLinkParsed(
-            link_text=d['#text'],
+            link_text=link_text,
             link_type=link_type,
             target_lemma=target_lemma,
             target_slug=LyricLinkParser.extract_target_slug(d),
-            position=LyricLinkParser.confirm_position(example_text, d['@position'] if '@position' in d else None)
+            position=LyricLinkParser.confirm_position(link_text, example_text, d['@position']) if '@position' in d else None
         )
 
     @staticmethod
