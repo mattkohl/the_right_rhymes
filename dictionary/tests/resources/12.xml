@@ -18,6 +18,14 @@
             <definition><text>(Narcotics) police</text></definition>
             <synSetRef target="narcotics_police"/>
             <xref type="conceptRelatesTo" target="e6450_int_1">hootie hoo</xref>
+            <artists>
+               <artist>Lil Uzi Vert</artist>
+               <artist>PeeWee Longway</artist>
+               <artist>Pusha T</artist>
+               <artist>Desiigner</artist>
+               <artist>Migos</artist>
+               <artist>Lil Wayne</artist>
+            </artists>
             <examples>
                <example id="63503">
                   <date>2011-07-13</date>

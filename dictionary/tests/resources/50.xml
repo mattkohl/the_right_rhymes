@@ -31,6 +31,10 @@
             <definition><text>the police</text></definition>
             <definition><text>a police officer</text></definition>
             <synSetRef target="police"/>
+            <artists>
+               <artist>Kendrick Lamar</artist>
+               <artist>EPMD</artist>
+            </artists>
             <examples>
                <example id="14956">
                   <date>1988-06-07</date>

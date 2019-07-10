@@ -10,7 +10,17 @@ class TestJSONConverter(BaseXMLParserTest):
             x = XmlFileReader.read_xml_file("dictionary/tests/resources/malformed.xml")
             JSONConverter.parse_to_dict(x)
 
-    def test_json_parse(self):
+    def test_json_parse_zootie(self):
         file_read = XmlFileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
+        as_dict = JSONConverter.parse_to_dict(file_read)
+        self.assertTrue('dictionary' in as_dict)
+
+    def test_json_parse_12(self):
+        file_read = XmlFileReader.read_xml_file("dictionary/tests/resources/12.xml")
+        as_dict = JSONConverter.parse_to_dict(file_read)
+        self.assertTrue('dictionary' in as_dict)
+
+    def test_json_parse_50(self):
+        file_read = XmlFileReader.read_xml_file("dictionary/tests/resources/50.xml")
         as_dict = JSONConverter.parse_to_dict(file_read)
         self.assertTrue('dictionary' in as_dict)
