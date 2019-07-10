@@ -1,6 +1,8 @@
+from collections import OrderedDict
 from typing import Dict, List, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
+from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.collocate_parser import CollocateParser
 from dictionary.ingestion.synset_parser import SynSetParser
 from dictionary.ingestion.region_parser import RegionParser
@@ -10,7 +12,7 @@ from dictionary.ingestion.example_parser import ExampleParser
 from dictionary.ingestion.xref_parser import XrefParser
 from dictionary.models import SenseParsed, Sense, SenseRelations, SynSet, SemanticClass, Region, Domain, DomainParsed, \
     SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations, RegionParsed, CollocateParsed, \
-    Collocate, XrefParsed, Xref
+    Collocate, XrefParsed, Xref, Artist, ArtistParsed
 from dictionary.utils import slugify
 
 
@@ -77,7 +79,7 @@ class SenseParser:
             sense_rhymes=[],
             collocates=SenseParser.process_collocates(nt, purged),
             features_entities=[],
-            cites_artists=[]
+            cites_artists=SenseParser.process_artists(nt, purged)
         )
         return purged, relations
 
@@ -202,3 +204,18 @@ class SenseParser:
             sense.xrefs.add(xref)
             return xref
         return [process_xref(XrefParser.persist(d)) for d in SenseParser.extract_xrefs(nt.xml_dict)]
+
+    @staticmethod
+    def extract_artists(d: Dict) -> List[ArtistParsed]:
+        try:
+            return [ArtistParser.parse(artist) for artist in d['artists']['artist']]
+        except KeyError as _:
+            return list()
+
+    @staticmethod
+    def process_artists(nt: ExampleParsed, sense: Sense) -> List[Artist]:
+        def process_artist(artist: Artist) -> Artist:
+            sense.cites_artists.add(artist)
+            return artist
+
+        return [process_artist(ArtistParser.persist(a)) for a in SenseParser.extract_artists(nt.xml_dict)]
