@@ -12,7 +12,7 @@ XML_REPO_URL = "git@gitlab.com:mattkohl/django-xml.git"
 #
 # e.g.
 #
-# Host foo
+# Host trr
 #   HostName 123.24.35.456
 #   User foo
 #   IdentityFile ~/.ssh/id_rsa
@@ -21,13 +21,13 @@ XML_REPO_URL = "git@gitlab.com:mattkohl/django-xml.git"
 
 @task
 def test_task(cxn):
-    cxn.run("sudo ls", pty=True)
+    print(cxn)
 
 
 @task
 def ingest(cxn):
     """
-    To ingest with Fabric, execute this command: fab ingest
+    To ingest with Fabric, execute this command: fab  -H trr ingest
     """
     xml_source = "/home/{}/django-xml".format(cxn.user)
     venv = "/home/{}/.virtualenvs/the_right_rhymes".format(cxn.user)
@@ -40,7 +40,7 @@ def ingest(cxn):
 @task
 def deploy(cxn):
     """
-    To deploy with Fabric, execute this command: fab deploy
+    To deploy with Fabric, execute this command: fab -H trr deploy
     """
 
     xml_source = f"/home/{cxn.user}/django-xml"
