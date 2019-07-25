@@ -47,22 +47,23 @@ def deploy(cxn):
     venv = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
     app_source = f"/home/{cxn.user}/the_right_rhymes"
 
-    _get_latest_app_source(cxn, app_source, app_source)
+    print(f"STEP 1")
+    _get_latest_app_source(cxn, app_source)
+    print(f"STEP 2")
     _update_settings(cxn, app_source, xml_source)
+    print(f"STEP 3")
     _update_virtualenv(cxn, app_source, venv)
+    print(f"STEP 4")
     _update_static_files(cxn, app_source, venv)
+    print(f"STEP 5")
     _update_database(cxn, app_source, venv)
+    print(f"STEP 6")
     _restart_gunicorn_service(cxn)
+    print(f"Done!")
 
 
-def _get_latest_app_source(cxn: Connection, source_folder, repo_url):
-    if exists(source_folder + "/.git"):
-        cxn.run(f"cd {source_folder} && git fetch")
-    else:
-        cxn.run(f"git clone {repo_url} {source_folder}")
-
-    current_commit = subprocess.Popen("git log -n 1 --format=%H", shell=True)
-    cxn.run(f"cd {source_folder} && git reset --hard {current_commit}")
+def _get_latest_app_source(cxn: Connection, source_folder):
+    cxn.run(f"cd {source_folder} && git pull")
 
 
 def _get_latest_xml_source(cxn: Connection, source_folder):
@@ -70,21 +71,21 @@ def _get_latest_xml_source(cxn: Connection, source_folder):
 
 
 def _update_settings(cxn: Connection, source_folder, xml_source):
-    settings_path = source_folder + "/the_right_rhymes/settings.py"
+    settings_path = f"{source_folder}/the_right_rhymes/settings.py"
     cxn.run(sed(settings_path, "DEBUG = True", "DEBUG = False"))
     cxn.run(sed(settings_path, "ALLOWED_HOSTS =.+$", """ALLOWED_HOSTS = ["www.therightrhymes.com", "therightrhymes.com"]"""))
     cxn.run(sed(settings_path, "SOURCE_XML_PATH =.+$", f"""SOURCE_XML_PATH = "{xml_source}" """))
-    secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
-    if not exists(secret_key_file):
+    secret_key_file = f"{source_folder}/the_right_rhymes/secret_key.py"
+    if not cxn.run(exists(secret_key_file)):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
         key = "".join(random.SystemRandom().choice(chars) for _ in range(50))
-        append(secret_key_file, f"SECRET_KEY = '{key}'")
-    append(settings_path, "\nfrom .secret_key import SECRET_KEY")
+        cxn.run(append(secret_key_file, f"SECRET_KEY = '{key}'"))
+    cxn.run(append(settings_path, "\nfrom .secret_key import SECRET_KEY"))
 
 
 def _update_virtualenv(cxn: Connection, source_folder, virtualenv_folder):
     cxn.run(f"{virtualenv_folder}/bin/pip install --upgrade pip")
-    cxn.run("{}/bin/pip install -r {}/requirements.txt".format(virtualenv_folder, source_folder))
+    cxn.run(f"{virtualenv_folder}/bin/pip install -r {source_folder}/requirements.txt")
 
 
 def _update_static_files(cxn: Connection, source_folder, virtualenv_folder):
@@ -106,7 +107,12 @@ def _ingest_dictionary(cxn: Connection, source_folder, virtualenv_folder):
 
 
 def sed(filename: str, before: str, after: str) -> str:
-    return f"sed -i s/{before}/{after}/g {filename}"
+    for char in "/'":
+        before = before.replace(char, r'\%s' % char)
+        after = after.replace(char, r'\%s' % char)
+    for char in "()":
+        after = after.replace(char, r'\%s' % char)
+    return f"sed -i.bak -r 's/{before}/{after}/g' \"{filename}\""
 
 
 def exists(filename: str) -> str:
