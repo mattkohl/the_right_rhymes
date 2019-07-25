@@ -2,14 +2,21 @@ from collections import Counter, OrderedDict
 import operator
 import math
 import logging
+from collections import namedtuple
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, ManyToManyField
 from django.contrib.postgres.fields import JSONField
 from django.urls import reverse
 
 from dictionary.utils import slugify, extract_short_name
 
 logger = logging.getLogger(__name__)
+
+
+ArtistParsed = namedtuple("Artist", ["name", "slug"])
+ArtistRelations = namedtuple("ArtistRelations", ["origin", "primary_examples", "primary_senses", "featured_examples",
+                                                 "featured_senses", "primary_songs", "featured_songs", "also_known_as",
+                                                 "member_of"])
 
 
 class Artist(models.Model):
@@ -83,6 +90,10 @@ class Editor(models.Model):
         return self.name
 
 
+EntryParsed = namedtuple("EntryParsed", ["headword", "slug", "sort_key", "letter", "publish", "xml_dict"])
+EntryRelations = namedtuple("EntryRelations", ["forms", "senses"])
+
+
 class Entry(models.Model):
     headword = models.CharField(primary_key=True, max_length=200)
     sort_key = models.CharField(max_length=200, null=True, blank=True)
@@ -109,11 +120,19 @@ class Entry(models.Model):
         return reverse('entry', args=[str(self.slug)])
 
 
+FormParsed = namedtuple("FormParsed", ["slug", "label", "frequency"])
+FormRelations = namedtuple("FormRelations", ["parent_entry"])
+
+
 class Form(models.Model):
     slug = models.SlugField('Form Slug', primary_key=True, db_index=True)
     label = models.CharField(max_length=1000)
     parent_entry = models.ManyToManyField(Entry, through=Entry.forms.through, related_name="+")
     frequency = models.IntegerField(blank=True, null=True)
+
+
+PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
+PlaceRelations = namedtuple("PlaceRelations", ["artist", "contains"])
 
 
 class Place(models.Model):
@@ -142,6 +161,13 @@ class Place(models.Model):
         name = extract_short_name(full_name)
         place = cls(slug=slug, full_name=full_name, name=name)
         return place
+
+
+SenseParsed = namedtuple("SenseParsed", ["headword", "slug", "publish", "xml_id", "part_of_speech", "xml_dict", "definition", "notes", "etymology"])
+SenseRelations = namedtuple("SenseRelations",
+                            ["examples", "domains", "regions", "semantic_classes",
+                             "synset", "xrefs", "sense_rhymes", "collocates",
+                             "features_entities", "cites_artists"])
 
 
 class Sense(models.Model):
@@ -242,6 +268,10 @@ class Salience(models.Model):
         }
 
 
+SongParsed = namedtuple("SongParsed", ["xml_id", "slug", "title", "artist_name", "artist_slug", "release_date", "release_date_string", "album"])
+SongRelations = namedtuple("SongRelations", ["artist", "feat_artist"])
+
+
 class Song(models.Model):
     id = models.AutoField(primary_key=True)
     xml_id = models.CharField('XML id', db_index=True, max_length=50, null=True, blank=True)
@@ -268,6 +298,10 @@ class Song(models.Model):
         return reverse('song', args=[str(self.slug)])
 
 
+SynSetParsed = namedtuple("SynSetParsed", ["name", "slug"])
+SynSetRelations = namedtuple("SynSetRelations", ["senses"])
+
+
 class SynSet(models.Model):
     name = models.CharField(primary_key=True, max_length=1000)
     slug = models.SlugField('SynSet Slug', blank=True, null=True)
@@ -279,6 +313,10 @@ class SynSet(models.Model):
 
     def __str__(self):
         return self.name
+
+
+SemanticClassParsed = namedtuple("SemanticClassParsed", ["name", "slug"])
+SemanticClassRelations = namedtuple("SemanticClassRelations", ["senses", "broader"])
 
 
 class SemanticClass(models.Model):
@@ -298,6 +336,10 @@ class SemanticClass(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
+DomainParsed = namedtuple("DomainParsed", ["name", "slug"])
+DomainRelations = namedtuple("DomainRelations", ["senses", "broader"])
+
+
 class Domain(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(primary_key=True, max_length=1000)
@@ -314,6 +356,10 @@ class Domain(models.Model):
         return {"name": self.name, "slug": self.slug}
 
 
+RegionParsed = namedtuple("RegionParsed", ["name", "slug"])
+RegionRelations = namedtuple("RegionRelations", ["senses", "broader"])
+
+
 class Region(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(primary_key=True, max_length=1000)
@@ -328,6 +374,10 @@ class Region(models.Model):
 
     def to_dict(self):
         return {"name": self.name, "slug": self.slug}
+
+
+XrefParsed = namedtuple("XrefParsed", ["xref_word", "xref_type", "target_lemma", "target_slug", "target_id", "position", "frequency"])
+XrefRelations = namedtuple("XrefRelations", "parent_sense")
 
 
 class Xref(models.Model):
@@ -362,6 +412,10 @@ class Xref(models.Model):
         return base
 
 
+CollocateParsed = namedtuple("CollocateParsed", ["collocate_lemma", "source_sense_xml_id", "target_slug", "target_id", "frequency"])
+CollocateRelations = namedtuple("CollocateRelations", ["parent_sense"])
+
+
 class Collocate(models.Model):
     id = models.AutoField(primary_key=True)
     collocate_lemma = models.CharField(max_length=1000, blank=True, null=True)
@@ -390,6 +444,10 @@ class Collocate(models.Model):
         return base
 
 
+SenseRhymeParsed = namedtuple("SenseRhymeParsed", ["rhyme", "rhyme_slug", "parent_sense_xml_id", "frequency"])
+SenseRhymeRelations = namedtuple("SenseRhymeRelations", ["parent_sense"])
+
+
 class SenseRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     rhyme = models.CharField(max_length=1000, blank=True, null=True)
@@ -411,6 +469,10 @@ class SenseRhyme(models.Model):
             "parent_sense_xml_id": self.parent_sense_xml_id,
             "frequency": self.frequency,
         }
+
+
+ExampleParsed = namedtuple('ExampleParsed', ["primary_artists", "song_title", "featured_artists", "release_date", "release_date_string", "album", "lyric_text", "xml_id", "xrefs", "rfs", "entities", "rhymes"])
+ExampleRelations = namedtuple("ExampleRelations", ["artist", "from_song", "feat_artist", "example_rhymes", "features_entities", "lyric_links"])
 
 
 class Example(models.Model):
@@ -438,6 +500,10 @@ class Example(models.Model):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
 
 
+ExampleRhymeParsed = namedtuple("ExampleRhymeParsed", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_two_target_id", "word_one_position", "word_two_position"])
+ExampleRhymeRelations = namedtuple("ExampleRhymeRelations", ["parent_example"])
+
+
 class ExampleRhyme(models.Model):
     id = models.AutoField(primary_key=True)
     word_one = models.CharField(max_length=1000, blank=True, null=True)
@@ -454,7 +520,11 @@ class ExampleRhyme(models.Model):
         ordering = ["word_one", "word_two"]
 
     def __str__(self):
-        return self.word_one + ' - ' + self.word_two
+        return f"{self.word_one}-{self.word_two}"
+
+
+LyricLinkParsed = namedtuple("LyricLinkParsed", ["link_type", "link_text", "target_lemma", "target_slug", "position"])
+LyricLinkRelations = namedtuple("LyricLinkRelations", ["parent_example"])
 
 
 class LyricLink(models.Model):
@@ -471,6 +541,10 @@ class LyricLink(models.Model):
 
     def __str__(self):
         return self.link_text
+
+
+NamedEntityParsed = namedtuple("NamedEntityParsed", ["name", "slug", "pref_label", "pref_label_slug", "entity_type"])
+NamedEntityRelations = namedtuple("NamedEntityRelations", ["mentioned_at_senses", "examples"])
 
 
 class NamedEntity(models.Model):

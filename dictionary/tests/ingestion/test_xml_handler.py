@@ -51,6 +51,22 @@ class TestTRREntry(BaseTest):
     entry_dict = {
             'senses': [{
                 'forms': [
+                    {'form': [{'@freq': '6', '#text': 'zootie'}]},
+                    {'form': [{'@freq': '2', '#text': 'zooties'}]},
+                    {'form': [{'@freq': '1', '#text': 'zooty'}]},
+                ],
+                'pos': 'noun',
+                'sense': [{}]
+            }],
+            'head': {'headword': 'zootie'},
+            '@sk': 'zootie',
+            '@publish': 'yes',
+            '@eid': 'e11730',
+        }
+
+    entry_dict_updated = {
+            'senses': [{
+                'forms': [
                     {'form': [{'@freq': '5', '#text': 'zootie'}]},
                     {'form': [{'@freq': '1', '#text': 'zooties'}]},
                 ],
@@ -66,20 +82,38 @@ class TestTRREntry(BaseTest):
     @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
     def test_construct(self, mock_process_sense):
         mock_process_sense.return_value = None
-        result = TRREntry(self.entry_dict)
-        self.assertEqual(str(result), 'zootie')
-        self.assertGreater(len(result.forms), 1)
-        for form in result.forms:
-            self.assertIn("zootie", form.label)
-            self.assertIn("zootie", form.slug)
+        TRREntry(self.entry_dict)
+
+        z_form = Form.objects.get(slug="zootie")
+        self.assertEquals(z_form.frequency, 6)
+        zs_form = Form.objects.get(slug="zooties")
+        self.assertEquals(zs_form.frequency, 2)
+        zy_form = Form.objects.get(slug="zooty")
+        self.assertEquals(zy_form.frequency, 1)
+        response = self.client.get("/search/?q=zooties")
+        self.assertRedirects(response, "/zootie/")
+        zootie = Entry.objects.get(slug="zootie")
+        self.assertEqual(zootie.forms.count(), 3)
+
+    @mock.patch("dictionary.management.commands.xml_handler.TRREntry.process_sense")
+    def test_update_forms(self, mock_process_sense):
+        mock_process_sense.return_value = None
+
+        TRREntry(self.entry_dict)
+
+        z_form = Form.objects.get(slug="zootie")
+        self.assertEquals(z_form.frequency, 6)
+        zs_form = Form.objects.get(slug="zooties")
+        self.assertEquals(zs_form.frequency, 2)
+
+        TRREntry(self.entry_dict_updated)
+
         z_form = Form.objects.get(slug="zootie")
         self.assertEquals(z_form.frequency, 5)
         zs_form = Form.objects.get(slug="zooties")
         self.assertEquals(zs_form.frequency, 1)
-        response = self.client.get("/search/?q=zooties")
-        self.assertRedirects(response, "/zootie/")
-        zootie = Entry.objects.get(slug="zootie")
-        self.assertEqual(zootie.forms.count(), 2)
+        self.assertIn(('madder',), Form.objects.values_list("slug"))
+        # self.assertNotIn(('zooty',), Form.objects.values_list("slug"))
 
 
 class TestTRRSense(BaseTest):

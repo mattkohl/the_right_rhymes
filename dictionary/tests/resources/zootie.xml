@@ -21,8 +21,16 @@
             <domain type="marijuana"/>
             <sentiment type="neutral"/>
             <definition><text>a marijuana cigarette laced with cocaine</text></definition>
+            <synSetRef target="smokes"/>
             <xref type="hasSynonym" target="e8630_n_1">primo</xref>
             <xref type="conceptRelatesTo" target="e8900_n_1">reefer</xref>
+            <artists>
+               <artist>Black Sheep</artist>
+               <artist>Beastie Boys</artist>
+               <artist>De La Soul</artist>
+               <artist>RZA</artist>
+               <artist>Gang Starr</artist>
+            </artists>
             <examples>
                <example id="3470">
                   <date>1989-07-25</date>

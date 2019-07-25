@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><dictionary><entry sk="12" eid="e2045" publish="yes">
+      <head>
+         <headword>12</headword>
+      </head>
+      <senses id="e2045_n">
+         <pos>noun</pos>
+         <forms>
+            <form freq="40">12</form>
+            <form freq="4">Twelve</form>
+            <form freq="2">twelve</form>
+         </forms>
+         <sense id="e2045_n_1" freq="1">
+            <collocates>
+               <collocate freq="1" target="e11580_n_2">work</collocate>
+            </collocates>
+            <domain type="lawEnforcement"/>
+            <sentiment type="neutral"/>
+            <definition><text>(Narcotics) police</text></definition>
+            <synSetRef target="narcotics_police"/>
+            <xref type="conceptRelatesTo" target="e6450_int_1">hootie hoo</xref>
+            <artists>
+               <artist>Lil Uzi Vert</artist>
+               <artist>PeeWee Longway</artist>
+               <artist>Pusha T</artist>
+               <artist>Desiigner</artist>
+               <artist>Migos</artist>
+               <artist>Lil Wayne</artist>
+            </artists>
+            <examples>
+               <example id="63503">
+                  <date>2011-07-13</date>
+                  <artist>Lil Wayne</artist>
+                  <songTitle>Dreams and Nightmares</songTitle>
+                  <album>Sorry 4 the Wait</album>
+                  <lyric><text>Should've been in N.W.A., fuck the police, 5-0, and 12</text><entity type="artist" position="18" prefLabel="N.W.A.">N.W.A.</entity><xref target="e2260_n_1" position="43" lemma="5-0">5-0</xref><rf target="e2045_n_1" position="52" lemma="12">12</rf></lyric>
+               </example>
+               <example id="66649">
+                  <date>2014-08-05</date>
+                  <artist>Lil Uzi Vert</artist>
+                  <songTitle>Understand</songTitle>
+                  <album>The Real Uzi</album>
+                  <lyric><text>Lil Uzi gotta watch out for the 12</text><entity type="artist" prefLabel="Lil Uzi Vert" position="0">Lil Uzi</entity><rf target="e2045_n_1" position="32" lemma="12">12</rf></lyric>
+               </example>
+               <example id="70175">
+                  <date>2015-07-31</date>
+                  <artist>Migos</artist>
+                  <songTitle>What a Feeling</songTitle>
+                  <album>Yung Rich Nation</album>
+                  <lyric><text>Runnin' from 12 in a Gucci fleece</text><rf target="e2045_n_1" position="13" lemma="12">12</rf><entity type="product" position="21" prefLabel="Gucci">Gucci</entity></lyric>
+               </example>
+               <example id="66764">
+                  <date>2015-10-30</date>
+                  <artist>Lil Uzi Vert</artist>
+                  <songTitle>Banned From TV</songTitle>
+                  <album>Luv Is Rage</album>
+                  <lyric><text>12 come around, and I turn to Helen Keller</text><rf target="e2045_n_1" position="0" lemma="12">12</rf><entity type="person" position="30" prefLabel="Helen Keller">Helen Keller</entity></lyric>
+               </example>
+               <example id="66175">
+                  <date>2015-12-18</date>
+                  <artist>Pusha T</artist>
+                  <songTitle>Drug Dealers Anonymous</songTitle>
+                  <feat>Jay Z</feat>
+                  <album>King Push</album>
+                  <lyric><text>He told 12, "Gimme 12"</text><rf target="e2045_n_1" position="8" lemma="12">12</rf><rf target="e2045_n_1" position="19" lemma="12">12</rf></lyric>
+               </example>
+               <example id="66933">
+                  <date>2016-01-29</date>
+                  <artist>PeeWee Longway</artist>
+                  <songTitle>Mr. Blue Benjamin</songTitle>
+                  <album>Mr. Blue Benjamin</album>
+                  <lyric><text>F-F-Fuck 12, bust a whole pint on they feet</text><rf target="e2045_n_1" position="9" lemma="12">12</rf></lyric>
+               </example>
+               <example id="67253">
+                  <date>2016-02-26</date>
+                  <artist>Desiigner</artist>
+                  <songTitle>Zombie Walk</songTitle>
+                  <feat>King Savage</feat>
+                  <album>Zombie Walk</album>
+                  <lyric><text>Don't fuck with the 12, we got 12 in the cage</text><xref target="e5540_trPhrV_1" position="6" lemma="fuck with">fuck with</xref><rf target="e2045_n_1" position="20" lemma="12">12</rf><rf target="e2045_n_1" position="31" lemma="12">12</rf></lyric>
+               </example>
+            </examples>
+         </sense>
+      </senses>
+   </entry></dictionary>

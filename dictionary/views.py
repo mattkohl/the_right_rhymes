@@ -245,22 +245,22 @@ def entry(request, headword_slug):
         slug = headword_slug
     template = loader.get_template('dictionary/entry.html')
 
-    entry = get_object_or_404(Entry, slug=slug, publish=True)
+    _entry = get_object_or_404(Entry, slug=slug, publish=True)
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     slugs = list(published)
     include_form = request.user.is_authenticated
     include_all_senses = False
-    senses = [build_sense(sense, published, include_all_senses, include_form) for sense in entry.get_senses_ordered_by_example_count()]
-    index = slugs.index(slug)
-    preceding = slugs[index-1] if index-1 >= 0 else None
-    following = slugs[index+1] if index+1 < len(published) else None
+    senses = [build_sense(sense, published, include_all_senses, include_form) for sense in _entry.get_senses_ordered_by_example_count()]
+    _index = slugs.index(slug)
+    preceding = slugs[_index-1] if _index-1 >= 0 else None
+    following = slugs[_index+1] if _index+1 < len(published) else None
     context = {
-        'headword': entry.headword,
+        'headword': _entry.headword,
         'slug': slug,
-        'title': entry.headword[0].upper() + entry.headword[1:],
+        'title': _entry.headword[0].upper() + _entry.headword[1:],
         'image': senses[0]['image'] if len(senses) > 0 else None,
-        'pub_date': entry.pub_date,
-        'last_updated': entry.last_updated,
+        'pub_date': _entry.pub_date,
+        'last_updated': _entry.last_updated,
         'senses': senses,
         'published_entries': published,
         'preceding': preceding,

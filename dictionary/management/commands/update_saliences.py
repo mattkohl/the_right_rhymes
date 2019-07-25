@@ -1,4 +1,4 @@
-from .salience_handler import main
+from .salience_builder import main
 from django.core.management.base import BaseCommand
 
 
