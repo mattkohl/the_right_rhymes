@@ -47,17 +47,11 @@ def deploy(cxn):
     venv = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
     app_source = f"/home/{cxn.user}/the_right_rhymes"
 
-    print(f"STEP 1")
     _get_latest_app_source(cxn, app_source)
-    print(f"STEP 2")
     _update_settings(cxn, app_source, xml_source)
-    print(f"STEP 3")
     _update_virtualenv(cxn, app_source, venv)
-    print(f"STEP 4")
     _update_static_files(cxn, app_source, venv)
-    print(f"STEP 5")
     _update_database(cxn, app_source, venv)
-    print(f"STEP 6")
     _restart_gunicorn_service(cxn)
     print(f"Done!")
 
