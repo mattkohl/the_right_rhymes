@@ -29,9 +29,9 @@ def ingest(cxn):
     """
     To ingest with Fabric, execute this command: fab  -H trr ingest
     """
-    xml_source = "/home/{}/django-xml".format(cxn.user)
-    venv = "/home/{}/.virtualenvs/the_right_rhymes".format(cxn.user)
-    app_source = "/home/{}/the_right_rhymes".format(cxn.user)
+    xml_source = f"/home/{cxn.user}/django-xml"
+    venv = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
+    app_source = f"/home/{cxn.user}/the_right_rhymes"
 
     _get_latest_xml_source(cxn, xml_source)
     _ingest_dictionary(cxn, app_source, venv)
@@ -62,37 +62,37 @@ def _get_latest_app_source(cxn: Connection, source_folder, repo_url):
         cxn.run(f"git clone {repo_url} {source_folder}")
 
     current_commit = subprocess.Popen("git log -n 1 --format=%H", shell=True)
-    cxn.run("cd {} && git reset --hard {}".format(source_folder, current_commit))
+    cxn.run(f"cd {source_folder} && git reset --hard {current_commit}")
 
 
 def _get_latest_xml_source(cxn: Connection, source_folder):
-    cxn.run("cd {} && git pull".format(source_folder))
+    cxn.run(f"cd {source_folder} && git pull")
 
 
 def _update_settings(cxn: Connection, source_folder, xml_source):
     settings_path = source_folder + "/the_right_rhymes/settings.py"
     cxn.run(sed(settings_path, "DEBUG = True", "DEBUG = False"))
     cxn.run(sed(settings_path, "ALLOWED_HOSTS =.+$", """ALLOWED_HOSTS = ["www.therightrhymes.com", "therightrhymes.com"]"""))
-    cxn.run(sed(settings_path, "SOURCE_XML_PATH =.+$", """SOURCE_XML_PATH = "{}" """.format(xml_source)))
+    cxn.run(sed(settings_path, "SOURCE_XML_PATH =.+$", f"""SOURCE_XML_PATH = "{xml_source}" """))
     secret_key_file = source_folder + "/the_right_rhymes/secret_key.py"
     if not exists(secret_key_file):
         chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
         key = "".join(random.SystemRandom().choice(chars) for _ in range(50))
-        append(secret_key_file, "SECRET_KEY = '{}'".format(key))
+        append(secret_key_file, f"SECRET_KEY = '{key}'")
     append(settings_path, "\nfrom .secret_key import SECRET_KEY")
 
 
 def _update_virtualenv(cxn: Connection, source_folder, virtualenv_folder):
-    cxn.run("{}/bin/pip install --upgrade pip".format(virtualenv_folder))
+    cxn.run(f"{virtualenv_folder}/bin/pip install --upgrade pip")
     cxn.run("{}/bin/pip install -r {}/requirements.txt".format(virtualenv_folder, source_folder))
 
 
 def _update_static_files(cxn: Connection, source_folder, virtualenv_folder):
-    cxn.run("cd {} && {}/bin/python manage.py collectstatic --noinput".format(source_folder, virtualenv_folder))
+    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py collectstatic --noinput")
 
 
 def _update_database(cxn: Connection, source_folder, virtualenv_folder):
-    cxn.run("cd {} && {}/bin/python manage.py migrate --noinput".format(source_folder, virtualenv_folder))
+    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py migrate --noinput")
 
 
 def _restart_gunicorn_service(cxn: Connection):
@@ -102,7 +102,7 @@ def _restart_gunicorn_service(cxn: Connection):
 
 
 def _ingest_dictionary(cxn: Connection, source_folder, virtualenv_folder):
-    cxn.run("cd {} && {}/bin/python manage.py ingest_dictionary".format(source_folder, virtualenv_folder))
+    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py ingest_dictionary")
 
 
 def sed(filename: str, before: str, after: str) -> str:
