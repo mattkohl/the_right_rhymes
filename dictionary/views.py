@@ -27,6 +27,7 @@ NUM_ARTISTS_TO_SHOW = 6
 
 gm = os.getenv("GOOGLE_MAPS_KEY", None)
 GMKV = f"&key={gm}" if gm else None
+MAPS_TOKEN = os.getenv("MAPS_TOKEN", None)
 
 
 @cache_control(max_age=3600)
@@ -35,7 +36,8 @@ def about(request):
     entry_count = Entry.objects.filter(publish=True).count()
     context = {
         'entry_count': entry_count,
-        'google_maps_key': GMKV
+        'google_maps_key': GMKV,
+        'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
 
@@ -132,7 +134,8 @@ def artist(request, artist_slug):
         'also_known_as': [build_artist(aka) for aka in a.also_known_as.all()],
         'member_of':  [build_artist(m) for m in a.member_of.all()],
         'members': [build_artist(m) for m in a.members.all()],
-        'google_maps_key': GMKV
+        'google_maps_key': GMKV,
+        'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
 
@@ -187,7 +190,8 @@ def region(request, region_slug):
         'published_entries': published,
         'image': check_for_image(r.slug, 'regions', 'full'),
         'data': json.dumps(data),
-        'google_maps_key': GMKV
+        'google_maps_key': GMKV,
+        'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
 
@@ -265,7 +269,8 @@ def entry(request, headword_slug):
         'published_entries': published,
         'preceding': preceding,
         'following': following,
-        'google_maps_key': GMKV
+        'google_maps_key': GMKV,
+        'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
 
@@ -326,7 +331,8 @@ def place(request, place_slug):
         'image': check_for_image(p.slug, 'places', 'full'),
         'examples': sorted(examples, key=itemgetter('release_date'))[:NUM_QUOTS_TO_SHOW],
         'num_examples': len(examples),
-        'google_maps_key': GMKV
+        'google_maps_key': GMKV,
+        'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
 
