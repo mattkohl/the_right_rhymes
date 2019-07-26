@@ -1,15 +1,15 @@
 from typing import AnyStr
 
 
-class XmlFileReader:
+class FileReader:
 
     @staticmethod
-    def read_xml_file(filename: AnyStr) -> AnyStr:
+    def read_file(filename: AnyStr) -> AnyStr:
         f = open(filename, 'rb')
         try:
-            xml_string = f.read()
+            file_string = f.read()
         except Exception as e:
-            raise IOError(f"Can't read in source XML: {e}")
+            raise IOError(f"Can't read in source file: {e}")
         else:
             f.close()
-            return xml_string
+            return file_string

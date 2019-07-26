@@ -20,14 +20,14 @@ CHECK_FOR_UPDATES = True
 def main(directory):
     print(f"Parsing directory {directory}")
     start = time.time()
-    xml_files = sorted(DirectoryLoader.collect_files(directory), key=lambda f: f.lower())
-    DirectoryLoader.process_xml(xml_files)
+    json_files = sorted(DirectoryLoader.collect_files(directory), key=lambda f: f.lower())
+    DirectoryLoader.process_json(json_files)
     end = time.time()
     total_time = end - start
     m, s = divmod(total_time, 60)
     h, m = divmod(m, 60)
 
-    msg = 'Processed dictionary in %d:%02d:%02d\n' % (h, m, s)
+    msg = 'Processed in %d:%02d:%02d\n' % (h, m, s)
     logger.info(msg)
     sys.stdout.write(msg)
     update_stats()
