@@ -1,4 +1,4 @@
-from .origins_parser import main
+from .json_parser import main
 from django.core.management.base import BaseCommand
 
 
@@ -8,7 +8,7 @@ class Command(BaseCommand):
         parser.add_argument('--directory',
                             action='store_true',
                             default='dictionary/tests/resources',
-                            help='path to XML')
+                            help='path to JSON')
 
     def handle(self, *args, **options):
         d = options['directory']

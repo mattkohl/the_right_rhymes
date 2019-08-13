@@ -40,6 +40,5 @@ class DirectoryLoader:
                 json_string: str = FileReader.read_file(doc)
                 json_doc = json.loads(json_string)
                 print_progress(i + 1, iterations, prefix='Progress:', suffix=f"Complete ({doc})")
-                entry_tuples = DictionaryParser.parse(xml_dict)
-                _ = DictionaryParser.process_entries(entry_tuples)
+                print(json_doc)
 
