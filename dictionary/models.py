@@ -4,7 +4,7 @@ import math
 import logging
 from collections import namedtuple
 from django.db import models
-from django.db.models import Count, ManyToManyField
+from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
 from django.urls import reverse
 
@@ -13,7 +13,7 @@ from dictionary.utils import slugify, extract_short_name
 logger = logging.getLogger(__name__)
 
 
-ArtistParsed = namedtuple("Artist", ["name", "slug"])
+ArtistParsed = namedtuple("Artist", ["name", "slug", "xml_dict"])
 ArtistRelations = namedtuple("ArtistRelations", ["origin", "primary_examples", "primary_senses", "featured_examples",
                                                  "featured_senses", "primary_songs", "featured_songs", "also_known_as",
                                                  "member_of"])

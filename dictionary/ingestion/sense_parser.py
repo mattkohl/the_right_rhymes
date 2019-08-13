@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from typing import Dict, List, Tuple
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -208,7 +207,7 @@ class SenseParser:
     @staticmethod
     def extract_artists(d: Dict) -> List[ArtistParsed]:
         try:
-            return [ArtistParser.parse(artist) for artist in d['artists']['artist']]
+            return [ArtistParser.parse({"name": artist}) for artist in d['artists']['artist']]
         except KeyError as _:
             return list()
 
