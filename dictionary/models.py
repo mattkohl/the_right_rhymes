@@ -129,7 +129,7 @@ class Form(models.Model):
     frequency = models.IntegerField(blank=True, null=True)
 
 
-PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
+PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude"])
 PlaceRelations = namedtuple("PlaceRelations", ["artist", "contains"])
 
 

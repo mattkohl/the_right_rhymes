@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand
-from dictionary.models import Sense, Artist, Place
+
+from dictionary.ingestion.artist_parser import ArtistParser
+from dictionary.models import Sense
 import requests
 
 
@@ -14,10 +16,12 @@ class Command(BaseCommand):
             sense = Sense.objects.filter(xml_id=_id).first()
             artists = sense.cites_artists.all()
             cache = dict()
-            for artist in artists:
-                cache[artist.slug] = requests.get(f"{url}/{artist.slug}").json()
             from pprint import pprint
-            pprint(cache)
+            for artist in artists:
+                response = requests.get(f"{url}/{artist.slug}").json()
+                done = [ArtistParser.persist(ArtistParser.parse(d)) for d in response["artists"]]
+                cache[artist.slug] = done
+                pprint(done)
             self.stdout.write(self.style.SUCCESS('Done!'))
 
 

@@ -36,7 +36,6 @@ def about(request):
     entry_count = Entry.objects.filter(publish=True).count()
     context = {
         'entry_count': entry_count,
-        'google_maps_key': GMKV,
         'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
@@ -134,7 +133,6 @@ def artist(request, artist_slug):
         'also_known_as': [build_artist(aka) for aka in a.also_known_as.all()],
         'member_of':  [build_artist(m) for m in a.member_of.all()],
         'members': [build_artist(m) for m in a.members.all()],
-        'google_maps_key': GMKV,
         'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
@@ -190,7 +188,6 @@ def region(request, region_slug):
         'published_entries': published,
         'image': check_for_image(r.slug, 'regions', 'full'),
         'data': json.dumps(data),
-        'google_maps_key': GMKV,
         'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
@@ -269,7 +266,6 @@ def entry(request, headword_slug):
         'published_entries': published,
         'preceding': preceding,
         'following': following,
-        'google_maps_key': GMKV,
         'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))
@@ -309,7 +305,7 @@ def place(request, place_slug):
 
     contains = [{'name': abbreviate_place_name(c.name), 'slug': c.slug} for c in p.contains.order_by('name')]
     within = {}
-    if ', ' in p.full_name:
+    if p.full_name and ', ' in p.full_name:
         w_name = ', '.join(p.full_name.split(', ')[1:])
         w_slug = slugify(w_name)
         within = {'name': abbreviate_place_name(w_name), 'slug': w_slug}
@@ -321,7 +317,7 @@ def place(request, place_slug):
 
     context = {
         'place': p.name,
-        'place_name_full': p.full_name,
+        'place_name_full': p.full_name if p.full_name else p.name,
         'slug': p.slug,
         'contains': contains,
         'within': within,
@@ -331,7 +327,6 @@ def place(request, place_slug):
         'image': check_for_image(p.slug, 'places', 'full'),
         'examples': sorted(examples, key=itemgetter('release_date'))[:NUM_QUOTS_TO_SHOW],
         'num_examples': len(examples),
-        'google_maps_key': GMKV,
         'maps_token': MAPS_TOKEN
     }
     return HttpResponse(template.render(context, request))

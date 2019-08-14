@@ -10,10 +10,13 @@ class PlaceParser:
     @staticmethod
     def parse(d: Dict) -> PlaceParsed:
         try:
+            name = d["name"]
+            full_name = d.get("full_name")
             nt = PlaceParsed(
                 latitude=d.get("latitude"),
                 longitude=d.get("longitude"),
-                name=d["name"],
+                full_name=full_name if full_name else name,
+                name=name,
                 slug=d["slug"]
             )
         except Exception as e:

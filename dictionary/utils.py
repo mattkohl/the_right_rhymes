@@ -525,8 +525,7 @@ def build_stats():
         'num_noughties': noughties_count,
         'noughties_width': (noughties_count / decade_max) * 100 - WIDTH_ADJUSTMENT,
         'num_twenty_tens': twenty_tens_count,
-        'twenty_tens_width': (twenty_tens_count / decade_max) * 100 - WIDTH_ADJUSTMENT,
-        'google_maps_key': GMKV
+        'twenty_tens_width': (twenty_tens_count / decade_max) * 100 - WIDTH_ADJUSTMENT
     }
 
 
