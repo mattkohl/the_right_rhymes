@@ -11,7 +11,7 @@ function initializeMapsDelay() {
 
         var plot = new mapboxgl.Map({
             container: 'map' + index,
-            style: 'mapbox://styles/mapbox/dark-v9',
+            style: 'mapbox://styles/mattkohl/cjzbh31rv0g3c1cpcos3l17xv',
             center: [-98.5795, 39.8283],
             zoom: 3
         });
@@ -49,7 +49,6 @@ function initializeMapsDelay() {
         }
 
         $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
-            console.log(endpoint);
             plot.on('load', function () {
 
                 if (artistSlug) {
@@ -124,7 +123,7 @@ function initializeMapsDelay() {
                             9, 0
                         ],
                     }
-                }, 'waterway-label');
+                });
 
                 plot.addLayer({
                     "id": "points-circles",
@@ -175,7 +174,7 @@ function initializeMapsDelay() {
                             8, 1
                         ]
                     }
-                }, 'waterway-label');
+                });
 
             });
         });
