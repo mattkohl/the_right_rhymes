@@ -1,8 +1,8 @@
-from typing import Dict, Tuple
+from typing import Dict
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from dictionary.models import Place, PlaceParsed, PlaceRelations
+from dictionary.models import Place, PlaceParsed
 
 
 class PlaceParser:

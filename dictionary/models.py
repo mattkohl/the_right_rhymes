@@ -14,9 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 ArtistParsed = namedtuple("Artist", ["name", "slug", "xml_dict"])
-ArtistRelations = namedtuple("ArtistRelations", ["origin", "primary_examples", "primary_senses", "featured_examples",
-                                                 "featured_senses", "primary_songs", "featured_songs", "also_known_as",
-                                                 "member_of"])
+ArtistRelations = namedtuple("ArtistRelations", ["origin", "also_known_as", "member_of"])
 
 
 class Artist(models.Model):

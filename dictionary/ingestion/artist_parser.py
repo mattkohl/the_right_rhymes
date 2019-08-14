@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from typing import Tuple, Dict, Optional
+from typing import Tuple, Dict, Optional, List
 
 from dictionary.ingestion.place_parser import PlaceParser
 from dictionary.models import ArtistParsed, Artist, ArtistRelations, Place, PlaceParsed
@@ -36,7 +36,9 @@ class ArtistParser:
     def update_relations(artist: Artist, nt: ArtistParsed) -> Tuple[Artist, ArtistRelations]:
         purged = ArtistParser.purge_relations(artist)
         relations = ArtistRelations(
-            origin=ArtistParser.process_origin(nt, purged)
+            origin=ArtistParser.process_origin(nt, purged),
+            member_of=list(),
+            also_known_as=list()
         )
         return purged, relations
 
@@ -55,3 +57,4 @@ class ArtistParser:
             persisted = PlaceParser.persist(origin)
             artist.origin.add(persisted)
         return origin
+
