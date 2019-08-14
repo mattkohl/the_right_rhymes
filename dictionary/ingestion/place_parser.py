@@ -17,7 +17,7 @@ class PlaceParser:
                 slug=d["slug"]
             )
         except Exception as e:
-            raise KeyError(f"Sense parse failed: {e}")
+            raise KeyError(f"Place parse of {d} failed: {e}")
         else:
             return nt
 

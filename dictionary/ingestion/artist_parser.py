@@ -23,14 +23,14 @@ class ArtistParser:
             return nt
 
     @staticmethod
-    def persist(nt: ArtistParsed) -> Artist:
+    def persist(nt: ArtistParsed) -> Tuple[Artist, ArtistRelations]:
         try:
             artist = Artist.objects.get(slug=nt.slug)
             artist.name = nt.name
             artist.save()
         except ObjectDoesNotExist:
             artist = Artist.objects.create(slug=nt.slug, name=nt.name)
-        return artist
+        return ArtistParser.update_relations(artist, nt)
 
     @staticmethod
     def update_relations(artist: Artist, nt: ArtistParsed) -> Tuple[Artist, ArtistRelations]:
@@ -48,10 +48,11 @@ class ArtistParser:
 
     @staticmethod
     def extract_origin(nt: ArtistParsed) -> Optional[PlaceParsed]:
-        return PlaceParser.parse(nt.xml_dict.get("origin"))
+        _origin = nt.xml_dict.get("origin")
+        return PlaceParser.parse(_origin) if _origin else None
 
     @staticmethod
-    def process_origin(nt, artist) -> Place:
+    def process_origin(nt: ArtistParsed, artist: Artist) -> Place:
         origin = ArtistParser.extract_origin(nt)
         if origin:
             persisted = PlaceParser.persist(origin)

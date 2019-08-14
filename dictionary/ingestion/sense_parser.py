@@ -11,7 +11,7 @@ from dictionary.ingestion.example_parser import ExampleParser
 from dictionary.ingestion.xref_parser import XrefParser
 from dictionary.models import SenseParsed, Sense, SenseRelations, SynSet, SemanticClass, Region, Domain, DomainParsed, \
     SemanticClassParsed, SynSetParsed, ExampleParsed, Example, ExampleRelations, RegionParsed, CollocateParsed, \
-    Collocate, XrefParsed, Xref, Artist, ArtistParsed
+    Collocate, XrefParsed, Xref, Artist, ArtistParsed, ArtistRelations
 from dictionary.utils import slugify
 
 
@@ -212,9 +212,9 @@ class SenseParser:
             return list()
 
     @staticmethod
-    def process_artists(nt: ExampleParsed, sense: Sense) -> List[Artist]:
-        def process_artist(artist: Artist) -> Artist:
+    def process_artists(nt: SenseParsed, sense: Sense) -> List[Artist]:
+        def process_artist(artist: Artist, artist_relations: ArtistRelations) -> Artist:
             sense.cites_artists.add(artist)
             return artist
 
-        return [process_artist(ArtistParser.persist(a)) for a in SenseParser.extract_artists(nt.xml_dict)]
+        return [process_artist(*ArtistParser.persist(a)) for a in SenseParser.extract_artists(nt.xml_dict)]
