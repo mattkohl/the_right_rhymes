@@ -1053,3 +1053,4 @@ def gex(text):
 
 def fex(text):
     return dictionary.models.Example.objects.filter(lyric_text__icontains=text)
+

@@ -26,7 +26,7 @@ class ExampleRhymeParser:
             word_two=word_two,
             word_two_slug=slugify(word_two),
             word_two_position=word_two_position,
-            word_two_target_id=d['@rhymeTarget'] if '@rhymeTarget' in d else None
+            word_two_target_id=d.get('@rhymeTarget')
         )
 
     @staticmethod

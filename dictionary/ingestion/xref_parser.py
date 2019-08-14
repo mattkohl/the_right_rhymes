@@ -32,8 +32,8 @@ class XrefParser:
             target_lemma=target_lemma,
             target_slug=XrefParser.extract_target_slug(d),
             target_id=d['@target'],
-            position=d["@position"] if "@position" in d else None,
-            frequency=d['@freq'] if "@freq" in d else None
+            position=d.get("@position"),
+            frequency=d.get('@freq')
         )
 
     @staticmethod

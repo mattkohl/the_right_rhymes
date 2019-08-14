@@ -22,7 +22,7 @@ class LyricLinkParser:
             link_type=link_type,
             target_lemma=target_lemma,
             target_slug=LyricLinkParser.extract_target_slug(d),
-            position=LyricLinkParser.confirm_position(link_text, example_text, d['@position']) if '@position' in d else None
+            position=LyricLinkParser.confirm_position(link_text, example_text, d.get('@position'))
         )
 
     @staticmethod
