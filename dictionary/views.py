@@ -64,20 +64,16 @@ def a_to_z(request):
 @cache_control(max_age=3600)
 def artist(request, artist_slug):
     a = get_object_or_404(Artist, slug=artist_slug)
-    origin_results = a.origin.all()
-    if origin_results:
-        origin = origin_results[0].full_name
-        origin_slug = origin_results[0].slug
-        long = origin_results[0].longitude
-        lat = origin_results[0].latitude
-    else:
-        origin = ''
-        origin_slug = ''
-        long = ''
-        lat = ''
+
+    origin = a.origin.first()
+    origin_full_name = origin.full_name if (origin and origin.full_name is not None) else origin.name
+    origin_slug = origin.slug if origin else ''
+    long = origin.longitude if origin else ''
+    lat = origin.latitude if origin else ''
+
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     template = loader.get_template('dictionary/artist.html')
-    entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug)
+    entity_results = NamedEntity.objects.filter(pref_label_slug=artist_slug).first()
 
     salient_senses = a.get_salient_senses()
     if not salient_senses.count():
@@ -105,20 +101,16 @@ def artist(request, artist_slug):
         } for sense in a.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[:5]
     ]
 
-    entity_examples = []
-    if entity_results:
-        entity_examples = [build_example(example, published) for example in entity_results[0].examples.all()]
+    entity_examples = [build_example(example, published) for example in entity_results.examples.all()] if entity_results else list()
 
-    image = check_for_image(a.slug, 'artists', 'full')
-    thumb = check_for_image(a.slug, 'artists', 'thumb')
     name = reformat_name(a.name)
     primary_sense_count = a.primary_senses.filter(publish=True).count()
     featured_sense_count = a.featured_senses.filter(publish=True).count()
-
+    print(origin_full_name)
     context = {
         'artist': name,
         'slug': a.slug,
-        'origin': origin,
+        'origin': origin_full_name,
         'origin_slug': origin_slug,
         'longitude': long,
         'latitude': lat,
@@ -128,8 +120,8 @@ def artist(request, artist_slug):
         'featured_senses': featured_senses,
         'entity_examples': entity_examples,
         'entity_example_count': len(entity_examples),
-        'image': image,
-        'thumb': thumb,
+        'image': check_for_image(a.slug, 'artists', 'full'),
+        'thumb': check_for_image(a.slug, 'artists', 'thumb'),
         'also_known_as': [build_artist(aka) for aka in a.also_known_as.all()],
         'member_of':  [build_artist(m) for m in a.member_of.all()],
         'members': [build_artist(m) for m in a.members.all()],

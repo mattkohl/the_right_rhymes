@@ -148,7 +148,7 @@ class Place(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return self.full_name
+        return self.full_name if self.full_name else self.name
 
     def get_absolute_url(self):
         return reverse('place', args=[str(self.slug)])
