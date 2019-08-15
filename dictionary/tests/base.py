@@ -2,7 +2,7 @@ from django.test import TestCase
 import json
 
 from dictionary.ingestion.json_converter import JSONConverter
-from dictionary.ingestion.xml_file_reader import XmlFileReader
+from dictionary.ingestion.xml_file_reader import FileReader
 from dictionary.models import Entry, Form, Artist, Domain, Collocate, Sense, Region, SemanticClass, Song, NamedEntity, \
     LyricLink, Example, Place, Xref, EntryParsed, FormParsed, SenseParsed, ExampleParsed, SongParsed
 from dictionary.management.commands.xml_handler import XMLDict
@@ -233,7 +233,7 @@ class BaseXMLTest(TestCase):
 class BaseXMLParserTest(TestCase):
 
     def setUp(self):
-        self.x = XmlFileReader.read_xml_file("dictionary/tests/resources/zootie.xml")
+        self.x = FileReader.read_file("dictionary/tests/resources/zootie.xml")
         self.j = JSONConverter.parse_to_dict(self.x)
         self.xml_dict = json.loads(json.dumps(self.j))
 

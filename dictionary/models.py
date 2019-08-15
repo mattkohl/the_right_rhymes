@@ -4,7 +4,7 @@ import math
 import logging
 from collections import namedtuple
 from django.db import models
-from django.db.models import Count, ManyToManyField
+from django.db.models import Count
 from django.contrib.postgres.fields import JSONField
 from django.urls import reverse
 
@@ -13,10 +13,8 @@ from dictionary.utils import slugify, extract_short_name
 logger = logging.getLogger(__name__)
 
 
-ArtistParsed = namedtuple("Artist", ["name", "slug"])
-ArtistRelations = namedtuple("ArtistRelations", ["origin", "primary_examples", "primary_senses", "featured_examples",
-                                                 "featured_senses", "primary_songs", "featured_songs", "also_known_as",
-                                                 "member_of"])
+ArtistParsed = namedtuple("Artist", ["name", "slug", "xml_dict"])
+ArtistRelations = namedtuple("ArtistRelations", ["origin", "also_known_as", "member_of"])
 
 
 class Artist(models.Model):
@@ -131,7 +129,7 @@ class Form(models.Model):
     frequency = models.IntegerField(blank=True, null=True)
 
 
-PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude", "comment"])
+PlaceParsed = namedtuple("PlaceParsed", ["name", "full_name", "slug", "latitude", "longitude"])
 PlaceRelations = namedtuple("PlaceRelations", ["artist", "contains"])
 
 
@@ -150,7 +148,7 @@ class Place(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return self.full_name
+        return self.full_name if self.full_name else self.name
 
     def get_absolute_url(self):
         return reverse('place', args=[str(self.slug)])

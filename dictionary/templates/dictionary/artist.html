@@ -8,9 +8,9 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ artist }} in The Right Rhymes" />
     <meta property="og:description" content="{{ artist }} songs, lyrics, & other metadata cited in the dictionary" />
-    <meta property="og:url" content="http://www.therightrhymes.com/{{slug}}" />
+    <meta property="og:url" content="https://www.therightrhymes.com/{{slug}}" />
     <meta property="og:site_name" content="The Right Rhymes" />
-    <meta property="og:image" content="http://www.therightrhymes.com{{thumb}}" />
+    <meta property="og:image" content="https://www.therightrhymes.com{{thumb}}" />
     <meta property="og:image:width" content="200" />
     <meta property="og:image:height" content="200" />
 
@@ -19,7 +19,7 @@
     <meta name="twitter:title" content="{{ artist }} in The Right Rhymes"/>
     <meta name="twitter:site" content="@theRightRhymes"/>
     <meta name="twitter:domain" content="The Right Rhymes"/>
-    <meta name="twitter:image" content="http://www.therightrhymes.com{{thumb}}" />
+    <meta name="twitter:image" content="https://www.therightrhymes.com{{thumb}}" />
 {% endblock %}
 {% block content %}
 <div id="wrapper">
@@ -217,34 +217,34 @@
     </div>
 </div>
 <div id="artist_slug" style="display:none">{{slug}}</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
 <script src="/static/dictionary/js/artist_network.min.js"></script>
 <script type="application/ld+json">
 {
-  "@context": "http://schema.org",
+  "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [{
     "@type": "ListItem",
     "position": 1,
     "item": {
-      "@id": "http://www.therightrhymes.com/artists",
+      "@id": "https://www.therightrhymes.com/artists",
       "name": "Artists"
     }
   },{
     "@type": "ListItem",
     "position": 2,
     "item": {
-      "@id": "http://www.therightrhymes.com/artists/{{slug}}",
+      "@id": "https://www.therightrhymes.com/artists/{{slug}}",
       "name": "{{ artist }}",
-      "image": "http://www.therightrhymes.com{{thumb}}"
+      "image": "https://www.therightrhymes.com{{thumb}}"
     }
   }]
 }
 </script>
 <script type="application/ld+json">
 {
-    "@context": "http://schema.org",
+    "@context": "https://schema.org",
     "@type": "Article",
     "author": "The Right Rhymes",
     "description": "{{ artist }} lyrics cited as examples in The Right Rhymes Hip-Hop Dictionary",
@@ -253,18 +253,18 @@
     "headline": "{{ artist }} in The Right Rhymes",
     "image" : {
        "@type": "ImageObject",
-        "url": "http://www.therightrhymes.com{{thumb}}",
+        "url": "https://www.therightrhymes.com{{thumb}}",
         "caption": "{{ artist }}",
         "height": 200,
         "width": 200
     },
     "publisher": {
         "@type": "Organization",
-        "url": "http://www.therightrhymes.com",
+        "url": "https://www.therightrhymes.com",
         "name": "The Right Rhymes",
         "logo": {
             "@type": "ImageObject",
-            "url": "http://www.therightrhymes.com/static/dictionary/img/header/trr-logo.png",
+            "url": "https://www.therightrhymes.com/static/dictionary/img/header/trr-logo.png",
             "caption": "The Right Rhymes",
             "height": 60,
             "width": 600
@@ -273,10 +273,10 @@
     "about": {
         "@type": "Person",
         "name": "{{ name }}",
-        "url": "http://www.therightrhymes.com/{{slug}}",
+        "url": "https://www.therightrhymes.com/{{slug}}",
         "image" : {
            "@type": "ImageObject",
-            "url": "http://www.therightrhymes.com{{thumb}}",
+            "url": "https://www.therightrhymes.com{{thumb}}",
             "caption": "{{ artist }}",
             "height": 200,
             "width": 200
@@ -284,7 +284,7 @@
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "http://www.therightrhymes.com/{{slug}}"
+        "@id": "https://www.therightrhymes.com/{{slug}}"
     }
 }
 </script>

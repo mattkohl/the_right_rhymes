@@ -10,7 +10,7 @@ from dictionary.ingestion.named_entity_parser import NamedEntityParser
 from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed, \
-    SongRelations, LyricLink, LyricLinkParsed, Sense, NamedEntity, ExampleRhyme, ExampleRhymeParsed
+    SongRelations, LyricLink, LyricLinkParsed, Sense, NamedEntity, ExampleRhyme, ExampleRhymeParsed, ArtistRelations
 from dictionary.utils import slugify
 
 
@@ -104,27 +104,26 @@ class ExampleParser:
 
     @staticmethod
     def extract_featured_artists(nt: ExampleParsed) -> List[ArtistParsed]:
-        return [ArtistParser.parse(a) for a in nt.featured_artists]
+        return [ArtistParser.parse({"name": a}) for a in nt.featured_artists]
 
     @staticmethod
     def extract_primary_artists(nt: ExampleParsed) -> List[ArtistParsed]:
-        return [ArtistParser.parse(a) for a in nt.primary_artists]
+        return [ArtistParser.parse({"name": a}) for a in nt.primary_artists]
 
     @staticmethod
     def process_primary_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
-        def process_primary_artist(artist: Artist) -> Artist:
+        def process_primary_artist(artist: Artist, artist_relations: ArtistRelations) -> Artist:
             example.artist.add(artist)
             return artist
 
-        return [process_primary_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_primary_artists(nt)]
+        return [process_primary_artist(*ArtistParser.persist(a)) for a in ExampleParser.extract_primary_artists(nt)]
 
     @staticmethod
     def process_featured_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
-        def process_featured_artist(artist: Artist) -> Artist:
+        def process_featured_artist(artist: Artist, artist_relations: ArtistRelations) -> Artist:
             example.feat_artist.add(artist)
             return artist
-
-        return [process_featured_artist(ArtistParser.persist(a)) for a in ExampleParser.extract_featured_artists(nt)]
+        return [process_featured_artist(*ArtistParser.persist(a)) for a in ExampleParser.extract_featured_artists(nt)]
 
     @staticmethod
     def extract_entities(nt: ExampleParsed) -> List[LyricLinkParsed]:
@@ -160,7 +159,7 @@ class ExampleParser:
             for entity in nt.entities:
                 if '@type' in entity and entity['@type'] == 'artist':
                     n = entity['@prefLabel'] if 'prefLabel' in entity else entity['#text']
-                    _ = ArtistParser.persist(ArtistParser.parse(n))
+                    _, _ = ArtistParser.persist(ArtistParser.parse({"name": n}))
                     yield LyricLinkParser.parse(entity, LyricLinkParser.ARTIST, nt.lyric_text)
                 else:
                     yield LyricLinkParser.parse(entity, LyricLinkParser.ENTITY, nt.lyric_text)
