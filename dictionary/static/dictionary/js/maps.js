@@ -67,8 +67,8 @@ function initializeMapsDelay() {
                     }
                 });
 
-                plot.fitBounds
-
+                plot.fitBounds;
+                plot.scrollZoom.disable();
                 plot.addLayer({
                     "id": "points-heat",
                     "type": "heatmap",
