@@ -106,7 +106,6 @@ def artist(request, artist_slug):
     name = reformat_name(a.name)
     primary_sense_count = a.primary_senses.filter(publish=True).count()
     featured_sense_count = a.featured_senses.filter(publish=True).count()
-    print(origin_full_name)
     context = {
         'artist': name,
         'slug': a.slug,
