@@ -255,7 +255,7 @@ function graph() {
 
 /**
  * Gives the coordinates of the border for keeping the nodes inside a frame
- * http://bl.ocks.org/mbostock/1129492
+ * https://bl.ocks.org/mbostock/1129492
  */
 function nodeTransform(d) {
     d.x = Math.max(maxNodeSize, Math.min(w - (Math.sqrt(Math.sqrt(d.size)) * 40), d.x));
