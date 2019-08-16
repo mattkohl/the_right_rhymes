@@ -30,8 +30,6 @@ function initializeMapsDelay() {
             endpoint = '/data/senses/' + senseId + '/artists/geojson';
         }
 
-        console.log(endpoint);
-
         $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
             plot.on('load', function () {
 
