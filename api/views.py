@@ -1,13 +1,16 @@
+import math
 from operator import itemgetter
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
+from typing import Dict, List
+
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, Salience, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, build_beta_example, \
     build_place, build_place_with_artist_slugs, build_sense, build_timeline_example, build_song, \
-    check_for_image, reduce_ordered_list, reformat_name, slugify
+    check_for_image, reduce_ordered_list, reformat_name, slugify, build_heatmap_feature
 from dictionary.views import NUM_QUOTS_TO_SHOW
 
 
@@ -31,6 +34,15 @@ def artist(request, artist_slug):
         return Response(data)
     else:
         return Response({})
+
+
+@api_view(("GET",))
+def artist_geojson(request, artist_slug):
+    results = Artist.objects.filter(slug=artist_slug).first()
+    if results and results.origin:
+        return Response({"type": "FeatureCollection", "features": [build_heatmap_feature(results.origin.first(), 1)]})
+    else:
+        return Response({"type": "FeatureCollection", "features": []})
 
 
 @api_view(('GET',))
@@ -345,6 +357,15 @@ def place(request, place_slug):
         return Response({})
 
 
+@api_view(("GET",))
+def place_geojson(request, place_slug):
+    results = Place.objects.filter(slug=place_slug).first()
+    if results and results.longitude:
+        return Response({"type": "FeatureCollection", "features": [build_heatmap_feature(results, 1)]})
+    else:
+        return Response({"type": "FeatureCollection", "features": []})
+
+
 @api_view(('GET',))
 def places(request):
     results = Place.objects.filter(longitude__isnull=False).annotate(num_artists=Count('artists')).order_by('-num_artists')
@@ -526,6 +547,18 @@ def sense_artists(request, sense_id):
         return Response(data)
     else:
         return Response({})
+
+
+@api_view(('GET',))
+def sense_artists_geojson(request, sense_id):
+    sense_object = Sense.objects.filter(xml_id=sense_id).first()
+
+    if sense_object:
+        _artists = [a for a in sense_object.cites_artists.all() if a.origin.first() is not None]
+        sense_artist_dicts = [build_heatmap_feature(a.origin.first(), count=sense_object.examples.filter(artist=a).count()) for a in _artists]
+        return Response({"type": "FeatureCollection", "features": [a for a in sense_artist_dicts if a is not None]})
+    else:
+        return Response({"type": "FeatureCollection", "features": []})
 
 
 @api_view(('GET',))

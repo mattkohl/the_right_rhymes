@@ -1,4 +1,5 @@
 import decimal
+import math
 import os
 import random
 import re
@@ -148,6 +149,19 @@ def build_place_with_artist_slugs(place_object) -> Dict[str, Any]:
         result["latitude"] = place_object.latitude
 
     return result
+
+
+def build_heatmap_feature(origin, count) -> Dict:
+    return {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [origin.longitude, origin.latitude]
+        },
+        "properties": {
+            "weight": math.pow(1.6, count)
+        }
+    }
 
 
 def build_artist(artist_object, require_origin=False, count=1) -> Dict[str, Any]:

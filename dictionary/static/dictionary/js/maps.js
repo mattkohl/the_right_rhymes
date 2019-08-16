@@ -21,50 +21,23 @@ function initializeMapsDelay() {
         var artistSlug = $(this).find('.artist-slug').text();
         var placeSlug = $(this).find('.place-slug').text();
         if (artistSlug) {
-            endpoint = '/data/artists/' + artistSlug + '/';
+            endpoint = '/data/artists/' + artistSlug + '/geojson';
             isEntry = false;
         } else if (placeSlug) {
-            endpoint = '/data/places/' + placeSlug + '/';
+            endpoint = '/data/places/' + placeSlug + '/geojson';
             isEntry = false;
         } else {
-            endpoint = '/data/senses/' + senseId + '/artists/';
+            endpoint = '/data/senses/' + senseId + '/artists/geojson';
         }
 
-        function buildFeatures(children) {
-            return $.map(children, function (p, index) {
-                if (p != null && p.origin) {
-                    return {
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [p.origin.longitude, p.origin.latitude]
-                        },
-                        "properties": {
-                            "name": p.origin.name,
-                            "weight": Math.pow(1.6, p.count)
-                        }
-                    }
-                }
-            });
-        }
+        console.log(endpoint);
 
         $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
             plot.on('load', function () {
 
-                if (artistSlug) {
-                    features = buildFeatures(data.artists)
-                } else if (placeSlug) {
-                    features = buildFeatures(data.places)
-                } else {
-                    features = buildFeatures(data.senses)
-                }
-
                 plot.addSource('points', {
                     type: 'geojson',
-                    data: {
-                        "type": "FeatureCollection",
-                        "features": features
-                    }
+                    data: data
                 });
 
                 plot.addLayer({
