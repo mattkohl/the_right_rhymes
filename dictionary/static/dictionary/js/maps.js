@@ -13,7 +13,7 @@ function initializeMapsDelay() {
             container: 'map' + index,
             style: 'mapbox://styles/mattkohl/cjzbh31rv0g3c1cpcos3l17xv',
             center: [-98.5795, 39.8283],
-            zoom: 3
+            zoom: 2
         });
 
         var isEntry = true;
@@ -67,8 +67,6 @@ function initializeMapsDelay() {
                     }
                 });
 
-                plot.fitBounds;
-                plot.scrollZoom.disable();
                 plot.addLayer({
                     "id": "points-heat",
                     "type": "heatmap",
@@ -177,6 +175,9 @@ function initializeMapsDelay() {
                 });
 
             });
+            plot.fitBounds;
+            plot.scrollZoom.disable();
+
         });
     });
 
