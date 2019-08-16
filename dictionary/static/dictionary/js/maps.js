@@ -150,7 +150,7 @@ function initializeMapsDelay() {
             });
             plot.fitBounds;
             plot.scrollZoom.disable();
-
+            plot.addControl(new mapboxgl.NavigationControl());
         });
     });
 
