@@ -21,13 +21,13 @@ function initializeMapsDelay() {
         var artistSlug = $(this).find('.artist-slug').text();
         var placeSlug = $(this).find('.place-slug').text();
         if (artistSlug) {
-            endpoint = '/data/artists/' + artistSlug + '/geojson';
+            endpoint = '/data/artists/' + artistSlug + '/geojson?format=json';
             isEntry = false;
         } else if (placeSlug) {
-            endpoint = '/data/places/' + placeSlug + '/geojson';
+            endpoint = '/data/places/' + placeSlug + '/geojson?format=json';
             isEntry = false;
         } else {
-            endpoint = '/data/senses/' + senseId + '/artists/geojson';
+            endpoint = '/data/senses/' + senseId + '/artists/geojson?format=json';
         }
 
         $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'}, function (data) {
