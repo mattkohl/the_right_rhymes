@@ -98,7 +98,6 @@ function initializeMapsDelay() {
                     "id": "points-circles",
                     "type": "circle",
                     "source": "points",
-                    "minzoom": 7,
                     "paint": {
                         // Size circle radius by earthquake magnitude and zoom level
                         "circle-radius": [
@@ -146,9 +145,15 @@ function initializeMapsDelay() {
                 });
 
             });
-            plot.fitBounds;
             plot.scrollZoom.disable();
             plot.addControl(new mapboxgl.NavigationControl());
+            var bounds = new mapboxgl.LngLatBounds();
+
+            data.features.forEach(function(feature) {
+                bounds.extend(feature.geometry.coordinates);
+            });
+
+            plot.fitBounds(bounds, {padding: 50});
         });
     });
 
