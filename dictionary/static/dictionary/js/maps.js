@@ -1,7 +1,7 @@
 mapboxgl.accessToken = mapsToken;
 
 function initializeMaps() {
-    setTimeout("initializeMapsDelay();", 100);
+    setTimeout("initializeMapsDelay();", 1000);
 }
 
 function initializeMapsDelay() {
@@ -11,6 +11,8 @@ function initializeMapsDelay() {
 
         var plot = new mapboxgl.Map({
             container: 'map' + index,
+            scrollZoom: false,
+            dragPan: false,
             style: 'mapbox://styles/mattkohl/cjzbh31rv0g3c1cpcos3l17xv'
         });
 
@@ -41,23 +43,15 @@ function initializeMapsDelay() {
                     "source": "points",
                     "type": "heatmap",
                     paint: {
-                        "heatmap-radius": 12,
-                        "heatmap-color": [
-                        "interpolate",
-                        ["linear"],
-                        ["heatmap-density"],
-                            0, "rgba(33,102,172,0)",
-                            0.2, "rgb(103,169,207)",
-                            0.4, "rgb(209,229,240)",
-                            0.6, "rgb(253,219,199)",
-                            0.8, "rgb(239,138,98)",
-                            1, "rgb(178,24,43)"
-                        ],
+                        'heatmap-radius': 12,
+                        "heatmap-weight": {
+                            "type": "identity",
+                            "property": "weight"
+                        }
                     }
                 });
 
             });
-            plot.scrollZoom.disable();
             plot.addControl(new mapboxgl.NavigationControl());
             var bounds = new mapboxgl.LngLatBounds();
 
