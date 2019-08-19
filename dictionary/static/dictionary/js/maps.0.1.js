@@ -42,7 +42,6 @@ function initializeMapsDelay() {
                     "id": "heatmap-12",
                     "source": "points",
                     "type": "heatmap"
-
                 });
 
             });
