@@ -41,14 +41,8 @@ function initializeMapsDelay() {
                 plot.addLayer({
                     "id": "heatmap-12",
                     "source": "points",
-                    "type": "heatmap",
-                    paint: {
-                        'heatmap-radius': 12,
-                        "heatmap-weight": {
-                            "type": "identity",
-                            "property": "weight"
-                        }
-                    }
+                    "type": "heatmap"
+
                 });
 
             });
