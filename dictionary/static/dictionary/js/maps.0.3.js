@@ -40,7 +40,14 @@ function initializeMaps() {
                     "source": "points",
                     "type": "heatmap",
                     "paint": {
-                        "heatmap-weight": ["interpolate", ["linear"], ["get", "weight"], 0, 0, 6, 1],
+                        'heatmap-weight': {
+                          property: 'weight',
+                          type: 'exponential',
+                          stops: [
+                            [0, 0],
+                            [3, 1]
+                          ]
+                        },
                         'heatmap-color': [
                             'interpolate',
                             ['linear'],
