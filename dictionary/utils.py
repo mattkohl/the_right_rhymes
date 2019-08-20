@@ -152,6 +152,7 @@ def build_place_with_artist_slugs(place_object) -> Dict[str, Any]:
 
 
 def build_heatmap_feature(origin, count) -> Dict:
+    print(origin.longitude, origin.latitude)
     return {
         "type": "Feature",
         "geometry": {
