@@ -240,18 +240,18 @@
                                     </div>
                                 {% endif %}
                                 <div class="xref">
-                                    <a class="sense_timeline" href="{% url 'sense_timeline' sense.xml_id %}">Timeline</a>
+                                    <a class="sense-timeline" href="{% url 'sense_timeline' sense.xml_id %}">Timeline</a>
                                 </div>
                                 <div class="placeholder"></div>
                             </div>
 
                             {% if sense.examples %}
-                                <ul class="examplesHead">
+                                <ul class="examples-head">
                                 {% for example in sense.examples|slice:":3" %}
                                     <li>
                                         <span class="date">{{ example.release_date_string }}</span>
                                         <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                                        <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                        <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                         {% if example.featured_artists %}
                                             <span> feat. </span>
                                             {% for feat in example.featured_artists %}
@@ -268,7 +268,7 @@
                                 </ul>
                             {% endif %}
                             {% if sense.num_examples > 3 %}
-                                <div class="toggle_exx">
+                                <div class="toggle-exx">
                                     <a href="#" class="toggle_more_exx">
                                         Show {{ sense.num_examples|add:"-3" }} more {% if sense.num_examples == 4 %} example {% else %} examples {% endif %}
                                     </a>
@@ -300,7 +300,7 @@
                             {% csrf_token %}
                             <div class="map-canvas">
                                 <span class="sense_id hidden">{{sense.xml_id}}</span>
-                                <p class="mapLabel">Origins of Cited Artists</p>
+                                <p class="map-label">Origins of Cited Artists</p>
                                 <div id="map{{forloop.counter}}" class="map"></div>
                             </div>
                         {% endfor %}

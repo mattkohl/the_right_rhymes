@@ -23,12 +23,12 @@
                     {% elif num_examples == 1 %}
                     <h3 class="trr-list-header">{{ num_examples }} <strong>shout-out</strong> in this example</h3>
                     {% endif %}
-                    <ul class="examplesHead">
+                    <ul class="examples-head">
                         {% for example in examples %}
                         <li>
                             <span class="date">{{ example.release_date_string }}</span>
                             <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                            <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                            <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                             {% if example.featured_artists %}
                             <span> feat. </span>
                             {% for feat in example.featured_artists %}
@@ -43,7 +43,7 @@
                 {% endif %}
 
                 {% if num_examples > 3 %}
-                    <div class="toggle_exx">
+                    <div class="toggle-exx">
                         <a href="#" class="toggle_more_exx">
                             Show {{ num_examples|add:"-3" }} more {% if num_examples == 4 %} example {% else %} examples {% endif %}
                         </a>
@@ -84,7 +84,7 @@
                         <img class="force-justify" src="/static/dictionary/img/artists/thumb/__none.png"/>
                     </div>
                     {% if remaining_count > 0 %}
-                        <div class="toggle_exx">
+                        <div class="toggle-exx">
                             <a href="#" class="toggle_more_exx">
                                 Show {{ remaining_count }} more
                             </a>
@@ -134,7 +134,7 @@
 
                 <div class="map-canvas">
                     <p class="hidden place-slug">{{ slug }}</p>
-                    <p class="mapLabel">{{ place_name_full }}</p>
+                    <p class="map-label">{{ place_name_full }}</p>
                     <div id="map1" class="map" width="50%"></div>
                 </div>
             </div>

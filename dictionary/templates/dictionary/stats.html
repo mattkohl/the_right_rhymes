@@ -69,7 +69,7 @@
                     <tr>
                         <td class="col-md-1">
                             <span class="artist"><a href="{% url 'artist' song.artist_slug %}">{{song.artist_name}}</a></span>
-                            <span class="songTitle"> "<a href="{% url 'song' song.slug %}">{{song.title}}</a>"</span>
+                            <span class="song-title"> "<a href="{% url 'song' song.slug %}">{{song.title}}</a>"</span>
                         </td>
                         <td class="col-md-1 counter-bar"><span class="counter-bar counter-bar{{ forloop.counter }}" style="width:{{song.width}}%">{{song.num_examples}}</span></td>
                     </tr>
@@ -156,7 +156,7 @@
                             <td>
                                 <span class="date">{{ example.release_date_string }}</span>
                                 <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                     {% if example.featured_artists %}
                                     <span> feat. </span>
                                     {% for feat in example.featured_artists %}
@@ -176,7 +176,7 @@
                             <td>
                                 <span class="date">{{ example.release_date_string }}</span>
                                 <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                 {% if example.featured_artists %}
                                     <span> feat. </span>
                                     {% for feat in example.featured_artists %}

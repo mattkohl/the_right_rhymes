@@ -83,7 +83,7 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
                         $('<span></span>', {"class": 'date', "text": example.release_date_string}),
                         $('<span></span>', {"class": 'artist'}).append(
                             $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
-                        $('<span></span>', {"class": 'songTitle'}).append(
+                        $('<span></span>', {"class": 'song-title'}).append(
                             $('<a></a>', {
                                 "href": '/songs/' + example.song_slug,
                                 "text": '"' + example.song_title + '"'
@@ -131,7 +131,7 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
                     $('<span></span>', {"class": 'date', "text": example.release_date_string}),
                     $('<span></span>', {"class": 'artist'}).append(
                         $('<a></a>', {"href": '/artists/' + example.artist_slug, "text": example.artist_name})),
-                    $('<span></span>', {"class": 'songTitle'}).append(
+                    $('<span></span>', {"class": 'song-title'}).append(
                         $('<a></a>', {"href": '/songs/' + example.song_slug, "text": '"' + example.song_title + '"'}))
                 );
                 if (example.featured_artists.length > 0) {
@@ -180,17 +180,4 @@ $(".toggle").click(function(){
     placeholder.html(copy);
     placeholder.find('.the-list').toggle(100);
 
-});
-
-$(".toggle-artist-examples").click(function(){
-    var breaker = $(this).parent().find('.loading');
-    var context = $(this).parent().nextAll(".artist-examples:first");
-    var sense_id = $(this).parent().find('.sense_id').text();
-    var artist_slug = $(this).parent().find('.artist_slug').text();
-    var ul = $(this).parent().nextAll(".artist-examples:first");
-    ul.fadeOut(100, function() {
-        ul.empty();
-        var endpoint = '/senses/' + sense_id + '/' + artist_slug + '/json';
-        addRemainingExamples(ul, breaker, context, endpoint);
-    });
 });

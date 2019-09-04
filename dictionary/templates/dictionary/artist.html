@@ -82,7 +82,7 @@
                                     <div>
                                         <span class="date">{{ example.release_date_string }}</span>
                                         <span class="artist">{{example.artist_name}}</span>
-                                        <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                        <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                         {% if example.featured_artists %}
                                         <span> feat. </span>
                                         {% for feat in example.featured_artists %}
@@ -100,7 +100,7 @@
                             </div>
                         {% endfor %}
                        {% if primary_sense_count > 5 %}
-                            <div class="toggle_exx">
+                            <div class="toggle-exx">
                                 <a href="#" class="toggle_more_exx">Show {{ primary_sense_count|add:"-5" }} more</a>
                                 <span class="artist_slug hidden">{{slug}}</span>
                                 <div class="loading">
@@ -135,7 +135,7 @@
                                     <div>
                                         <span class="date">{{ example.release_date_string }}</span>
                                         <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{example.artist_name}}</a></span>
-                                        <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
+                                        <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{example.song_title}}</a>"</span>
                                         {% if example.featured_artists %}
                                         <span> feat. </span>
                                         {% for feat in example.featured_artists %}
@@ -158,7 +158,7 @@
                         {% endfor %}
                         {% csrf_token %}
                        {% if featured_sense_count > 5 %}
-                            <div class="toggle_exx">
+                            <div class="toggle-exx">
                                 <a href="#" class="toggle_more_exx">Show {{ featured_sense_count|add:"-5" }} more</a>
                                 <span class="artist_slug hidden">{{slug}}</span>
                                 <span class="feat hidden">True</span>
@@ -184,7 +184,7 @@
                             <div>
                                 <span class="date">{{ example.release_date_string }}</span>
                                 <span class="artist"><a href="{% url 'artist' example.artist_slug %}">{{ example.artist_name }}</a></span>
-                                <span class="songTitle">"<a href="{% url 'song' example.song_slug %}">{{ example.song_title }}</a>"</span>
+                                <span class="song-title">"<a href="{% url 'song' example.song_slug %}">{{ example.song_title }}</a>"</span>
                                  {% if example.featured_artists %}
                                     <span> feat. </span>
                                     {% for feat in example.featured_artists %}
@@ -208,7 +208,7 @@
                 {% if longitude and latitude %}
                     <div class="map-canvas">
                         <p class="hidden artist-slug">{{ slug }}</p>
-                        <p class="mapLabel">origin: <a href="{% url 'place' origin_slug %}">{{ origin }}</a></p>
+                        <p class="map-label">origin: <a href="{% url 'place' origin_slug %}">{{ origin }}</a></p>
                         <div id="map1" class="map"></div>
                     </div>
                 {% endif %}
