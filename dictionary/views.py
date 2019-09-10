@@ -66,7 +66,7 @@ def artist(request, artist_slug):
     a = get_object_or_404(Artist, slug=artist_slug)
 
     origin = a.origin.first()
-    origin_full_name = origin.full_name if (origin and origin.full_name is not None) else origin.name
+    origin_full_name = origin.full_name if origin and origin.full_name else ''
     origin_slug = origin.slug if origin else ''
     long = origin.longitude if origin else ''
     lat = origin.latitude if origin else ''
