@@ -66,10 +66,10 @@ def artist(request, artist_slug):
     a = get_object_or_404(Artist, slug=artist_slug)
 
     origin = a.origin.first()
+    long = origin.longitude if origin else None
+    lat = origin.latitude if origin else None
     origin_full_name = origin.full_name if origin and origin.full_name else ''
     origin_slug = origin.slug if origin else ''
-    long = origin.longitude if origin else ''
-    lat = origin.latitude if origin else ''
 
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     template = loader.get_template('dictionary/artist.html')
@@ -205,18 +205,18 @@ def entity(request, entity_slug):
     if len(results) > 0:
         entities = []
         title = ''
-        for entity in results:
-            title = entity.pref_label
-            if entity.entity_type == 'artist':
-                return redirect('/artists/' + entity.pref_label_slug)
-            if entity.entity_type == 'place':
-                return redirect('/places/' + entity.pref_label_slug)
+        for e in results:
+            title = e.pref_label
+            if e.entity_type == 'artist':
+                return redirect('/artists/' + e.pref_label_slug)
+            if e.entity_type == 'place':
+                return redirect('/places/' + e.pref_label_slug)
             entities.append({
-                'name': entity.name,
-                'slug': entity.slug,
-                'pref_label': entity.pref_label,
-                'pref_label_slug': entity.pref_label_slug,
-                'senses': [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=entity).order_by('release_date')]} for sense in entity.mentioned_at_senses.filter(publish=True).order_by('headword')]
+                'name': e.name,
+                'slug': e.slug,
+                'pref_label': e.pref_label,
+                'pref_label_slug': e.pref_label_slug,
+                'senses': [{'sense': sense, 'examples': [build_example(example, published) for example in sense.examples.filter(features_entities=e).order_by('release_date')]} for sense in e.mentioned_at_senses.filter(publish=True).order_by('headword')]
             })
 
         context = {
@@ -291,8 +291,8 @@ def place(request, place_slug):
 
     artists = collect_place_artists(p, [])
 
-    artists_with_image = [artist for artist in artists if '__none.png' not in artist['image']]
-    artists_without_image = [artist for artist in artists if '__none.png' in artist['image']]
+    artists_with_image = [a for a in artists if '__none.png' not in a['image']]
+    artists_without_image = [a for a in artists if '__none.png' in a['image']]
 
     contains = [{'name': abbreviate_place_name(c.name), 'slug': c.slug} for c in p.contains.order_by('name')]
     within = {}
@@ -303,8 +303,8 @@ def place(request, place_slug):
 
     # TODO: reorder examples by release_date in case of multiple entities
     if len(entity_results) >= 1:
-        for entity in entity_results:
-            examples += [build_example(example, published, rf=True) for example in entity.examples.order_by('release_date')]
+        for e in entity_results:
+            examples += [build_example(example, published, rf=True) for example in e.examples.order_by('release_date')]
 
     context = {
         'place': p.name,
@@ -345,11 +345,11 @@ def rhyme(request, rhyme_slug):
     for r in rhyme_results:
         if r.word_one_slug == rhyme_slug:
             title = r.word_one
-            rhyme = r.word_two
+            _rhyme = r.word_two
             slug = r.word_two_slug
         else:
             title = r.word_two
-            rhyme = r.word_one
+            _rhyme = r.word_one
             slug = r.word_one_slug
 
         exx = [build_example(example, published) for example in r.parent_example.all()]
@@ -360,7 +360,7 @@ def rhyme(request, rhyme_slug):
             rhymes_intermediate[slug]['examples'].extend(exx)
         else:
             rhymes_intermediate[slug] = {
-               'rhyme': rhyme,
+               'rhyme': _rhyme,
                'examples': exx
             }
 
@@ -394,8 +394,8 @@ def rhyme(request, rhyme_slug):
 def search(request):
     published_entry_forms = Form.objects.filter(parent_entry__publish=True).values_list('slug', flat=True)
     published_entry_slugs = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    artist_slugs = [artist.slug for artist in Artist.objects.all()]
-    entity_slugs = [entity.pref_label_slug for entity in NamedEntity.objects.filter(entity_type='person')]
+    artist_slugs = [a.slug for a in Artist.objects.all()]
+    entity_slugs = [e.pref_label_slug for e in NamedEntity.objects.filter(entity_type='person')]
     template = loader.get_template('dictionary/search_results.html')
     context = dict()
     if ('q' in request.GET) and request.GET['q'].strip():
@@ -403,8 +403,8 @@ def search(request):
         query_slug = slugify(query_string)
 
         if query_string.lower().startswith("the "):
-                alt_query_string = move_definite_article_to_end(query_string)
-                alt_query_slug = slugify(alt_query_string)
+            alt_query_string = move_definite_article_to_end(query_string)
+            alt_query_slug = slugify(alt_query_string)
         else:
             alt_query_slug = ''
 
@@ -445,13 +445,13 @@ def search(request):
 @cache_control(max_age=3600)
 def semantic_class(request, semantic_class_slug):
     template = loader.get_template('dictionary/semantic_class.html')
-    semantic_class = get_object_or_404(SemanticClass, slug=semantic_class_slug)
-    sense_count = semantic_class.senses.filter(publish=True).order_by('headword').count()
+    sc = get_object_or_404(SemanticClass, slug=semantic_class_slug)
+    sense_count = sc.senses.filter(publish=True).order_by('headword').count()
     context = {
-        'semantic_class': un_camel_case(semantic_class.name),
+        'semantic_class': un_camel_case(sc.name),
         'slug': semantic_class_slug,
         'sense_count': sense_count,
-        'image': check_for_image(semantic_class.slug, 'semantic_classes', 'full')
+        'image': check_for_image(sc.slug, 'semantic_classes', 'full')
     }
     return HttpResponse(template.render(context, request))
 
@@ -484,17 +484,17 @@ def song(request, song_slug):
     if request.method == 'POST':
         form = SongForm(request.POST)
         if form.is_valid():
-            song = Song.objects.get(slug=song_slug)
-            song.title = form.cleaned_data['title']
-            song.release_date = form.cleaned_data["release_date"]
-            song.release_date_string = form.cleaned_data["release_date_string"]
-            song.artist_name = form.cleaned_data["artist_name"]
-            song.album = form.cleaned_data["album"]
-            song.lyrics = form.cleaned_data["lyrics"]
-            song.release_date_verified = form.cleaned_data["release_date_verified"]
-            song.save()
+            _song = Song.objects.get(slug=song_slug)
+            _song.title = form.cleaned_data['title']
+            _song.release_date = form.cleaned_data["release_date"]
+            _song.release_date_string = form.cleaned_data["release_date_string"]
+            _song.artist_name = form.cleaned_data["artist_name"]
+            _song.album = form.cleaned_data["album"]
+            _song.lyrics = form.cleaned_data["lyrics"]
+            _song.release_date_verified = form.cleaned_data["release_date_verified"]
+            _song.save()
 
-    song = get_list_or_404(Song, slug=song_slug)[0]
+    _song = get_list_or_404(Song, slug=song_slug)[0]
     template = loader.get_template('dictionary/song.html')
     same_dates = [
         {
@@ -502,25 +502,25 @@ def song(request, song_slug):
             'artist_name': reformat_name(s.artist_name),
             'artist_slug': s.artist_slug,
             'slug': s.slug
-        } for s in Song.objects.filter(release_date=song.release_date).order_by('artist_name') if s != song]
-    image = check_for_image(song.artist_slug, 'artists', 'full')
-    thumb = check_for_image(song.artist_slug, 'artists', 'thumb')
-    form = SongForm(instance=song)
-    sense_results = set([s for e in song.examples.all() for s in e.illustrates_senses.filter(publish=True).order_by('headword')])
+        } for s in Song.objects.filter(release_date=_song.release_date).order_by('artist_name') if s != _song]
+    image = check_for_image(_song.artist_slug, 'artists', 'full')
+    thumb = check_for_image(_song.artist_slug, 'artists', 'thumb')
+    form = SongForm(instance=_song)
+    sense_results = set([s for e in _song.examples.all() for s in e.illustrates_senses.filter(publish=True).order_by('headword')])
     senses = [build_sense_preview(s) for s in sense_results]
 
     context = {
-        "title": song.title,
-        "slug": song.slug,
+        "title": _song.title,
+        "slug": _song.slug,
         "image": image,
         "thumb": thumb,
-        "artist_name": reformat_name(song.artist_name),
-        "artist_slug": song.artist_slug,
-        "primary_artist": [build_artist(a) for a in song.artist.all()],
-        "featured_artists": [build_artist(a) for a in song.feat_artist.all()],
-        "release_date": song.release_date,
-        "release_date_string": song.release_date_string,
-        "album": song.album,
+        "artist_name": reformat_name(_song.artist_name),
+        "artist_slug": _song.artist_slug,
+        "primary_artist": [build_artist(a) for a in _song.artist.all()],
+        "featured_artists": [build_artist(a) for a in _song.feat_artist.all()],
+        "release_date": _song.release_date,
+        "release_date_string": _song.release_date_string,
+        "album": _song.album,
         "senses": senses,
         "same_dates": same_dates,
         "form": None
