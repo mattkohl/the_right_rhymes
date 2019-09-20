@@ -13,25 +13,24 @@ function initializeMaps() {
             style: 'mapbox://styles/mattkohl/cjzbh31rv0g3c1cpcos3l17xv'
         });
 
-        console.log("FOO!")
-
         var isEntry = true;
         var senseId = $(this).find('.sense_id').text();
         var artistSlug = $(this).find('.artist-slug').text();
         var placeSlug = $(this).find('.place-slug').text();
-        if (artistSlug) {
-            endpoint = '/data/artists/' + artistSlug + '/geojson?format=json';
-            isEntry = false;
-        } else if (placeSlug) {
-            endpoint = '/data/places/' + placeSlug + '/geojson?format=json';
-            isEntry = false;
-        } else {
-            endpoint = '/data/senses/' + senseId + '/artists/geojson?format=json';
-        }
 
         plot.on('load', function () {
+            if (artistSlug) {
+                endpoint = '/data/artists/' + artistSlug + '/geojson?format=json';
+                isEntry = false;
+            } else if (placeSlug) {
+                endpoint = '/data/places/' + placeSlug + '/geojson?format=json';
+                isEntry = false;
+            } else {
+                endpoint = '/data/senses/' + senseId + '/artists/geojson?format=json';
+            }
             $.getJSON(endpoint, {'csrfmiddlewaretoken': '{{csrf_token}}'})
             .done(function (data) {
+
                 plot.addSource('points', {
                     type: 'geojson',
                     data: data
@@ -46,7 +45,7 @@ function initializeMaps() {
                           type: 'exponential',
                           stops: [
                             [0, 0],
-                            [3, 1]
+                            [150, 50]
                           ]
                         },
                         'heatmap-color': [
@@ -60,7 +59,7 @@ function initializeMaps() {
                             0.8, "rgb(239,138,98)",
                             1, "rgb(178,24,43)"
                         ],
-                        'heatmap-radius': { stops: [ [11, 15], [15, 20] ] },
+                        'heatmap-radius': { stops: [ [20, 24], [25, 26] ] },
                         'heatmap-opacity': { default: 1, stops: [ [14, 1], [15, 0] ] }
                     }
                 });
