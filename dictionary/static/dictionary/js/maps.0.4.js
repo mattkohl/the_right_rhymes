@@ -9,10 +9,11 @@ function initializeMaps() {
             container: 'map' + index,
             scrollZoom: false,
             tolerance: 3.5,
-            maxzoom: 12,
             buffer: 0,
             style: 'mapbox://styles/mattkohl/cjzbh31rv0g3c1cpcos3l17xv'
         });
+
+        console.log("FOO!")
 
         var isEntry = true;
         var senseId = $(this).find('.sense_id').text();
@@ -104,7 +105,7 @@ function initializeMaps() {
                 data.features.forEach(function(feature) {
                     bounds.extend(feature.geometry.coordinates);
                 });
-                plot.fitBounds(bounds, {padding: 50});
+                plot.fitBounds(bounds, {padding: 50, maxZoom: 12});
             });
 
         });

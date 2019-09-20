@@ -212,7 +212,7 @@ class Sense(models.Model):
     def tf(self, artist):
         a_count = self.examples.filter(artist_name=artist.name).count()
         e_count = self.examples.count()
-        return a_count / e_count
+        return a_count / e_count if e_count > 0 else a_count / 0.000001
 
     def tfidf(self, artist):
         return self.tf(artist) * self.idf()
