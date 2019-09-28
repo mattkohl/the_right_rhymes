@@ -1,6 +1,6 @@
 from .xml_parser import main
 from django.core.management.base import BaseCommand
-import django.conf.global_settings as settings
+import os
 
 
 class Command(BaseCommand):
@@ -12,7 +12,7 @@ class Command(BaseCommand):
                             help='path to XML')
 
     def handle(self, *args, **options):
-        d = settings.SOURCE_XML_PATH
+        d = os.getenv("SOURCE_XML_PATH")
         print(d)
         main(d)
         self.stdout.write(self.style.SUCCESS('Done!'))
