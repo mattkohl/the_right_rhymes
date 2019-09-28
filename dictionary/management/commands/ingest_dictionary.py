@@ -13,11 +13,8 @@ class Command(BaseCommand):
                             help='path to XML')
 
     def handle(self, *args, **options):
-        if 'directory' in options:
-            d = options['directory']
-        else:
-            d = settings.SOURCE_XML_PATH
-
+        d = settings.SOURCE_XML_PATH
+        print(d)
         main(d)
 
         self.stdout.write(self.style.SUCCESS('Done!'))

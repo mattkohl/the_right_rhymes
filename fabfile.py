@@ -97,7 +97,7 @@ def _restart_gunicorn_service(cxn: Connection):
 
 
 def     _ingest_dictionary(cxn: Connection, source_folder, virtualenv_folder):
-    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py ingest")
+    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py ingest_dictionary")
 
 
 def sed(filename: str, before: str, after: str) -> str:
