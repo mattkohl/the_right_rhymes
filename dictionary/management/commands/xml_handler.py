@@ -996,7 +996,7 @@ def clean_up_date(unformatted_date):
 
 
 def collect_xml(directory):
-    return [join(directory, f) for f in listdir(directory) if isfile(join(directory, f))]
+    return [join(directory, f) for f in listdir(directory) if isfile(join(directory, f)) and f.endswith("xml")]
 
 
 def launch_trr_dict(x):
