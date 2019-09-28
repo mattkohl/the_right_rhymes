@@ -375,7 +375,7 @@ def places(request):
 @api_view(('GET',))
 def place_artists(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
-    return Response({'places': [build_place(p, include_artists=True) for p in results]}) if results else Response({})
+    return Response({'artists': [build_place(p, include_artists=True) for p in results]}) if results else Response({})
 
 
 @api_view(('GET',))
