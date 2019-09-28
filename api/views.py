@@ -543,7 +543,7 @@ def sense_artists(request, sense_id):
             build_artist(a, require_origin=True, count=sense_object.examples.filter(artist=a).count())
             for a in sense_object.cites_artists.all()
         ]
-        data = {'senses': [a for a in sense_artist_dicts if a is not None]}
+        data = {'artists': [a for a in sense_artist_dicts if a is not None]}
         return Response(data)
     else:
         return Response({})
