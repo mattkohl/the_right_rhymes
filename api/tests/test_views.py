@@ -237,7 +237,7 @@ class TestPlace(TestCase):
     def test_place_artists(self):
         result = self.client.get("/data/places/foo-usa/artists", follow=True)
         expected = {
-            'places': [
+            'artists': [
                 {
                     'artists_with_image': [],
                     'artists_without_image': [],
