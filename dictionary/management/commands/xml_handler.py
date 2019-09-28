@@ -144,17 +144,12 @@ class TRREntry:
                     yield TRRForm(self.entry_object, form['form'][0]['#text'], form["form"][0]["@freq"])
 
     def extract_lexemes(self):
-        if CHECK_FOR_UPDATES:
-            if self.updated:
-                lexemes = self.entry_dict['senses']
-                for l in lexemes:
-                    self.process_lexeme(l)
-            else:
-                logger.info("Skipping '" + self.headword + "' -- it hasn't been updated")
-        else:
+        if self.updated:
             lexemes = self.entry_dict['senses']
             for l in lexemes:
                 self.process_lexeme(l)
+        else:
+            logger.info("Skipping '" + self.headword + "' -- it hasn't been updated")
 
     def process_lexeme(self, lexeme):
         pos = lexeme['pos']
