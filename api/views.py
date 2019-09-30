@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 from typing import Dict, List
 
+from api.utils import APIUtils
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
     NamedEntity, Place, Salience, SemanticClass, Sense, Song
 from dictionary.utils import build_artist, build_example, build_beta_example, \
@@ -348,6 +349,44 @@ def headword_search(request):
 
 
 @api_view(('GET',))
+def entries(request):
+    q = request.GET.get('q', '')
+    results = Entry.objects.filter(publish=True).filter(headword__istartswith=q)[:20]
+    if results:
+        data = {
+            "entries": [
+                {
+                    'slug': entry.slug,
+                    'headword': entry.headword,
+                    'link': reverse('entry', args=[entry.slug], request=request)
+                } for entry in results]
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def entry(request, entry_slug):
+    _entry = Entry.objects.filter(publish=True).filter(slug=entry_slug).first()
+    if _entry:
+        data = {
+            'slug': _entry.slug,
+            'headword': _entry.headword,
+            'senses': [
+                {
+                    'part_of_speech': _sense.part_of_speech,
+                    'definition': _sense.definition,
+                    'example_count': _sense.examples.count(),
+                    'link': reverse('sense', args=[_sense.xml_id], request=request)
+                } for _sense in _entry.senses.all()]
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
 def place(request, place_slug):
     results = Place.objects.filter(slug=place_slug)
     if results:
@@ -381,10 +420,10 @@ def place_artists(request, place_slug):
 @api_view(('GET',))
 def random_entry(request):
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
-    entry = Entry.objects.filter(publish=True).order_by('?').first()
-    if entry:
-        senses = [build_sense(sense, published) for sense in entry.get_senses_ordered_by_example_count()]
-        data = {'headword': entry.headword, 'pub_date': entry.pub_date, 'senses': senses}
+    _entry = Entry.objects.filter(publish=True).order_by('?').first()
+    if _entry:
+        _senses = [build_sense(_sense, published) for _sense in _entry.get_senses_ordered_by_example_count()]
+        data = {'headword': _entry.headword, 'pub_date': _entry.pub_date, 'senses': _senses}
         return Response(data)
     else:
         return Response({})
@@ -605,16 +644,19 @@ def sense_timeline(request, sense_id):
 
 @api_view(('GET',))
 def senses(request):
-    results = Sense.objects.filter(publish=True).order_by('headword')
+    q = request.GET.get('q', '')
+    limit, offset = APIUtils.extract_limit_offset(request)
+    results = Sense.objects.filter(publish=True).filter(headword__istartswith=q).order_by('headword')[offset:limit+offset]
     if results:
         data = {
             'senses': [
                 {
-                    "headword": sense_object.headword,
-                    "part_of_speech": sense_object.part_of_speech,
-                    "xml_id": sense_object.xml_id,
-                    "definition": sense_object.definition
-                } for sense_object in results
+                    "headword": _sense.headword,
+                    "part_of_speech": _sense.part_of_speech,
+                    "xml_id": _sense.xml_id,
+                    "definition": _sense.definition,
+                    'link': reverse('sense', args=[_sense.xml_id], request=request)
+                } for _sense in results
             ]
         }
         return Response(data)

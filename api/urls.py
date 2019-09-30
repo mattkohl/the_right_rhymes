@@ -25,6 +25,8 @@ urlpatterns = [
     path("regions/<slug:region_slug>/", views.region, name="region"),
 
     path("entries/random/", views.random_entry, name="random_entry"),
+    path("entries/", views.entries, name="entries"),
+    path("entries/<slug:entry_slug>/", views.entry, name="entry"),
 
     path("examples/random/", views.random_example, name="random_example"),
 
