@@ -1,10 +1,8 @@
-import math
 from operator import itemgetter
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
-from typing import Dict, List
 
 from api.utils import APIUtils
 from dictionary.models import Artist, Domain, Region, Entry, Example, \
@@ -16,10 +14,10 @@ from dictionary.views import NUM_QUOTS_TO_SHOW
 
 
 @api_view(('GET',))
-def api_root(request, format=None):
+def api_root(request, _format=None):
     return Response({
-        'artists': reverse('artists', request=request, format=format),
-        'senses': reverse('senses', request=request, format=format)
+        'artists': reverse('artists', request=request, format=_format),
+        'senses': reverse('senses', request=request, format=_format)
     })
 
 
@@ -30,7 +28,7 @@ def artist(request, artist_slug):
         data = {
             'user': str(request.user),
             'auth': str(request.auth),
-            'artists': [build_artist(artist) for artist in results]
+            'artists': [build_artist(_artist) for _artist in results]
         }
         return Response(data)
     else:
@@ -108,38 +106,38 @@ def artist_network(request, artist_slug):
 @api_view(('GET',))
 def artist_sense_examples(request, artist_slug):
     artist_results = Artist.objects.filter(slug=artist_slug)
-    artist = artist_results[0]
+    _artist = artist_results[0]
     feat = request.GET.get('feat', '')
     published = Entry.objects.filter(publish=True).values_list('slug', flat=True)
     if not feat:
-        salient_senses = artist.get_salient_senses()
+        salient_senses = _artist.get_salient_senses()
         if not salient_senses.count():
-            p_senses = artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by(
+            p_senses = _artist.primary_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by(
                 '-num_examples')[5:]
         else:
             p_senses = [s.sense for s in salient_senses][5:]
-        senses = [
+        _senses = [
             {
-                'headword': sense.headword,
-                'slug': sense.slug,
-                'xml_id': sense.xml_id,
-                'example_count': sense.examples.filter(artist=artist).count(),
-                'examples': [build_example(example, published) for example in sense.examples.filter(artist=artist).order_by('release_date')]
-            } for sense in p_senses
+                'headword': _sense.headword,
+                'slug': _sense.slug,
+                'xml_id': _sense.xml_id,
+                'example_count': _sense.examples.filter(artist=_artist).count(),
+                'examples': [build_example(example, published) for example in _sense.examples.filter(artist=_artist).order_by('release_date')]
+            } for _sense in p_senses
         ]
     else:
-        senses = [
+        _senses = [
             {
-                'headword': sense.headword,
-                'slug': sense.slug,
-                'xml_id': sense.xml_id,
-                'example_count': sense.examples.filter(feat_artist=artist).count(),
-                'examples': [build_example(example, published) for example in sense.examples.filter(feat_artist=artist).order_by('release_date')]
-            } for sense in artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[5:]
+                'headword': _sense.headword,
+                'slug': _sense.slug,
+                'xml_id': _sense.xml_id,
+                'example_count': _sense.examples.filter(feat_artist=_artist).count(),
+                'examples': [build_example(example, published) for example in _sense.examples.filter(feat_artist=_artist).order_by('release_date')]
+            } for _sense in _artist.featured_senses.filter(publish=True).annotate(num_examples=Count('examples')).order_by('num_examples')[5:]
         ]
-    if senses:
+    if _senses:
         data = {
-            'senses': senses
+            'senses': _senses
         }
         return Response(data)
     else:
@@ -174,7 +172,7 @@ def artists(request):
         data = {
             'user': str(request.user),
             'auth': str(request.auth),
-            'artists': [build_artist(artist) for artist in results]
+            'artists': [build_artist(_artist) for _artist in results]
         }
         return Response(data)
     else:
@@ -185,42 +183,42 @@ def artists(request):
 def artists_missing_metadata(request):
     BASE_URL = "https://" + request.META.get('HTTP_HOST', 'example.org')
 
-    primary_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
-    feat_results_no_image = [artist for artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
+    primary_results_no_image = [_artist for _artist in Artist.objects.annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results_no_image = [_artist for _artist in Artist.objects.annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
 
-    primary_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
-    feat_results_no_origin = [artist for artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
+    primary_results_no_origin = [_artist for _artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('primary_examples')).order_by('-num_cites')]
+    feat_results_no_origin = [_artist for _artist in Artist.objects.filter(origin__isnull=True).annotate(num_cites=Count('featured_examples')).order_by('-num_cites')]
 
     if primary_results_no_image or feat_results_no_image:
         data = {
             'primary_artists_no_image': [
                                    {
-                                       'name': artist.name,
-                                       'slug': artist.slug,
-                                       'site_link': BASE_URL + '/artists/' + artist.slug,
-                                       'num_cites': artist.num_cites
-                                   } for artist in primary_results_no_image if '__none' in check_for_image(artist.slug)][:3],
+                                       'name': _artist.name,
+                                       'slug': _artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + _artist.slug,
+                                       'num_cites': _artist.num_cites
+                                   } for _artist in primary_results_no_image if '__none' in check_for_image(_artist.slug)][:3],
             'feat_artists_no_image': [
                                    {
-                                       'name': artist.name,
-                                       'slug': artist.slug,
-                                       'site_link': BASE_URL + '/artists/' + artist.slug,
-                                       'num_cites': artist.num_cites
-                                   } for artist in feat_results_no_image if '__none' in check_for_image(artist.slug)][:3],
+                                       'name': _artist.name,
+                                       'slug': _artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + _artist.slug,
+                                       'num_cites': _artist.num_cites
+                                   } for _artist in feat_results_no_image if '__none' in check_for_image(_artist.slug)][:3],
             'primary_artists_no_origin': [
                                    {
-                                       'name': artist.name,
-                                       'slug': artist.slug,
-                                       'site_link': BASE_URL + '/artists/' + artist.slug,
-                                       'num_cites': artist.num_cites
-                                   } for artist in primary_results_no_origin][:3],
+                                       'name': _artist.name,
+                                       'slug': _artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + _artist.slug,
+                                       'num_cites': _artist.num_cites
+                                   } for _artist in primary_results_no_origin][:3],
             'feat_artists_no_origin': [
                                    {
-                                       'name': artist.name,
-                                       'slug': artist.slug,
-                                       'site_link': BASE_URL + '/artists/' + artist.slug,
-                                       'num_cites': artist.num_cites
-                                   } for artist in feat_results_no_origin][:3]
+                                       'name': _artist.name,
+                                       'slug': _artist.slug,
+                                       'site_link': BASE_URL + '/artists/' + _artist.slug,
+                                       'num_cites': _artist.num_cites
+                                   } for _artist in feat_results_no_origin][:3]
 
         }
         return Response(data)
@@ -232,11 +230,11 @@ def artists_missing_metadata(request):
 def artist_salient_senses(request, artist_slug):
     BASE_URL = "https://" + request.META.get('HTTP_HOST', 'example.org')
     try:
-        artist = Artist.objects.get(slug=artist_slug)
+        _artist = Artist.objects.get(slug=artist_slug)
     except Exception as e:
         return Response({})
     else:
-        results = Salience.objects.filter(artist=artist).order_by('-score')
+        results = Salience.objects.filter(artist=_artist).order_by('-score')
 
         linked = [{
             "headword": s.sense.headword,
@@ -244,7 +242,7 @@ def artist_salient_senses(request, artist_slug):
             "salience": s.score
         } for s in results[:10]]
         data = {
-            "artist": BASE_URL + '/artists/' + artist.slug,
+            "artist": BASE_URL + '/artists/' + _artist.slug,
             "senses": linked
         }
         return Response(data)
@@ -254,16 +252,16 @@ def artist_salient_senses(request, artist_slug):
 def domain(request, domain_slug):
     results = Domain.objects.filter(slug=domain_slug)
     if results:
-        domain_object = results[0]
-        senses = domain_object.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
+        _domain = results[0]
+        _senses = _domain.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
         data = {
-            'name': domain_object.name,
+            'name': _domain.name,
             'children': [
                 {
-                    'word': sense.headword,
-                    'weight': sense.num_examples,
-                    'url': '/' + sense.slug + '#' + sense.xml_id
-                } for sense in senses
+                    'word': _sense.headword,
+                    'weight': _sense.num_examples,
+                    'url': '/' + _sense.slug + '#' + _sense.xml_id
+                } for _sense in _senses
                 ]
             }
         return Response(data)
@@ -279,10 +277,10 @@ def domains(request):
             'name': "Domains",
             'children': [
                     {
-                        'word': domain.name,
-                        'weight': domain.num_senses,
-                        'url': '/domains/' + domain.slug
-                    } for domain in results
+                        'word': _domain.name,
+                        'weight': _domain.num_senses,
+                        'url': '/domains/' + _domain.slug
+                    } for _domain in results
                 ]
             }
         return Response(data)
@@ -295,15 +293,15 @@ def region(request, region_slug):
     results = Region.objects.filter(slug=region_slug)
     if results:
         region_object = results[0]
-        senses = region_object.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
+        _senses = region_object.senses.annotate(num_examples=Count('examples')).order_by('num_examples')
         data = {
             'name': region_object.name,
             'children': [
                 {
-                    'word': sense.headword,
-                    'weight': sense.num_examples,
-                    'url': '/' + sense.slug + '#' + sense.xml_id
-                } for sense in senses
+                    'word': _sense.headword,
+                    'weight': _sense.num_examples,
+                    'url': '/' + _sense.slug + '#' + _sense.xml_id
+                } for _sense in _senses
                 ]
             }
         return Response(data)
@@ -319,10 +317,10 @@ def regions(request):
             'name': "Regions",
             'children': [
                     {
-                        'word': region.name,
-                        'weight': region.num_senses,
-                        'url': '/regions/' + region.slug
-                    } for region in results
+                        'word': _region.name,
+                        'weight': _region.num_senses,
+                        'url': '/regions/' + _region.slug
+                    } for _region in results
                 ]
             }
         return Response(data)
@@ -338,10 +336,10 @@ def headword_search(request):
         data = {
             "entries": [
                 {
-                    'id': entry.slug,
-                    'label': entry.headword,
-                    'value': entry.headword
-                } for entry in results]
+                    'id': _entry.slug,
+                    'label': _entry.headword,
+                    'value': _entry.headword
+                } for _entry in results]
         }
         return Response(data)
     else:
@@ -356,10 +354,10 @@ def entries(request):
         data = {
             "entries": [
                 {
-                    'slug': entry.slug,
-                    'headword': entry.headword,
-                    'link': reverse('entry', args=[entry.slug], request=request)
-                } for entry in results]
+                    'slug': _entry.slug,
+                    'headword': _entry.headword,
+                    'link': reverse('entry', args=[_entry.slug], request=request)
+                } for _entry in results]
         }
         return Response(data)
     else:
@@ -504,10 +502,10 @@ def semantic_class(request, semantic_class_slug):
             'name': semantic_class_object.name,
             'children': [
                     {
-                        'word': sense.headword,
-                        'weight': sense.examples.count(),
-                        'url': '/' + sense.slug + '#' + sense.xml_id
-                    } for sense in semantic_class_object.senses.all()
+                        'word': _sense.headword,
+                        'weight': _sense.examples.count(),
+                        'url': '/' + _sense.slug + '#' + _sense.xml_id
+                    } for _sense in semantic_class_object.senses.all()
                 ]
             }
         return Response(data)
@@ -523,10 +521,10 @@ def semantic_classes(request):
             'name': "Semantic Classes",
             'children': [
                     {
-                        'word': semantic_class.name,
-                        'weight': semantic_class.num_senses,
-                        'url': '/semantic-classes/' + semantic_class.slug
-                    } for semantic_class in results
+                        'word': _semantic_class.name,
+                        'weight': _semantic_class.num_senses,
+                        'url': '/semantic-classes/' + _semantic_class.slug
+                    } for _semantic_class in results
                 ]
             }
         return Response(data)
@@ -577,10 +575,10 @@ def sense_artist(request, sense_id, artist_slug):
 def sense_artists(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
-        sense_object = results[0]
+        _sense = results[0]
         sense_artist_dicts = [
-            build_artist(a, require_origin=True, count=sense_object.examples.filter(artist=a).count())
-            for a in sense_object.cites_artists.all()
+            build_artist(a, require_origin=True, count=_sense.examples.filter(artist=a).count())
+            for a in _sense.cites_artists.all()
         ]
         data = {'artists': [a for a in sense_artist_dicts if a is not None]}
         return Response(data)
@@ -590,11 +588,11 @@ def sense_artists(request, sense_id):
 
 @api_view(('GET',))
 def sense_artists_geojson(request, sense_id):
-    sense_object = Sense.objects.filter(xml_id=sense_id).first()
+    _sense = Sense.objects.filter(xml_id=sense_id).first()
 
-    if sense_object:
-        _artists = [a for a in sense_object.cites_artists.all() if a.origin.first() is not None]
-        sense_artist_dicts = [build_heatmap_feature(a.origin.first(), count=sense_object.examples.filter(artist=a).count()) for a in _artists]
+    if _sense:
+        _artists = [a for a in _sense.cites_artists.all() if a.origin.first() is not None]
+        sense_artist_dicts = [build_heatmap_feature(a.origin.first(), count=_sense.examples.filter(artist=a).count()) for a in _artists]
         return Response({"type": "FeatureCollection", "features": [a for a in sense_artist_dicts if a is not None]})
     else:
         return Response({"type": "FeatureCollection", "features": []})
@@ -604,19 +602,19 @@ def sense_artists_geojson(request, sense_id):
 def sense_artists_salience(request, sense_id):
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
-        sense_object = results[0]
-        saliences = Salience.objects.filter(sense=sense_object).order_by("-score")
+        _sense = results[0]
+        _saliences = Salience.objects.filter(sense=_sense).order_by("-score")
 
         sorted_data = [{
             "artist": build_artist(s.artist),
             "salience": s.score
-        } for s in saliences[:10]]
+        } for s in _saliences[:10]]
 
         return Response(
             {"artists": sorted_data,
-             "headword": sense_object.headword,
-             "xml_id": sense_object.xml_id,
-             "definition": sense_object.definition}
+             "headword": _sense.headword,
+             "xml_id": _sense.xml_id,
+             "definition": _sense.definition}
         )
     else:
         return Response({})
@@ -628,8 +626,8 @@ def sense_timeline(request, sense_id):
     published_entries = Entry.objects.filter(publish=True).values_list('headword', flat=True)
     results = Sense.objects.filter(xml_id=sense_id)
     if results:
-        sense_object = results[0]
-        exx = sense_object.examples.order_by('release_date')
+        _sense = results[0]
+        exx = _sense.examples.order_by('release_date')
         exx_count = exx.count()
         if exx_count > 30:
             exx = [ex for ex in reduce_ordered_list(exx, EXX_THRESHOLD)]
@@ -680,13 +678,13 @@ def song_artist_network(request, song_slug):
             else:
                 artist_cache[ar] += 1
 
-        for artist in artist_cache:
-            img = check_for_image(artist.slug)
+        for _artist in artist_cache:
+            img = check_for_image(_artist.slug)
             artist_object = {
-              "name": reformat_name(artist.name),
-              "link": "/artists/" + artist.slug,
+              "name": reformat_name(_artist.name),
+              "link": "/artists/" + _artist.slug,
               "img":  img,
-              "size": artist_cache[artist]
+              "size": artist_cache[_artist]
             }
             network.append(artist_object)
 

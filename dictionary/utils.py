@@ -288,8 +288,8 @@ def build_sense_preview(sense_object) -> Dict[str, str]:
         "definition": sense_object.definition,
         "xml_id": sense_object.xml_id,
         "example_count": sense_object.examples.count(),
-        "first_example": first_example,
-        "image": check_for_image(first_example.artist_slug)
+        "first_example": first_example if first_example else None,
+        "image": check_for_image(first_example.artist_slug) if first_example else None
     }
 
 
