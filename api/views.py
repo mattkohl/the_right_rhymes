@@ -347,24 +347,6 @@ def headword_search(request):
 
 
 @api_view(('GET',))
-def entries(request):
-    q = request.GET.get('q', '')
-    results = Entry.objects.filter(publish=True).filter(headword__istartswith=q)[:20]
-    if results:
-        data = {
-            "entries": [
-                {
-                    'slug': _entry.slug,
-                    'headword': _entry.headword,
-                    'link': reverse('entry', args=[_entry.slug], request=request)
-                } for _entry in results]
-        }
-        return Response(data)
-    else:
-        return Response({})
-
-
-@api_view(('GET',))
 def entry(request, entry_slug):
     _entry = Entry.objects.filter(publish=True).filter(slug=entry_slug).first()
     if _entry:
@@ -378,6 +360,24 @@ def entry(request, entry_slug):
                     'example_count': _sense.examples.count(),
                     'link': reverse('sense', args=[_sense.xml_id], request=request)
                 } for _sense in _entry.senses.all()]
+        }
+        return Response(data)
+    else:
+        return Response({})
+
+
+@api_view(('GET',))
+def entries(request):
+    q = request.GET.get('q', '')
+    results = Entry.objects.filter(publish=True).filter(headword__istartswith=q)[:20]
+    if results:
+        data = {
+            "entries": [
+                {
+                    'slug': _entry.slug,
+                    'headword': _entry.headword,
+                    'link': reverse('entry', args=[_entry.slug], request=request)
+                } for _entry in results]
         }
         return Response(data)
     else:
