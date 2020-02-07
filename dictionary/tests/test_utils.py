@@ -161,7 +161,7 @@ class TestBuildExample(BaseTest):
         mock_add_links.return_value = "foo"
         mock_check_for_image.return_value = "__none.png"
         built = build_example(self.example_2, self.published_headwords)
-        expected = {'lyric': "Now, it's time for me, the E, to rock it loco", 'featured_artists': [], 'song_title': 'Brothers From Brentwood L.I.', 'artist_name': 'EPMD', 'release_date_string': '1992-07-28', 'release_date': '1992-07-28', 'linked_lyric': 'foo', 'album': 'Crossover', 'artist_slug': 'epmd', 'song_slug': 'epmd-brothers-from-brentwood-l-i'}
+        expected = {'lyric': "Now, it's time for me, the E, to rock it loco", 'featured_artists': [], 'song_title': 'Brothers From Brentwood L.I.', 'artist_name': 'EPMD', 'release_date_string': '1992-07-28', 'release_date': '1992-07-28', 'linked_lyric': 'foo', 'album': 'Crossover', 'artist_slug': 'epmd', 'song_slug': 'epmd-brothers-from-brentwood-l-i', 'spot_link': None}
         self.assertDictEqual(built, expected)
 
     @mock.patch('dictionary.utils.build_artist')

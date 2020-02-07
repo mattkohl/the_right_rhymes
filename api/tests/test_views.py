@@ -299,7 +299,7 @@ class TestSenseEndpoints(BaseTest):
              'release_date': '1992-07-28',
              'release_date_string': '1992-07-28',
              'song_slug': 'epmd-boon-dox',
-             'song_title': 'Boon Dox'}],
+             'song_title': 'Boon Dox', 'spot_link': None}],
           'sense_id': 'bar'}
         self.assertEqual(result.status_code, 200)
         self.assertDictEqual(j, expected)
