@@ -13,7 +13,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         d = os.getenv("SOURCE_XML_PATH")
-        print(d)
         main(d)
         self.stdout.write(self.style.SUCCESS('Done!'))
 

@@ -328,8 +328,6 @@ def build_example(example_object, published, rf=False) -> Dict[str, Any]:
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
     sl = example_object.spot_link()
-    if sl is not None:
-        print(sl)
     return {
         "artist_name": reformat_name(example_object.artist_name),
         "artist_slug": example_object.artist_slug,

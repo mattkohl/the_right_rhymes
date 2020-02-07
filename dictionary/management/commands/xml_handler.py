@@ -343,8 +343,9 @@ class TRRSense:
 class TRRSong:
 
     def __init__(self, xml_id, release_date, release_date_string, song_title, artist_name, artist_slug, primary_artists,
-                 feat_artists, album):
+                 feat_artists, album, spot_uri=None):
         self.xml_id = xml_id
+        self.spot_uri = spot_uri
         self.release_date = release_date
         self.release_date_string = release_date_string
         self.title = song_title
@@ -368,6 +369,7 @@ class TRRSong:
     def update_song(self):
         self.song_object.title = self.title
         self.song_object.album = self.album
+        self.song_object.spot_uri = self.spot_uri
         self.song_object.slug = self.slug
         self.song_object.release_date = self.release_date
         self.song_object.release_date_string = self.release_date_string
@@ -393,6 +395,7 @@ class TRRExample:
         self.example_dict = example_dict
         self.song_title = self.example_dict['songTitle']
         self.xml_id = self.example_dict['@id']
+        self.spot_uri = self.example_dict['@spotUri'] if '@spotUri' in self.example_dict else None
         self.release_date_string = self.example_dict['date']
         self.release_date = clean_up_date(self.release_date_string)
         self.album = self.example_dict['album']
@@ -414,7 +417,7 @@ class TRRExample:
         self.extract_xrefs()
         self.song = TRRSong(self.xml_id, self.release_date, self.release_date_string,
                             self.song_title, self.artist_name, self.artist_slug,
-                            self.primary_artists, self.featured_artists, self.album)
+                            self.primary_artists, self.featured_artists, self.album, self.spot_uri)
         self.add_relations()
 
     def get_artist_name(self):
@@ -1006,7 +1009,7 @@ def process_xml(xml_list):
     for i, xml in enumerate(xml_list):
         x = XMLDict(xml)
         launch_trr_dict(x)
-        print_progress(i + 1, iterations, prefix='Progress:', suffix='Complete ({})'.format(xml))
+        print_progress(i + 1, iterations, prefix='Progress:', suffix='Complete', filename=xml)
 
 
 def main(directory='../tRR/XML/tRR_Django'):

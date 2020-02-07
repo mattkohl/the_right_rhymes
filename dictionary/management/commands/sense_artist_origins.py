@@ -16,12 +16,10 @@ class Command(BaseCommand):
             sense = Sense.objects.filter(xml_id=_id).first()
             artists = sense.cites_artists.all()
             cache = dict()
-            from pprint import pprint
             for artist in artists:
                 response = requests.get(f"{url}/{artist.slug}").json()
                 done = [ArtistParser.persist(ArtistParser.parse(d)) for d in response["artists"]]
                 cache[artist.slug] = done
-                pprint(done)
             self.stdout.write(self.style.SUCCESS('Done!'))
 
 
