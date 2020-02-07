@@ -498,6 +498,10 @@ class Example(models.Model):
     def __str__(self):
         return '[' + str(self.release_date_string) + '] ' + str(self.artist_name) + ' - ' + str(self.lyric_text)
 
+    def spot_link(self):
+        uri = self.from_song.values_list("spot_uri").first()[0]
+        return f"""https://open.spotify.com{uri.lstrip("spotify").replace(":", "/")}""" if uri else None
+
 
 ExampleRhymeParsed = namedtuple("ExampleRhymeParsed", ["word_one", "word_two", "word_one_slug", "word_two_slug", "word_two_target_id", "word_one_position", "word_two_position"])
 ExampleRhymeRelations = namedtuple("ExampleRhymeRelations", ["parent_example"])

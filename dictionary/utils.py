@@ -327,6 +327,9 @@ def build_entry_preview(entry_object) -> Dict[str, str]:
 def build_example(example_object, published, rf=False) -> Dict[str, Any]:
     lyric = example_object.lyric_text
     lyric_links = example_object.lyric_links.order_by('position')
+    sl = example_object.spot_link()
+    if sl is not None:
+        print(sl)
     return {
         "artist_name": reformat_name(example_object.artist_name),
         "artist_slug": example_object.artist_slug,
@@ -337,7 +340,8 @@ def build_example(example_object, published, rf=False) -> Dict[str, Any]:
         "release_date_string": example_object.release_date_string,
         "featured_artists": [build_artist(feat) for feat in example_object.feat_artist.order_by('name')],
         "lyric": lyric,
-        "linked_lyric": add_links(lyric, lyric_links, published)
+        "linked_lyric": add_links(lyric, lyric_links, published),
+        "spot_link": sl
     }
 
 
