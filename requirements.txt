@@ -1,3 +1,4 @@
+asgiref==3.2.7
 asn1crypto==0.24.0
 bcrypt==3.1.7
 certifi==2019.6.16
@@ -5,9 +6,9 @@ cffi==1.11.2
 chardet==3.0.4
 Click==7.0
 cryptography==2.7
-Django==2.2.10
+Django==3.0.4
 django-crispy-forms==1.7.2
-django-extensions==2.2.1
+django-extensions==2.2.9
 djangorestframework==3.10.1
 fabric==2.4.0
 geographiclib==1.49
