@@ -658,7 +658,7 @@ def count_place_artists(place_object, counts=[0]):
 def make_label_from_camel_case(text):
     if text[0].lower():
         text = text[0].upper() + text[1:]
-    tokens = re.findall('[A-Z][^A-Z]*', text)
+    tokens = text.split('_')
     return ' '.join(tokens)
 
 

@@ -19,7 +19,7 @@ def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_lengt
     bar = '#' * filled_length + '-' * (bar_length - filled_length)
 
     if filename:
-        sys.stdout.write(f'\r{filename}\n{prefix} |{bar}| {percents}% {suffix}'),
+        sys.stdout.write(f'\n{prefix} |{bar}| {percents}% {suffix}'),
     else:
         sys.stdout.write(f'{prefix} |{bar}| {percents}% {suffix}'),
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     test = len(items)
 
     # Initial call to print 0% progress
-    print_progress(0, test, prefix='Progress:', suffix='Complete', bar_length=50)
+    print_progress(0, test, prefix='Progress:', suffix='Complete ', bar_length=50)
     for i, item in enumerate(items):
         sleep(0.1)
-        print_progress(i+1, test, prefix='Progress:', suffix='Complete', bar_length=50)
+        print_progress(i+1, test, prefix='Progress:', suffix='Complete ', bar_length=50)

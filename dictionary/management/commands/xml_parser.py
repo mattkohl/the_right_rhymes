@@ -10,18 +10,11 @@ from dictionary.utils import update_stats
 logger = logging.getLogger(__name__)
 
 
-geolocator = Nominatim(user_agent=__name__)
-geocache = []
-
-
-CHECK_FOR_UPDATES = True
-
-
-def main(directory):
+def main(directory: str, force_update: bool = False):
     print(f"Parsing directory {directory}")
     start = time.time()
     xml_files = sorted(DirectoryLoader.collect_files(directory), key=lambda f: f.lower())
-    DirectoryLoader.process_xml(xml_files)
+    DirectoryLoader.process_xml(xml_files, force_update)
     end = time.time()
     total_time = end - start
     m, s = divmod(total_time, 60)

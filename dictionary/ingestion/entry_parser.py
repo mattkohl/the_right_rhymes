@@ -25,22 +25,23 @@ class EntryParser:
         except Exception as e:
             raise KeyError(f"Entry parse failed: {e}")
         else:
-            print(f"------ Processing: '{headword}' ------")
+            print(f" ['{headword}']")
             return nt
 
     @staticmethod
-    def persist(nt: EntryParsed) -> Tuple[Entry, EntryRelations]:
+    def persist(nt: EntryParsed, force_update: bool = False) -> Tuple[Entry, EntryRelations]:
         try:
             entry = Entry.objects.get(headword=nt.headword, slug=nt.slug)
-            entry.publish = nt.publish
-            entry.json = nt.xml_dict
-            entry.letter = nt.letter
-            entry.sort_key = nt.sort_key
-            entry.save()
+            if force_update or nt.xml_dict != entry.json:
+                entry.publish = nt.publish
+                entry.json = nt.xml_dict
+                entry.letter = nt.letter
+                entry.sort_key = nt.sort_key
+                entry.save()
         except ObjectDoesNotExist:
             entry = Entry.objects.create(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict,
                                          letter=nt.letter, sort_key=nt.sort_key)
-        return EntryParser.update_relations(entry, nt)
+        return EntryParser.update_relations(entry, nt, force_update)
 
     @staticmethod
     def purge_relations(entry: Entry) -> Entry:
@@ -49,12 +50,14 @@ class EntryParser:
         return entry
 
     @staticmethod
-    def update_relations(entry: Entry, nt: EntryParsed) -> Tuple[Entry, EntryRelations]:
-        EntryParser.purge_relations(entry)
-        return entry, EntryRelations(
-            forms=EntryParser.process_forms(entry, EntryParser.extract_forms(nt)),
-            senses=EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
-        )
+    def update_relations(entry: Entry, nt: EntryParsed, force_update: bool = False) -> Tuple[Entry, EntryRelations]:
+        if force_update or nt.xml_dict != entry.json:
+            EntryParser.purge_relations(entry)
+            return entry, EntryRelations(
+                forms=EntryParser.process_forms(entry, EntryParser.extract_forms(nt)),
+                senses=EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
+            )
+        return entry, EntryRelations(forms=list(), senses=list())
 
     @staticmethod
     def extract_forms(nt: EntryParsed) -> List[FormParsed]:

@@ -18,7 +18,7 @@ class DictionaryParser:
             raise KeyError(f"Could not access ['dictionary']['entry'] in {xml_dict}: {e}")
 
     @staticmethod
-    def process_entries(entry_nts: List[EntryParsed]) -> List[Tuple[Entry, EntryRelations]]:
+    def process_entries(entry_nts: List[EntryParsed], force_update: bool = False) -> List[Tuple[Entry, EntryRelations]]:
         def process_entry(entry: Entry, relations: EntryRelations) -> Tuple[Entry, EntryRelations]:
             return entry, relations
-        return [process_entry(*EntryParser.persist(nt)) for nt in entry_nts]
+        return [process_entry(*EntryParser.persist(nt, force_update)) for nt in entry_nts]

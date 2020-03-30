@@ -1004,12 +1004,12 @@ def launch_trr_dict(x):
 def process_xml(xml_list):
     from dictionary.management.commands.utils import print_progress
     iterations = len(xml_list)
-    print_progress(0, iterations, prefix='Progress:', suffix='Complete')
+    print_progress(0, iterations, prefix='Progress:', suffix='Complete ')
 
     for i, xml in enumerate(xml_list):
         x = XMLDict(xml)
         launch_trr_dict(x)
-        print_progress(i + 1, iterations, prefix='Progress:', suffix='Complete', filename=xml)
+        print_progress(i + 1, iterations, prefix='Progress:', suffix='Complete ', filename=xml)
 
 
 def main(directory='../tRR/XML/tRR_Django'):

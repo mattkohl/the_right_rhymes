@@ -16,24 +16,24 @@ class DirectoryLoader:
         return [join(directory, f) for f in listdir(directory) if isfile(join(directory, f)) and f.endswith("xml")]
 
     @staticmethod
-    def process_xml(xml_list) -> None:
+    def process_xml(xml_list: List[str], force_update: bool = False) -> None:
         from dictionary.management.commands.utils import print_progress
         iterations = len(xml_list)
-        print_progress(0, iterations, prefix='Progress:', suffix='Complete')
+        print_progress(0, iterations, prefix='Progress:', suffix='Complete ')
 
         for i, xml in enumerate(xml_list):
             if "malformed" not in xml:
                 xml_string: str = FileReader.read_file(xml)
                 xml_dict: Dict = JSONConverter.parse_to_dict(xml_string)
-                print_progress(i + 1, iterations, prefix='Progress:', suffix=f"Complete", filename=xml)
+                print_progress(i + 1, iterations, prefix='Progress:', suffix=f"Complete ", filename=xml)
                 entry_tuples = DictionaryParser.parse(xml_dict)
-                _ = DictionaryParser.process_entries(entry_tuples)
+                _ = DictionaryParser.process_entries(entry_tuples, force_update)
 
     @staticmethod
     def process_json(json_list) -> None:
         from dictionary.management.commands.utils import print_progress
         iterations = len(json_list)
-        print_progress(0, iterations, prefix='Progress:', suffix='Complete')
+        print_progress(0, iterations, prefix='Progress:', suffix='Complete ')
 
         for i, doc in enumerate(json_list):
             if "malformed" not in doc:

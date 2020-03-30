@@ -10,13 +10,13 @@ def main():
 
     senses = Sense.objects.filter(publish=True).order_by("headword")
     iterations = senses.count()
-    print_progress(0, iterations, prefix='Progress:', suffix='Complete')
+    print_progress(0, iterations, prefix='Progress:', suffix='Complete ')
     for i, sense in enumerate(senses):
         msg = "Now processing: {}".format(str(sense))
         logger.info(msg)
         sense.remove_saliences()
         sense.add_saliences()
 
-        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete')
+        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete ')
 
 
