@@ -24,7 +24,7 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(Form.objects.count(), 0)
         entry, relations = EntryParser.persist(self.zootie_entry_nt)
 
-        entry_updated, _ = EntryParser.update_relations(entry, self.zootie_entry_nt)
+        entry_updated, _ = EntryParser.update_relations(entry, self.zootie_entry_nt, True)
         self.assertEqual(entry_updated.forms.count(), 1)
         self.assertEqual(Form.objects.count(), 1)
 

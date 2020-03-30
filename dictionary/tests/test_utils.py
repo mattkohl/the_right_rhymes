@@ -6,7 +6,7 @@ from dictionary.utils import slugify, extract_short_name, extract_parent, build_
     inject_link, swap_place_lat_long, format_suspicious_lat_longs, gather_suspicious_lat_longs, build_entry_preview, \
     build_collocate, build_xref, build_artist, build_sense, build_timeline_example, reduce_ordered_list, \
     count_place_artists, make_label_from_camel_case, dedupe_rhymes, update_release_date, build_stats, update_stats, \
-    update_headword, get_letter, split_definitions
+    update_headword, get_letter, split_definitions, make_label_from_snake_case
 
 
 class TestUtils(BaseTest):
@@ -62,6 +62,11 @@ class TestUtils(BaseTest):
         cc = "thisIsCamelCase"
         result = make_label_from_camel_case(cc)
         self.assertEqual(result, "This Is Camel Case")
+
+    def test_make_label_from_snake_case(self):
+        cc = "this_is_snake_case"
+        result = make_label_from_snake_case(cc)
+        self.assertEqual(result, "This is snake case")
 
     def test_dedupe_rhymes(self):
         r = {'w': {'rhyme': 'w', 'examples': [{'lyric': "l_1"}, {"lyric": "l_2"}, {"lyric": "l_2"}, {"lyric": "l_3"}]}}

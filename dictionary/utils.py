@@ -658,8 +658,14 @@ def count_place_artists(place_object, counts=[0]):
 def make_label_from_camel_case(text):
     if text[0].lower():
         text = text[0].upper() + text[1:]
-    tokens = text.split('_')
+    tokens = re.findall('[A-Z][a-z]*', text)
     return ' '.join(tokens)
+
+
+def make_label_from_snake_case(text):
+    if text[0].lower():
+        text = text[0].upper() + text[1:]
+    return ' '.join(text.split("_"))
 
 
 def dedupe_rhymes(rhymes_intermediate):
