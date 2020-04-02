@@ -19,7 +19,8 @@ class SongParser:
                 artist_slug=slugify(artist_name),
                 release_date=nt.release_date,
                 release_date_string=nt.release_date_string,
-                album=nt.album
+                album=nt.album,
+                spot_uri=nt.spot_uri
             )
         except Exception as e:
             raise KeyError(f"Song parse failed: {e}")
@@ -29,14 +30,15 @@ class SongParser:
     @staticmethod
     def persist(nt: SongParsed, primary_artists: List[Artist], featured_artists: List[Artist]) -> Tuple[Song, SongRelations]:
         try:
-            song = Song.objects.get(xml_id=nt.xml_id)
+            song = Song.objects.get(slug=nt.slug)
             song.title = nt.title
             song.album = nt.album
-            song.slug = nt.slug
+            song.xml_id = nt.xml_id
             song.release_date = nt.release_date
             song.release_date_string = nt.release_date_string
             song.artist_name = nt.artist_name
             song.artist_slug = nt.artist_slug
+            song.spot_uri = nt.spot_uri
             song.save()
         except ObjectDoesNotExist:
             song = Song.objects.create(
@@ -47,7 +49,8 @@ class SongParser:
                 release_date=nt.release_date,
                 release_date_string=nt.release_date_string,
                 artist_name=nt.artist_name,
-                artist_slug=nt.artist_slug
+                artist_slug=nt.artist_slug,
+                spot_uri=nt.spot_uri
             )
         return SongParser.update_relations(song, primary_artists, featured_artists)
 

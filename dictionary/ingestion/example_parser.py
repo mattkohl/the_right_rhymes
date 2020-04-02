@@ -32,7 +32,8 @@ class ExampleParser:
                 rhymes=d['lyric']["rhyme"] if "rhyme" in d['lyric'] else [],
                 rfs=d['lyric']["rf"] if "rf" in d['lyric'] else [],
                 xrefs=d['lyric']["xref"] if "xref" in d['lyric'] else [],
-                entities=d['lyric']["entity"] if "entity" in d['lyric'] else []
+                entities=d['lyric']["entity"] if "entity" in d['lyric'] else [],
+                spot_uri=d["@spotUri"] if '@spotUri' in d else None
             )
         except Exception as e:
             raise KeyError(f"Example parse failed: {e}")
