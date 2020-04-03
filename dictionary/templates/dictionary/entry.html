@@ -260,9 +260,7 @@
                                         {% endif %}
                                         <span class="album">[{{ example.album }}]</span>
                                         {% if example.spot_link %}
-                                            <a href="{{example.spot_link}}" target="_blank">
-                                                <img src="/static/dictionary/img/header/spotify.svg" width="18px" height="18px" style="padding-bottom: 2px"/>
-                                            </a>
+                                            <a class="spotify" href="{{example.spot_link}}" target="_blank"></a>
                                         {% endif %}
                                         <div class="lyric">
                                             {{ example.linked_lyric|safe }}

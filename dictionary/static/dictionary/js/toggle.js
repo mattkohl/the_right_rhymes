@@ -110,10 +110,10 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
                         $('<span></span>', {"class": 'album', "text": '[' + example.album + ']'}),
                     );
                     if (example.spot_link != null) {
-                            ex.append($('<a></a>', {
-                                "href": example.spot_link,
-                                "target": "_blank"
-                                }).append(spotifyLogoImg));
+                        ex.append($('<a></a>', {
+                            "href": example.spot_link,
+                            "target": "_blank"
+                            }));
                     }
                     ex.append(
                         $('<div class="lyric">' + example.linked_lyric + '</div>')
@@ -126,9 +126,6 @@ function addRemainingArtistSenseExamples(ul, breaker, context, endpoint) {
             add_tweet();
         });
 }
-
-let spotifyLogoImg = $("<img></img>", {"src": "/static/dictionary/img/header/spotify.svg", "height": "18px", "width": "18px"});
-$(spotifyLogoImg).css({"padding-bottom": "2px"});
 
 function addRemainingExamples(ul, breaker, context, endpoint) {
     $.getJSON(
@@ -167,9 +164,10 @@ function addRemainingExamples(ul, breaker, context, endpoint) {
                 );
                 if (example.spot_link != null) {
                         ex.append($('<a></a>', {
+                            "class": "spotify",
                             "href": example.spot_link,
                             "target": "_blank"
-                            }).append(spotifyLogoImg));
+                            }));
                 }
                 ex.append(
                     $('<div class="lyric">' + example.linked_lyric + '</div>')

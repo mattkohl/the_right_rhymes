@@ -544,6 +544,15 @@ p.mapLabel {
     /* display: inline-block; */
 }
 
+.spotify {
+    background-image: url('/static/dictionary/img/header/spotify.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 8px;
+    position: relative;
+    top: 12px;
+}
+
 .xref, .etym {
 	font-size: .75em;
 	margin-bottom: 1.25em;

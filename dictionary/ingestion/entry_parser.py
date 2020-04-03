@@ -30,9 +30,11 @@ class EntryParser:
 
     @staticmethod
     def persist(nt: EntryParsed, force_update: bool = False) -> Tuple[Entry, EntryRelations]:
+        update = force_update
         try:
-            entry = Entry.objects.get(headword=nt.headword, slug=nt.slug)
-            if force_update or nt.xml_dict != entry.json:
+            entry = Entry.objects.get(slug=nt.slug)
+            update = force_update or nt.xml_dict != entry.json
+            if update:
                 entry.publish = nt.publish
                 entry.json = nt.xml_dict
                 entry.letter = nt.letter
@@ -41,7 +43,7 @@ class EntryParser:
         except ObjectDoesNotExist:
             entry = Entry.objects.create(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict,
                                          letter=nt.letter, sort_key=nt.sort_key)
-        return EntryParser.update_relations(entry, nt, force_update)
+        return EntryParser.update_relations(entry, nt, update)
 
     @staticmethod
     def purge_relations(entry: Entry) -> Entry:
@@ -50,12 +52,12 @@ class EntryParser:
         return entry
 
     @staticmethod
-    def update_relations(entry: Entry, nt: EntryParsed, force_update: bool = False) -> Tuple[Entry, EntryRelations]:
-        if force_update or nt.xml_dict != entry.json:
-            EntryParser.purge_relations(entry)
-            return entry, EntryRelations(
-                forms=EntryParser.process_forms(entry, EntryParser.extract_forms(nt)),
-                senses=EntryParser.process_senses(entry, EntryParser.extract_senses(nt))
+    def update_relations(entry: Entry, nt: EntryParsed, update: bool = False) -> Tuple[Entry, EntryRelations]:
+        if update:
+            purged = EntryParser.purge_relations(entry)
+            return purged, EntryRelations(
+                forms=EntryParser.process_forms(nt, purged),
+                senses=EntryParser.process_senses(nt, purged)
             )
         return entry, EntryRelations(forms=list(), senses=list())
 
@@ -69,13 +71,12 @@ class EntryParser:
             return [FormParser.parse(form) for lexeme in lexemes for form in lexeme['forms']]
 
     @staticmethod
-    def process_forms(entry: Entry, forms: List[FormParsed]) -> List[Tuple[Form, FormRelations]]:
+    def process_forms(nt: EntryParsed, entry: Entry) -> List[Tuple[Form, FormRelations]]:
         def process_form(form: Form, relations: FormRelations) -> Tuple[Form, FormRelations]:
             _, _ = FormParser.update_relations(form)
             entry.forms.add(form)
             return form, relations
-
-        return [process_form(*FormParser.persist(nt)) for nt in forms]
+        return [process_form(*FormParser.persist(a)) for a in EntryParser.extract_forms(nt)]
 
     @staticmethod
     def extract_senses(nt: EntryParsed) -> List[SenseParsed]:
@@ -88,9 +89,8 @@ class EntryParser:
                     lexeme['sense']]
 
     @staticmethod
-    def process_senses(entry: Entry, senses: List[SenseParsed]) -> List[Tuple[Sense, SenseRelations]]:
+    def process_senses(nt: EntryParsed, entry: Entry) -> List[Tuple[Sense, SenseRelations]]:
         def process_sense(sense: Sense, relations: SenseRelations) -> Tuple[Sense, SenseRelations]:
             entry.senses.add(sense)
             return sense, relations
-
-        return [process_sense(*SenseParser.persist(nt)) for nt in senses]
+        return [process_sense(*SenseParser.persist(a)) for a in EntryParser.extract_senses(nt)]

@@ -65,6 +65,19 @@ def decimal_default(obj) -> float:
     raise TypeError
 
 
+def join_artists(names: List[str]) -> str:
+    if len(names) == 1:
+        return names[0]
+    elif isinstance(names, str):
+        return names
+    else:
+        _names_sorted = sorted(names)
+        if len(_names_sorted) == 2:
+            return f"{' &amp; '.join(_names_sorted)}"
+        else:
+            return f"{', '.join(_names_sorted[:-1])}, &amp; {_names_sorted[-1]}"
+
+
 def slugify(text) -> str:
     slug = text.strip().lower()
     if slug[0] == "'" or slug[0] == "-":

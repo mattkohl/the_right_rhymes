@@ -25,6 +25,7 @@ class JSONConverter:
                       'etym',
                       'rhyme',
                       'entity',
+                      'artist',
                       'rf')
         try:
             j = xmltodict.parse(xml_string, force_list=force_list)

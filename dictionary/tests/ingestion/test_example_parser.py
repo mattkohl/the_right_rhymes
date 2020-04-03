@@ -10,7 +10,7 @@ class TestExampleParser(BaseXMLParserTest):
 
     def test_persist(self):
         result, relations = ExampleParser.persist(self.zootie_example_nt)
-        example = Example.objects.get(artist_name=self.zootie_example_nt.primary_artists[0], song_title=self.zootie_example_nt.song_title, lyric_text=self.zootie_example_nt.lyric_text)
+        example = Example.objects.get(artist_name=self.zootie_example_nt.primary_artists, song_title=self.zootie_example_nt.song_title, lyric_text=self.zootie_example_nt.lyric_text)
         self.assertEqual(result, example)
 
     def test_update_relations(self):

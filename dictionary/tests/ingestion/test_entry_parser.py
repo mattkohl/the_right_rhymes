@@ -46,7 +46,7 @@ class TestEntryParser(BaseXMLParserTest):
     def test_process_forms(self):
         self.assertEqual(Form.objects.count(), 0)
         zootie, relations = EntryParser.persist(self.zootie_entry_nt)
-        forms = EntryParser.process_forms(zootie, [self.zootie_form_nt1])
+        forms = EntryParser.process_forms(self.zootie_entry_nt, zootie)
         self.assertEqual(forms[0][0], zootie.forms.first())
         self.assertEqual(Form.objects.count(), 1)
 
@@ -54,3 +54,20 @@ class TestEntryParser(BaseXMLParserTest):
         result = EntryParser.extract_senses(self.zootie_entry_nt)
         self.assertEqual(len(result), 1)
         self.assertEqual(f"{result[0].slug}#{result[0].xml_id}", 'zootie#e11730_n_1')
+
+    def test_process_senses(self):
+        entry, _ = EntryParser.persist(self.zootie_entry_nt)
+        sense, _ = EntryParser.process_senses(self.zootie_entry_nt, entry)[0]
+        self.assertEqual(entry.senses.count(), 1)
+        self.assertEqual(sense.examples.count(), 5)
+        exx = [e for e in sense.examples.all()]
+        self.assertTrue(exx[-1].lyric_text.endswith("pass the zootie"))
+
+        entry_updated, _ = EntryParser.persist(self.zootie_entry_nt_updated)
+        sense_updated, _ = EntryParser.process_senses(self.zootie_entry_nt_updated, entry_updated)[0]
+        self.assertEqual(entry_updated.senses.count(), 1)
+        self.assertEqual(sense_updated.examples.count(), 5)
+        exx = [e for e in sense_updated.examples.all()]
+        self.assertTrue(exx[-1].lyric_text.endswith("pass the zootie, yo"))
+
+

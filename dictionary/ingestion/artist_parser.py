@@ -18,7 +18,7 @@ class ArtistParser:
                 xml_dict=d
             )
         except Exception as e:
-            raise KeyError(f"Sense parse failed: {e}")
+            raise KeyError(f"Artist parse failed: {e}")
         else:
             return nt
 

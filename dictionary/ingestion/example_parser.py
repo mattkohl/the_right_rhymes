@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from typing import Dict, List, Iterator, Tuple
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,7 +10,7 @@ from dictionary.ingestion.song_parser import SongParser
 from dictionary.management.commands.xml_handler import clean_up_date
 from dictionary.models import ExampleParsed, Example, Song, ExampleRelations, SongParsed, Artist, ArtistParsed, \
     SongRelations, LyricLink, LyricLinkParsed, Sense, NamedEntity, ExampleRhyme, ExampleRhymeParsed, ArtistRelations
-from dictionary.utils import slugify
+from dictionary.utils import slugify, join_artists
 
 
 class ExampleParser:
@@ -19,7 +18,7 @@ class ExampleParser:
     @staticmethod
     def parse(d: Dict) -> ExampleParsed:
         try:
-            primary_artists = [d['artist']['#text'] if isinstance(d['artist'], OrderedDict) else d['artist']]
+            primary_artists = join_artists(d['artist'])
             nt = ExampleParsed(
                 primary_artists=primary_artists,
                 song_title=d['songTitle'],
@@ -42,7 +41,7 @@ class ExampleParser:
 
     @staticmethod
     def persist(nt: ExampleParsed) -> Tuple[Example, ExampleRelations]:
-        artist_name = nt.primary_artists[0]
+        artist_name = nt.primary_artists
         artist_slug = slugify(artist_name)
         try:
             example = Example.objects.get(song_title=nt.song_title,
@@ -70,11 +69,11 @@ class ExampleParser:
         featured_artists = ExampleParser.process_featured_artists(nt, purged)
         relations = ExampleRelations(
             artist=primary_artists,
-            from_song=ExampleParser.process_songs(nt, example, primary_artists, featured_artists),
+            from_song=ExampleParser.process_songs(nt, purged, primary_artists, featured_artists),
             feat_artist=featured_artists,
-            example_rhymes=ExampleParser.process_example_rhymes(nt, example),
-            features_entities=ExampleParser.process_entities(nt, example),
-            lyric_links=ExampleParser.process_lyric_links(nt, example)
+            example_rhymes=ExampleParser.process_example_rhymes(nt, purged),
+            features_entities=ExampleParser.process_entities(nt, purged),
+            lyric_links=ExampleParser.process_lyric_links(nt, purged)
         )
         return purged, relations
 
@@ -109,7 +108,7 @@ class ExampleParser:
 
     @staticmethod
     def extract_primary_artists(nt: ExampleParsed) -> List[ArtistParsed]:
-        return [ArtistParser.parse({"name": a}) for a in nt.primary_artists]
+        return [ArtistParser.parse({"name": nt.primary_artists})]
 
     @staticmethod
     def process_primary_artists(nt: ExampleParsed, example: Example) -> List[Artist]:
