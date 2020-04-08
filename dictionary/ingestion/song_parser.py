@@ -30,7 +30,7 @@ class SongParser:
     @staticmethod
     def persist(nt: SongParsed, primary_artists: List[Artist], featured_artists: List[Artist]) -> Tuple[Song, SongRelations]:
         try:
-            song = Song.objects.get(slug=nt.slug)
+            song = Song.objects.get(slug=nt.slug, album=nt.album)
             song.title = nt.title
             song.album = nt.album
             song.xml_id = nt.xml_id
