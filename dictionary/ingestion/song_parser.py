@@ -41,8 +41,8 @@ class SongParser:
             song.spot_uri = nt.spot_uri
             song.save()
         except MultipleObjectsReturned as e:
-            print(nt.slug)
-            raise e
+            print(nt.slug, e)
+            raise
         except ObjectDoesNotExist:
             song = Song.objects.create(
                 xml_id=nt.xml_id,
