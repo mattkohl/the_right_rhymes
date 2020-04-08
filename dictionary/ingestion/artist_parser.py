@@ -1,4 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from typing import Tuple, Dict, Optional, List
 
 from dictionary.ingestion.place_parser import PlaceParser
@@ -28,6 +28,9 @@ class ArtistParser:
             artist = Artist.objects.get(slug=nt.slug)
             artist.name = nt.name
             artist.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug)
+            raise e
         except ObjectDoesNotExist:
             artist = Artist.objects.create(slug=nt.slug, name=nt.name)
         return ArtistParser.update_relations(artist, nt)

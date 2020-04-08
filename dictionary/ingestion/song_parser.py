@@ -1,4 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from typing import List, Tuple
 
 from dictionary.models import SongParsed, Song, ExampleParsed, SongRelations, Artist
@@ -40,6 +40,9 @@ class SongParser:
             song.artist_slug = nt.artist_slug
             song.spot_uri = nt.spot_uri
             song.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug)
+            raise e
         except ObjectDoesNotExist:
             song = Song.objects.create(
                 xml_id=nt.xml_id,

@@ -1,6 +1,6 @@
 from typing import Dict
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import Collocate, CollocateParsed
 from dictionary.utils import slugify
@@ -27,6 +27,9 @@ class CollocateParser:
             collocate.target_slug = nt.target_slug,
             collocate.frequency = nt.frequency
             collocate.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug)
+            raise e
         except ObjectDoesNotExist:
             collocate = Collocate.objects.create(collocate_lemma=nt.collocate_lemma,
                                                  source_sense_xml_id=nt.source_sense_xml_id,

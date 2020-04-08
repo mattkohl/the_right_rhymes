@@ -1,6 +1,6 @@
 from typing import Dict
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import Xref, XrefParsed
 from dictionary.utils import slugify
@@ -47,6 +47,9 @@ class XrefParser:
             xref.position = nt.position
             xref.frequency = nt.frequency
             xref.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug)
+            raise e
         except ObjectDoesNotExist:
             xref = Xref.objects.create(xref_word=nt.xref_word,
                                        xref_type=nt.xref_type,

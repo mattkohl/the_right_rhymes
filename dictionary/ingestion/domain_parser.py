@@ -1,4 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import DomainParsed, Domain
 from dictionary.utils import make_label_from_camel_case, slugify
@@ -17,6 +17,9 @@ class DomainParser:
             domain = Domain.objects.get(slug=nt.slug)
             domain.name = nt.name
             domain.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug)
+            raise e
         except ObjectDoesNotExist:
             domain = Domain.objects.create(slug=nt.slug, name=nt.name)
         return domain
