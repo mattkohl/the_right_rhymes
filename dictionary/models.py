@@ -296,6 +296,22 @@ class Song(models.Model):
     def get_absolute_url(self):
         return reverse('song', args=[str(self.slug)])
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "xml_id": self.xml_id,
+            "slug": self.slug,
+            "title": self.title,
+            "artist_name": self.artist_name,
+            "artist_slug": self.artist_slug,
+            "release_date": self.release_date,
+            "release_date_string": self.release_date_string,
+            "album": self.album,
+            "lyrics": self.lyrics,
+            "release_date_verified": self.release_date_verified,
+            "spot_uri": self.spot_uri
+        }
+
 
 SynSetParsed = namedtuple("SynSetParsed", ["name", "slug"])
 SynSetRelations = namedtuple("SynSetRelations", ["senses"])
