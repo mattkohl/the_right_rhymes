@@ -29,8 +29,8 @@ class ArtistParser:
             artist.name = nt.name
             artist.save()
         except MultipleObjectsReturned as e:
-            print(nt.slug)
-            raise e
+            print(nt.slug, e)
+            raise
         except ObjectDoesNotExist:
             artist = Artist.objects.create(slug=nt.slug, name=nt.name)
         return ArtistParser.update_relations(artist, nt)

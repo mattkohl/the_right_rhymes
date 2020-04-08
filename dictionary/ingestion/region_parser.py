@@ -1,4 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import RegionParsed, Region
 from dictionary.utils import make_label_from_camel_case, slugify
@@ -17,6 +17,9 @@ class RegionParser:
             region = Region.objects.get(slug=nt.slug)
             region.name = nt.name
             region.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug, e)
+            raise
         except ObjectDoesNotExist:
             region = Region.objects.create(slug=nt.slug, name=nt.name)
         return region

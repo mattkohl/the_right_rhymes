@@ -28,8 +28,8 @@ class CollocateParser:
             collocate.frequency = nt.frequency
             collocate.save()
         except MultipleObjectsReturned as e:
-            print(nt.slug)
-            raise e
+            print(nt.collocate_lemma, nt.source_sense_xml_id, nt.target_id, e)
+            raise
         except ObjectDoesNotExist:
             collocate = Collocate.objects.create(collocate_lemma=nt.collocate_lemma,
                                                  source_sense_xml_id=nt.source_sense_xml_id,

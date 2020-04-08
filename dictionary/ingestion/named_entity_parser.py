@@ -1,6 +1,6 @@
 from typing import Dict
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import NamedEntity, NamedEntityParsed
 from dictionary.utils import slugify
@@ -33,6 +33,9 @@ class NamedEntityParser:
             named_entity.slug = nt.slug
             named_entity.name = nt.name
             named_entity.save()
+        except MultipleObjectsReturned as e:
+            print(nt.entity_type, nt.pref_label_slug, e)
+            raise
         except ObjectDoesNotExist:
             named_entity = NamedEntity.objects.create(
                 entity_type=nt.entity_type,

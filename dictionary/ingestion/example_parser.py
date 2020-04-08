@@ -1,6 +1,6 @@
 from typing import Dict, List, Iterator, Tuple
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.example_rhyme_parser import ExampleRhymeParser
@@ -51,7 +51,9 @@ class ExampleParser:
                                           release_date_string=nt.release_date_string,
                                           album=nt.album,
                                           lyric_text=nt.lyric_text)
-
+        except MultipleObjectsReturned as e:
+            print(nt, e)
+            raise
         except ObjectDoesNotExist:
             example = Example.objects.create(song_title=nt.song_title,
                                              artist_name=artist_name,

@@ -1,6 +1,6 @@
 from typing import Dict, List, Tuple
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from dictionary.ingestion.sense_parser import SenseParser
 from dictionary.ingestion.form_parser import FormParser
 from dictionary.models import EntryParsed, Entry, EntryRelations, FormParsed, Form, SenseParsed, Sense, SenseRelations, \
@@ -40,6 +40,9 @@ class EntryParser:
                 entry.letter = nt.letter
                 entry.sort_key = nt.sort_key
                 entry.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug, e)
+            raise
         except ObjectDoesNotExist:
             entry = Entry.objects.create(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict,
                                          letter=nt.letter, sort_key=nt.sort_key)

@@ -1,6 +1,6 @@
 from typing import Dict
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import Place, PlaceParsed
 
@@ -34,6 +34,9 @@ class PlaceParser:
                 place.latitude = nt.latitude
                 place.longitude = nt.longitude
             place.save()
+        except MultipleObjectsReturned as e:
+            print(nt.slug, e)
+            raise
         except ObjectDoesNotExist:
             place = Place.objects.create(slug=nt.slug, name=nt.name, full_name=nt.full_name, latitude=nt.latitude, longitude=nt.longitude)
         return place

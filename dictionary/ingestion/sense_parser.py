@@ -1,5 +1,5 @@
 from typing import Dict, List, Tuple
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.ingestion.artist_parser import ArtistParser
 from dictionary.ingestion.collocate_parser import CollocateParser
@@ -51,6 +51,9 @@ class SenseParser:
             sense.slug = nt.slug
             sense.publish = nt.publish
             sense.save()
+        except MultipleObjectsReturned as e:
+            print(nt.xml_id, e)
+            raise
         except ObjectDoesNotExist:
             sense = Sense.objects.create(
                 xml_id=nt.xml_id,

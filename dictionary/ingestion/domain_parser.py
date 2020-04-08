@@ -18,8 +18,8 @@ class DomainParser:
             domain.name = nt.name
             domain.save()
         except MultipleObjectsReturned as e:
-            print(nt.slug)
-            raise e
+            print(nt.slug, e)
+            raise
         except ObjectDoesNotExist:
             domain = Domain.objects.create(slug=nt.slug, name=nt.name)
         return domain

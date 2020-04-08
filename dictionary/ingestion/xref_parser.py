@@ -48,8 +48,8 @@ class XrefParser:
             xref.frequency = nt.frequency
             xref.save()
         except MultipleObjectsReturned as e:
-            print(nt.slug)
-            raise e
+            print(nt, e)
+            raise
         except ObjectDoesNotExist:
             xref = Xref.objects.create(xref_word=nt.xref_word,
                                        xref_type=nt.xref_type,

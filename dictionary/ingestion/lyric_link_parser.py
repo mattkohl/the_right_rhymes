@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from dictionary.models import LyricLink, LyricLinkParsed
 from dictionary.utils import slugify
@@ -33,6 +33,9 @@ class LyricLinkParser:
                                                target_lemma=nt.target_lemma,
                                                target_slug=nt.target_slug,
                                                position=nt.position)
+        except MultipleObjectsReturned as e:
+            print(nt, e)
+            raise
         except ObjectDoesNotExist:
             lyric_link = LyricLink.objects.create(link_text=nt.link_text,
                                                   link_type=nt.link_type,
