@@ -1,14 +1,14 @@
 from django.core.exceptions import ObjectDoesNotExist
 
 from dictionary.models import SynSetParsed, SynSet
-from dictionary.utils import make_label_from_camel_case, slugify
+from dictionary.utils import make_label_from_snake_case, slugify
 
 
 class SynSetParser:
 
     @staticmethod
     def parse(n: str) -> SynSetParsed:
-        name = make_label_from_camel_case(n)
+        name = make_label_from_snake_case(n)
         return SynSetParsed(name=name, slug=slugify(n))
 
     @staticmethod

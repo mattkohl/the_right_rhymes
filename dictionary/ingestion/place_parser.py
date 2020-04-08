@@ -29,10 +29,11 @@ class PlaceParser:
         try:
             place = Place.objects.get(slug=nt.slug)
             place.name = nt.name
+            place.full_name = nt.full_name
             if nt.latitude and nt.longitude:
                 place.latitude = nt.latitude
                 place.longitude = nt.longitude
             place.save()
         except ObjectDoesNotExist:
-            place = Place.objects.create(slug=nt.slug, name=nt.name, latitude=nt.latitude, longitude=nt.longitude)
+            place = Place.objects.create(slug=nt.slug, name=nt.name, full_name=nt.full_name, latitude=nt.latitude, longitude=nt.longitude)
         return place

@@ -37,8 +37,8 @@ class ArtistParser:
         purged = ArtistParser.purge_relations(artist)
         relations = ArtistRelations(
             origin=ArtistParser.process_origin(nt, purged),
-            member_of=list(),
-            also_known_as=list()
+            member_of=ArtistParser.process_memberships(nt, purged),
+            also_known_as=ArtistParser.process_aliases(nt, purged)
         )
         return purged, relations
 
@@ -58,4 +58,28 @@ class ArtistParser:
             persisted = PlaceParser.persist(origin)
             artist.origin.add(persisted)
         return origin
+
+    @staticmethod
+    def extract_aliases(nt: ArtistParsed) -> Optional[PlaceParsed]:
+        aliases = nt.xml_dict.get("also_known_as")
+        return [ArtistParser.parse(alias) for alias in aliases] if aliases is not None else list()
+
+    @staticmethod
+    def process_aliases(nt: ArtistParsed, artist: Artist) -> List[ArtistParsed]:
+        def process_alias(alias: Artist, artist_relations: ArtistRelations) -> Artist:
+            artist.also_known_as.add(alias)
+            return alias
+        return [process_alias(*ArtistParser.persist(a)) for a in ArtistParser.extract_aliases(nt)]
+
+    @staticmethod
+    def extract_membership(nt: ArtistParsed) -> List[ArtistParsed]:
+        member_of = nt.xml_dict.get("member_of")
+        return [ArtistParser.parse(group) for group in member_of] if member_of is not None else list()
+
+    @staticmethod
+    def process_memberships(nt: ArtistParsed, artist: Artist) -> List[ArtistParsed]:
+        def process_membership(group: Artist, artist_relations: ArtistRelations) -> Artist:
+            artist.member_of.add(group)
+            return group
+        return [process_membership(*ArtistParser.persist(a)) for a in ArtistParser.extract_membership(nt)]
 
