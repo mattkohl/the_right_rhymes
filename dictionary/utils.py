@@ -82,16 +82,16 @@ def slugify(text) -> str:
     slug = text.strip().lower()
     if slug[0] == "'" or slug[0] == "-":
         slug = slug[1:]
-    slug = re.sub("^[\-']]", "", slug)
-    slug = re.sub("[\s\.]", "-", slug)
-    slug = re.sub("[:/]", "", slug)
-    slug = re.sub("\$", "s", slug)
-    slug = re.sub("\*", "", slug)
+    slug = re.sub(r"^[\-']]", "", slug)
+    slug = re.sub(r"[\s\.]", "-", slug)
+    slug = re.sub(r"[:/]", "", slug)
+    slug = re.sub(r"\$", "s", slug)
+    slug = re.sub(r"\*", "", slug)
     slug = re.sub("#", "number", slug)
     slug = re.sub("%", "percent", slug)
     slug = re.sub("&amp;", "and", slug)
     slug = re.sub("&", "and", slug)
-    slug = re.sub("\+", "and", slug)
+    slug = re.sub(r"\+", "and", slug)
 
     slug = re.sub("é", "e", slug)
     slug = re.sub("ó", "o", slug)
@@ -101,10 +101,11 @@ def slugify(text) -> str:
     slug = re.sub("ō", "o", slug)
 
     slug = re.sub("'", "", slug)
+    slug = re.sub("’", "", slug)
     slug = re.sub(",", "", slug)
     slug = re.sub("-$", "", slug)
-    slug = re.sub("\?", "", slug)
-    slug = re.sub("[\(\)]", "", slug)
+    slug = re.sub(r"\?", "", slug)
+    slug = re.sub(r"[\(\)]", "", slug)
     return slug
 
 

@@ -2,7 +2,6 @@ import time
 import sys
 import logging
 
-from geopy.geocoders import Nominatim
 
 from dictionary.ingestion.directory_loader import DirectoryLoader
 from dictionary.utils import update_stats
