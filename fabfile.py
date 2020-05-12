@@ -69,6 +69,13 @@ def deploy(cxn):
     print(f"Done!")
 
 
+@task
+def update_saliences(cxn):
+    virtualenv_folder = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
+    source_folder = f"/home/{cxn.user}/the_right_rhymes"
+    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py update_saliences")
+
+
 def _get_latest_app_source(cxn: Connection, source_folder):
     cxn.run(f"cd {source_folder} && git pull")
 

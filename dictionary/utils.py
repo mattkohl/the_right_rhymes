@@ -73,9 +73,9 @@ def join_artists(names: List[str]) -> str:
     else:
         _names_sorted = sorted(names)
         if len(_names_sorted) == 2:
-            return f"{' &amp; '.join(_names_sorted)}"
+            return f"{' & '.join(_names_sorted)}"
         else:
-            return f"{', '.join(_names_sorted[:-1])}, &amp; {_names_sorted[-1]}"
+            return f"{', '.join(_names_sorted[:-1])}, & {_names_sorted[-1]}"
 
 
 def slugify(text) -> str:
