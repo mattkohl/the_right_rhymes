@@ -17,5 +17,4 @@ class ArtistAliasParser:
             "also_known_as": [alias]
         }
         artist_parsed = ArtistParser.parse(artist)
-        done = ArtistParser.persist(artist_parsed)
-        print(done)
+        _ = ArtistParser.persist(artist_parsed)

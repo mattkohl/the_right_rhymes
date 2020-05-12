@@ -26,14 +26,28 @@ def test_task(cxn):
 @task
 def ingest(cxn):
     """
-    To ingest with Fabric, execute this command: fab  -H trr ingest
+    To ingest with Fabric, execute this command: fab -H trr ingest
     """
     xml_source = f"/home/{cxn.user}/django-xml"
     venv = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
     app_source = f"/home/{cxn.user}/the_right_rhymes"
 
-    _get_latest_xml_source(cxn, xml_source)
+    _get_latest_source(cxn, xml_source)
     _ingest_dictionary(cxn, app_source, venv)
+
+
+@task
+def ingestcsv(cxn):
+    """
+    To ingest csvs with Fabric, execute this command: fab -H trr ingest_csv
+    """
+
+    csv_source = f"/home/{cxn.user}/trr-csv"
+    venv = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
+    app_source = f"/home/{cxn.user}/the_right_rhymes"
+
+    _get_latest_source(cxn, csv_source)
+    _ingest_csv(cxn, app_source, venv)
 
 
 @task
@@ -59,7 +73,7 @@ def _get_latest_app_source(cxn: Connection, source_folder):
     cxn.run(f"cd {source_folder} && git pull")
 
 
-def _get_latest_xml_source(cxn: Connection, source_folder):
+def _get_latest_source(cxn: Connection, source_folder):
     cxn.run(f"cd {source_folder} && git pull")
 
 
@@ -97,6 +111,10 @@ def _restart_gunicorn_service(cxn: Connection):
 
 def _ingest_dictionary(cxn: Connection, source_folder, virtualenv_folder):
     cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py ingest ")
+
+
+def _ingest_csv(cxn: Connection, source_folder, virtualenv_folder):
+    cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py ingest_csv ")
 
 
 def sed(filename: str, before: str, after: str) -> str:
