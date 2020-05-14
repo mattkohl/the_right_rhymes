@@ -37,9 +37,9 @@ def ingest(cxn):
 
 
 @task
-def ingestcsv(cxn):
+def ingest_csv(cxn):
     """
-    To ingest csvs with Fabric, execute this command: fab -H trr ingest_csv
+    To ingest csvs with Fabric, execute this command: fab -H trr ingest-csv
     """
 
     csv_source = f"/home/{cxn.user}/trr-csv"
@@ -71,6 +71,9 @@ def deploy(cxn):
 
 @task
 def update_saliences(cxn):
+    """
+    To update saliences with Fabric, execute this command: fab -H trr update-saliences
+    """
     virtualenv_folder = f"/home/{cxn.user}/.virtualenvs/the_right_rhymes"
     source_folder = f"/home/{cxn.user}/the_right_rhymes"
     cxn.run(f"cd {source_folder} && {virtualenv_folder}/bin/python manage.py update_saliences")

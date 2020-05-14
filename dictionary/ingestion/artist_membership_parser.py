@@ -17,5 +17,4 @@ class ArtistMembershipParser:
             "member_of": [group]
         }
         artist_parsed = ArtistParser.parse(artist)
-        done = ArtistParser.persist(artist_parsed)
-        print(done)
+        _ = ArtistParser.persist(artist_parsed)
