@@ -249,6 +249,24 @@ def artist_salient_senses(request, artist_slug):
 
 
 @api_view(('GET',))
+def definitions(request, headword):
+    results = Sense.objects.filter(headword=headword)
+    if results:
+        data = {
+            "headword": headword,
+            "definitions": [
+                {
+                    "definition": _sense.definition,
+                    "part_of_speech": _sense.part_of_speech
+                } for _sense in results
+            ]
+        }
+        return Response(data)
+    else:
+        return Response({"Message": f"'{headword}' not found"})
+
+
+@api_view(('GET',))
 def domain(request, domain_slug):
     results = Domain.objects.filter(slug=domain_slug)
     if results:
@@ -351,8 +369,8 @@ def entry(request, entry_slug):
     _entry = Entry.objects.filter(publish=True).filter(slug=entry_slug).first()
     if _entry:
         data = {
-            'slug': _entry.slug,
             'headword': _entry.headword,
+            'slug': _entry.slug,
             'senses': [
                 {
                     'part_of_speech': _sense.part_of_speech,
@@ -421,7 +439,7 @@ def random_entry(request):
     _entry = Entry.objects.filter(publish=True).order_by('?').first()
     if _entry:
         _senses = [build_sense(_sense, published) for _sense in _entry.get_senses_ordered_by_example_count()]
-        data = {'headword': _entry.headword, 'pub_date': _entry.pub_date, 'senses': _senses}
+        data = {'headword': _entry.headword, 'slug': _entry.slug, 'pub_date': _entry.pub_date, 'senses': _senses}
         return Response(data)
     else:
         return Response({})

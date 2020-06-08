@@ -18,6 +18,8 @@ urlpatterns = [
     path("artists/<str:artist_slug>/sense_examples/", views.artist_sense_examples, name="artist_sense_examples"),
     path("artists/<str:artist_slug>/salience/", views.artist_salient_senses, name="artist_salient_senses"),
 
+    path("definitions/<str:headword>/", views.definitions, name="definitions"),
+
     path("domains/", views.domains, name="domains"),
     path("domains/<slug:domain_slug>/", views.domain, name="domain"),
 
