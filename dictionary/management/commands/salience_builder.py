@@ -16,7 +16,6 @@ def main():
         logger.info(msg)
         sense.remove_saliences()
         sense.add_saliences()
-
-        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete ')
+        print_progress(i+1, iterations, prefix='Progress:', suffix='Complete ', filename=sense.headword)
 
 
