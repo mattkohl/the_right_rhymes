@@ -10,6 +10,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           script: |
             cd /home/${{ secrets.USERNAME }}/the_right_rhymes
             git pull
