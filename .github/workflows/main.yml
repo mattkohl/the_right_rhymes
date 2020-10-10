@@ -5,8 +5,8 @@ jobs:
   build:
     name: Deploy TRR
     runs-on: ubuntu-latest
-    steps:
-      uses: appleboy/ssh-action@v0.1.3
+    uses: appleboy/ssh-action@v0.1.3
+    with:
       host: ${{ secrets.HOST }}
       key: ${{ secrets.KEY }}
       script: |
