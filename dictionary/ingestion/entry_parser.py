@@ -33,7 +33,7 @@ class EntryParser:
         update = force_update
         try:
             entry = Entry.objects.get(slug=nt.slug)
-            update = force_update or nt.xml_dict != entry.json
+            update = force_update or (nt.xml_dict != entry.json)
             if update:
                 entry.publish = nt.publish
                 entry.json = nt.xml_dict
