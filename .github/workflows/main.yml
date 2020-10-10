@@ -1,0 +1,15 @@
+name: Deploy
+on: push
+
+jobs:
+  build:
+    name: Deploy TRR
+    runs-on: ubuntu-latest
+    steps:
+      uses: appleboy/ssh-action@v0.1.3
+      host: ${{ secrets.HOST }}
+      key: ${{ secrets.KEY }}
+      script: |
+        cd /home/${{ secrets.USERNAME }}/the_right_rhymes
+        git pull
+        /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput
