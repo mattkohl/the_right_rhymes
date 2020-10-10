@@ -1,17 +1,36 @@
-name: Deploy
+name: CI
 on: push
 
 jobs:
-  build:
-    name: Deploy TRR
+  deploy:
+    name: "Deploy to prod"
     runs-on: ubuntu-latest
     steps:
-      - uses: appleboy/ssh-action@v0.1.3
-        with:
-          host: ${{ secrets.HOST }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd /home/${{ secrets.USERNAME }}/the_right_rhymes
-            git pull
-            /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/prod.key
+          chmod 600 ~/.ssh/prod.key
+          cat >>~/.ssh/config <<END
+          Host prod
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/prod.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.USERNAME }}
+          SSH_KEY: ${{ secrets.KEY }}
+          SSH_HOST: ${{ secrets.HOST }}
+
+      - name: Check out the source
+        run: ssh prod 'cd /home/${{ secrets.USERNAME }}/the_right_rhymes && git pull'
+
+      - name: Update static files
+        run: ssh prod 'cd /home/${{ secrets.USERNAME }}/the_right_rhymes && /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput'
+
+      - name: Update database
+        run: ssh prod 'cd /home/${{ secrets.USERNAME }}/the_right_rhymes && /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py migrate --noinput'
+
+      - name: Start the server
+        run: ssh prod 'sudo systemctl restart gunicorn'
