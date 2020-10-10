@@ -5,11 +5,12 @@ jobs:
   build:
     name: Deploy TRR
     runs-on: ubuntu-latest
-    uses: appleboy/ssh-action@v0.1.3
-    with:
-      host: ${{ secrets.HOST }}
-      key: ${{ secrets.KEY }}
-      script: |
-        cd /home/${{ secrets.USERNAME }}/the_right_rhymes
-        git pull
-        /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput
+    steps:
+      uses: appleboy/ssh-action@v0.1.3
+      with:
+        host: ${{ secrets.HOST }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd /home/${{ secrets.USERNAME }}/the_right_rhymes
+          git pull
+          /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput
