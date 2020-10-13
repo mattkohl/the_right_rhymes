@@ -22,23 +22,24 @@ jobs:
           SSH_USER: ${{ secrets.USERNAME }}
           SSH_KEY: ${{ secrets.KEY }}
           SSH_HOST: ${{ secrets.HOST }}
-          VENV: '/home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin'
-          SOURCE: '/home/${{ secrets.USERNAME }}/the_right_rhymes'
+    env:
+      VENV: '/home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin'
+      SOURCE: '/home/${{ secrets.USERNAME }}/the_right_rhymes'
 
       - name: Check out the source
-        run: ssh prod 'cd ${{ env.SOURCE }} && git pull'
+        run: ssh prod 'cd ${{ steps.env.SOURCE }} && git pull'
 
 #      - name: Update source for prod
-#        run: ssh prod 'cd ${{ SOURCE }} && sed "s/DEBUG = True/DEBUG = False/g" the_right_rhymes/settings.py > the_right_rhymes/settings.py.tmp && mv the_right_rhymes/settings.py.tmp the_right_rhymes/settings.py'
+#        run: ssh prod 'cd ${{ steps.env.SOURCE }} && sed "s/DEBUG = True/DEBUG = False/g" the_right_rhymes/settings.py > the_right_rhymes/settings.py.tmp && mv the_right_rhymes/settings.py.tmp the_right_rhymes/settings.py'
 
       - name: Upgrade virtualenv
-        run: ssh prod '${{ env.VENV }}/pip install --upgrade pip && ${{ env.VENV }}/pip install -r ${{ env.SOURCE }}/requirements.txt'
+        run: ssh prod '${{ steps.env.VENV }}/pip install --upgrade pip && ${{ steps.env.VENV }}/pip install -r ${{ steps.env.SOURCE }}/requirements.txt'
 
       - name: Update static files
-        run: ssh prod 'cd ${{ env.SOURCE }} && ${{ env.VENV }}/python manage.py collectstatic --noinput'
+        run: ssh prod 'cd ${{ steps.env.SOURCE }} && ${{ env.VENV }}/python manage.py collectstatic --noinput'
 
       - name: Update database
-        run: ssh prod 'cd ${{ env.SOURCE }} && ${{ env.VENV }}/python manage.py migrate --noinput'
+        run: ssh prod 'cd ${{ steps.env.SOURCE }} && ${{ env.VENV }}/python manage.py migrate --noinput'
 
       - name: Start the server
         run: ssh prod 'sudo systemctl restart gunicorn'
