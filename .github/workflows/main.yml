@@ -30,7 +30,7 @@ jobs:
         run: ssh prod '/home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/pip install --upgrade pip && /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/pip install -r /home/${{ secrets.USERNAME }}/the_right_rhymes/requirements.txt'
 
       - name: Update static files
-        run: ssh prod '/home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput'
+        run: ssh prod 'cd /home/${{ secrets.USERNAME }}/the_right_rhymes && /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py collectstatic --noinput'
 
       - name: Update database
         run: ssh prod 'cd /home/${{ secrets.USERNAME }}/the_right_rhymes && /home/${{ secrets.USERNAME }}/.virtualenvs/the_right_rhymes/bin/python manage.py migrate --noinput'
