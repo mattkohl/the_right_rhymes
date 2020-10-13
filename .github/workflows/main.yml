@@ -27,19 +27,19 @@ jobs:
           SSH_HOST: ${{ secrets.HOST }}
 
       - name: Check out the source
-        run: ssh prod 'cd ${{ deploy.env.SOURCE }} && git pull'
+        run: ssh prod 'cd ${{ jobs.deploy.env.SOURCE }} && git pull'
 
 #      - name: Update source for prod
-#        run: ssh prod 'cd ${{ deploy.env.SOURCE }} && sed "s/DEBUG = True/DEBUG = False/g" the_right_rhymes/settings.py > the_right_rhymes/settings.py.tmp && mv the_right_rhymes/settings.py.tmp the_right_rhymes/settings.py'
+#        run: ssh prod 'cd ${{ jobs.deploy.env.SOURCE }} && sed "s/DEBUG = True/DEBUG = False/g" the_right_rhymes/settings.py > the_right_rhymes/settings.py.tmp && mv the_right_rhymes/settings.py.tmp the_right_rhymes/settings.py'
 
       - name: Upgrade virtualenv
-        run: ssh prod '${{ deploy.env.VENV }}/pip install --upgrade pip && ${{ deploy.env.VENV }}/pip install -r ${{ deploy.env.SOURCE }}/requirements.txt'
+        run: ssh prod '${{ jobs.deploy.env.VENV }}/pip install --upgrade pip && ${{ jobs.deploy.env.VENV }}/pip install -r ${{ jobs.deploy.env.SOURCE }}/requirements.txt'
 
       - name: Update static files
-        run: ssh prod 'cd ${{ deploy.env.SOURCE }} && ${{ env.VENV }}/python manage.py collectstatic --noinput'
+        run: ssh prod 'cd ${{ jobs.deploy.env.SOURCE }} && ${{ env.VENV }}/python manage.py collectstatic --noinput'
 
       - name: Update database
-        run: ssh prod 'cd ${{ deploy.env.SOURCE }} && ${{ env.VENV }}/python manage.py migrate --noinput'
+        run: ssh prod 'cd ${{ jobs.deploy.env.SOURCE }} && ${{ env.VENV }}/python manage.py migrate --noinput'
 
       - name: Start the server
         run: ssh prod 'sudo systemctl restart gunicorn'
