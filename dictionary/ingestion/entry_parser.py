@@ -46,6 +46,7 @@ class EntryParser:
         except ObjectDoesNotExist:
             entry = Entry.objects.create(headword=nt.headword, slug=nt.slug, publish=nt.publish, json=nt.xml_dict,
                                          letter=nt.letter, sort_key=nt.sort_key)
+            update = True
         return EntryParser.update_relations(entry, nt, update)
 
     @staticmethod

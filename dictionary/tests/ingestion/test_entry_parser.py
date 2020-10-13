@@ -16,9 +16,13 @@ class TestEntryParser(BaseXMLParserTest):
         self.assertEqual(result, self.zootie_entry_nt)
 
     def test_persist(self):
+        print(f"ENTRIES: [{','.join(Entry.objects.all())}]")
         entry, relations = EntryParser.persist(self.zootie_entry_nt)
+        print(f"""ENTRIES: [{','.join([f"{e.headword}({e.senses.count()})" for e in Entry.objects.all()])}]""")
         queried: Entry = Entry.objects.get(slug="zootie")
         self.assertEqual(entry, queried)
+        print(queried.senses.all())
+        self.assertNotEqual(list(queried.senses.all()), list())
 
     def test_purge_relations(self):
         self.assertEqual(Form.objects.count(), 0)
