@@ -29,8 +29,8 @@ jobs:
       - name: Check out the source
         run: ssh prod 'cd ${{ env.SOURCE }} && git pull'
 
-#      - name: Update source for prod
-#        run: ssh prod 'cd ${{ env.SOURCE }} && sed "s/DEBUG = True/DEBUG = False/g" the_right_rhymes/settings.py > the_right_rhymes/settings.py.tmp && mv the_right_rhymes/settings.py.tmp the_right_rhymes/settings.py'
+      - name: Update source for prod
+        run: ssh prod 'cd ${{ env.SOURCE }} && sed "s/DEBUG = True/DEBUG = False/g" the_right_rhymes/settings.py > the_right_rhymes/settings.py.tmp && mv the_right_rhymes/settings.py.tmp the_right_rhymes/settings.py'
 
       - name: Upgrade virtualenv
         run: ssh prod '${{ env.VENV }}/pip install --upgrade pip && ${{ env.VENV }}/pip install -r ${{ env.SOURCE }}/requirements.txt'
